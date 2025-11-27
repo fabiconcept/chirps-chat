@@ -46,9 +46,9 @@ export default function SideBar() {
     };
 
     return (
-        <div className="min-w-40 sticky top-0 overflow-hidden h-screen flex flex-col items-center">
+        <div className="w-40 sticky top-0 overflow-hidden h-screen flex flex-col items-center">
             {/* Logo */}
-            <div className="relative p-[1.565rem] px-10 overflow-hidden border-b border-input/50">
+            <div className="relative p-[1.565rem] pl-10 overflow-hidden border-b border-input/50">
                 <div className='absolute inset-0 filter-ios'></div>
                 <div className="flex items-center gap-2">
                     <Image

@@ -123,7 +123,7 @@ export default function ProfileCard({ size = "md", canFollow = true }: ProfileCa
                 <p className={cn(config.bioText)}><Quote className="inline scale-x-[-1] -mt-2 mr-1" size={size === "sm" ? 12 : 16}/> Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit. <Quote className="inline -mt-2 ml-1" size={size === "sm" ? 12 : 16}/></p>
             </div>
 
-            {size !== "sm" && <div className={cn("flex flex-wrap gap-1", config.padding, config.sectionPadding)}>
+            {size === "lg" && <div className={cn("flex flex-wrap gap-1", config.padding, config.sectionPadding)}>
                 <Badge variant="outline" className="bg-[#7600C9]/10 text-[#7600C9] dark:text-white">
                     <Shield/>
                     Premium
@@ -146,7 +146,8 @@ export default function ProfileCard({ size = "md", canFollow = true }: ProfileCa
                 followers={1200}
                 likes={71000000000}
                 chirps={10393}
-                className={config.sectionPadding}/>
+                className={config.sectionPadding}
+            />
             <div className={cn(config.padding)}><Button className={"w-full"} variant={"default"} size={"default"}>Profile</Button></div>
         </div>
     );
