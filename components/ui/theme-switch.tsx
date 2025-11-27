@@ -1,22 +1,22 @@
 import { useTheme } from 'next-themes';
-import "@/app/stylesheets/theme-switch.css"
+import "@/app/stylesheets/theme-switch.css";
 
 export default function ThemeSwitch({ className = '' }: {
     className?: string;
 }) {
     const { theme, setTheme } = useTheme();
 
-    const isChecked = theme === "dark";
+    const isChecked = (theme === "light");
+    if (!theme) return null;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const checked = e.target.checked;
-        setTheme(checked ? "light" : "dark");
+        setTheme(e.target.checked ? "light" : "dark");
     };
 
     return (
         <label className={`switch ${className}`}>
             <input
-                checked={!isChecked}
+                checked={isChecked}
                 id="checkbox"
                 type="checkbox"
                 onChange={handleChange}

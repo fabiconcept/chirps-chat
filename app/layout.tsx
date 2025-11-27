@@ -22,10 +22,10 @@ export default function RootLayout({
                 <Providers>
                     <ReduxProvider>
                         <AuthProvider>
-                        <div className="min-h-screen">
-                            <GlobalHeader />
-                            {children}
-                        </div>
+                            <div className="min-h-screen">
+                                <GlobalHeader />
+                                {children}
+                            </div>
                         </AuthProvider>
                     </ReduxProvider>
                 </Providers>

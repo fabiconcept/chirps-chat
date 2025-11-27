@@ -23,14 +23,14 @@ const appSlice = createSlice({
         setError: (state, action: PayloadAction<string | null>) => {
             state.error = action.payload;
         },
-        setIsAuthenticated: (state, action: PayloadAction<boolean>) => {
+        logout: (state, action: PayloadAction<boolean>) => {
             state.isAuthenticated = action.payload;
         },
     },
 });
 
 // Export the actions
-export const { setIsLoading, setError, setIsAuthenticated } = appSlice.actions;
+export const { setIsLoading, setError, logout } = appSlice.actions;
 
 // Export state
 export const selectApp = (state: RootState) => state.app;
