@@ -38,7 +38,6 @@ export default function RootLayout({
                 </Providers>
                 <svg xmlns="http://www.w3.org/2000/svg" style={{ display: "none" }}>
                     <filter id="lensFilter" x="-50%" y="-50%" width="200%" height="150%" filterUnits="objectBoundingBox">
-                        {/* Create alpha channel for displacement */}
                         <feComponentTransfer in="SourceAlpha" result="alpha">
                             <feFuncA type="identity" />
                         </feComponentTransfer>

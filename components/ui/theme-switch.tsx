@@ -1,10 +1,31 @@
 import { useTheme } from 'next-themes';
 import "@/app/stylesheets/theme-switch.css";
+import useShortcuts from "@useverse/useshortcuts";
+import { useMemo } from 'react';
+import { detectOS } from '@/lib/utils';
 
 export default function ThemeSwitch({ className = '' }: {
     className?: string;
 }) {
     const { theme, setTheme } = useTheme();
+    const isMacOS = useMemo(() => detectOS() === 'macos', []);
+
+    useShortcuts({
+        shortcuts: [
+            { key: "L", metaKey: isMacOS, ctrlKey: !isMacOS },
+            { key: "D", metaKey: isMacOS, ctrlKey: !isMacOS },
+        ],
+        onTrigger: (shortcut) => {
+            switch (shortcut.key) {
+                case "L":
+                    setTheme("light");
+                    break;
+                case "D":
+                    setTheme("dark");
+                    break;
+            }
+        }
+    });
 
     const isChecked = (theme === "light");
     if (!theme) return null;

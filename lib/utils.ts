@@ -35,3 +35,32 @@ export function detectOS() {
         return "unknown";
     }
 }
+
+export function formatNumber(num: number, decimals: number = 2): string {
+  if (num < 1000) {
+    return num.toString();
+  }
+
+  const units = [
+    { value: 1e12, symbol: 'T' },
+    { value: 1e9, symbol: 'B' },
+    { value: 1e6, symbol: 'M' },
+    { value: 1e3, symbol: 'K' }
+  ];
+
+  for (const unit of units) {
+    if (num >= unit.value) {
+      const formatted = num / unit.value;
+      
+      // Remove unnecessary decimal places
+      const rounded = Math.round(formatted * Math.pow(10, decimals)) / Math.pow(10, decimals);
+      
+      // Convert to string and remove trailing zeros
+      const str = rounded.toFixed(decimals).replace(/\.?0+$/, '');
+      
+      return str + unit.symbol;
+    }
+  }
+
+  return num.toString();
+}

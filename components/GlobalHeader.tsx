@@ -41,7 +41,7 @@ export default function GlobalHeader() {
                                     className='p-1 min-w-44 max-w-64 pr-5 border rounded-full flex items-center gap-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-800 transition-all duration-300 active:opacity-90 active:scale-95'
                                 >
                                     <Avatar className='h-12 w-12 p-1 bg-background border transition-colors duration-300'>
-                                        <AvatarImage src="https://chirps-chat.sirv.com/premium/hello-kitty.png" />
+                                        <AvatarImage src="https://chirps-chat.sirv.com/leopard.png" />
                                         <AvatarFallback>HK</AvatarFallback>
                                     </Avatar>
                                     <div className='flex flex-col overflow-hidden'>
