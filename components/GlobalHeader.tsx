@@ -1,10 +1,8 @@
 "use client"
-import Image from 'next/image';
 import { useAuth } from './Providers/AuthProvider';
 import { Button } from './ui/button';
-import React from 'react';
+import React, { useRef } from 'react';
 import ThemeSwitch from './ui/theme-switch';
-import { useTheme } from 'next-themes';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import {
     DropdownMenu,
@@ -23,26 +21,14 @@ import {
 import Search from './header components/Search';
 
 export default function GlobalHeader() {
-    const { theme } = useTheme();
     const { isAuthenticated, logout, login } = useAuth();
+    const headerRef = useRef<HTMLDivElement>(null);
 
     return (
-        <header className='top-0 sticky border-b border-input/50 shadow-xl shadow-black/[0.03]'>
+        <header ref={headerRef} className='top-0 sticky border-b border-input/50 shadow-xl shadow-black/[0.03] z-50'>
             <div className='p-4 px-10 flex items-center justify-between overflow-hidden relative gap-10'>
                 <div className='absolute inset-0 scale-105 -mt-5 filter-ios'></div>
                 <div className='flex items-center z-10 gap-5 flex-1'>
-                    <div className="flex items-center gap-2">
-                        <Image
-                            src={theme === 'dark' ? "/chirps-chat-logo-white.svg" : "/chirps-chat-logo.svg"}
-                            alt="Chirps Logo"
-                            className='h-10 w-10 z-20 -mt-2'
-                            width={40}
-                            objectFit='contain'
-                            priority
-                            height={40}
-                        />
-                        <h1 className='text-4xl ave text-foreground -ml-2 z-10'>hirps</h1>
-                    </div>
                     {isAuthenticated && <Search />}
                 </div>
                 <div className='flex items-center z-10 gap-2 flex-1 justify-end'>
@@ -60,7 +46,7 @@ export default function GlobalHeader() {
                                     </Avatar>
                                     <div className='flex flex-col overflow-hidden'>
                                         <span className='text-sm font-semibold truncate'>Hello Kitty!!</span>
-                                        <span className='text-xs opacity-75 truncate'>@hello-kitty</span>
+                                        <span className='text-xs opacity-75 truncate -ml-2'>@hello-kitty</span>
                                     </div>
                                 </DropdownMenuTrigger><DropdownMenuContent className="w-56" align="end">
                                     <DropdownMenuLabel>My Account</DropdownMenuLabel>

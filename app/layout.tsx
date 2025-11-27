@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import "./stylesheets/globals.css";
+// import "./stylesheets/debug.css";
 import "./stylesheets/fonts.css";
 import Providers from "@/components/Providers/theme-provider";
 import { RootMetadata } from "@/lib/metadata";
 import GlobalHeader from "@/components/GlobalHeader";
 import { ReduxProvider } from "@/components/Providers/redux-provider";
 import { AuthProvider } from "@/components/Providers/AuthProvider";
+import SideBar from "@/components/SideBar";
 
 export const metadata: Metadata = RootMetadata;
 
@@ -22,9 +24,14 @@ export default function RootLayout({
                 <Providers>
                     <ReduxProvider>
                         <AuthProvider>
-                            <div className="min-h-screen">
-                                <GlobalHeader />
-                                {children}
+                            <div className="min-h-screen relative flex">
+                                <SideBar />
+                                <div className="flex-1">
+                                    <GlobalHeader />
+                                    <main className="flex px-10 py-6 gap-4 ">
+                                        {children}
+                                    </main>
+                                </div>
                             </div>
                         </AuthProvider>
                     </ReduxProvider>

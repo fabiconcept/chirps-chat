@@ -1,7 +1,7 @@
-export default function Page() {
+export default function ChatPage() {
     return (
         <div className="flex items-center justify-center">
-            <h1>Chirps</h1>
+            <h1>Chat</h1>
         </div>
     )
 }
