@@ -104,6 +104,7 @@ const ShoppingCartIcon = forwardRef<
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     animate={controls}
+                    className={"transition-[width,height] duration-100 ease-in-out"}
                     initial="normal"
                 >
                     <motion.circle cx="8" cy="21" r="1" variants={wheelVariants} />

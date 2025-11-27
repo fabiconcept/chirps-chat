@@ -108,6 +108,7 @@ const SendIcon = forwardRef<SendIconHandle, SendIconProps>(
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
+                    className={"transition-[width,height] duration-100 ease-in-out"}
                     animate={controls}
                     initial="normal"
                     variants={svgVariants}

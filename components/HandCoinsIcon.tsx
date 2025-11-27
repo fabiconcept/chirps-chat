@@ -64,7 +64,7 @@ const HandCoinsIcon = forwardRef<HandCoinsIconHandle, HandCoinsIconProps>(
      groupControls.start("animate");
      coinsControls.start("animate");
      handControls.start("animate");
-    } else onMouseEnter?.(e as any);
+    } else onMouseEnter?.(e as unknown as React.MouseEvent<HTMLDivElement>);
    },
    [
     groupControls,
@@ -82,7 +82,7 @@ const HandCoinsIcon = forwardRef<HandCoinsIconHandle, HandCoinsIconProps>(
      groupControls.start("normal");
      coinsControls.start("normal");
      handControls.start("normal");
-    } else onMouseLeave?.(e as any);
+    } else onMouseLeave?.(e as unknown as React.MouseEvent<HTMLDivElement>);
    },
    [groupControls, coinsControls, handControls, onMouseLeave],
   );
@@ -130,6 +130,7 @@ const HandCoinsIcon = forwardRef<HandCoinsIconHandle, HandCoinsIconProps>(
      width={size}
      height={size}
      viewBox="0 0 24 24"
+     className={"transition-[width,height] duration-100 ease-in-out"}
      fill="none"
      stroke="currentColor"
      strokeWidth="2"

@@ -125,7 +125,7 @@ const UserStarIcon = forwardRef<UserStarHandle, UserStarProps>(
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="lucide lucide-user-star-icon lucide-user-star"
+                    className="lucide lucide-user-star-icon lucide-user-star transition-[width,height] duration-100 ease-in-out"
                 >
                     <motion.path
                         d="M8 15H7a4 4 0 0 0-4 4v2"

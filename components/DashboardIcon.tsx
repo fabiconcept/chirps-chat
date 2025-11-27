@@ -98,6 +98,7 @@ const DashboardIcon = forwardRef<DashboardIconHandle, DashboardIconProps>(
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
+                    className={"transition-[width,height] duration-100 ease-in-out"}
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     animate={controls}
