@@ -95,7 +95,7 @@ export default function ProfileCard({ size = "md", canFollow = true }: ProfileCa
             <div className={cn("flex items-start justify-between w-full", config.padding)}>
                 <div className="flex-1">
                     <div className="flex items-center">
-                        <h3 contentEditable className={`${config.nameText} truncate pr-3 font-semibold`}>
+                        <h3 className={`${config.nameText} truncate pr-3 font-semibold`}>
                             Favour Ajokubi
                         </h3>
                         <span className="ml-[-4%] text-blue-600">
