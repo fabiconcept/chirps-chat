@@ -78,15 +78,15 @@ export default function Search() {
             <ContextMenuContent className="w-52">
                 <ContextMenuItem inset disabled>
                     Search
-                    <ContextMenuShortcut>⌘ k</ContextMenuShortcut>
+                    <ContextMenuShortcut>/</ContextMenuShortcut>
                 </ContextMenuItem>
                 <ContextMenuItem inset>
                     Copy
-                    <ContextMenuShortcut>⌘</ContextMenuShortcut>
+                    <ContextMenuShortcut>⌘C</ContextMenuShortcut>
                 </ContextMenuItem>
                 <ContextMenuItem inset>
                     Paste
-                    <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+                    <ContextMenuShortcut>⌘V</ContextMenuShortcut>
                 </ContextMenuItem>
                 <ContextMenuSub>
                     <ContextMenuSubTrigger inset>Search Type</ContextMenuSubTrigger>
