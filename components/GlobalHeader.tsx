@@ -34,7 +34,7 @@ export default function GlobalHeader() {
                 <div className='flex items-center z-10 gap-2 flex-1 justify-end'>
                     <ThemeSwitch className='border' />
                     <React.Fragment>
-                        {!isAuthenticated && <Button onClick={login}>Sign In</Button>}
+                        {!isAuthenticated && <Button className='my-[0.315rem]' onClick={login}>Sign In</Button>}
                         {isAuthenticated &&
                             <DropdownMenu>
                                 <DropdownMenuTrigger

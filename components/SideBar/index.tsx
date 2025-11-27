@@ -5,17 +5,22 @@ import { DashboardIcon, DashboardIconHandle } from "../DashboardIcon";
 import { ShoppingCartIcon, ShoppingCartIconHandle } from "../ShoppingCartIcon";
 import { UserStarIcon } from "../UserStarIcon";
 import { SendIcon, SendIconHandle } from "../SendIcon";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { UserStarHandle } from "../UserStarIcon";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { HandCoinsIcon } from "../HandCoinsIcon";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import useShortcuts from '@useverse/useshortcuts';
+import { detectOS } from '@/lib/utils';
+import { Kbd, KbdGroup } from "../ui/kbd";
+
 
 export default function SideBar() {
     const { theme } = useTheme();
     const pathname = usePathname();
+    const isMacOS = useMemo(() => detectOS() === 'macos', []);
 
     const feedPath = "/";
     const leaderboardPath = "/leaderboard";
@@ -45,6 +50,42 @@ export default function SideBar() {
         ref.current.stopAnimation();
     };
 
+    const navigateToPath = (path: string) => {
+        const createLink = document.createElement("a");
+        createLink.href = path;
+        createLink.click();
+    };
+
+    useShortcuts({
+        shortcuts: [
+            { key: 'Digit1', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true },
+            { key: 'Digit2', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true },
+            { key: 'Digit3', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true },
+            { key: 'Digit4', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true },
+            { key: 'Digit5', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true },
+        ],
+        onTrigger: (shortcut) => {
+            switch (shortcut.key) {
+                case "Digit1":
+                    console.log("1");
+                    navigateToPath(feedPath);
+                    break;
+                case "Digit2":
+                    navigateToPath(chatPath);
+                    break;
+                case "Digit3":
+                    navigateToPath(marketplacePath);
+                    break;
+                case "Digit4":
+                    navigateToPath(leaderboardPath);
+                    break;
+                case "Digit5":
+                    navigateToPath(suggestionsPath);
+                    break;
+            }
+        }
+    });
+
     return (
         <div className="w-40 sticky top-0 overflow-hidden h-screen flex flex-col items-center">
             {/* Logo */}
@@ -65,7 +106,7 @@ export default function SideBar() {
             </div>
 
             {/* Sidebar */}
-            <div className="flex-1">
+            <div className="flex-1" onKeyDown={(e)=> console.table(e)}>
                 <div className="w-fit mt-6 p-2 border border-input/50 bg-foreground/5 rounded-full origin-top -rotate-3 hover:rotate-0 hover:delay-0 delay-1000 transition-transform duration-300 ease-in-out">
                     <div className="flex flex-col gap-3">
                         <Tooltip delayDuration={500}>
@@ -81,7 +122,7 @@ export default function SideBar() {
                                 </Link>
                             </TooltipTrigger>
                             <TooltipContent sideOffset={5} dir="right">
-                                <p>Global Feed</p>
+                                <p>Global Feed <KbdGroup><Kbd>⌘</Kbd>+<Kbd>1</Kbd></KbdGroup></p>
                             </TooltipContent>
                         </Tooltip>
                         <Tooltip delayDuration={500}>
@@ -97,7 +138,7 @@ export default function SideBar() {
                                 </Link>
                             </TooltipTrigger>
                             <TooltipContent sideOffset={5} dir="right">
-                                <p>Chat</p>
+                                <p>Chat <KbdGroup><Kbd>⌘</Kbd>+<Kbd>2</Kbd></KbdGroup></p>
                             </TooltipContent>
                         </Tooltip>
                         <Tooltip delayDuration={500}>
@@ -113,7 +154,7 @@ export default function SideBar() {
                                 </Link>
                             </TooltipTrigger>
                             <TooltipContent sideOffset={5} dir="right">
-                                <p>Marketplace</p>
+                                <p>Marketplace <KbdGroup><Kbd>⌘</Kbd>+<Kbd>3</Kbd></KbdGroup></p>
                             </TooltipContent>
                         </Tooltip>
                         <Tooltip delayDuration={500}>
@@ -129,7 +170,7 @@ export default function SideBar() {
                                 </Link>
                             </TooltipTrigger>
                             <TooltipContent sideOffset={5} dir="right">
-                                <p>Leaderboard</p>
+                                <p>Leaderboard <KbdGroup><Kbd>⌘</Kbd>+<Kbd>4</Kbd></KbdGroup></p>
                             </TooltipContent>
                         </Tooltip>
                     </div>
@@ -149,7 +190,7 @@ export default function SideBar() {
                     </Link>
                 </TooltipTrigger>
                 <TooltipContent sideOffset={5} dir="right">
-                    <p>Suggestions</p>
+                    <p>Suggestions <KbdGroup><Kbd>⌘</Kbd>+<Kbd>5</Kbd></KbdGroup></p>
                 </TooltipContent>
             </Tooltip>
             <div className="h-10" />
