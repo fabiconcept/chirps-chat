@@ -15,6 +15,7 @@ interface UserStarProps extends HTMLMotionProps<"div"> {
     size?: number;
     duration?: number;
     isAnimated?: boolean;
+    isActive?: boolean;
 }
 
 const UserStarIcon = forwardRef<UserStarHandle, UserStarProps>(
@@ -26,6 +27,7 @@ const UserStarIcon = forwardRef<UserStarHandle, UserStarProps>(
             size = 24,
             duration = 1,
             isAnimated = true,
+            isActive = false,
             ...props
         },
         ref,
@@ -91,15 +93,15 @@ const UserStarIcon = forwardRef<UserStarHandle, UserStarProps>(
                 rotate: 0,
                 opacity: 1,
                 color: (theme === "dark" ? "#fff" : "#000"),
-                stroke: (theme === "dark" ? "#fff" : "#000"),
-                fill: (theme === "dark" ? "#ffffff00" : "#00000000"),
+                stroke: isActive ? "#FFD700" : (theme === "dark" ? "#fff" : "#000"),
+                fill: isActive ? "#FFD700" : (theme === "dark" ? "#ffffff00" : "#00000000"),
             },
             animate: {
                 scale: [1, 1.3, 0.9, 1.15, 1],
                 rotate: [0, -15, 15, -10, 0],
                 opacity: [0.4, 1],
-                stroke: [(theme === "dark" ? "#fff" : "#000"), "#FFD700"],
-                fill: [(theme === "dark" ? "#fff" : "#000"), "#FFD700"],
+                stroke: isActive ? "#FFD700" : [(theme === "dark" ? "#fff" : "#000"), "#FFD700"],
+                fill: isActive ? "#FFD700" : [(theme === "dark" ? "#fff" : "#000"), "#FFD700"],
                 color: [(theme === "dark" ? "#fff" : "#000"), "#FFD700"],
                 transition: {
                     duration: 1 * duration,
