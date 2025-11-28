@@ -1,9 +1,10 @@
 'use client';
 
-import React, { createContext, useContext, useState, forwardRef } from 'react';
+import React, { createContext, useContext, useState, forwardRef, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { ChevronsDownIcon } from '../ChevronsDownIcon';
+import { useClickAway } from 'react-use';
 
 interface CollapsibleContextType {
     isOpen: boolean;
@@ -43,6 +44,9 @@ export function Collapsible({
     containerClassName = '',
 }: CollapsibleProps) {
     const [isOpen, setIsOpen] = useState(defaultOpen);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useClickAway(containerRef, () => setIsOpen(false));
 
     const handleSetOpen = (open: boolean) => {
         setIsOpen(open);
@@ -54,6 +58,7 @@ export function Collapsible({
     return (
         <CollapsibleContext.Provider value={{ isOpen, setIsOpen: handleSetOpen, toggle }}>
             <motion.div
+                ref={containerRef}
                 className={cn(
                     'overflow-hidden z-50 w-sm',
                     'fixed bottom-0',
