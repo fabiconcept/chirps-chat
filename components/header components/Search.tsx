@@ -3,8 +3,7 @@ import { cn } from '@/lib/utils';
 import { Input } from '../ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../ui/select';
 import useShortcuts from '@useverse/useshortcuts';
-import { detectOS } from '@/lib/utils';
-import { useMemo, useRef } from 'react';
+import { useRef } from 'react';
 import {
     ContextMenu,
     ContextMenuContent,
@@ -15,9 +14,12 @@ import {
     ContextMenuSubTrigger,
     ContextMenuTrigger,
 } from "@/components/ui/context-menu"
+import { useKeyBoardShortCut } from '../Providers/KeyBoardShortCutProvider';
+import { useAuth } from '../Providers/AuthProvider';
 
 export default function Search() {
-    const isMacOS = useMemo(() => detectOS() === 'macos', []);
+    const { allowedShortcuts } = useKeyBoardShortCut();
+    const { isMacOS } = useAuth();
     const inputRef = useRef<HTMLInputElement>(null);
 
     const focusInput = () => {
@@ -26,9 +28,9 @@ export default function Search() {
     }
     useShortcuts({
         shortcuts: [
-            { key: "Slash", isSpecialKey: true },
-            { key: 'K', metaKey: isMacOS, ctrlKey: !isMacOS },
-            { key: 'F', metaKey: isMacOS, ctrlKey: !isMacOS },
+            { key: "Slash", isSpecialKey: true, enabled: allowedShortcuts.has("search") },
+            { key: 'K', metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandK") },
+            { key: 'F', metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandF") },
         ],
         onTrigger: (shortcut) => {
             switch (shortcut.key) {
@@ -43,7 +45,7 @@ export default function Search() {
                     break;
             }
         }
-    });
+    }, [focusInput, allowedShortcuts]);
 
     return (
         <ContextMenu>

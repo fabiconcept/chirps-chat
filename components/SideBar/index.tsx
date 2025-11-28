@@ -5,7 +5,7 @@ import { DashboardIcon, DashboardIconHandle } from "../DashboardIcon";
 import { ShoppingCartIcon, ShoppingCartIconHandle } from "../ShoppingCartIcon";
 import { UserStarIcon } from "../UserStarIcon";
 import { SendIcon, SendIconHandle } from "../SendIcon";
-import { useMemo, useRef } from "react";
+import { useRef } from "react";
 import { UserStarHandle } from "../UserStarIcon";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -13,14 +13,16 @@ import Link from "next/link";
 import { HandCoinsIcon } from "../HandCoinsIcon";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import useShortcuts from '@useverse/useshortcuts';
-import { detectOS } from '@/lib/utils';
 import { Kbd, KbdGroup } from "../ui/kbd";
+import { useKeyBoardShortCut } from "../Providers/KeyBoardShortCutProvider";
+import { useAuth } from "../Providers/AuthProvider";
 
 
 export default function SideBar() {
+    const { allowedShortcuts } = useKeyBoardShortCut();
     const { theme } = useTheme();
+    const { isMacOS } = useAuth();
     const pathname = usePathname();
-    const isMacOS = useMemo(() => detectOS() === 'macos', []);
 
     const feedPath = "/";
     const leaderboardPath = "/leaderboard";
@@ -58,11 +60,11 @@ export default function SideBar() {
 
     useShortcuts({
         shortcuts: [
-            { key: 'Digit1', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true },
-            { key: 'Digit2', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true },
-            { key: 'Digit3', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true },
-            { key: 'Digit4', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true },
-            { key: 'Digit5', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true },
+            { key: 'Digit1', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true, enabled: allowedShortcuts.has("command1") },
+            { key: 'Digit2', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true, enabled: allowedShortcuts.has("command2") },
+            { key: 'Digit3', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true, enabled: allowedShortcuts.has("command3") },
+            { key: 'Digit4', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true, enabled: allowedShortcuts.has("command4") },
+            { key: 'Digit5', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true, enabled: allowedShortcuts.has("command5") },
         ],
         onTrigger: (shortcut) => {
             switch (shortcut.key) {
@@ -83,7 +85,7 @@ export default function SideBar() {
                     break;
             }
         }
-    });
+    }, [allowedShortcuts, feedLinkRef, leaderboardLinkRef, marketplaceLinkRef, suggestionsLinkRef, chatLinkRef]);
 
     return (
         <div className="w-40 sticky top-0 overflow-hidden h-screen flex flex-col items-center">

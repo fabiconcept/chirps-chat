@@ -3,7 +3,6 @@ import { useAuth } from './Providers/AuthProvider';
 import { Button } from './ui/button';
 import React, { useRef } from 'react';
 import ThemeSwitch from './ui/theme-switch';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -19,6 +18,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Search from './header components/Search';
+import UserClump from './modular/UserClump';
 
 export default function GlobalHeader() {
     const { isAuthenticated, logout, login } = useAuth();
@@ -37,17 +37,12 @@ export default function GlobalHeader() {
                         {!isAuthenticated && <Button className='my-[0.315rem]' onClick={login}>Sign In</Button>}
                         {isAuthenticated &&
                             <DropdownMenu>
-                                <DropdownMenuTrigger
-                                    className='p-1 min-w-44 max-w-64 pr-5 border rounded-full flex items-center gap-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-800 transition-all duration-300 active:opacity-90 active:scale-95'
-                                >
-                                    <Avatar className='h-12 w-12 p-1 bg-background border transition-colors duration-300'>
-                                        <AvatarImage src="https://chirps-chat.sirv.com/leopard.png" />
-                                        <AvatarFallback>HK</AvatarFallback>
-                                    </Avatar>
-                                    <div className='flex flex-col overflow-hidden'>
-                                        <span className='text-sm font-semibold truncate'>Hello Kitty!!</span>
-                                        <span className='text-xs opacity-75 truncate -ml-2'>@hello-kitty</span>
-                                    </div>
+                                <DropdownMenuTrigger>
+                                    <UserClump 
+                                        name="Hello Kitty"
+                                        username="@hello-kitty"
+                                        avatar="https://chirps-chat.sirv.com/leopard.png"
+                                    />
                                 </DropdownMenuTrigger><DropdownMenuContent className="w-56" align="end">
                                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                                     <DropdownMenuGroup>

@@ -8,6 +8,8 @@ import GlobalHeader from "@/components/GlobalHeader";
 import { ReduxProvider } from "@/components/Providers/redux-provider";
 import { AuthProvider } from "@/components/Providers/AuthProvider";
 import SideBar from "@/components/SideBar";
+import Activities from "@/components/Activities/Index";
+import { KeyBoardShortCutProvider } from "@/components/Providers/KeyBoardShortCutProvider";
 
 export const metadata: Metadata = RootMetadata;
 
@@ -24,15 +26,18 @@ export default function RootLayout({
                 <Providers>
                     <ReduxProvider>
                         <AuthProvider>
-                            <div className="min-h-screen relative flex">
-                                <SideBar />
-                                <div className="flex-1">
-                                    <GlobalHeader />
-                                    <main className="flex px-10 py-6 gap-4 ">
-                                        {children}
-                                    </main>
+                            <KeyBoardShortCutProvider>
+                                <div className="min-h-screen relative flex">
+                                    <SideBar />
+                                    <div className="flex-1">
+                                        <GlobalHeader />
+                                        <main className="flex px-10 py-6 gap-4 ">
+                                            {children}
+                                        </main>
+                                    </div>
+                                    <Activities />
                                 </div>
-                            </div>
+                            </KeyBoardShortCutProvider>
                         </AuthProvider>
                     </ReduxProvider>
                 </Providers>

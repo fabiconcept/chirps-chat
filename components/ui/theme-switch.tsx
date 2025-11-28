@@ -1,19 +1,20 @@
 import { useTheme } from 'next-themes';
 import "@/app/stylesheets/theme-switch.css";
 import useShortcuts from "@useverse/useshortcuts";
-import { useMemo } from 'react';
-import { detectOS } from '@/lib/utils';
+import { useAuth } from '../Providers/AuthProvider';
+import { useKeyBoardShortCut } from '../Providers/KeyBoardShortCutProvider';
 
 export default function ThemeSwitch({ className = '' }: {
     className?: string;
 }) {
     const { theme, setTheme } = useTheme();
-    const isMacOS = useMemo(() => detectOS() === 'macos', []);
+    const { isMacOS } = useAuth();
+    const { allowedShortcuts } = useKeyBoardShortCut();
 
     useShortcuts({
         shortcuts: [
-            { key: "L", metaKey: isMacOS, ctrlKey: !isMacOS },
-            { key: "D", metaKey: isMacOS, ctrlKey: !isMacOS },
+            { key: "L", metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandL") },
+            { key: "D", metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandD") },
         ],
         onTrigger: (shortcut) => {
             switch (shortcut.key) {
@@ -25,7 +26,7 @@ export default function ThemeSwitch({ className = '' }: {
                     break;
             }
         }
-    });
+    }, [allowedShortcuts]);
 
     const isChecked = (theme === "light");
     if (!theme) return null;

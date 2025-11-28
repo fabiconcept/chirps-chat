@@ -9,6 +9,7 @@ import { BirdIcon, GiftIcon, Quote, Shield, VerifiedIcon } from "lucide-react";
 import StatsSheet from "./StatsSheet";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import BadgeCheckIcon from "../svgs/BadgeIconSvg";
 
 interface ProfileCardProps {
     size?: "sm" | "md" | "lg";
@@ -93,8 +94,8 @@ export default function ProfileCard({ size = "md", canFollow = true }: ProfileCa
                         <h3 className={`${config.nameText} truncate pr-3 font-semibold`}>
                             Favour Ajokubi
                         </h3>
-                        <span className="ml-[-4%] text-blue-600">
-                            <VerifiedIcon className="ml-1" size={size === "sm" ? 12 : 16} strokeWidth={size === "sm" ? 2 : 2.5} />
+                        <span className="ml-[-3%] text-blue-600">
+                            <BadgeCheckIcon size={size} />
                         </span>
                     </div>
                     <Link
@@ -115,7 +116,7 @@ export default function ProfileCard({ size = "md", canFollow = true }: ProfileCa
             </div>
 
             <div className={cn(config.sectionPadding, config.padding)}>
-                <p className={cn(config.bioText)}><Quote className="inline scale-x-[-1] -mt-2 mr-1" size={size === "sm" ? 12 : 16}/> Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit. <Quote className="inline -mt-2 ml-1" size={size === "sm" ? 12 : 16}/></p>
+                <p className={cn(config.bioText)}>{size !== "sm" && <Quote className="inline scale-x-[-1] -mt-2 mr-1" size={16}/> } Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit. {size !== "sm" && <Quote className="inline -mt-2 ml-1" size={16}/> }</p>
             </div>
 
             {size === "lg" && <div className={cn("flex flex-wrap gap-1", config.padding, config.sectionPadding)}>

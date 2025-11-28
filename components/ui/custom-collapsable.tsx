@@ -1,12 +1,14 @@
 'use client';
 
-import React, { createContext, useContext, useState, forwardRef, useRef, useMemo } from 'react';
+import React, { createContext, useContext, useState, forwardRef, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn, detectOS } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import { ChevronsDownIcon } from '../ChevronsDownIcon';
 import { useClickAway } from 'react-use';
 import { Kbd, KbdGroup } from './kbd';
 import useShortcuts from '@useverse/useshortcuts';
+import { useKeyBoardShortCut } from '../Providers/KeyBoardShortCutProvider';
+import { useAuth } from '../Providers/AuthProvider';
 
 interface CollapsibleContextType {
     isOpen: boolean;
@@ -197,14 +199,13 @@ export function CollapsibleHeader({
     actions,
     className = '',
 }: CollapsibleHeaderProps) {
-
-    const isMacOS = useMemo(() => detectOS() === 'macos', []);
-
+    const { allowedShortcuts } = useKeyBoardShortCut();
+    const { isMacOS } = useAuth();
     const triggerRef = useRef<HTMLDivElement>(null);
 
     useShortcuts({
         shortcuts: [
-            { key: 'A', metaKey: isMacOS, ctrlKey: !isMacOS },
+            { key: 'A', metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandA") },
         ],
         onTrigger: (shortcut) => {
             switch (shortcut.key) {
@@ -213,7 +214,7 @@ export function CollapsibleHeader({
                     break;
             }
         }
-    });
+    }, [allowedShortcuts]);
     return (
         <CollapsibleTrigger className={className} ref={triggerRef}>
             <div className="flex items-center gap-2">
