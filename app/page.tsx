@@ -7,14 +7,14 @@ export default function Page() {
             {/* <div className="flex-1">
                 Chirps
             </div> */}
-            <ProfileCard canFollow={false}/>
-            <ProfileCard canFollow={false}/>
-            <ProfileCard canFollow={false}/>
-            <ProfileCard canFollow={false}/>
-            <ProfileCard canFollow={false}/>
-            <ProfileCard canFollow={false}/>
-            <ProfileCard canFollow={false}/>
-            <ProfileCard canFollow={false}/>
+            <ProfileCard size="lg" canFollow={false}/>
+            <ProfileCard size="lg" canFollow={false}/>
+            <ProfileCard size="lg" canFollow={false}/>
+            <ProfileCard size="lg" canFollow={false}/>
+            <ProfileCard size="lg" canFollow={false}/>
+            <ProfileCard size="lg" canFollow={false}/>
+            <ProfileCard size="lg" canFollow={false}/>
+            <ProfileCard size="lg" canFollow={false}/>
             <Activities />
         </div>
     )

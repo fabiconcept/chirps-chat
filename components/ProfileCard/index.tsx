@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { BirdIcon, GiftIcon, Quote, Shield, VerifiedIcon } from "lucide-react";
 import StatsSheet from "./StatsSheet";
 import { Button } from "../ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 interface ProfileCardProps {
     size?: "sm" | "md" | "lg";
@@ -81,16 +82,10 @@ export default function ProfileCard({ size = "md", canFollow = true }: ProfileCa
                         />
                     </div>
                 </div>
-                <div className={`${config.avatar} ml-2 ${config.avatarPadding} border-2 border-input bg-background transition-all duration-300 rounded-full grid place-items-center overflow-hidden z-10 relative cursor-pointer hover:bg-background/90 active:scale-90 active:-rotate-3`}>
-                    <Image
-                        src="https://chirps-chat.sirv.com/leopard.png"
-                        alt="Profile"
-                        width={100}
-                        fetchPriority="high"
-                        height={100}
-                        className="object-contain h-full w-full"
-                    />
-                </div>
+                <Avatar className={`${config.avatar} ml-2 ${config.avatarPadding} border-2 border-input bg-background transition-all duration-300 rounded-full grid place-items-center overflow-hidden z-10 relative cursor-pointer hover:bg-background/90 active:scale-90 active:-rotate-3`}>
+                        <AvatarImage src="https://chirps-chat.sirv.com/leopard.png" />
+                        <AvatarFallback>HK</AvatarFallback>
+                </Avatar>
             </div>
             <div className={cn("flex items-start justify-between w-full", config.padding)}>
                 <div className="flex-1">

@@ -36,7 +36,7 @@ export function detectOS() {
     }
 }
 
-export function formatNumber(num: number, decimals: number = 2): string {
+export function formatNumber(num: number, decimals: number = 1): string {
   if (num < 1000) {
     return num.toString();
   }
