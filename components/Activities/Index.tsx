@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { Collapsible, CollapsibleHeader, CollapsibleContent } from '../ui/custom-collapsable';
 import { Badge } from '../ui/badge';
+import NewFollower from './NewFollower';
 
 export default function Activities() {
     const [open, setOpen] = useState(false);
@@ -24,8 +25,10 @@ export default function Activities() {
                 }
             />
 
-            <CollapsibleContent className="px-6 pb-6 border-r border-l bg-background/95 backdrop-blur-sm mt-2">
-                <></>
+            <CollapsibleContent className="border-r border-l bg-background/95 backdrop-blur-sm mt-2">
+                <NewFollower />
+                <NewFollower />
+                <NewFollower />
             </CollapsibleContent>
         </Collapsible>
     )
