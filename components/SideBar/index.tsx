@@ -40,6 +40,12 @@ export default function SideBar() {
     const suggestionsRef = useRef<UserStarHandle>(null);
     const chatRef = useRef<SendIconHandle>(null);
 
+    const feedLinkRef = useRef<HTMLAnchorElement>(null);
+    const leaderboardLinkRef = useRef<HTMLAnchorElement>(null);
+    const marketplaceLinkRef = useRef<HTMLAnchorElement>(null);
+    const suggestionsLinkRef = useRef<HTMLAnchorElement>(null);
+    const chatLinkRef = useRef<HTMLAnchorElement>(null);
+
     const handleMouseEnter = (ref: React.RefObject<DashboardIconHandle | SendIconHandle | ShoppingCartIconHandle | UserStarHandle | null>) => {
         if (!ref.current) return;
         ref.current.startAnimation();
@@ -48,12 +54,6 @@ export default function SideBar() {
     const handleMouseLeave = (ref: React.RefObject<DashboardIconHandle | SendIconHandle | ShoppingCartIconHandle | UserStarHandle | null>) => {
         if (!ref.current) return;
         ref.current.stopAnimation();
-    };
-
-    const navigateToPath = (path: string) => {
-        const createLink = document.createElement("a");
-        createLink.href = path;
-        createLink.click();
     };
 
     useShortcuts({
@@ -67,20 +67,19 @@ export default function SideBar() {
         onTrigger: (shortcut) => {
             switch (shortcut.key) {
                 case "Digit1":
-                    console.log("1");
-                    navigateToPath(feedPath);
+                    feedLinkRef.current?.click();
                     break;
                 case "Digit2":
-                    navigateToPath(chatPath);
+                    chatLinkRef.current?.click();
                     break;
                 case "Digit3":
-                    navigateToPath(marketplacePath);
+                    marketplaceLinkRef.current?.click();
                     break;
                 case "Digit4":
-                    navigateToPath(leaderboardPath);
+                    leaderboardLinkRef.current?.click();
                     break;
                 case "Digit5":
-                    navigateToPath(suggestionsPath);
+                    suggestionsLinkRef.current?.click();
                     break;
             }
         }
@@ -112,6 +111,7 @@ export default function SideBar() {
                         <Tooltip delayDuration={500}>
                             <TooltipTrigger>
                                 <Link href={feedPath}
+                                    ref={feedLinkRef}
                                     className={cn("flex items-center opacity-50 hover:opacity-75 gap-2 cursor-pointer h-12 w-12 border border-input rounded-full justify-center bg-background/75 hover:bg-background transition-all duration-300 ease-in-out active:scale-75", {
                                         "active:scale-100 opacity-100 not-dark:text-[#7600C9] border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isFeed,
                                     })}
@@ -128,6 +128,7 @@ export default function SideBar() {
                         <Tooltip delayDuration={500}>
                             <TooltipTrigger>
                                 <Link href={chatPath}
+                                    ref={chatLinkRef}
                                     className={cn("flex items-center opacity-50 hover:opacity-75 gap-2 cursor-pointer h-12 w-12 border border-input rounded-full justify-center bg-background/75 hover:bg-background transition-all duration-300 ease-in-out active:scale-75", {
                                         "active:scale-100 opacity-100 not-dark:text-[#7600C9] border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isChat,
                                     })}
@@ -144,6 +145,7 @@ export default function SideBar() {
                         <Tooltip delayDuration={500}>
                             <TooltipTrigger>
                                 <Link href={marketplacePath}
+                                    ref={marketplaceLinkRef}
                                     className={cn("flex items-center opacity-50 hover:opacity-75 gap-2 cursor-pointer h-12 w-12 border border-input rounded-full justify-center bg-background/75 hover:bg-background transition-all duration-300 ease-in-out active:scale-75", {
                                         "active:scale-100 opacity-100 not-dark:text-[#7600C9] border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isMarketplace,
                                     })}
@@ -160,6 +162,7 @@ export default function SideBar() {
                         <Tooltip delayDuration={500}>
                             <TooltipTrigger>
                                 <Link href={leaderboardPath}
+                                    ref={leaderboardLinkRef}
                                     className={cn("flex items-center opacity-50 hover:opacity-75 gap-2 cursor-pointer h-12 w-12 border border-input rounded-full justify-center bg-background/75 hover:bg-background transition-all duration-300 ease-in-out active:scale-75", {
                                         "active:scale-100 opacity-100 not-dark:text-[#7600C9] border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isLeaderboard,
                                     })}
@@ -180,6 +183,7 @@ export default function SideBar() {
             <Tooltip delayDuration={500}>
                 <TooltipTrigger>
                     <Link href={suggestionsPath}
+                        ref={suggestionsLinkRef}
                         className={cn("flex items-center opacity-75 hover:opacity-85 gap-2 cursor-pointer h-12 w-12 border border-input rounded-full justify-center bg-background/75 hover:bg-background transition-all duration-300 ease-in-out active:scale-75", {
                             "active:scale-100 opacity-100 not-dark:text-[#7600C9] border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isSuggestions,
                         })}

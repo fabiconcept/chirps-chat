@@ -1,10 +1,12 @@
 'use client';
 
-import React, { createContext, useContext, useState, forwardRef, useRef } from 'react';
+import React, { createContext, useContext, useState, forwardRef, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '@/lib/utils';
+import { cn, detectOS } from '@/lib/utils';
 import { ChevronsDownIcon } from '../ChevronsDownIcon';
 import { useClickAway } from 'react-use';
+import { Kbd, KbdGroup } from './kbd';
+import useShortcuts from '@useverse/useshortcuts';
 
 interface CollapsibleContextType {
     isOpen: boolean;
@@ -195,12 +197,29 @@ export function CollapsibleHeader({
     actions,
     className = '',
 }: CollapsibleHeaderProps) {
+
+    const isMacOS = useMemo(() => detectOS() === 'macos', []);
+
+    const triggerRef = useRef<HTMLDivElement>(null);
+
+    useShortcuts({
+        shortcuts: [
+            { key: 'A', metaKey: isMacOS, ctrlKey: !isMacOS },
+        ],
+        onTrigger: (shortcut) => {
+            switch (shortcut.key) {
+                case "A":
+                    triggerRef.current?.click();
+                    break;
+            }
+        }
+    });
     return (
-        <CollapsibleTrigger className={className}>
+        <CollapsibleTrigger className={className} ref={triggerRef}>
             <div className="flex items-center gap-2">
                 {icon && <div className="text-muted-foreground">{icon}</div>}
                 <div>
-                    <h2 className="text-base font-medium text-foreground">{title}</h2>
+                    <h2 className="text-base font-medium text-foreground">{title} <KbdGroup><Kbd>⌘</Kbd><Kbd>A</Kbd></KbdGroup></h2>
                     {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
                 </div>
             </div>
