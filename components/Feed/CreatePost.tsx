@@ -3,35 +3,64 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader } from "../ui/dialog";
 import { Button } from "../ui/button";
 import UserClump from "../modular/UserClump";
-import { Textarea } from "../ui/textarea";
 import { useKeyBoardShortCut } from "../Providers/KeyBoardShortCutProvider";
 // import { useEffect } from "react";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import useShortcuts from "@useverse/useshortcuts";
 import { useAuth } from "../Providers/AuthProvider";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Kbd, KbdGroup } from "../ui/kbd";
-import Image from "next/image";
-import Lottie from "lottie-react";
-import emoji from "@/components/lottie/emoji.json";
 import { useState } from "react";
-import EmojiPicker, { Theme } from 'emoji-picker-react';
 import { useTheme } from "next-themes";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { BarChart2Icon, Image as ImageIcon, Text } from "lucide-react";
+import TextPost from "./TextPost";
+import PollPost from "./PollPost";
+import { Separator } from "../ui/separator";
+
+export enum PostType {
+    TEXT = "text",
+    POLL = "poll"
+}
+
+export interface Option {
+    id: string;
+    option: string;
+}
+
+interface PostData {
+    type: PostType;
+    text?: string;
+    images?: string[];
+    poll?: {
+        question: string;
+        options: Option[];
+    };
+}
 
 export default function CreatePost() {
     const { disallowShortcuts, allowShortcuts, notoriousShortcuts, allowedShortcuts } = useKeyBoardShortCut();
     const { isMacOS } = useAuth();
-    const {theme} = useTheme();
+    const { theme } = useTheme();
     const [isHovered, setIsHovered] = useState(false);
-    const [text, setText] = useState("");
+    const [postData, setPostData] = useState<PostData>({ type: PostType.TEXT, text: "", images: [] });
 
     const handleEmojiClick = (emoji: string) => {
-        setText((prev) => prev + emoji);
+        setPostData(prev => ({ ...prev, text: (prev.text || "") + emoji }));
+    }
+
+    const handleTextChange = (newText: string) => {
+        setPostData(prev => ({ ...prev, text: newText }));
+    }
+
+    const handleImagesChange = (newImages: string[]) => {
+        setPostData(prev => ({ ...prev, images: newImages.slice(0, 4) }));
+    }
+
+    const handlePollChange = (newPoll: { question: string; options: Option[] }) => {
+        setPostData(prev => ({ ...prev, poll: newPoll }));
     }
 
     const createNewPostRef = useRef<HTMLButtonElement>(null);
-    const createNewPostTextRef = useRef<HTMLTextAreaElement>(null);
 
     useShortcuts({
         shortcuts: [{
@@ -49,6 +78,10 @@ export default function CreatePost() {
         }
     }, [allowedShortcuts, createNewPostRef]);
 
+    useEffect(() => {
+        console.log("Post data updated:", postData);
+    }, [postData]);
+
     return (
         <Dialog onOpenChange={(open) => {
             if (open) {
@@ -64,8 +97,8 @@ export default function CreatePost() {
                             <AvatarImage src="https://chirps-chat.sirv.com/leopard.png" />
                             <AvatarFallback>HK</AvatarFallback>
                         </Avatar>
-                        <DialogTrigger  asChild>
-                            <Button 
+                        <DialogTrigger asChild>
+                            <Button
                                 variant="outline"
                                 ref={createNewPostRef}
                                 className="flex-1 h-12 justify-between active:rotate-0 active:scale-[.99] rounded-full"
@@ -76,67 +109,97 @@ export default function CreatePost() {
                         </DialogTrigger>
                     </div>
                 </div>
-                <DialogContent className="sm:max-w-2xl rounded-3xl bg-background/90 backdrop-blur-sm p-2">
+                <DialogContent className="sm:max-w-2xl  max-h-[90dvh] overflow-y-auto rounded-3xl bg-background/90 backdrop-blur-sm p-2">
                     <DialogHeader>
                         <DialogTitle className="sr-only">Create Post</DialogTitle>
                         <UserClump
                             name="Hello Kitty"
                             username="Post to Everyone"
-                            className="p-2 pr-4"
+                            className="p-2 pr-4 hover:bg-transparent dark:hover:bg-transparent"
                             variant="ghost"
                             size="lg"
                             avatar="https://chirps-chat.sirv.com/leopard.png"
                         />
                     </DialogHeader>
-                    <div className="px-2 mb-3 relative">
-                        <Textarea 
-                            className="max-h-72 p-3 resize-none min-h-40"
-                            placeholder="What's on your mind?"
-                            value={text}
-                            onChange={(e) => setText(e.target.value)}
-                            ref={createNewPostTextRef}
-                        />
-
-                        <div className="absolute bottom-2 right-4">
-                            <DropdownMenu 
-                                onOpenChange={(open) => {
-                                    if (!open) {
-                                        createNewPostTextRef.current?.focus();
-                                    }
+                    {postData.type === PostType.TEXT && <TextPost
+                        text={postData.text || ""}
+                        images={postData.images || []}
+                        onTextChange={handleTextChange}
+                        onImagesChange={handleImagesChange}
+                        setIsHovered={setIsHovered}
+                        isHovered={isHovered}
+                        theme={theme as string}
+                        handleEmojiClick={handleEmojiClick}
+                    />}
+                    {postData.type === PostType.POLL && <PollPost
+                        pollData={postData.poll!}
+                        onPollChange={handlePollChange}
+                    />}
+                    <div className="grid gap-y-3 px-3 ">
+                        <div className="flex items-center gap-2 mb-1">
+                            {postData.type === PostType.TEXT && <Button
+                                variant="outline"
+                                size={"icon-lg"}
+                                className="border-none"
+                            >
+                                <ImageIcon />
+                                <span className="sr-only">Insert an Image</span>
+                            </Button>}
+                            {postData.type === PostType.TEXT && <Button
+                                variant="outline"
+                                size={"icon-lg"}
+                                className="border-none"
+                                onClick={() => {
+                                    setPostData(prev => {
+                                        if (prev.type === PostType.POLL) return prev;
+                                        return {
+                                            ...prev,
+                                            type: PostType.POLL,
+                                            poll: {
+                                                question: "",
+                                                options: [
+                                                    { id: "1", option: "" },
+                                                    { id: "2", option: "" }
+                                                ]
+                                            }
+                                        };
+                                    });
                                 }}
                             >
-                                <DropdownMenuTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    className="relative bg-foreground/75 p-2 rounded-full h-10 w-10 grid place-items-center overflow-hidden cursor-pointer active:-rotate-3 active:scale-95 transition-all duration-300"
-                                    onMouseEnter={() => setIsHovered(true)}
-                                >
-                                    <Image
-                                        src="/emoji-cut.png"
-                                        alt="emoji"
-                                        width={55}
-                                        height={55}
-                                        className="object-contain"
-                                    />
-                                    {isHovered && <Lottie
-                                        animationData={emoji}
-                                        onComplete={() => setIsHovered(false)}
-                                        className="absolute bottom-0 left-0 w-full h-full"
-                                        autoPlay
-                                        loop={false}
-                                        style={{
-                                            animationDuration: "0.5s",
-                                        }}
-                                    />}
-                                </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="w-fit overflow-visible p-0 h-fit">
-                                    <EmojiPicker
-                                        onEmojiClick={(emoji) => handleEmojiClick(emoji.emoji)}
-                                        theme={theme === "dark" ? Theme.DARK : Theme.LIGHT}
-                                     />
-                                </DropdownMenuContent>
-                            </DropdownMenu>
+                                <BarChart2Icon strokeWidth={5} />
+                                <span className="sr-only">Create a Poll</span>
+                            </Button>}
+                            {postData.type === PostType.POLL && <Button
+                                variant="outline"
+                                size={"icon-lg"}
+                                className="border-none"
+                                onClick={() => setPostData(prev => ({ ...prev, type: PostType.TEXT }))}
+                            >
+                                <Text strokeWidth={5} />
+                                <span className="sr-only">Create a Poll</span>
+                            </Button>}
+                        </div>
+                        <Separator />
+                        <div className="flex items-center justify-end gap-2 px-3 mb-3">
+                            {postData.type === PostType.POLL && <Button
+                                variant="outline"
+                                className="px-3 py-2"
+                                onClick={() => setPostData(prev => ({ ...prev, type: PostType.TEXT }))}
+                            >
+                                <span className="">Back</span>
+                            </Button>}
+                            {postData.type === PostType.TEXT && <Button
+                                variant="outline"
+                                className="px-3 py-2"
+                            >
+                                <span className="">Cancel</span>
+                            </Button>}
+                            <Button
+                                variant="default"
+                                className="px-3 py-2"
+                            >
+                                <span className="">Send Post</span>
+                            </Button>
                         </div>
                     </div>
                 </DialogContent>
@@ -144,3 +207,4 @@ export default function CreatePost() {
         </Dialog>
     )
 }
+
