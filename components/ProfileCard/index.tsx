@@ -1,15 +1,13 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
-import FollowButton from "./FollowButton";
-import RankBadge from "./RankBadge";
-import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
-import { BirdIcon, GiftIcon, Quote, Shield, VerifiedIcon } from "lucide-react";
 import StatsSheet from "./StatsSheet";
 import { Button } from "../ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import BadgeCheckIcon from "../svgs/BadgeIconSvg";
+import ProfileBanner from "./ProfileBanner";
+import ProfileAvatar from "./ProfileAvatar";
+import ProfileInfo from "./ProfileInfo";
+import ProfileBio from "./ProfileBio";
+import ProfileBadges, { defaultBadges } from "./ProfileBadges";
+import ProfileCardSkeleton from "./ProfileCardSkeleton";
 
 interface ProfileCardProps {
     size?: "sm" | "md" | "lg";
@@ -63,81 +61,55 @@ export default function ProfileCard({ size = "md", canFollow = true, transparent
         // Handle follow action
     };
 
+    if (size) return <ProfileCardSkeleton size={size} transparent={transparent} />
+
     return (
         <div className={`p-2 ${config.container} rounded-2xl border border-input ${transparent ? "bg-foreground/5": "bg-background/80 backdrop-blur-md"}`}>
             <div>
-                <div className={`${config.banner} relative overflow-hidden rounded-lg`}>
-                    <Image
-                        src="https://chirps-chat.sirv.com/cache/bg.jpg"
-                        alt="Profile"
-                        width={1000}
-                        height={1000}
-                        className="object-cover"
-                    />
-                    <div className={cn("absolute top-2 right-2 bg-background/20 grid place-items-center rounded-full", config.rankBadge)}>
-                        <RankBadge
-                            earnedDate="October 19, 2025"
-                            rank="captain"
-                            size={size}
-                            variant="default"
-                            showHover={true}
-                        />
-                    </div>
-                </div>
-                <Avatar className={`${config.avatar} ml-2 ${config.avatarPadding} border-2 border-input bg-background transition-all duration-300 rounded-full grid place-items-center overflow-hidden z-10 relative cursor-pointer hover:bg-background/90 active:scale-90 active:-rotate-3`}>
-                        <AvatarImage src="https://chirps-chat.sirv.com/leopard.png" />
-                        <AvatarFallback>HK</AvatarFallback>
-                </Avatar>
+                <ProfileBanner
+                    bannerUrl="https://chirps-chat.sirv.com/cache/bg.jpg"
+                    rankBadgeSize={size}
+                    earnedDate="October 19, 2025"
+                    rank="captain"
+                    bannerHeight={config.banner}
+                    rankBadgeClass={config.rankBadge}
+                />
+                <ProfileAvatar
+                    avatarUrl="https://chirps-chat.sirv.com/leopard.png"
+                    fallback="HK"
+                    avatarClass={config.avatar}
+                    avatarPadding={config.avatarPadding}
+                />
             </div>
-            <div className={cn("flex items-start justify-between w-full", config.padding)}>
-                <div className="flex-1">
-                    <div className="flex items-center">
-                        <h3 className={`${config.nameText} truncate pr-3 font-semibold`}>
-                            Favour Ajokubi
-                        </h3>
-                        <span className="ml-[-3%] text-blue-600">
-                            <BadgeCheckIcon size={size} />
-                        </span>
-                    </div>
-                    <Link
-                        href="#@fabiconcept"
-                        className={`${config.usernameText} truncate text-muted-foreground hover:text-[#7600C9] transition-colors duration-300 pr-3`}
-                    >
-                        @fabiconcept
-                    </Link>
-                </div>
-                {canFollow &&
-                    <FollowButton
-                        initialFollowing={false}
-                        variant={size === "sm" ? "text" : "button"}
-                        size={size}
-                        onFollowChange={handleFollow}
-                    />
-                }
-            </div>
+            
+            <ProfileInfo
+                name="Favour Ajokubi"
+                username="@fabiconcept"
+                isVerified={true}
+                canFollow={canFollow}
+                size={size}
+                nameTextClass={config.nameText}
+                usernameTextClass={config.usernameText}
+                padding={config.padding}
+                onFollowChange={handleFollow}
+            />
 
-            <div className={cn(config.sectionPadding, config.padding)}>
-                <p className={cn(config.bioText)}>{size !== "sm" && <Quote className="inline scale-x-[-1] -mt-2 mr-1" size={16}/> } Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit. {size !== "sm" && <Quote className="inline -mt-2 ml-1" size={16}/> }</p>
-            </div>
+            <ProfileBio
+                bio="Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit."
+                size={size}
+                bioTextClass={config.bioText}
+                sectionPadding={config.sectionPadding}
+                padding={config.padding}
+            />
 
-            {size === "lg" && <div className={cn("flex flex-wrap gap-1", config.padding, config.sectionPadding)}>
-                <Badge variant="outline" className="bg-[#7600C9]/10 text-[#7600C9] dark:text-white">
-                    <Shield/>
-                    Premium
-                </Badge>
-                <Badge variant="outline" className="bg-[#7600C9]/10 text-[#7600C9] dark:text-white">
-                    <VerifiedIcon />
-                    Verified
-                </Badge>
-                <Badge variant="outline" className="bg-[#7600C9]/10 text-[#7600C9] dark:text-white">
-                    <BirdIcon/>
-                    Early Adopter
-                </Badge>
-                <Badge variant="outline" className="bg-[#7600C9]/10 text-[#7600C9] dark:text-white">
-                    <GiftIcon/>
-                    Contributor
-                </Badge>
-            </div>}
+            {size === "lg" && (
+                <ProfileBadges
+                    badges={defaultBadges}
+                    sectionPadding={config.sectionPadding}
+                    padding={config.padding}
+                />
+            )}
+            
             <StatsSheet 
                 size={size} 
                 followers={1200}
@@ -145,7 +117,12 @@ export default function ProfileCard({ size = "md", canFollow = true, transparent
                 chirps={10393}
                 className={config.sectionPadding}
             />
-            <div className={cn(config.padding)}><Button className={"w-full"} variant={"default"} size={"default"}>Profile</Button></div>
+            
+            <div className={cn(config.padding)}>
+                <Button className={"w-full"} variant={"default"} size={"default"}>
+                    Profile
+                </Button>
+            </div>
         </div>
     );
 }

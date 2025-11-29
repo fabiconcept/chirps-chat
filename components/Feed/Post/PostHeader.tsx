@@ -1,0 +1,59 @@
+import UserClump from "@/components/modular/UserClump";
+import ProfileCard from "@/components/ProfileCard";
+import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { BookmarkIcon, EllipsisVerticalIcon, FlagIcon, LinkIcon, UserPlusIcon, VolumeXIcon } from "lucide-react";
+
+export default function PostHeader() {
+    return (
+        <div className="flex items-center gap-2 px-2 pt-2 pr-4 justify-between">
+            <HoverCard openDelay={500}>
+                <HoverCardTrigger>
+                    <UserClump
+                        name="Favour Ajokubi"
+                        username="Posted 2h ago"
+                        className="px-2 pr-4"
+                        avatar="https://chirps-chat.sirv.com/premium/hello-kitty.png"
+                        variant="ghost"
+                        size="lg"
+                        isVerified={true}
+                    />
+                </HoverCardTrigger>
+                <HoverCardContent className="p-0 bg-transparent border-none shadow-none">
+                    <ProfileCard size="sm" transparent={false} />
+                </HoverCardContent>
+            </HoverCard>
+            <DropdownMenu>
+                <DropdownMenuTrigger>
+                    <Button size={"icon-sm"} variant={"ghost"}>
+                        <EllipsisVerticalIcon />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="max-w-52">
+                    <DropdownMenuItem className="gap-2 cursor-pointer">
+                        <BookmarkIcon className="w-4 h-4" />
+                        <span>Save post</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="gap-2 cursor-pointer">
+                        <LinkIcon className="w-4 h-4" />
+                        <span>Copy link</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="gap-2 cursor-pointer">
+                        <UserPlusIcon className="w-4 h-4" />
+                        <span>Follow @username</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className="gap-2 cursor-pointer">
+                        <VolumeXIcon className="w-4 h-4" />
+                        <span>Mute @username</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="gap-2 cursor-pointer text-destructive">
+                        <FlagIcon className="w-4 h-4" />
+                        <span>Report post</span>
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
+    );
+}

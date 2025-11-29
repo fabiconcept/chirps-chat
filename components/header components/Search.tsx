@@ -1,7 +1,6 @@
 "use client";
 import { cn } from '@/lib/utils';
 import { Input } from '../ui/input';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../ui/select';
 import useShortcuts from '@useverse/useshortcuts';
 import { useRef } from 'react';
 import {
@@ -50,32 +49,18 @@ export default function Search() {
     return (
         <ContextMenu>
             <ContextMenuTrigger className={cn(
-                "flex-1 flex items-center gap-2 relative rounded-3xl pr-1 bg-background/20",
+                "flex items-center relative rounded-3xl bg-background/20",
                 "focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]",
                 "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-                "shadow-xs transition-[color,box-shadow] border border-input dark:bg-input/30"
+                "shadow-xs transition-[color,box-shadow] border border-input dark:bg-input/30",
+                "w-full max-w-xs"
             )}>
                 <Input
                     type="search"
                     ref={inputRef}
                     placeholder="Search..."
-                    className='px-5 py-6 min-w-64 w-full rounded-full bg-transparent border-none dark:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0'
+                    className='px-5 py-6 w-full rounded-full bg-transparent border-none dark:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0'
                 />
-                <Select>
-                    <SelectTrigger className="w-[180px] rounded-3xl px-5 py-5">
-                        <SelectValue placeholder="Select a fruit" />
-                    </SelectTrigger>
-                    <SelectContent className="rounded-3xl">
-                        <SelectGroup>
-                            <SelectLabel>Fruits</SelectLabel>
-                            <SelectItem value="apple">Apple</SelectItem>
-                            <SelectItem value="banana">Banana</SelectItem>
-                            <SelectItem value="blueberry">Blueberry</SelectItem>
-                            <SelectItem value="grapes">Grapes</SelectItem>
-                            <SelectItem value="pineapple">Pineapple</SelectItem>
-                        </SelectGroup>
-                    </SelectContent>
-                </Select>
             </ContextMenuTrigger>
             <ContextMenuContent className="w-52">
                 <ContextMenuItem inset disabled>
