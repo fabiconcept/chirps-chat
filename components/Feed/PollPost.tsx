@@ -106,19 +106,18 @@ const PollPost = ({ pollData, onPollChange }: { pollData: { question: string; op
             </Button>}
 
             <div className="grid w-full items-center gap-3 mt-5">
-                <Label htmlFor="question">Question</Label>
-                <Select>
+                <Label htmlFor="question">Poll Duration</Label>
+                <Select defaultValue={PollDuration[0].value.toString()}>
                     <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select a fruit" />
+                        <SelectValue placeholder="Select a duration" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
-                            <SelectLabel>Fruits</SelectLabel>
-                            <SelectItem value="apple">Apple</SelectItem>
-                            <SelectItem value="banana">Banana</SelectItem>
-                            <SelectItem value="blueberry">Blueberry</SelectItem>
-                            <SelectItem value="grapes">Grapes</SelectItem>
-                            <SelectItem value="pineapple">Pineapple</SelectItem>
+                            {PollDuration.map((duration) => (
+                                <SelectItem key={duration.id} value={duration.value.toString()}>
+                                    {duration.label}
+                                </SelectItem>
+                            ))}
                         </SelectGroup>
                     </SelectContent>
                 </Select>

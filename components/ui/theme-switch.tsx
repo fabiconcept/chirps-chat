@@ -36,7 +36,7 @@ export default function ThemeSwitch({ className = '' }: {
     };
 
     return (
-        <label className={`switch ${className}`}>
+        <label className={`switch ${className} focus-within:border focus-within:border-input focus-within:border-offset-2`}>
             <input
                 checked={isChecked}
                 id="checkbox"

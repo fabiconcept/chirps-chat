@@ -4,11 +4,10 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader } from "../ui/dialog
 import { Button } from "../ui/button";
 import UserClump from "../modular/UserClump";
 import { useKeyBoardShortCut } from "../Providers/KeyBoardShortCutProvider";
-// import { useEffect } from "react";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import useShortcuts from "@useverse/useshortcuts";
 import { useAuth } from "../Providers/AuthProvider";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Kbd, KbdGroup } from "../ui/kbd";
 import { useState } from "react";
 import { useTheme } from "next-themes";
@@ -16,6 +15,7 @@ import { BarChart2Icon, Image as ImageIcon, Text } from "lucide-react";
 import TextPost from "./TextPost";
 import PollPost from "./PollPost";
 import { Separator } from "../ui/separator";
+import { toast } from "sonner";
 
 export enum PostType {
     TEXT = "text",
@@ -30,11 +30,18 @@ export interface Option {
 interface PostData {
     type: PostType;
     text?: string;
-    images?: string[];
+    images?: { file: File; previewUrl: string }[];
     poll?: {
         question: string;
         options: Option[];
     };
+}
+
+const emptyPostData: PostData = {
+    type: PostType.TEXT,
+    text: "",
+    images: [],
+    poll: undefined
 }
 
 export default function CreatePost() {
@@ -42,7 +49,15 @@ export default function CreatePost() {
     const { isMacOS } = useAuth();
     const { theme } = useTheme();
     const [isHovered, setIsHovered] = useState(false);
-    const [postData, setPostData] = useState<PostData>({ type: PostType.TEXT, text: "", images: [] });
+    const [postData, setPostData] = useState<PostData>(emptyPostData);
+
+    const resetPostData = () => {
+        setTimeout(() => {
+            setPostData(emptyPostData);
+        }, 50);
+    }
+
+    const imageInputRef = useRef<HTMLInputElement>(null);
 
     const handleEmojiClick = (emoji: string) => {
         setPostData(prev => ({ ...prev, text: (prev.text || "") + emoji }));
@@ -52,12 +67,102 @@ export default function CreatePost() {
         setPostData(prev => ({ ...prev, text: newText }));
     }
 
-    const handleImagesChange = (newImages: string[]) => {
-        setPostData(prev => ({ ...prev, images: newImages.slice(0, 4) }));
-    }
+    const handleImagesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = event.target.files;
+        if (!files) return;
+
+        const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+        const maxImages = 4;
+        const validImages: { file: File; previewUrl: string }[] = [];
+        const errors: {
+            title: string;
+            message: string;
+        }[] = [];
+
+        // Get current number of images
+        const currentImageCount = postData.images?.length || 0;
+        const remainingSlots = maxImages - currentImageCount;
+
+        // Process each selected file
+        Array.from(files).forEach((file) => {
+            // Check if we've reached the max number of images
+            if (validImages.length >= remainingSlots) {
+                errors.push({
+                    title: "Maximum Images Limit",
+                    message: `Maximum ${maxImages} images allowed. You can add ${remainingSlots} more.`
+                });
+                return;
+            }
+
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                errors.push({
+                    title: "Invalid Image Format",
+                    message: `This file is not an image file`
+                });
+                return;
+            }
+
+            // Validate file size
+            if (file.size > maxSize) {
+                errors.push({
+                    title: "Image Size Limit",
+                    message: `This ${file.name} exceeds 5MB limit`
+                });
+                return;
+            }
+
+            // Create preview URL
+            const previewUrl = URL.createObjectURL(file);
+            validImages.push({ file, previewUrl });
+        });
+
+        // Add valid images to existing images
+        if (validImages.length > 0) {
+            setPostData(prev => ({
+                ...prev,
+                images: [...(prev.images || []), ...validImages]
+            }));
+        }
+
+        // Show errors if any
+        if (errors.length > 0) {
+            console.error('Image upload errors:', errors);
+            // You can also show these errors to the user via a toast/alert
+            errors.forEach(error => {
+                toast(error.title, {
+                    description: error.message,
+                    duration: 5000,
+                });
+            });
+            throw new Error(errors.map(error => error.message).join("\n"));
+        }
+
+        // Reset the input so the same file can be selected again if needed
+        event.target.value = '';
+    };
+
+    const handleRemoveImage = (index: number) => {
+        setPostData(prev => {
+            const currentImages = prev.images || [];
+
+            // Revoke the object URL to free up memory
+            if (currentImages[index]?.previewUrl) {
+                URL.revokeObjectURL(currentImages[index].previewUrl);
+            }
+
+            // Remove the image at the specified index
+            const updatedImages = currentImages.filter((_, i) => i !== index);
+
+            return {
+                ...prev,
+                images: updatedImages
+            };
+        });
+    };
 
     const handlePollChange = (newPoll: { question: string; options: Option[] }) => {
-        setPostData(prev => ({ ...prev, poll: newPoll }));
+        setPostData(prev => ({ ...prev, poll: newPoll, text: undefined, images: undefined }));
     }
 
     const createNewPostRef = useRef<HTMLButtonElement>(null);
@@ -78,15 +183,12 @@ export default function CreatePost() {
         }
     }, [allowedShortcuts, createNewPostRef]);
 
-    useEffect(() => {
-        console.log("Post data updated:", postData);
-    }, [postData]);
-
     return (
         <Dialog onOpenChange={(open) => {
             if (open) {
                 disallowShortcuts([...notoriousShortcuts, 'commandN'])
             } else {
+                resetPostData();
                 allowShortcuts([...notoriousShortcuts, 'commandN'])
             }
         }}>
@@ -123,13 +225,13 @@ export default function CreatePost() {
                     </DialogHeader>
                     {postData.type === PostType.TEXT && <TextPost
                         text={postData.text || ""}
-                        images={postData.images || []}
+                        images={postData.images?.map(img => img.previewUrl) || []}
                         onTextChange={handleTextChange}
-                        onImagesChange={handleImagesChange}
                         setIsHovered={setIsHovered}
                         isHovered={isHovered}
                         theme={theme as string}
                         handleEmojiClick={handleEmojiClick}
+                        handleRemoveImage={handleRemoveImage}
                     />}
                     {postData.type === PostType.POLL && <PollPost
                         pollData={postData.poll!}
@@ -141,7 +243,16 @@ export default function CreatePost() {
                                 variant="outline"
                                 size={"icon-lg"}
                                 className="border-none"
+                                onClick={() => imageInputRef.current?.click()}
                             >
+                                <input
+                                    type="file"
+                                    accept="image/png, image/jpeg, image/jpg, image/gif"
+                                    multiple
+                                    ref={imageInputRef}
+                                    onChange={handleImagesChange}
+                                    hidden
+                                />
                                 <ImageIcon />
                                 <span className="sr-only">Insert an Image</span>
                             </Button>}

@@ -10,6 +10,7 @@ import { AuthProvider } from "@/components/Providers/AuthProvider";
 import SideBar from "@/components/SideBar";
 import Activities from "@/components/Activities/Index";
 import { KeyBoardShortCutProvider } from "@/components/Providers/KeyBoardShortCutProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = RootMetadata;
 
@@ -41,6 +42,7 @@ export default function RootLayout({
                         </AuthProvider>
                     </ReduxProvider>
                 </Providers>
+                <Toaster position="top-center" richColors />
                 <svg xmlns="http://www.w3.org/2000/svg" style={{ display: "none" }}>
                     <filter id="lensFilter" x="-50%" y="-50%" width="200%" height="150%" filterUnits="objectBoundingBox">
                         <feComponentTransfer in="SourceAlpha" result="alpha">

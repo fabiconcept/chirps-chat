@@ -96,9 +96,8 @@ export default function SideBar() {
                     <Image
                         src={theme === 'dark' ? "/chirps-chat-logo-white.svg" : "/chirps-chat-logo.svg"}
                         alt="Chirps Logo"
-                        className='h-10 w-10 z-20 -mt-2'
+                        className='h-10 w-10 z-20 -mt-2 object-contain'
                         width={40}
-                        objectFit='contain'
                         priority
                         height={40}
                     />
