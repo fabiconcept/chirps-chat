@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { cn, copyToClipboard } from "@/lib/utils"
+import { cn, copyToClipboard, getTruncatedText } from "@/lib/utils"
 import Hashtag from "@/components/ui/hashtag"
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/components/ui/context-menu"
 import { CheckIcon, CopyIcon } from "lucide-react"
@@ -20,42 +20,10 @@ export default function RichText({ text, className, maxLines = 2 }: RichTextProp
     // Convert escaped newlines to actual newlines
     const normalizedText = text.replace(/\\n/g, '\n')
 
-    // Calculate approximate character limit based on maxLines
-    // Average ~80-100 chars per line for text-lg
-    const getCharLimit = () => {
-        const charsPerLine = 100
-        return maxLines * charsPerLine
-    }
-
-    // Truncate text intelligently
-    const getTruncatedText = (content: string) => {
-        const charLimit = getCharLimit()
-        
-        if (content.length <= charLimit) {
-            return { text: content, isTruncated: false }
-        }
-
-        // Find a good breaking point (space, newline, or punctuation)
-        let truncateAt = charLimit
-        const breakChars = [' ', '\n', '.', ',', '!', '?', ';']
-        
-        // Look backwards from limit to find a natural break
-        for (let i = charLimit; i > charLimit - 50 && i > 0; i--) {
-            if (breakChars.includes(content[i])) {
-                truncateAt = i
-                break
-            }
-        }
-
-        return {
-            text: content.substring(0, truncateAt).trim() + '...',
-            isTruncated: true
-        }
-    }
 
     const { text: displayText, isTruncated } = isExpanded 
         ? { text: normalizedText, isTruncated: false }
-        : getTruncatedText(normalizedText)
+        : getTruncatedText(normalizedText, maxLines)
 
     const handleCopy = async () => {
         const success = await copyToClipboard(normalizedText)

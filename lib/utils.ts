@@ -7,33 +7,33 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function detectOS() {
-    // Check if we're in a browser environment
-    if (typeof window !== "undefined" && typeof navigator !== "undefined") {
-        const ua = navigator.userAgent.toLowerCase();
+  // Check if we're in a browser environment
+  if (typeof window !== "undefined" && typeof navigator !== "undefined") {
+    const ua = navigator.userAgent.toLowerCase();
 
-        if (ua.includes("windows")) return "windows";
-        if (ua.includes("mac")) {
-            // Distinguish between iOS and macOS
-            if (ua.includes("iphone") || ua.includes("ipad") || ua.includes("ipod")) return "ios";
-            return "macos";
-        }
-        if (ua.includes("android")) return "android";
-        if (ua.includes("linux")) return "linux";
-
-        return "unknown";
+    if (ua.includes("windows")) return "windows";
+    if (ua.includes("mac")) {
+      // Distinguish between iOS and macOS
+      if (ua.includes("iphone") || ua.includes("ipad") || ua.includes("ipod")) return "ios";
+      return "macos";
     }
+    if (ua.includes("android")) return "android";
+    if (ua.includes("linux")) return "linux";
 
-    // Otherwise we're in a Node.js (server) environment
-    try {
-        const platform = os.platform();
+    return "unknown";
+  }
 
-        if (platform === "win32") return "windows";
-        if (platform === "darwin") return "macos";
-        if (platform === "linux") return "linux";
-        return "unknown";
-    } catch {
-        return "unknown";
-    }
+  // Otherwise we're in a Node.js (server) environment
+  try {
+    const platform = os.platform();
+
+    if (platform === "win32") return "windows";
+    if (platform === "darwin") return "macos";
+    if (platform === "linux") return "linux";
+    return "unknown";
+  } catch {
+    return "unknown";
+  }
 }
 
 export function formatNumber(num: number, decimals: number = 1): string {
@@ -51,13 +51,13 @@ export function formatNumber(num: number, decimals: number = 1): string {
   for (const unit of units) {
     if (num >= unit.value) {
       const formatted = num / unit.value;
-      
+
       // Remove unnecessary decimal places
       const rounded = Math.round(formatted * Math.pow(10, decimals)) / Math.pow(10, decimals);
-      
+
       // Convert to string and remove trailing zeros
       const str = rounded.toFixed(decimals).replace(/\.?0+$/, '');
-      
+
       return str + unit.symbol;
     }
   }
@@ -65,11 +65,6 @@ export function formatNumber(num: number, decimals: number = 1): string {
   return num.toString();
 }
 
-/**
- * Copy text to clipboard
- * @param text - Text to copy
- * @returns Promise that resolves to true if successful, false otherwise
- */
 export async function copyToClipboard(text: string): Promise<boolean> {
   try {
     if (navigator.clipboard && window.isSecureContext) {
@@ -92,5 +87,37 @@ export async function copyToClipboard(text: string): Promise<boolean> {
   } catch (error) {
     console.error('Failed to copy text:', error)
     return false
+  }
+}
+
+// Average ~80-100 chars per line for text-lg
+const getCharLimit = (maxLines: number) => {
+  const charsPerLine = 100
+  return maxLines * charsPerLine
+}
+
+// Truncate text intelligently
+export const getTruncatedText = (content: string, maxLines: number) => {
+  const charLimit = getCharLimit(maxLines)
+
+  if (content.length <= charLimit) {
+    return { text: content, isTruncated: false }
+  }
+
+  // Find a good breaking point (space, newline, or punctuation)
+  let truncateAt = charLimit
+  const breakChars = [' ', '\n', '.', ',', '!', '?', ';']
+
+  // Look backwards from limit to find a natural break
+  for (let i = charLimit; i > charLimit - 50 && i > 0; i--) {
+    if (breakChars.includes(content[i])) {
+      truncateAt = i
+      break
+    }
+  }
+
+  return {
+    text: content.substring(0, truncateAt).trim() + '...',
+    isTruncated: true
   }
 }

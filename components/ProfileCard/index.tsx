@@ -64,7 +64,7 @@ export default function ProfileCard({ size = "md", canFollow = true, transparent
     };
 
     return (
-        <div className={`p-2 ${config.container} rounded-2xl border border-input ${transparent ? "bg-foreground/5": "bg-background/20 backdrop-blur-md"}`}>
+        <div className={`p-2 ${config.container} rounded-2xl border border-input ${transparent ? "bg-foreground/5": "bg-background/80 backdrop-blur-md"}`}>
             <div>
                 <div className={`${config.banner} relative overflow-hidden rounded-lg`}>
                     <Image

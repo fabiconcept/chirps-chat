@@ -50,7 +50,7 @@ export default function Search() {
     return (
         <ContextMenu>
             <ContextMenuTrigger className={cn(
-                "flex-1 flex items-center gap-2 relative rounded-3xl pr-1",
+                "flex-1 flex items-center gap-2 relative rounded-3xl pr-1 bg-background/20",
                 "focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]",
                 "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
                 "shadow-xs transition-[color,box-shadow] border border-input dark:bg-input/30"
