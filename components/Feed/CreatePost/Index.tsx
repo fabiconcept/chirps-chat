@@ -16,6 +16,7 @@ import TextPost from "./TextPost";
 import PollPost from "./PollPost";
 import { Separator } from "../../ui/separator";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 export enum PostType {
     TEXT = "text",
@@ -44,7 +45,12 @@ const emptyPostData: PostData = {
     poll: undefined
 }
 
-export default function CreatePost() {
+
+export default function CreatePost({
+    className
+}: {
+    className?: string;
+}) {
     const { disallowShortcuts, allowShortcuts, notoriousShortcuts, allowedShortcuts } = useKeyBoardShortCut();
     const { isMacOS } = useAuth();
     const { theme } = useTheme();
@@ -193,7 +199,7 @@ export default function CreatePost() {
             }
         }}>
             <form action="">
-                <div className="w-full rounded-full border border-input bg-foreground/5 p-2">
+                <div className={cn("w-full rounded-full border border-input bg-foreground/5 p-2", className)}>
                     <div className="flex items-center gap-2">
                         <Avatar className='h-12 w-12 p-2 bg-background border transition-colors duration-300'>
                             <AvatarImage src="https://chirps-chat.sirv.com/leopard.png" />

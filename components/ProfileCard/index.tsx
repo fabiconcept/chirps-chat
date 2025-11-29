@@ -14,6 +14,7 @@ import BadgeCheckIcon from "../svgs/BadgeIconSvg";
 interface ProfileCardProps {
     size?: "sm" | "md" | "lg";
     canFollow?: boolean;
+    transparent?: boolean;
 }
 
 const sizeConfig = {
@@ -55,7 +56,7 @@ const sizeConfig = {
     }
 };
 
-export default function ProfileCard({ size = "md", canFollow = true }: ProfileCardProps) {
+export default function ProfileCard({ size = "md", canFollow = true, transparent = true }: ProfileCardProps) {
     const config = sizeConfig[size];
 
     const handleFollow = () => {
@@ -63,7 +64,7 @@ export default function ProfileCard({ size = "md", canFollow = true }: ProfileCa
     };
 
     return (
-        <div className={`p-2 ${config.container} bg-foreground/5 rounded-2xl border border-input`}>
+        <div className={`p-2 ${config.container} rounded-2xl border border-input ${transparent ? "bg-foreground/5": "bg-background/20 backdrop-blur-md"}`}>
             <div>
                 <div className={`${config.banner} relative overflow-hidden rounded-lg`}>
                     <Image

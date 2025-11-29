@@ -1,3 +1,4 @@
+import { BadgeCheckIcon } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { cn } from '@/lib/utils';
 
@@ -11,23 +12,27 @@ interface UserClumpProps {
     size?: UserClumpSize;
     variant?: UserClumpVariant;
     className?: string;
+    isVerified?: boolean;
 }
 
 const sizeClasses = {
     sm: {
         container: 'p-0.5 min-w-36 max-w-52 pr-3 gap-1.5',
         avatar: 'h-8 w-8',
+        badge: "h-3 w-3",
         name: 'text-xs',
         username: 'text-[10px]'
     },
     md: {
         container: 'p-1 min-w-44 max-w-64 pr-5 gap-2',
         avatar: 'h-12 w-12',
+        badge: "h-4 w-4",
         name: 'text-sm',
         username: 'text-xs'
     },
     lg: {
         container: 'p-1.5 max-w-full w-fit pr-6 gap-2',
+        badge: "h-5 w-5",
         avatar: 'h-14 w-14',
         name: 'text-lg',
         username: 'text-sm'
@@ -46,7 +51,8 @@ export default function UserClump({
     avatar,
     size = 'md',
     variant = 'default',
-    className
+    isVerified = false,
+    className,
 }: UserClumpProps) {
     const sizes = sizeClasses[size];
 
@@ -62,7 +68,14 @@ export default function UserClump({
                 <AvatarFallback>{username.charAt(0).toUpperCase() + username.charAt(1).toLowerCase()}</AvatarFallback>
             </Avatar>
             <div className='flex flex-col overflow-hidden'>
-                <span className={cn('font-semibold truncate', sizes.name)}>{name}</span>
+                <div className='flex items-center gap-2'>
+                    <span className={cn('font-semibold truncate', sizes.name)}>
+                        {name}
+                    </span>
+                    {isVerified && <span className="text-blue-600">
+                        <BadgeCheckIcon className={sizes.badge} />
+                    </span>}
+                </div>
                 <span className={cn('opacity-75 truncate', sizes.username)}>{username}</span>
             </div>
         </div>

@@ -43,7 +43,8 @@ export default function GlobalHeader() {
                                         username="@hello-kitty"
                                         avatar="https://chirps-chat.sirv.com/leopard.png"
                                     />
-                                </DropdownMenuTrigger><DropdownMenuContent className="w-56" align="end">
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="w-56" align="end">
                                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                                     <DropdownMenuGroup>
                                         <DropdownMenuItem>

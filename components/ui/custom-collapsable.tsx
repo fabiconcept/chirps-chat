@@ -64,7 +64,7 @@ export function Collapsible({
             <motion.div
                 ref={containerRef}
                 className={cn(
-                    'overflow-hidden z-50 w-md shadow-2xl shadow-foreground/50',
+                    'overflow-hidden z-50 w-md shadow-2xl shadow-foreground/10',
                     'fixed bottom-0',
                     className
                 )}
