@@ -1,20 +1,20 @@
 "use client";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader } from "../ui/dialog";
-import { Button } from "../ui/button";
-import UserClump from "../modular/UserClump";
-import { useKeyBoardShortCut } from "../Providers/KeyBoardShortCutProvider";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader } from "../../ui/dialog";
+import { Button } from "../../ui/button";
+import UserClump from "../../modular/UserClump";
+import { useKeyBoardShortCut } from "../../Providers/KeyBoardShortCutProvider";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import useShortcuts from "@useverse/useshortcuts";
-import { useAuth } from "../Providers/AuthProvider";
+import { useAuth } from "../../Providers/AuthProvider";
 import { useRef } from "react";
-import { Kbd, KbdGroup } from "../ui/kbd";
+import { Kbd, KbdGroup } from "../../ui/kbd";
 import { useState } from "react";
 import { useTheme } from "next-themes";
 import { BarChart2Icon, Image as ImageIcon, Text } from "lucide-react";
 import TextPost from "./TextPost";
 import PollPost from "./PollPost";
-import { Separator } from "../ui/separator";
+import { Separator } from "../../ui/separator";
 import { toast } from "sonner";
 
 export enum PostType {

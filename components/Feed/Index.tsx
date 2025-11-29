@@ -1,4 +1,4 @@
-import CreatePost from "./CreatePost";
+import CreatePost from "./CreatePost/Index";
 
 export default function Feed() {
     return (

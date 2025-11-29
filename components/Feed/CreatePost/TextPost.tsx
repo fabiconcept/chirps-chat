@@ -1,7 +1,7 @@
 "use client";
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { Textarea } from "../../ui/textarea";
+import { Button } from "../../ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "../../ui/dropdown-menu";
 import Image from "next/image";
 import Lottie from "lottie-react";
 import emoji from "@/components/lottie/emoji.json";

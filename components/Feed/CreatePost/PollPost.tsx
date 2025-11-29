@@ -1,9 +1,9 @@
 "use client";
-import { Label } from "../ui/label";
-import { Textarea } from "../ui/textarea";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
+import { Label } from "../../ui/label";
+import { Textarea } from "../../ui/textarea";
+import { Input } from "../../ui/input";
+import { Button } from "../../ui/button";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../../ui/select";
 import { Plus } from "lucide-react";
 
 export const PollDuration = [
