@@ -1,5 +1,5 @@
-import { Button } from "../ui/button";
 import UserClump from "../modular/UserClump";
+import JoinButton from "./JoinButton";
 
 interface CommunityProps {
     avatar: string;
@@ -7,12 +7,16 @@ interface CommunityProps {
     snippet: string;
     activeCount: number;
     memberCount: number;
+    initialJoined?: boolean;
+    onJoinChange?: (isJoined: boolean) => void;
 }
 
 export default function Community({
     avatar = "https://chirps-chat.sirv.com/panda.png",
     name = "Tech Enthusiasts",
     snippet = "Design talk",
+    initialJoined = false,
+    onJoinChange
 }: CommunityProps) {
     return (
         <div className="flex items-center gap-4 p-2 border-dashed border-transparent hover:border-input border rounded-2xl hover:bg-foreground/5 transition-colors cursor-pointer group">
@@ -28,12 +32,11 @@ export default function Community({
                         size="md"
                     />
                 </div>
-                <Button
+                <JoinButton 
                     size="sm"
-                    className="shrink-0"
-                >
-                    Join
-                </Button>
+                    initialJoined={initialJoined}
+                    onJoinChange={onJoinChange}
+                />
             </div>
         </div>
     )
