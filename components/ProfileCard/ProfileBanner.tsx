@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 import RankBadge from "./RankBadge";
+import ProtectedImage from "../Feed/TextPost/ProtectedImage";
 
 type RankKey =
     | 'private'
@@ -37,12 +37,13 @@ export default function ProfileBanner({
 }: ProfileBannerProps) {
     return (
         <div className={`${bannerHeight} relative overflow-hidden rounded-lg rounded-t-3xl`}>
-            <Image
+            <ProtectedImage
                 src={bannerUrl}
                 alt="Profile"
                 width={1000}
                 height={1000}
-                className="object-cover"
+                className="object-cover h-full w-full"
+                priority={true}
             />
             <div className={cn("absolute top-2 right-2 bg-background/20 grid place-items-center rounded-full", rankBadgeClass)}>
                 <RankBadge

@@ -15,7 +15,10 @@ interface ProtectedImageProps {
     className?: string
     aspectRatio?: string
     onClick?: () => void
+    width?: number
+    height?: number
     priority?: boolean
+    unoptimized?: boolean
     fallbackSrc?: string
 }
 
@@ -27,6 +30,9 @@ export default function ProtectedImage({
     aspectRatio,
     onClick,
     priority = false,
+    width = undefined,
+    height = undefined,
+    unoptimized = false,
     fallbackSrc = "https://placehold.co/600x400/1a1a1a/666666?text=Image+Not+Found"
 }: ProtectedImageProps) {
     const [isLoading, setIsLoading] = React.useState(!globalImageCache.has(src))
@@ -102,6 +108,8 @@ export default function ProtectedImage({
                 src={currentSrc}
                 alt={alt}
                 fill={fill}
+                width={width}
+                height={height}
                 className={cn(
                     "select-none transition-opacity duration-300",
                     isLoading ? "opacity-0" : "opacity-100",
@@ -112,7 +120,7 @@ export default function ProtectedImage({
                 onError={handleError}
                 priority={priority}
                 draggable={false}
-                unoptimized={hasError} // Use unoptimized for fallback
+                unoptimized={hasError || unoptimized}
                 quality={90}
                 loading={priority ? "eager" : "lazy"}
             />

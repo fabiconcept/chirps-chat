@@ -109,6 +109,7 @@ export default function ImageGallery({ images, className }: ImageGalleryProps) {
                 src={displayImages[idx]}
                 alt={`Image ${idx + 1}`}
                 fill
+                unoptimized={true}
                 className="object-cover group-active:scale-95 cursor-pointer group-hover:scale-[1.015] transition-transform duration-200"
             />
             <Button
@@ -308,6 +309,7 @@ export default function ImageGallery({ images, className }: ImageGalleryProps) {
                                     src={displayImages[currentIndex]}
                                     alt={`Image ${currentIndex + 1}`}
                                     fill
+                                    unoptimized={true}
                                     className="object-contain"
                                     priority
                                 />
