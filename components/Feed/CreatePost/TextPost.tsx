@@ -42,7 +42,7 @@ const TextPost = ({
                     value={text}
                     onChange={(e) => onTextChange(e.target.value)}
                 />
-                <div className="absolute bottom-2 right-4">
+                <div className="absolute bottom-2 right-4 max-sm:hidden">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button

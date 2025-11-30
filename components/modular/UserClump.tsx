@@ -2,7 +2,7 @@ import BadgeCheckIcon from '../svgs/BadgeIconSvg';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { cn } from '@/lib/utils';
 
-type UserClumpSize = 'sm' | 'md' | 'lg';
+type UserClumpSize = 'sm' | 'md' | 'lg' | "xs";
 type UserClumpVariant = 'default' | 'ghost' | 'outline';
 
 interface UserClumpProps {
@@ -56,7 +56,7 @@ export default function UserClump({
     clickable = true,
     className,
 }: UserClumpProps) {
-    const sizes = sizeClasses[size];
+    const sizes = size === "xs" ? sizeClasses["md"] : sizeClasses[size];
 
     return (
         <div className={cn(
@@ -64,13 +64,14 @@ export default function UserClump({
             sizes.container,
             variantClasses[variant],
             clickable ? 'cursor-pointer' : 'cursor-default hover:bg-transparent dark:hover:bg-transparent active:scale-100 active:opacity-100',
+            size === "xs" && "w-fit min-w-fit pr-1",
             className
         )}>
             <Avatar className={cn(sizes.avatar, 'p-1 bg-background border transition-colors duration-300')}>
                 <AvatarImage src={avatar} />
                 <AvatarFallback>{username.charAt(0).toUpperCase() + username.charAt(1).toLowerCase()}</AvatarFallback>
             </Avatar>
-            <div className='flex flex-col overflow-hidden'>
+            {size !== "xs" && <div className='flex flex-col overflow-hidden'>
                 <div className='flex items-center gap-2'>
                     <span className={cn('font-semibold truncate', sizes.name)}>
                         {name}
@@ -80,7 +81,7 @@ export default function UserClump({
                     </span>}
                 </div>
                 <span className={cn('opacity-75 truncate', sizes.username)}>{username}</span>
-            </div>
+            </div>}
         </div>
     );
 }

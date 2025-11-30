@@ -12,7 +12,7 @@ interface RecommendationProps {
 
 const sizeConfig = {
     sm: {
-        container: "max-w-64",
+        container: "max-w-64 max-sm:w-full max-sm:max-w-full",
         banner: "max-h-16",
         avatar: "-mt-6 h-12 w-12",
         rankBadge: "h-6 w-6 p-1",
@@ -24,7 +24,7 @@ const sizeConfig = {
         padding: "p-2"
     },
     md: {
-        container: "max-w-80",
+        container: "max-w-80 max-sm:w-full max-sm:max-w-full",
         banner: "max-h-24",
         avatar: "-mt-10 h-16 w-16",
         rankBadge: "h-8 w-8 p-1",
@@ -36,7 +36,7 @@ const sizeConfig = {
         padding: "p-3"
     },
     lg: {
-        container: "max-w-96",
+        container: "max-w-96 max-sm:w-full max-sm:max-w-full",
         banner: "max-h-32",
         avatar: "-mt-12 h-20 w-20",
         rankBadge: "h-10 w-10 p-1",

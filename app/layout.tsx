@@ -11,6 +11,7 @@ import SideBar from "@/components/SideBar";
 import Activities from "@/components/Activities/Index";
 import { KeyBoardShortCutProvider } from "@/components/Providers/KeyBoardShortCutProvider";
 import { Toaster } from "@/components/ui/sonner";
+import MobileBottomNav from "@/components/MobileBottomNav";
 
 export const metadata: Metadata = RootMetadata;
 
@@ -29,14 +30,15 @@ export default function RootLayout({
                         <AuthProvider>
                             <KeyBoardShortCutProvider>
                                 <div className="min-h-screen relative flex">
-                                    <SideBar />
                                     <div className="flex-1">
                                         <GlobalHeader />
-                                        <main className="flex md:px-10 sm:px-5 px-3 py-6 gap-4 ">
+                                        <main className="flex md:px-10 sm:px-5 px-3 py-6 gap-4 sm:pb-20 pb-10 md:pb-6">
+                                        <SideBar />
                                             {children}
                                         </main>
                                     </div>
                                     <Activities />
+                                    <MobileBottomNav />
                                 </div>
                             </KeyBoardShortCutProvider>
                         </AuthProvider>

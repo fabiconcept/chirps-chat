@@ -1,10 +1,14 @@
 "use client"
 import { useAuth } from './Providers/AuthProvider';
 import { Button } from './ui/button';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import ThemeSwitch from './ui/theme-switch';
+import { useTheme } from "next-themes";
+import Image from "next/image";
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     DropdownMenu,
+    DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuGroup,
     DropdownMenuItem,
@@ -19,28 +23,82 @@ import {
 } from "@/components/ui/dropdown-menu"
 import Search from './header components/Search';
 import UserClump from './modular/UserClump';
+import { BellDot } from 'lucide-react';
 
 export default function GlobalHeader() {
-    const { isAuthenticated, logout, login } = useAuth();
+    const { isAuthenticated, logout, login, isMobile } = useAuth();
     const headerRef = useRef<HTMLDivElement>(null);
+    const { theme } = useTheme();
+    const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
     return (
         <header ref={headerRef} className='top-0 sticky border-b border-input/50 shadow-xl shadow-black/3 z-50'>
-            <div className='p-4 px-10 flex items-center justify-between overflow-hidden relative gap-10'>
+            <div className='sm:p-4 px-4 md:px-10 flex items-center justify-between overflow-hidden relative gap-2 md:gap-10'>
                 <div className='absolute inset-0 scale-105 -mt-5 filter-ios'></div>
-                <div className='flex items-center z-10 gap-5 flex-1'>
-                    {isAuthenticated && <Search />}
+                <div className='flex items-center z-10 sm:gap-5 gap-3 flex-1'>
+                    <div className="flex items-center gap-2 py-5">
+                        <Image
+                            src={theme === 'dark' ? "/chirps-chat-logo-white.svg" : "/chirps-chat-logo.svg"}
+                            alt="Chirps Logo"
+                            className='h-9 w-9 z-20 -mt-1 object-contain'
+                            width={36}
+                            height={36}
+                            priority
+                        />
+                        <h1 className='text-3xl ave text-foreground -translate-x-2.5 z-10'>hirps</h1>
+                    </div>
+                    {isAuthenticated && <Search expanded={isSearchExpanded} onMobileExpand={setIsSearchExpanded} />}
                 </div>
-                <div className='flex items-center z-10 gap-2 flex-1 justify-end'>
-                    <ThemeSwitch className='border' />
+                <motion.div 
+                    animate={{ 
+                        width: (isMobile && isSearchExpanded) ? 0 : 'auto',
+                        flex: (isMobile && isSearchExpanded) ? 0 : 1, 
+                        opacity: (isMobile && isSearchExpanded) ? 0 : 1
+                    }}
+                    transition={{ duration: 0.2, ease: 'easeInOut' }}
+                    className='flex items-center z-10 gap-2 justify-end overflow-hidden'
+                >
+
+                    <div
+                        className="lg:flex hidden items-center gap-2"
+                    >
+                        <ThemeSwitch className='border' />
+                    </div>
+                    <Button
+                        size={"icon-sm"}
+                        variant={"outline"}
+                        className='lg:hidden'
+                    >
+                        <BellDot />
+                    </Button>
                     <React.Fragment>
-                        {!isAuthenticated && <Button className='my-[0.315rem]' onClick={login}>Sign In</Button>}
-                        {isAuthenticated &&
-                            <DropdownMenu>
+                        {!isAuthenticated && (
+                            <AnimatePresence>
+                                {(!isMobile || !isSearchExpanded) && (
+                                    <motion.div
+                                        initial={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: 20 }}
+                                        transition={{ duration: 0.2 }}
+                                    >
+                                        <Button className='my-[0.315rem]' onClick={login}>Sign In</Button>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        )}
+                        {isAuthenticated && (
+                            <AnimatePresence>
+                                {(!isMobile || !isSearchExpanded) && (
+                                    <motion.div
+                                        initial={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: 20 }}
+                                        transition={{ duration: 0.2 }}
+                                    >
+                                        <DropdownMenu>
                                 <DropdownMenuTrigger>
                                     <UserClump 
                                         name="Hello Kitty"
                                         username="@hello-kitty"
+                                        size={isMobile ? "xs" : undefined}
                                         avatar="https://chirps-chat.sirv.com/premium/rasta.png"
                                     />
                                 </DropdownMenuTrigger>
@@ -51,9 +109,11 @@ export default function GlobalHeader() {
                                             Profile
                                             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                                         </DropdownMenuItem>
-                                        <DropdownMenuItem>
-                                            Billing
-                                            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                                        <DropdownMenuItem className='lg:hidden'>
+                                            Appearance
+                                            <DropdownMenuCheckboxItem>
+                                                <ThemeSwitch className='translate-x-5' />
+                                            </DropdownMenuCheckboxItem>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem>
                                             Settings
@@ -93,10 +153,13 @@ export default function GlobalHeader() {
                                         <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
-                            </DropdownMenu>
-                        }
+                                        </DropdownMenu>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        )}
                     </React.Fragment>
-                </div>
+                </motion.div>
             </div>
         </header>
     )

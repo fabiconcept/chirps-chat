@@ -11,9 +11,12 @@ import RepliedComment from './RepliedComment';
 import LikeComment from './LikeComment';
 import RoomInvite from './RoomInvite';
 import { motion, AnimatePresence } from 'framer-motion';
+import { cn } from '@/lib/utils';
+import { useAuth } from '../Providers/AuthProvider';
 
-export default function Activities() {
+export default function Activities({ type = "component" }: { type?: "page" | "component"}) {
     const [open, setOpen] = useState(false);
+    const { isMobile } = useAuth();
     const [activities] = useState([
         { id: 1, type: 'like-post' as const },
         { id: 2, type: 'replied-comment' as const },
@@ -52,13 +55,15 @@ export default function Activities() {
         }
     };
 
+    if (isMobile) return null;
+
     return (
         <Collapsible
             defaultOpen={open}
             onOpenChange={setOpen}
             expandedHeight="70vh"
             collapsedHeight="4.25rem"
-            className='right-10 gap-3'
+            className={cn('md:right-10 right-[2%] gap-3 max-w-[96%] mx-auto', type === "component" ? "max-sm:hidden" : "")}
         >
             <CollapsibleHeader
                 title="My Activities"

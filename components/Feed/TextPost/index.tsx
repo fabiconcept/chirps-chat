@@ -6,7 +6,7 @@ export default function TextPost() {
         <>
             <RichText
                 text="Lorem ipsum dolor 💀 sit amet, #consectetur adipisicing elit. Voluptatum, blanditiis asperiores? Voluptates iure explicabo enim ratione aliquam fugiat molestias non?\n#firstpost #fyp #newcomer #goodbyeheadache #sicko #gnx"
-                className="px-6 my-2"
+                className="sm:px-6 px-3 my-2"
                 maxLines={1}
             />
 
@@ -20,7 +20,7 @@ export default function TextPost() {
                     "https://chirps-chat.sirv.com/leopard.png",
                     // "https://chirps-chat.sirv.com/.png",
                 ]}
-                className="px-4 mt-3"
+                className="sm:px-4 px-2 mt-3"
             />
         </>
     )

@@ -76,7 +76,7 @@ export default function Interaction({
                         )}
                     >
                         <ThumbsDown
-                            className="size-5"
+                            className="size-3"
                             fill={hasDisliked ? "currentColor" : "none"}
                         />
                         <span className="font-medium">{formatNumber(dislikeCount)}</span>

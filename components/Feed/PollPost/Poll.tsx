@@ -12,7 +12,7 @@ interface PollOption {
 }
 
 interface PollProps {
-    question: string
+    question: React.ReactNode
     options: PollOption[]
     totalVotes?: number
     endDate?: Date
@@ -77,7 +77,7 @@ export default function Poll({
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className={cn("px-6 my-3 mb-2", className)}
+            className={cn("sm:px-6 px-3 my-3 mb-2", className)}
         >
             {/* Poll Question */}
             <motion.h3
@@ -90,7 +90,7 @@ export default function Poll({
             </motion.h3>
 
             {/* Poll Options */}
-            <div className="space-y-2">
+            <div className="sm:space-y-2 space-y-1">
                 {options.map((option, index) => {
                     const percentage = getPercentage(option.votes)
                     const isSelected = selectedOption === option.id
@@ -140,7 +140,7 @@ export default function Poll({
                             )}
 
                             {/* Option Content */}
-                            <div className="relative flex items-center justify-between p-4">
+                            <div className="relative flex items-center justify-between sm:p-4 p-3">
                                 <div className="flex items-center gap-3 flex-1">
                                     {isSelected && isVoted && (
                                         <motion.div
@@ -151,7 +151,7 @@ export default function Poll({
                                             <CheckCircle2 className="size-5 text-primary shrink-0" />
                                         </motion.div>
                                     )}
-                                    <span className="font-medium text-left">{option.text}</span>
+                                    <span className="font-medium text-left max-sm:text-sm">{option.text}</span>
                                 </div>
 
                                 {(isVoted || isEnded) && (
@@ -184,7 +184,7 @@ export default function Poll({
                 initial={{ opacity: 0, y: 10 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                 transition={{ duration: 0.5, delay: 0.9, ease: "easeOut" }}
-                className="flex items-center justify-between mt-3 text-sm text-muted-foreground"
+                className="flex items-center justify-between mt-3 sm:text-sm text-xs text-muted-foreground"
             >
                 <motion.span
                     initial={{ opacity: 0 }}

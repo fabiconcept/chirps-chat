@@ -1,6 +1,4 @@
 "use client"
-import { useTheme } from "next-themes";
-import Image from "next/image";
 import { DashboardIcon, DashboardIconHandle } from "../DashboardIcon";
 import { ShoppingCartIcon, ShoppingCartIconHandle } from "../ShoppingCartIcon";
 import { UserStarIcon } from "../UserStarIcon";
@@ -20,7 +18,6 @@ import { useAuth } from "../Providers/AuthProvider";
 
 export default function SideBar() {
     const { allowedShortcuts } = useKeyBoardShortCut();
-    const { theme } = useTheme();
     const { isMacOS } = useAuth();
     const pathname = usePathname();
 
@@ -88,26 +85,9 @@ export default function SideBar() {
     }, [allowedShortcuts, feedLinkRef, leaderboardLinkRef, marketplaceLinkRef, suggestionsLinkRef, chatLinkRef]);
 
     return (
-        <div className="w-40 sticky top-0 overflow-hidden h-screen flex flex-col items-center">
-            {/* Logo */}
-            <div className="relative p-[1.565rem] pl-10 overflow-hidden border-b border-input/50">
-                <div className='absolute inset-0 filter-ios'></div>
-                <div className="flex items-center gap-2">
-                    <Image
-                        src={theme === 'dark' ? "/chirps-chat-logo-white.svg" : "/chirps-chat-logo.svg"}
-                        alt="Chirps Logo"
-                        className='h-10 w-10 z-20 -mt-2 object-contain'
-                        width={40}
-                        priority
-                        height={40}
-                    />
-                    <h1 className='text-4xl ave text-foreground -ml-2 z-10'>hirps</h1>
-                </div>
-            </div>
-
-            {/* Sidebar */}
+        <div className="w-32 sticky top-32 overflow-hidden h-[80dvh] hidden md:flex flex-col items-center">
             <div className="flex-1 " onKeyDown={(e)=> console.table(e)}>
-                <div className="w-fit shadow-lg shadow-foreground/5 mt-6 p-2 border border-input/50 bg-foreground/5 rounded-full origin-top -rotate-3 hover:rotate-0 hover:delay-0 delay-1000 transition-transform duration-300 ease-in-out">
+                <div className="w-fit shadow-lg shadow-foreground/5 p-2 border border-input/50 bg-foreground/5 rounded-full origin-top -rotate-3 hover:rotate-0 hover:delay-0 delay-1000 transition-transform duration-300 ease-in-out">
                     <div className="flex flex-col gap-3">
                         <Tooltip delayDuration={500}>
                             <TooltipTrigger>

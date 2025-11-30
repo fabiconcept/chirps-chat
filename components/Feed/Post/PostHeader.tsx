@@ -1,10 +1,13 @@
+"use client"
 import UserClump from "@/components/modular/UserClump";
 import ProfileCard from "@/components/ProfileCard";
+import { useAuth } from "@/components/Providers/AuthProvider";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { BookmarkIcon, EllipsisVerticalIcon, FlagIcon, LinkIcon, UserPlusIcon, VolumeXIcon } from "lucide-react";
 
 export default function PostHeader() {
+    const { isMobile } = useAuth()
     return (
         <div className="flex items-center gap-2 px-2 pt-2 pr-4 justify-between">
             <HoverCard openDelay={500}>
@@ -15,7 +18,7 @@ export default function PostHeader() {
                         className="px-2 pr-4"
                         avatar="https://chirps-chat.sirv.com/premium/hello-kitty.png"
                         variant="ghost"
-                        size="lg"
+                        size={isMobile ? "md" : "lg"}
                         isVerified={true}
                     />
                 </HoverCardTrigger>
@@ -24,10 +27,8 @@ export default function PostHeader() {
                 </HoverCardContent>
             </HoverCard>
             <DropdownMenu>
-                <DropdownMenuTrigger>
-                    <div className="size-9">
-                        <EllipsisVerticalIcon />
-                    </div>
+                <DropdownMenuTrigger className="p-2 rounded-full cursor-pointer">
+                        <EllipsisVerticalIcon className="w-5 h-5" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="max-w-52">
                     <DropdownMenuItem className="gap-2 cursor-pointer">

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout as logoutAction } from "@/store/slices/appSlice";
 import { useMemo } from "react";
 import { detectOS } from "@/lib/utils";
+import { useWindowSize } from "react-use";
 
 interface AuthProviderProps {
     children: React.ReactNode;
@@ -16,6 +17,7 @@ interface AuthContextType {
     logout: () => void;
     login: () => void;
     isMacOS: boolean;
+    isMobile: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -24,6 +26,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const { isAuthenticated } = useSelector(selectAppSelector);
     const dispatch = useDispatch();
     const isMacOS = useMemo(() => detectOS() === 'macos', []);
+    const { width } = useWindowSize();
+    const isMobile = width < 808;
 
     const logout = () => {
         dispatch(logoutAction(false));
@@ -33,7 +37,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         dispatch(logoutAction(true));
     }
     
-    return <AuthContext.Provider value={{ isAuthenticated, logout, login, isMacOS }}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={{ isAuthenticated, logout, login, isMacOS, isMobile }}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
