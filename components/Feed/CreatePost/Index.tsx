@@ -200,7 +200,7 @@ export default function CreatePost({
                 <div className={cn("w-full rounded-full border border-input bg-foreground/5 p-2", className)}>
                     <div className="flex items-center gap-2">
                         <Avatar className='h-12 w-12 p-2 bg-background border transition-colors duration-300'>
-                            <AvatarImage src="https://chirps-chat.sirv.com/leopard.png" />
+                            <AvatarImage src="https://chirps-chat.sirv.com/premium/rasta.png" />
                             <AvatarFallback>HK</AvatarFallback>
                         </Avatar>
                         <DialogTrigger asChild>
@@ -225,7 +225,7 @@ export default function CreatePost({
                             variant="ghost"
                             clickable={false}
                             size="lg"
-                            avatar="https://chirps-chat.sirv.com/leopard.png"
+                            avatar="https://chirps-chat.sirv.com/premium/rasta.png"
                         />
                     </DialogHeader>
                     {postData.type === PostType.TEXT && <TextPost

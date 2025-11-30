@@ -6,23 +6,37 @@ import NewFollower from './NewFollower';
 import NewComment from './NewComment';
 import PointAwarded from './PointAwarded';
 import NewPurchase from './NewPurchase';
+import LikePost from './LikePost';
+import RepliedComment from './RepliedComment';
+import LikeComment from './LikeComment';
+import RoomInvite from './RoomInvite';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Activities() {
     const [open, setOpen] = useState(false);
     const [activities] = useState([
-        { id: 1, type: 'follower' as const },
-        { id: 2, type: 'follower' as const },
-        { id: 3, type: 'comment' as const },
-        { id: 4, type: 'points' as const },
-        { id: 5, type: 'purchase-success' as const },
-        { id: 6, type: 'purchase-failed' as const },
-        { id: 7, type: 'follower' as const },
-        { id: 8, type: 'follower' as const },
+        { id: 1, type: 'like-post' as const },
+        { id: 2, type: 'replied-comment' as const },
+        { id: 3, type: 'like-comment' as const },
+        { id: 4, type: 'room-invite' as const },
+        { id: 5, type: 'follower' as const },
+        { id: 6, type: 'comment' as const },
+        { id: 7, type: 'points' as const },
+        { id: 8, type: 'purchase-success' as const },
+        { id: 9, type: 'purchase-failed' as const },
+        { id: 10, type: 'follower' as const },
     ]);
 
     const renderActivity = (type: string) => {
         switch (type) {
+            case 'like-post':
+                return <LikePost />;
+            case 'replied-comment':
+                return <RepliedComment />;
+            case 'like-comment':
+                return <LikeComment />;
+            case 'room-invite':
+                return <RoomInvite />;
             case 'follower':
                 return <NewFollower />;
             case 'comment':

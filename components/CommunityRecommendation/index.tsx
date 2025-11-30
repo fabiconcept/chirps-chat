@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
-import { Group, HousePlus } from "lucide-react";
+import { HousePlus } from "lucide-react";
+import Community from "./Community";
 
 interface RecommendationProps {
     size?: "sm" | "md" | "lg";
@@ -51,8 +52,31 @@ export default function CommunityRecommendation({ size = "md", transparent = tru
     return (
         <div className={`p-2 w-full ${config.container} rounded-4xl border border-input ${transparent ? "bg-foreground/5" : "bg-background/80 backdrop-blur-md"}`}>
             <h3 
-                className={cn("font-semibold max-w-[80%] truncate", config.title)}
+                className={cn("font-semibold max-w-[80%] truncate px-2", config.title)}
             ><HousePlus className="font-light inline w-5 h-5 mr-2" strokeWidth={2} />Rooms Suggestions</h3>
+            <div className="flex flex-col gap-2 mt-2">
+                <Community 
+                    avatar="https://chirps-chat.sirv.com/panda.png"
+                    name="Tech Enthusiasts"
+                    snippet="Design talk"
+                    activeCount={1234}
+                    memberCount={45678}
+                />
+                <Community 
+                    avatar="https://chirps-chat.sirv.com/harambe.png"
+                    name="Crypto Traders"
+                    snippet="Crypto chat"
+                    activeCount={892}
+                    memberCount={23456}
+                />
+                <Community 
+                    avatar="https://chirps-chat.sirv.com/frog.png"
+                    name="Meme Lords"
+                    snippet="Memes"
+                    activeCount={3421}
+                    memberCount={89012}
+                />
+            </div>
         </div>
     )
 }

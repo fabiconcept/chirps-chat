@@ -25,7 +25,7 @@ export default function GlobalHeader() {
     const headerRef = useRef<HTMLDivElement>(null);
 
     return (
-        <header ref={headerRef} className='top-0 sticky border-b border-input/50 shadow-xl shadow-black/[0.03] z-50'>
+        <header ref={headerRef} className='top-0 sticky border-b border-input/50 shadow-xl shadow-black/3 z-50'>
             <div className='p-4 px-10 flex items-center justify-between overflow-hidden relative gap-10'>
                 <div className='absolute inset-0 scale-105 -mt-5 filter-ios'></div>
                 <div className='flex items-center z-10 gap-5 flex-1'>
@@ -41,7 +41,7 @@ export default function GlobalHeader() {
                                     <UserClump 
                                         name="Hello Kitty"
                                         username="@hello-kitty"
-                                        avatar="https://chirps-chat.sirv.com/leopard.png"
+                                        avatar="https://chirps-chat.sirv.com/premium/rasta.png"
                                     />
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="w-56" align="end">

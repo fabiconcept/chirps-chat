@@ -26,8 +26,8 @@ export default function NewPurchase({ variant }: NewPurchaseProps) {
                 <Image
                     src="https://chirps-chat.sirv.com/premium/monster.png"
                     alt="monster"
-                    width={64}
-                    height={64}
+                    width={50}
+                    height={50}
                 />
                 <div className={`absolute top-0 left-0 h-full w-full backdrop-blur-sm ${isSuccess ? 'bg-black/50 opacity-50' : 'bg-black/60 opacity-70'}`} />
                 <div className={`absolute p-1 rounded-full aspect-square grid place-items-center ${isSuccess ? 'bg-[#7600C9]' : 'bg-destructive'}`}>

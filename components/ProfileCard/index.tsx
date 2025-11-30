@@ -74,7 +74,7 @@ export default function ProfileCard({ size = "md", canFollow = true, transparent
                     rankBadgeClass={config.rankBadge}
                 />
                 <ProfileAvatar
-                    avatarUrl="https://chirps-chat.sirv.com/leopard.png"
+                    avatarUrl="https://chirps-chat.sirv.com/premium/rasta.png"
                     fallback="HK"
                     avatarClass={config.avatar}
                     avatarPadding={config.avatarPadding}
