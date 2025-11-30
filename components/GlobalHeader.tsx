@@ -24,6 +24,7 @@ import {
 import Search from './header components/Search';
 import UserClump from './modular/UserClump';
 import { BellDot } from 'lucide-react';
+import { updateSearchParam } from '@/lib/utils';
 
 export default function GlobalHeader() {
     const { isAuthenticated, logout, login, isMobile } = useAuth();
@@ -68,6 +69,7 @@ export default function GlobalHeader() {
                         size={"icon-sm"}
                         variant={"outline"}
                         className='lg:hidden'
+                        onClick={() => updateSearchParam("activitybar", "open")}
                     >
                         <BellDot />
                     </Button>

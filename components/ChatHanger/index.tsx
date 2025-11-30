@@ -48,16 +48,7 @@ export default function ChatHanger() {
     
 
     return (
-        <div className="sticky max-sm:hidden shadow-lg shadow-foreground/5 top-32 p-2 px-0 rounded-4xl border border-input bg-foreground/5 flex items-center gap-2 flex-col">
-            <Button
-                size={"icon"}
-                variant={"ghost"}
-                className="h-10 w-10"
-                title="Shuffle users"
-            >
-                <Users className="h-6 w-6"/>
-            </Button>
-            <Separator />
+        <div className="sticky max-sm:hidden shadow-lg shadow-foreground/5 top-32 pb-1 rounded-4xl border border-input bg-foreground/5 flex items-center gap-2 flex-col">
             <ScrollArea className="max-h-[calc(100vh*0.5)] overflow-y-auto">
                 <AnimatePresence mode="popLayout">
                     {users.map((user) => (

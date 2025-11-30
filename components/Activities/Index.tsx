@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { useState } from 'react'
 import { Collapsible, CollapsibleHeader, CollapsibleContent } from '../ui/custom-collapsable';
 import { Badge } from '../ui/badge';
@@ -11,10 +11,11 @@ import RepliedComment from './RepliedComment';
 import LikeComment from './LikeComment';
 import RoomInvite from './RoomInvite';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '@/lib/utils';
+import { cn, removeSearchParam} from '@/lib/utils';
 import { useAuth } from '../Providers/AuthProvider';
 
 export default function Activities({ type = "component" }: { type?: "page" | "component"}) {
+    
     const [open, setOpen] = useState(false);
     const { isMobile } = useAuth();
     const [activities] = useState([
@@ -60,14 +61,20 @@ export default function Activities({ type = "component" }: { type?: "page" | "co
     return (
         <Collapsible
             defaultOpen={open}
-            onOpenChange={setOpen}
+            onOpenChange={(state)=>{
+                if (!state) {
+                    removeSearchParam("activitybar")
+                }
+                setOpen(state);
+            }}
+            
             expandedHeight="70vh"
             collapsedHeight="4.25rem"
             className={cn('md:right-10 right-[2%] gap-3 max-w-[96%] mx-auto', type === "component" ? "max-sm:hidden" : "")}
         >
             <CollapsibleHeader
                 title="My Activities"
-                subtitle='Recent notifications'
+                subtitle={'Recent notifications'}
                 className='rounded-t-2xl border-t border-l border-r bg-background/95 backdrop-blur-sm hover:border-foreground/50 active:translate-y-3 transition-all py-3'
                 actions={
                     <Badge variant="destructive">

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, forwardRef, useRef } from 'react';
+import React, { createContext, useContext, useState, forwardRef, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { ChevronsDownIcon } from '../ChevronsDownIcon';
@@ -9,6 +9,7 @@ import { Kbd, KbdGroup } from './kbd';
 import useShortcuts from '@useverse/useshortcuts';
 import { useKeyBoardShortCut } from '../Providers/KeyBoardShortCutProvider';
 import { useAuth } from '../Providers/AuthProvider';
+import { useSearchParams } from 'next/navigation';
 
 interface CollapsibleContextType {
     isOpen: boolean;
@@ -36,6 +37,7 @@ interface CollapsibleProps {
     position?: 'fixed' | 'absolute' | 'relative';
     className?: string;
     containerClassName?: string;
+    searchParamKey?: string;
 }
 
 export function Collapsible({
@@ -46,16 +48,26 @@ export function Collapsible({
     collapsedHeight = '4rem',
     className = '',
     containerClassName = '',
+    searchParamKey = "activitybar"
 }: CollapsibleProps) {
     const [isOpen, setIsOpen] = useState(defaultOpen);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    useClickAway(containerRef, () => setIsOpen(false));
-
+    
+    const searchParam = useSearchParams();
+    const activitybar = searchParam.get(searchParamKey);
+    
+    
     const handleSetOpen = (open: boolean) => {
         setIsOpen(open);
         onOpenChange?.(open);
     };
+    
+    useEffect(()=>{
+        setIsOpen(activitybar==="open");
+    }, [activitybar]);
+
+    useClickAway(containerRef, () => handleSetOpen(false));
 
     const toggle = () => handleSetOpen(!isOpen);
 
