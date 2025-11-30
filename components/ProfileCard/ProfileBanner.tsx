@@ -36,7 +36,7 @@ export default function ProfileBanner({
     rankBadgeClass
 }: ProfileBannerProps) {
     return (
-        <div className={`${bannerHeight} relative overflow-hidden rounded-lg`}>
+        <div className={`${bannerHeight} relative overflow-hidden rounded-lg rounded-t-3xl`}>
             <Image
                 src={bannerUrl}
                 alt="Profile"

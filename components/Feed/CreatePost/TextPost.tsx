@@ -6,7 +6,9 @@ import Image from "next/image";
 import Lottie from "lottie-react";
 import emoji from "@/components/lottie/emoji.json";
 import EmojiPicker, { Theme } from 'emoji-picker-react';
-import { X } from "lucide-react";
+import { Plus, X } from "lucide-react";
+import { useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const TextPost = ({
     text,
@@ -16,7 +18,8 @@ const TextPost = ({
     isHovered,
     theme,
     handleEmojiClick,
-    handleRemoveImage
+    handleRemoveImage,
+    handleImagesChange
 }: {
     text: string;
     images: string[];
@@ -26,7 +29,10 @@ const TextPost = ({
     theme: string;
     handleEmojiClick: (emoji: string) => void;
     handleRemoveImage: (index: number) => void;
+    handleImagesChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
+    const imageInputRef = useRef<HTMLInputElement>(null);
+
     return (
         <div>
             <div className="px-2 relative">
@@ -73,20 +79,64 @@ const TextPost = ({
                     </DropdownMenu>
                 </div>
             </div>
-            {images.length > 0 && (
-                <div className="flex gap-2 mt-3 flex-wrap px-3">
+
+            <div className="flex gap-2 mt-3 flex-wrap px-3">
+                <AnimatePresence mode="popLayout" initial={false}>
                     {images.map((img, i) => (
-                        <div key={i} className="p-1 border rounded-md border-input border-offset-2 relative">
-                            <Image src={img} width={60} height={60} alt="" className="object-cover aspect-square w-16 h-16 rounded" />
+                        <motion.div
+                            key={img}
+                            layout
+                            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+                            transition={{
+                                layout: { type: "spring", stiffness: 300, damping: 30 },
+                                opacity: { duration: 0.2 },
+                                scale: { duration: 0.2 },
+                                rotate: { duration: 0.2 }
+                            }}
+                            className="border rounded-md border-input border-offset-2 relative"
+                        >
+                            <Image src={img} width={60} height={60} alt="" className="scale-80 object-cover aspect-square w-16 h-16 rounded" />
                             <button onClick={() => handleRemoveImage(i)} className="absolute -top-1 -right-1 p-1 rounded-full bg-background/50 border border-input cursor-pointer hover:bg-destructive hover:text-white transition-colors duration-300">
                                 <X className="w-3 h-3" />
                                 <span className="sr-only">Remove Image</span>
                             </button>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
-            )}
-        </div> 
+                    {images.length < 4 && (
+                        <motion.div
+                            layout
+                            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+                            transition={{
+                                layout: { type: "spring", stiffness: 300, damping: 30 },
+                                opacity: { duration: 0.2 },
+                                scale: { duration: 0.2 }
+                            }}
+                        >
+                            <Button
+                                variant="outline"
+                                className="w-16 h-16 rounded bg-transparent dark:bg-transparent border-dashed border-2 border-input hover:border-offset-2 transition-colors duration-300"
+                                onClick={() => imageInputRef.current?.click()}
+                            >
+                                <input
+                                    type="file"
+                                    accept="image/png, image/jpeg, image/jpg, image/gif"
+                                    multiple
+                                    ref={imageInputRef}
+                                    onChange={handleImagesChange}
+                                    hidden
+                                />
+                                <Plus />
+                                <span className="sr-only">Insert an Image</span>
+                            </Button>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+        </div>
     )
 }
 

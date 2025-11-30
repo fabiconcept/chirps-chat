@@ -63,7 +63,7 @@ export default function ProfileCard({ size = "md", canFollow = true, transparent
 
 
     return (
-        <div className={`p-2 ${config.container} rounded-2xl border border-input ${transparent ? "bg-foreground/5": "bg-background/80 backdrop-blur-md"}`}>
+        <div className={`p-2 ${config.container} rounded-4xl border border-input ${transparent ? "bg-foreground/5": "bg-background/80 backdrop-blur-md"}`}>
             <div>
                 <ProfileBanner
                     bannerUrl="https://chirps-chat.sirv.com/cache/bg.jpg"

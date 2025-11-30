@@ -11,7 +11,7 @@ import { useRef } from "react";
 import { Kbd, KbdGroup } from "../../ui/kbd";
 import { useState } from "react";
 import { useTheme } from "next-themes";
-import { BarChart2Icon, Image as ImageIcon, Text } from "lucide-react";
+import { BarChart2Icon, Text } from "lucide-react";
 import TextPost from "./TextPost";
 import PollPost from "./PollPost";
 import { Separator } from "../../ui/separator";
@@ -62,8 +62,6 @@ export default function CreatePost({
             setPostData(emptyPostData);
         }, 50);
     }
-
-    const imageInputRef = useRef<HTMLInputElement>(null);
 
     const handleEmojiClick = (emoji: string) => {
         setPostData(prev => ({ ...prev, text: (prev.text || "") + emoji }));
@@ -217,7 +215,7 @@ export default function CreatePost({
                         </DialogTrigger>
                     </div>
                 </div>
-                <DialogContent className="sm:max-w-2xl  max-h-[90dvh] overflow-y-auto rounded-3xl bg-background/90 backdrop-blur-sm p-2">
+                <DialogContent className="sm:max-w-2xl  max-h-[90dvh] overflow-y-auto rounded-3xl bg-background/95 backdrop-blur-sm p-2">
                     <DialogHeader>
                         <DialogTitle className="sr-only">Create Post</DialogTitle>
                         <UserClump
@@ -225,6 +223,7 @@ export default function CreatePost({
                             username="Post to Everyone"
                             className="p-2 pr-4 hover:bg-transparent dark:hover:bg-transparent"
                             variant="ghost"
+                            clickable={false}
                             size="lg"
                             avatar="https://chirps-chat.sirv.com/leopard.png"
                         />
@@ -236,6 +235,7 @@ export default function CreatePost({
                         setIsHovered={setIsHovered}
                         isHovered={isHovered}
                         theme={theme as string}
+                        handleImagesChange={handleImagesChange} 
                         handleEmojiClick={handleEmojiClick}
                         handleRemoveImage={handleRemoveImage}
                     />}
@@ -245,23 +245,6 @@ export default function CreatePost({
                     />}
                     <div className="grid gap-y-3 px-3 ">
                         <div className="flex items-center gap-2 mb-1">
-                            {postData.type === PostType.TEXT && <Button
-                                variant="outline"
-                                size={"icon-lg"}
-                                className="border-none"
-                                onClick={() => imageInputRef.current?.click()}
-                            >
-                                <input
-                                    type="file"
-                                    accept="image/png, image/jpeg, image/jpg, image/gif"
-                                    multiple
-                                    ref={imageInputRef}
-                                    onChange={handleImagesChange}
-                                    hidden
-                                />
-                                <ImageIcon />
-                                <span className="sr-only">Insert an Image</span>
-                            </Button>}
                             {postData.type === PostType.TEXT && <Button
                                 variant="outline"
                                 size={"icon-lg"}
@@ -284,7 +267,7 @@ export default function CreatePost({
                                 }}
                             >
                                 <BarChart2Icon strokeWidth={5} />
-                                <span className="sr-only">Create a Poll</span>
+                                <span className="sr-only">Create a Text Post</span>
                             </Button>}
                             {postData.type === PostType.POLL && <Button
                                 variant="outline"

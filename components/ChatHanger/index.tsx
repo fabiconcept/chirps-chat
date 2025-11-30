@@ -119,6 +119,7 @@ export default function ChatHanger() {
                 size={"icon"}
                 variant={"ghost"}
                 onClick={handleShuffle}
+                className="h-10 w-10"
                 title="Shuffle users"
             >
                 <Users className="h-6 w-6"/>
@@ -149,6 +150,7 @@ export default function ChatHanger() {
                         </motion.div>
                     ))}
                 </AnimatePresence>
+                <div className="mb-1" />
             </ScrollArea>
         </div>
     )

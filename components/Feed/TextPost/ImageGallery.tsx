@@ -102,7 +102,7 @@ export default function ImageGallery({ images, className }: ImageGalleryProps) {
     const renderImage = (idx: number, aspectClass: string) => (
         <button 
             key={idx} 
-            className={cn("relative", aspectClass, "overflow-hidden aspect-square border border-transparent transition-all h-full duration-200 group hover:border-input/50 rounded-3xl grid place-items-center")}
+            className={cn("relative", aspectClass, "overflow-hidden aspect-square border border-input/20 transition-all h-full duration-200 group hover:border-input/75 rounded-3xl grid place-items-center")}
             onClick={() => openCarousel(idx)}
         >
             <ProtectedImage
