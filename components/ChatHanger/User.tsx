@@ -2,7 +2,7 @@
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card";
 import { Button } from "../ui/button";
-import { Check, CheckCheck, MessageCircle, UserPlus } from "lucide-react";
+import { CheckCheck, MessageCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import UserClump from "../modular/UserClump";
@@ -25,18 +25,6 @@ export default function User({
     const [isAutoOpen, setIsAutoOpen] = useState(hasNewMessage);
     const [showNotification, setShowNotification] = useState(hasNewMessage);
 
-    const statusText = {
-        online: "Online",
-        away: "Away",
-        offline: "Offline"
-    };
-
-    const statusColor = {
-        online: "text-green-500",
-        away: "text-yellow-500",
-        offline: "text-red-500"
-    };
-
     // Auto-close HoverCard after 5 seconds
     useEffect(() => {
         if (isAutoOpen) {
@@ -56,8 +44,9 @@ export default function User({
     return (
         <HoverCard open={isAutoOpen ? true : undefined} openDelay={300}>
             <HoverCardTrigger asChild>
-                <div 
-                    className="relative mt-2 cursor-pointer"
+                <Button 
+                    variant="ghost"
+                    className="relative p-0 h-fit w-fit mx-2 rounded-full mt-2 cursor-pointer"
                     onClick={handleDismissNotification}
                 >
                     {/* Notification badge */}
@@ -85,7 +74,7 @@ export default function User({
                     {status === "online" && <div className="absolute bottom-1 right-1 w-2 h-2 bg-green-500 rounded-full" />}
                     {status === "away" && <div className="absolute bottom-1 right-1 w-2 h-2 bg-yellow-500 rounded-full" />}
                     {status === "offline" && <div className="absolute bottom-1 right-1 w-2 h-2 bg-red-500 rounded-full" />}
-                </div>
+                </Button>
             </HoverCardTrigger>
             <HoverCardContent 
                 side="right" 

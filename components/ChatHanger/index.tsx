@@ -114,7 +114,7 @@ export default function ChatHanger() {
     };
 
     return (
-        <div className="sticky shadow-lg shadow-foreground/5 top-28 p-2 rounded-4xl border border-input bg-foreground/5 flex items-center gap-2 flex-col">
+        <div className="sticky shadow-lg shadow-foreground/5 top-28 p-2 px-0 rounded-4xl border border-input bg-foreground/5 flex items-center gap-2 flex-col">
             <Button
                 size={"icon"}
                 variant={"ghost"}
