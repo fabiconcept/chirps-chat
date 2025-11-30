@@ -35,7 +35,7 @@ export default function Poll({
     const [selectedOption, setSelectedOption] = React.useState<string | null>(userVote || null)
     const [isVoted, setIsVoted] = React.useState(hasVoted)
     const pollRef = React.useRef<HTMLDivElement>(null)
-    const isInView = useInView(pollRef, { once: true, amount: 0.75 })
+    const isInView = useInView(pollRef, { once: true, amount: 0.5 })
 
     const total = totalVotes || options.reduce((sum, opt) => sum + opt.votes, 0)
     const isEnded = endDate ? new Date() > endDate : false

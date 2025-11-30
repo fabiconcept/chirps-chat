@@ -1,4 +1,4 @@
-import { BadgeCheckIcon } from 'lucide-react';
+import BadgeCheckIcon from '../svgs/BadgeIconSvg';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { cn } from '@/lib/utils';
 
@@ -13,6 +13,7 @@ interface UserClumpProps {
     variant?: UserClumpVariant;
     className?: string;
     isVerified?: boolean;
+    clickable?: boolean;
 }
 
 const sizeClasses = {
@@ -52,15 +53,17 @@ export default function UserClump({
     size = 'md',
     variant = 'default',
     isVerified = false,
+    clickable = true,
     className,
 }: UserClumpProps) {
     const sizes = sizeClasses[size];
 
     return (
         <div className={cn(
-            'rounded-full flex items-center cursor-pointer transition-all duration-300 active:opacity-90 active:scale-95',
+            'rounded-full flex items-center transition-all duration-300 active:opacity-90 active:scale-95',
             sizes.container,
             variantClasses[variant],
+            clickable ? 'cursor-pointer' : 'cursor-default hover:bg-transparent dark:hover:bg-transparent active:scale-100 active:opacity-100',
             className
         )}>
             <Avatar className={cn(sizes.avatar, 'p-1 bg-background border transition-colors duration-300')}>
@@ -73,7 +76,7 @@ export default function UserClump({
                         {name}
                     </span>
                     {isVerified && <span className="text-blue-600">
-                        <BadgeCheckIcon className={sizes.badge} />
+                        <BadgeCheckIcon size={size} />
                     </span>}
                 </div>
                 <span className={cn('opacity-75 truncate', sizes.username)}>{username}</span>

@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 import Search from './header components/Search';
 import UserClump from './modular/UserClump';
-import UserClumpSkeleton from './modular/UserClumpSkeleton';
 
 export default function GlobalHeader() {
     const { isAuthenticated, logout, login } = useAuth();
@@ -39,10 +38,10 @@ export default function GlobalHeader() {
                         {isAuthenticated &&
                             <DropdownMenu>
                                 <DropdownMenuTrigger>
-                                    <UserClumpSkeleton 
-                                        // name="Hello Kitty"
-                                        // username="@hello-kitty"
-                                        // avatar="https://chirps-chat.sirv.com/leopard.png"
+                                    <UserClump 
+                                        name="Hello Kitty"
+                                        username="@hello-kitty"
+                                        avatar="https://chirps-chat.sirv.com/leopard.png"
                                     />
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="w-56" align="end">

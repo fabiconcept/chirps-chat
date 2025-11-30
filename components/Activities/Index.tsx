@@ -6,7 +6,6 @@ import NewFollower from './NewFollower';
 import NewComment from './NewComment';
 import PointAwarded from './PointAwarded';
 import NewPurchase from './NewPurchase';
-import ActivityItemSkeleton from './ActivityItemSkeleton';
 
 export default function Activities() {
     const [open, setOpen] = useState(false);
@@ -29,7 +28,7 @@ export default function Activities() {
                 }
             />
 
-            {/* <CollapsibleContent className="border-r border-l bg-background/95 backdrop-blur-sm mt-2">
+            <CollapsibleContent className="border-r border-l bg-background/95 backdrop-blur-sm mt-2">
                 <NewFollower />
                 <NewFollower />
                 <NewComment />
@@ -38,16 +37,6 @@ export default function Activities() {
                 <NewPurchase variant='failed' />
                 <NewFollower />
                 <NewFollower />
-            </CollapsibleContent> */}
-            <CollapsibleContent className="border-r border-l bg-background/95 backdrop-blur-sm mt-2">
-                <ActivityItemSkeleton />
-                <ActivityItemSkeleton />
-                <ActivityItemSkeleton showActionButton />
-                <ActivityItemSkeleton />
-                <ActivityItemSkeleton />
-                <ActivityItemSkeleton />
-                <ActivityItemSkeleton />
-                <ActivityItemSkeleton showActionButton />
             </CollapsibleContent>
         </Collapsible>
     )

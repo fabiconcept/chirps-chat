@@ -106,15 +106,15 @@ export default function SideBar() {
             </div>
 
             {/* Sidebar */}
-            <div className="flex-1" onKeyDown={(e)=> console.table(e)}>
-                <div className="w-fit mt-6 p-2 border border-input/50 bg-foreground/5 rounded-full origin-top -rotate-3 hover:rotate-0 hover:delay-0 delay-1000 transition-transform duration-300 ease-in-out">
+            <div className="flex-1 " onKeyDown={(e)=> console.table(e)}>
+                <div className="w-fit shadow-lg shadow-foreground/5 mt-6 p-2 border border-input/50 bg-foreground/5 rounded-full origin-top -rotate-3 hover:rotate-0 hover:delay-0 delay-1000 transition-transform duration-300 ease-in-out">
                     <div className="flex flex-col gap-3">
                         <Tooltip delayDuration={500}>
                             <TooltipTrigger>
                                 <Link href={feedPath}
                                     ref={feedLinkRef}
                                     className={cn("flex items-center opacity-50 hover:opacity-75 gap-2 cursor-pointer h-12 w-12 border border-input rounded-full justify-center bg-background/75 hover:bg-background transition-all duration-300 ease-in-out active:scale-75", {
-                                        "active:scale-100 opacity-100 not-dark:text-[#7600C9] border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isFeed,
+                                        "active:scale-100 opacity-100 not-dark:text-[#7600C9] not-dark:border-[#7600C9]/50 border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isFeed,
                                     })}
                                     onMouseEnter={isFeed ? undefined : () => handleMouseEnter(feedRef)}
                                     onMouseLeave={isFeed ? undefined : () => handleMouseLeave(feedRef)}
@@ -123,7 +123,7 @@ export default function SideBar() {
                                 </Link>
                             </TooltipTrigger>
                             <TooltipContent sideOffset={5} dir="right">
-                                <p>Global Feed <KbdGroup><Kbd>⌘</Kbd>+<Kbd>1</Kbd></KbdGroup></p>
+                                <p>Global Feed <KbdGroup><Kbd className="border border-background/20">⌘</Kbd><Kbd className="border border-background/20">1</Kbd></KbdGroup></p>
                             </TooltipContent>
                         </Tooltip>
                         <Tooltip delayDuration={500}>
@@ -131,7 +131,7 @@ export default function SideBar() {
                                 <Link href={chatPath}
                                     ref={chatLinkRef}
                                     className={cn("flex items-center opacity-50 hover:opacity-75 gap-2 cursor-pointer h-12 w-12 border border-input rounded-full justify-center bg-background/75 hover:bg-background transition-all duration-300 ease-in-out active:scale-75", {
-                                        "active:scale-100 opacity-100 not-dark:text-[#7600C9] border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isChat,
+                                        "active:scale-100 opacity-100 not-dark:text-[#7600C9] not-dark:border-[#7600C9]/50 border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isChat,
                                     })}
                                     onMouseEnter={isChat ? undefined : () => handleMouseEnter(chatRef)}
                                     onMouseLeave={isChat ? undefined : () => handleMouseLeave(chatRef)}
@@ -140,7 +140,7 @@ export default function SideBar() {
                                 </Link>
                             </TooltipTrigger>
                             <TooltipContent sideOffset={5} dir="right">
-                                <p>Chat <KbdGroup><Kbd>⌘</Kbd>+<Kbd>2</Kbd></KbdGroup></p>
+                                <p>Chat <KbdGroup><Kbd className="border border-background/20">⌘</Kbd><Kbd className="border border-background/20">2</Kbd></KbdGroup></p>
                             </TooltipContent>
                         </Tooltip>
                         <Tooltip delayDuration={500}>
@@ -148,7 +148,7 @@ export default function SideBar() {
                                 <Link href={marketplacePath}
                                     ref={marketplaceLinkRef}
                                     className={cn("flex items-center opacity-50 hover:opacity-75 gap-2 cursor-pointer h-12 w-12 border border-input rounded-full justify-center bg-background/75 hover:bg-background transition-all duration-300 ease-in-out active:scale-75", {
-                                        "active:scale-100 opacity-100 not-dark:text-[#7600C9] border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isMarketplace,
+                                        "active:scale-100 opacity-100 not-dark:text-[#7600C9] not-dark:border-[#7600C9]/50 border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isMarketplace,
                                     })}
                                     onMouseEnter={isMarketplace ? undefined : () => handleMouseEnter(marketplaceRef)}
                                     onMouseLeave={isMarketplace ? undefined : () => handleMouseLeave(marketplaceRef)}
@@ -157,7 +157,7 @@ export default function SideBar() {
                                 </Link>
                             </TooltipTrigger>
                             <TooltipContent sideOffset={5} dir="right">
-                                <p>Marketplace <KbdGroup><Kbd>⌘</Kbd>+<Kbd>3</Kbd></KbdGroup></p>
+                                <p>Marketplace <KbdGroup><Kbd className="border border-background/20">⌘</Kbd><Kbd className="border border-background/20">3</Kbd></KbdGroup></p>
                             </TooltipContent>
                         </Tooltip>
                         <Tooltip delayDuration={500}>
@@ -165,7 +165,7 @@ export default function SideBar() {
                                 <Link href={leaderboardPath}
                                     ref={leaderboardLinkRef}
                                     className={cn("flex items-center opacity-50 hover:opacity-75 gap-2 cursor-pointer h-12 w-12 border border-input rounded-full justify-center bg-background/75 hover:bg-background transition-all duration-300 ease-in-out active:scale-75", {
-                                        "active:scale-100 opacity-100 not-dark:text-[#7600C9] border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isLeaderboard,
+                                        "active:scale-100 opacity-100 not-dark:text-[#7600C9] not-dark:border-[#7600C9]/50 border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isLeaderboard,
                                     })}
                                     onMouseEnter={isLeaderboard ? undefined : () => handleMouseEnter(leaderboardRef)}
                                     onMouseLeave={isLeaderboard ? undefined : () => handleMouseLeave(leaderboardRef)}
@@ -174,7 +174,7 @@ export default function SideBar() {
                                 </Link>
                             </TooltipTrigger>
                             <TooltipContent sideOffset={5} dir="right">
-                                <p>Leaderboard <KbdGroup><Kbd>⌘</Kbd>+<Kbd>4</Kbd></KbdGroup></p>
+                                <p>Leaderboard <KbdGroup><Kbd className="border border-background/20">⌘</Kbd><Kbd className="border border-background/20">4</Kbd></KbdGroup></p>
                             </TooltipContent>
                         </Tooltip>
                     </div>
@@ -185,8 +185,8 @@ export default function SideBar() {
                 <TooltipTrigger>
                     <Link href={suggestionsPath}
                         ref={suggestionsLinkRef}
-                        className={cn("flex items-center opacity-75 hover:opacity-85 gap-2 cursor-pointer h-12 w-12 border border-input rounded-full justify-center bg-background/75 hover:bg-background transition-all duration-300 ease-in-out active:scale-75", {
-                            "active:scale-100 opacity-100 not-dark:text-[#7600C9] border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isSuggestions,
+                        className={cn("flex shadow-lg shadow-transparent hover:shadow-foreground/5 items-center opacity-75 hover:opacity-85 gap-2 cursor-pointer h-12 w-12 border border-input rounded-full justify-center bg-background/75 hover:bg-background transition-all duration-300 ease-in-out active:scale-75", {
+                            "active:scale-100 opacity-100 not-dark:text-[#7600C9] not-dark:border-[#7600C9]/50 border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isSuggestions,
                         })}
                         onMouseEnter={isSuggestions ? undefined : () => handleMouseEnter(suggestionsRef)}
                         onMouseLeave={isSuggestions ? undefined : () => handleMouseLeave(suggestionsRef)}
@@ -195,7 +195,7 @@ export default function SideBar() {
                     </Link>
                 </TooltipTrigger>
                 <TooltipContent sideOffset={5} dir="right">
-                    <p>Suggestions <KbdGroup><Kbd>⌘</Kbd>+<Kbd>5</Kbd></KbdGroup></p>
+                    <p>Suggestions <KbdGroup><Kbd className="border border-background/20">⌘</Kbd><Kbd className="border border-background/20">5</Kbd></KbdGroup></p>
                 </TooltipContent>
             </Tooltip>
             <div className="h-10" />

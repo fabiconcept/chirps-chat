@@ -3,7 +3,7 @@ import Poll from "./Poll";
 import RichText from "../TextPost/RichText";
 
 // Example end date (2 days from now)
-const pollEndDate = new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000);
+const pollEndDate = new Date(new Date().getTime() + 490 * 24 * 60 * 60 * 1000);
 
 export default function PollPost() {
     return (

@@ -94,6 +94,7 @@ export default function ProtectedImage({
           isLoading ? "opacity-0" : "opacity-100",
           className
         )}
+        hidden={hasError}
         onLoad={handleLoad}
         onError={handleError}
         priority={priority}

@@ -66,7 +66,7 @@ export default function StatsSheet({
             <div className={cn("flex-1 flex", styles.stat)}>
                 <span className="flex w-full items-center gap-1 justify-center">
                     <CoinsIcon className={cn(styles.icon, "text-muted-foreground")} />
-                    <span className={styles.number}>{formatNumber(chirps)}</span>
+                    <span className={cn(styles.number, "text-[#7600C9] dark:brightness-150")}>{formatNumber(chirps)}</span>
                 </span>
                 <span className={styles.label}>Chirps</span>
             </div>

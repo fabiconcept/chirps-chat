@@ -15,9 +15,9 @@ export default function TextPost() {
                 images={[
                     // "https://chirps-chat.sirv.com/cache/1746031767255-u4hezhrq.jpg",
                     // "https://chirps-chat.sirv.com/cache/bg.jpg",
-                    "https://chirps-chat.sirv.com/bull.png",
+                    "https://chirps-chat.sirv.com/tiger.png",
                     "https://chirps-chat.sirv.com/deer.png",
-                    "https://chirps-chat.sirv.com/premium/hello-kitty.png",
+                    "https://chirps-chat.sirv.com/leopard.png",
                     // "https://chirps-chat.sirv.com/.png",
                 ]}
                 className="px-4 mt-3"

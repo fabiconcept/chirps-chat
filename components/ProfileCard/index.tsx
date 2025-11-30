@@ -7,7 +7,7 @@ import ProfileAvatar from "./ProfileAvatar";
 import ProfileInfo from "./ProfileInfo";
 import ProfileBio from "./ProfileBio";
 import ProfileBadges, { defaultBadges } from "./ProfileBadges";
-import ProfileCardSkeleton from "./ProfileCardSkeleton";
+
 
 interface ProfileCardProps {
     size?: "sm" | "md" | "lg";
@@ -61,7 +61,6 @@ export default function ProfileCard({ size = "md", canFollow = true, transparent
         // Handle follow action
     };
 
-    if (size) return <ProfileCardSkeleton size={size} transparent={transparent} />
 
     return (
         <div className={`p-2 ${config.container} rounded-2xl border border-input ${transparent ? "bg-foreground/5": "bg-background/80 backdrop-blur-md"}`}>
