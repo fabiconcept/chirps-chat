@@ -1,3 +1,4 @@
+"use client"
 import { useTheme } from 'next-themes';
 import "@/app/stylesheets/theme-switch.css";
 import useShortcuts from "@useverse/useshortcuts";

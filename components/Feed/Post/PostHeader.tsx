@@ -1,6 +1,5 @@
 import UserClump from "@/components/modular/UserClump";
 import ProfileCard from "@/components/ProfileCard";
-import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { BookmarkIcon, EllipsisVerticalIcon, FlagIcon, LinkIcon, UserPlusIcon, VolumeXIcon } from "lucide-react";
@@ -26,9 +25,9 @@ export default function PostHeader() {
             </HoverCard>
             <DropdownMenu>
                 <DropdownMenuTrigger>
-                    <Button size={"icon-sm"} variant={"ghost"}>
+                    <div className="size-9">
                         <EllipsisVerticalIcon />
-                    </Button>
+                    </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="max-w-52">
                     <DropdownMenuItem className="gap-2 cursor-pointer">

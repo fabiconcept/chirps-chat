@@ -112,14 +112,11 @@ export default function ImageGallery({ images, className }: ImageGalleryProps) {
                 unoptimized={true}
                 className="object-cover group-active:scale-95 cursor-pointer group-hover:scale-[1.015] transition-transform duration-200"
             />
-            <Button
-                tabIndex={-1}
-                size={"icon-lg"} 
-                variant={"ghost"} 
+            <div
                 className="absolute group-hover:opacity-100 opacity-0 transition-opacity delay-200 group-active:-rotate-6 z-10"
             >
                 <LucideExpand />
-            </Button>
+            </div>
             <span className="sr-only">View image {idx + 1}</span>
         </button>
     )
