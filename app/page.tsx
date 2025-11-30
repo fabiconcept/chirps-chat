@@ -6,7 +6,7 @@ import ProfileCard from "@/components/ProfileCard";
 export default function Page() {
     return (
         <div className="flex flex-row gap-6 items-start flex-wrap w-full">
-            <div className="top-28 sticky space-y-3">
+            <div className="top-28 sticky space-y-3 max-[1000px]:hidden">
                 <ProfileCard />
                 <CommunityRecommendation />
             </div>

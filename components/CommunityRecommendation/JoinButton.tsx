@@ -4,7 +4,7 @@ import Lottie from "lottie-react";
 import plusChecked from "@/components/lottie/plus-checked.json";
 import explode from "@/components/lottie/explode.json";
 import { useState } from "react";
-import { UserPlus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -112,7 +112,7 @@ export default function JoinButton({
                             exit={{ opacity: 0, scale: 0.8 }}
                             transition={{ duration: 0.3, ease: "easeInOut" }}
                         >
-                            <UserPlus size={config.iconSize} />
+                            <Plus size={config.iconSize} />
                         </motion.div>
                     ) : showCheckmark ? (
                         <motion.div
@@ -124,7 +124,7 @@ export default function JoinButton({
                         >
                             <Lottie
                                 animationData={plusChecked}
-                                className={cn(config.lottieSize, "invert dark:invert-0")}
+                                className={cn(config.lottieSize, "dark:invert")}
                                 autoPlay
                                 loop={false}
                                 style={{

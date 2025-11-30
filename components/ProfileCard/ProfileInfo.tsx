@@ -27,8 +27,8 @@ export default function ProfileInfo({
     onFollowChange
 }: ProfileInfoProps) {
     return (
-        <div className={cn("flex items-start justify-between w-full", padding)}>
-            <div className="flex-1">
+        <div className={cn("flex items-start gap-4 justify-between w-full", padding)}>
+            <div className="flex-1 max-w-[55%]">
                 <div className="flex items-center">
                     <h3 className={`${nameTextClass} truncate pr-3 font-semibold`}>
                         {name}

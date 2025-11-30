@@ -125,7 +125,7 @@ export default function Poll({
                                 <div className="absolute inset-0 rounded-xl overflow-hidden">
                                     <motion.div
                                         initial={{ width: "0%" }}
-                                        animate={isInView ? { width: `${percentage}%` } : { width: "0%" }}
+                                        animate={{ width: `${percentage}%` }}
                                         transition={{
                                             duration: 0.7,
                                             delay: 0.2 + index * 0.1,

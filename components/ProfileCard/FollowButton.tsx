@@ -170,7 +170,7 @@ export default function FollowButton({
                             >
                                 <Lottie
                                     animationData={plusChecked}
-                                    className={cn(config.lottieSize, "invert")}
+                                    className={cn(config.lottieSize, "dark:invert")}
                                     autoPlay
                                     loop={false}
                                     style={{

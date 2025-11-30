@@ -1,6 +1,9 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { HousePlus } from "lucide-react";
 import Community from "./Community";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 interface RecommendationProps {
     size?: "sm" | "md" | "lg";
@@ -48,34 +51,84 @@ const sizeConfig = {
 
 export default function CommunityRecommendation({ size = "md", transparent = true }: RecommendationProps) {
     const config = sizeConfig[size]
+    
+    const [communities] = useState([
+        {
+            id: 1,
+            avatar: "https://chirps-chat.sirv.com/panda.png",
+            name: "Tech Enthusiasts",
+            snippet: "Design talk",
+            activeCount: 1234,
+            memberCount: 45678,
+            initialJoined: false
+        },
+        {
+            id: 2,
+            avatar: "https://chirps-chat.sirv.com/harambe.png",
+            name: "Crypto Traders",
+            snippet: "Crypto chat",
+            activeCount: 892,
+            memberCount: 23456,
+            initialJoined: false
+        },
+        {
+            id: 3,
+            avatar: "https://chirps-chat.sirv.com/frog.png",
+            name: "Meme Lords",
+            snippet: "Memes",
+            activeCount: 3421,
+            memberCount: 89012,
+            initialJoined: false
+        },
+        {
+            id: 4,
+            avatar: "https://chirps-chat.sirv.com/termite.png",
+            name: "Termitenator",
+            snippet: "All hail the termites",
+            activeCount: 5678,
+            memberCount: 12345,
+            initialJoined: false
+        }
+    ]);
+
+    // const handleJoin = (_communityId: string, _isJoined: boolean) => {
+        
+    // };
 
     return (
         <div className={`p-2 w-full ${config.container} rounded-4xl border border-input ${transparent ? "bg-foreground/5" : "bg-background/80 backdrop-blur-md"}`}>
             <h3 
                 className={cn("font-semibold max-w-[80%] truncate px-2", config.title)}
             ><HousePlus className="font-light inline w-5 h-5 mr-2" strokeWidth={2} />Rooms Suggestions</h3>
-            <div className="flex flex-col gap-2 mt-2">
-                <Community 
-                    avatar="https://chirps-chat.sirv.com/panda.png"
-                    name="Tech Enthusiasts"
-                    snippet="Design talk"
-                    activeCount={1234}
-                    memberCount={45678}
-                />
-                <Community 
-                    avatar="https://chirps-chat.sirv.com/harambe.png"
-                    name="Crypto Traders"
-                    snippet="Crypto chat"
-                    activeCount={892}
-                    memberCount={23456}
-                />
-                <Community 
-                    avatar="https://chirps-chat.sirv.com/frog.png"
-                    name="Meme Lords"
-                    snippet="Memes"
-                    activeCount={3421}
-                    memberCount={89012}
-                />
+            <div className="flex flex-col mt-2">
+                <AnimatePresence mode="popLayout" initial={false}>
+                    {communities.map((community) => (
+                        <motion.div
+                            key={community.id}
+                            layout
+                            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+                            transition={{
+                                layout: { type: "spring", stiffness: 300, damping: 30 },
+                                opacity: { duration: 0.2 },
+                                scale: { duration: 0.2 },
+                                y: { duration: 0.2 }
+                            }}
+                        >
+                            <Community 
+                                avatar={community.avatar}
+                                name={community.name}
+                                snippet={community.snippet}
+                                activeCount={community.activeCount}
+                                memberCount={community.memberCount}
+                                id={String(community.id)}
+                                initialJoined={community.initialJoined}
+                                // onJoinChange={handleJoin}
+                            />
+                        </motion.div>
+                    ))}
+                </AnimatePresence>
             </div>
         </div>
     )
