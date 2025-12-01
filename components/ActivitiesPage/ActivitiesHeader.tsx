@@ -9,8 +9,8 @@ export default function ActivitiesHeader() {
     const count = 20;
 
     return (
-        <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-input/50">
-            <div className="flex items-center justify-between p-4">
+        <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-input/50 -mt-6">
+            <div className="flex items-center justify-between p-4 px-2">
                 <div className="flex items-center gap-3">
                     <Button
                         variant="ghost"

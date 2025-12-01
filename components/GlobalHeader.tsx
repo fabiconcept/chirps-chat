@@ -48,7 +48,7 @@ export default function GlobalHeader() {
             <div className='sm:p-4 px-4 md:px-10 flex items-center justify-between overflow-hidden relative gap-2 md:gap-10'>
                 <div className='absolute inset-0 scale-105 -mt-5 filter-ios'></div>
                 <div className='flex items-center z-10 sm:gap-5 gap-3 flex-1'>
-                    <div className="flex items-center gap-2 py-5">
+                    <div className="flex items-center gap-2 max-md:py-5">
                         <Image
                             src={theme === 'dark' ? "/chirps-chat-logo-white.svg" : "/chirps-chat-logo.svg"}
                             alt="Chirps Logo"
@@ -57,7 +57,7 @@ export default function GlobalHeader() {
                             height={36}
                             priority
                         />
-                        <h1 className='text-3xl ave text-foreground -translate-x-2.5 z-10'>hirps</h1>
+                        <h1 className='text-3xl ave text-foreground max-sm:hidden -translate-x-2.5 z-10'>hirps</h1>
                     </div>
                     {isAuthenticated && <Search expanded={isSearchExpanded} onMobileExpand={setIsSearchExpanded} />}
                 </div>
@@ -76,15 +76,21 @@ export default function GlobalHeader() {
                     >
                         <ThemeSwitch className='border' />
                     </div>
-                    <Button
-                        size={"icon-sm"}
-                        variant={"outline"}
-                        className='lg:hidden overflow-hidden relative'
-                    >
-                        <div onClick={() => updateSearchParam("activitybar", "open")} className='max-md:hidden block absolute inset-0 h-full w-full' />
-                        <Link href={"/activities"} className='max-md:block hidden absolute inset-0 h-full w-full' />
-                        <BellDot />
-                    </Button>
+                    <div className="relative">
+                        <Button
+                            size={"icon-sm"}
+                            variant={"outline"}
+                            className='lg:hidden overflow-hidden relative'
+                        >
+                            <div onClick={() => updateSearchParam("activitybar", "open")} className='max-md:hidden block absolute inset-0 h-full w-full' />
+                            <Link href={"/activities"} className='max-md:block hidden absolute inset-0 h-full w-full' />
+                            <BellDot />
+                        </Button>
+                        {/* Notification count indicator for small screens */}
+                        <span className='md:hidden absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-[10px] text-white dark:text-gray-100 font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1'>
+                            {20 > 10 ? '10+' : 20}
+                        </span>
+                    </div>
                     <React.Fragment>
                         {!isAuthenticated && (
                             <AnimatePresence>
