@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MessageSquare } from "lucide-react";
-import Image from "next/image";
+import ProtectedImage from "../Feed/TextPost/ProtectedImage";
 
 export default function RepliedComment() {
     return (
@@ -20,7 +20,7 @@ export default function RepliedComment() {
                 </div>
             </div>
             <div className="rounded-2xl bg-background overflow-hidden border border-input p-2">
-                <Image
+                <ProtectedImage
                     src="https://chirps-chat.sirv.com/leopard.png"
                     alt="post"
                     width={50}

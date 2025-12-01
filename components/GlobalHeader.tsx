@@ -25,12 +25,23 @@ import Search from './header components/Search';
 import UserClump from './modular/UserClump';
 import { BellDot } from 'lucide-react';
 import { updateSearchParam } from '@/lib/utils';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+const noHeaderPages = [
+    "/activities"
+]
 
 export default function GlobalHeader() {
     const { isAuthenticated, logout, login, isMobile } = useAuth();
     const headerRef = useRef<HTMLDivElement>(null);
     const { theme } = useTheme();
+    const pathname = usePathname();
     const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+
+    const shouldShowHeader = !noHeaderPages.includes(pathname);
+
+    if (!shouldShowHeader) return null;
 
     return (
         <header ref={headerRef} className='top-0 sticky border-b border-input/50 shadow-xl shadow-black/3 z-50'>
@@ -68,9 +79,10 @@ export default function GlobalHeader() {
                     <Button
                         size={"icon-sm"}
                         variant={"outline"}
-                        className='lg:hidden'
-                        onClick={() => updateSearchParam("activitybar", "open")}
+                        className='lg:hidden overflow-hidden relative'
                     >
+                        <div onClick={() => updateSearchParam("activitybar", "open")} className='max-md:hidden block absolute inset-0 h-full w-full' />
+                        <Link href={"/activities"} className='max-md:block hidden absolute inset-0 h-full w-full' />
                         <BellDot />
                     </Button>
                     <React.Fragment>
