@@ -1,7 +1,13 @@
+import ChatHanger from "@/components/ChatHanger";
+import DirectMessages from "@/components/ChatHanger/DirectMessages";
+
 export default function ChatPage() {
     return (
-        <div className="flex items-center justify-center">
-            <h1>Chat</h1>
+        <div className="flex flex-row gap-6 items-start flex-wrap w-full sticky top-32">
+            <div className="flex flex-col gap-3">
+                <DirectMessages />
+                <ChatHanger type="in-chat" />
+            </div>
         </div>
     )
 }

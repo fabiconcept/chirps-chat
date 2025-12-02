@@ -1,81 +1,139 @@
 "use client";
-import { Users } from "lucide-react";
-import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
+
 import User, { UserProps } from "./User";
-import { ScrollArea } from "../ui/scroll-area";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { cn, updateSearchParam } from "@/lib/utils";
+import { initialUsers } from "@/constants/User.const";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
-const initialUsers: UserProps[] = [
-    {
-        src: "https://chirps-chat.sirv.com/termite.png",
-        name: "Termite",
-        status: "online",
-        // hasNewMessage: true,
-        messagePreview: "Hey! I just saw your latest post about the new feature. That's really cool! Can we discuss it further?",
-    },
-    {
-        src: "https://chirps-chat.sirv.com/harambe.png",
-        name: "Harambe",
-        status: "online",
-    },
-    {
-        src: "https://chirps-chat.sirv.com/frog.png",
-        name: "Frog",
-        status: "online",
-    },
-    {
-        src: "https://chirps-chat.sirv.com/octopus.png",
-        name: "Octopus",
-        status: "online",
-    },
-    {
-        src: "https://chirps-chat.sirv.com/parrot.png",
-        name: "Parrot",
-        status: "online",
-    },
-    {
-        src: "https://chirps-chat.sirv.com/panda.png",
-        name: "Panda",
-        status: "online",
-    },
-];
+export default function ChatHanger({ type = "feed", usersList = [...initialUsers, ...initialUsers.map((user, id) => ({ ...user, name: `${user.name} ${id} ru` }))] }: { type: "in-chat" | "feed", usersList?: Omit<UserProps, "type">[] }) {
+    const [users] = useState<Omit<UserProps, "type">[]>(usersList);
+    const searchParams = useSearchParams();
+    const chatParam = searchParams.get('chat');
+    const selectedUser = chatParam && chatParam !== 'direct-messages' ? chatParam : null;
+    const containerRef = useRef<HTMLDivElement>(null);
+    const userRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
-export default function ChatHanger() {
-    const [users] = useState<UserProps[]>(initialUsers);
+    // Scroll to selected user on mount or when selection changes
+    useEffect(() => {
+        if (type === "in-chat" && selectedUser && containerRef.current) {
+            const userElement = userRefs.current.get(selectedUser);
+            if (userElement) {
+                const container = containerRef.current;
+                const userTop = userElement.offsetTop;
+                const containerHeight = container.clientHeight;
+                const userHeight = userElement.clientHeight;
+                
+                // Center the selected user in the viewport
+                const scrollPosition = userTop - (containerHeight / 2) + (userHeight / 2);
+                
+                container.scrollTo({
+                    top: scrollPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+    }, [selectedUser, type]);
 
-    
+    const handleScrollUp = () => {
+        if (containerRef.current) {
+            // Try to find ScrollArea viewport first, fallback to container itself
+            const viewport = containerRef.current.querySelector('[data-radix-scroll-area-viewport]') as HTMLDivElement;
+            const scrollElement = viewport || containerRef.current;
+            scrollElement.scrollBy({ top: -60, behavior: 'smooth' });
+        }
+    };
+
+    const handleScrollDown = () => {
+        if (containerRef.current) {
+            // Try to find ScrollArea viewport first, fallback to container itself
+            const viewport = containerRef.current.querySelector('[data-radix-scroll-area-viewport]') as HTMLDivElement;
+            const scrollElement = viewport || containerRef.current;
+            scrollElement.scrollBy({ top: 60, behavior: 'smooth' });
+        }
+    };
 
     return (
-        <div className="sticky max-sm:hidden shadow-lg shadow-foreground/5 top-32 pb-1 rounded-4xl border border-input bg-foreground/5 flex items-center gap-2 flex-col">
-            <ScrollArea className="max-h-[calc(100vh*0.5)] overflow-y-auto">
-                <AnimatePresence mode="popLayout">
-                    {users.map((user) => (
-                        <motion.div
-                            key={user.name}
-                            layout
-                            initial={{ opacity: 0, scale: 0.8, y: -20 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.8, x: -20 }}
-                            transition={{
-                                layout: { type: "spring", stiffness: 300, damping: 30 },
-                                opacity: { duration: 0.2 },
-                                scale: { duration: 0.2 }
-                            }}
-                        >
-                            <User
-                                src={user.src}
-                                name={user.name}
-                                status={user.status}
-                                hasNewMessage={user.hasNewMessage}
-                                messagePreview={user.messagePreview}
-                            />
-                        </motion.div>
-                    ))}
-                </AnimatePresence>
-                <div className="mb-1" />
-            </ScrollArea>
+        <div className={cn(
+            "relative",
+            type === "in-chat" && "relative",
+            type === "feed" && "sticky top-32"
+        )}>
+            <div
+                onClick={handleScrollUp}
+                className="h-6 w-6 hover:text-blue-500 rounded-full bg-background/50 absolute border backdrop-blur-sm border-input -top-1.5 cursor-pointer transition-transform duration-300 active:scale-70 left-1/2 -translate-x-1/2 z-50 grid place-items-center"
+            >
+                <ChevronUp size={16} />
+            </div>
+            <div
+                onClick={handleScrollDown}
+                className="h-6 w-6 hover:text-blue-500 rounded-full bg-background/50 absolute border backdrop-blur-sm border-input -bottom-1.5 cursor-pointer transition-transform duration-300 active:scale-70 left-1/2 -translate-x-1/2 z-50 grid place-items-center"
+            >
+                <ChevronDown size={16} />
+            </div>
+            <div className={cn(
+                "max-sm:hidden shadow-lg relative shadow-foreground/5 pb-1 rounded-full border border-input flex items-center gap-2 flex-col overflow-hidden",
+                type === "in-chat" && "bg-background",
+                type === "feed" && "bg-foreground/5"
+            )}>
+                <div className="w-full pointer-events-none bg-linear-to-b from-background via-background/75 to-transparent absolute top-0 left-0 h-10 z-20" />
+                <div className="w-full pointer-events-none bg-linear-to-t from-background via-background/90 to-transparent absolute bottom-0 left-0 h-10 z-20" />
+
+                <div
+                    className={cn(
+                        "max-h-[calc(100vh*0.5)] overflow-y-auto no-scrollbar scroll-smooth",
+                        type === "in-chat" && "max-h-[calc(100vh*0.7)]",
+                        type === "feed" && "max-h-[calc(100vh*0.5)]"
+                    )}
+                    ref={containerRef}
+                >
+                    <div className="h-2" />
+                    <AnimatePresence mode="popLayout">
+                        {users.map((user, index) => {
+                            // Generate random message count for demo (you'd get this from your data)
+                            const messageCount = index === 0 ? 4200 : index === 1 ? 150 : index === 2 ? 12 : 0;
+                            
+                            return (
+                                <div
+                                    key={user.name}
+                                    ref={(el) => {
+                                        if (el) userRefs.current.set(user.name, el);
+                                    }}
+                                    data-user-name={user.name}
+                                >
+                                    <motion.div
+                                        layout
+                                        initial={{ opacity: 0, scale: 0.8, y: -20 }}
+                                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                                        exit={{ opacity: 0, scale: 0.8, x: -20 }}
+                                        transition={{
+                                            layout: { type: "spring", stiffness: 300, damping: 30 },
+                                            opacity: { duration: 0.2 },
+                                            scale: { duration: 0.2 }
+                                        }}
+                                        className="snap-proximity"
+                                        onClick={() => type === "in-chat" && updateSearchParam('chat', user.name)}
+                                    >
+                                        <User
+                                            src={user.src}
+                                            name={user.name}
+                                            type={type}
+                                            status={user.status}
+                                            hasNewMessage={user.hasNewMessage}
+                                            messagePreview={user.messagePreview}
+                                            selected={type === "in-chat" && selectedUser === user.name}
+                                            messageCount={messageCount}
+                                        />
+                                    </motion.div>
+                                </div>
+                            );
+                        })}
+                    </AnimatePresence>
+                    <div className="h-6" />
+                </div>
+            </div>
         </div>
     )
 }

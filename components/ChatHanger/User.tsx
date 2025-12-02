@@ -6,6 +6,7 @@ import { CheckCheck, MessageCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import UserClump from "../modular/UserClump";
+import { cn, formatNumber } from "@/lib/utils";
 
 export interface UserProps {
     src: string;
@@ -13,6 +14,9 @@ export interface UserProps {
     status: "online" | "away" | "offline";
     hasNewMessage?: boolean;
     messagePreview?: string;
+    type: "in-chat" | "feed";
+    selected?: boolean;
+    messageCount?: number;
 }
 
 export default function User({
@@ -21,6 +25,9 @@ export default function User({
     status,
     hasNewMessage = false,
     messagePreview = "Hey! How are you doing?",
+    type = "feed",
+    selected = false,
+    messageCount = 0,
 }: UserProps) {
     const [isAutoOpen, setIsAutoOpen] = useState(hasNewMessage);
     const [showNotification, setShowNotification] = useState(hasNewMessage);
@@ -46,9 +53,28 @@ export default function User({
             <HoverCardTrigger asChild>
                 <Button 
                     variant="ghost"
-                    className="relative p-0 h-fit w-fit mx-2 rounded-full mt-2 cursor-pointer"
+                    className="relative p-0 h-fit w-fit mx-2 rounded-full mt-2 cursor-pointer group"
                     onClick={handleDismissNotification}
                 >
+                    {/* Selected indicator */}
+                    {selected && (
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className="absolute -left-2 top-1/2 -translate-y-1/2 w-1 h-8 bg-[#7600C9] rounded-full"
+                        />
+                    )}
+                    
+                    {/* Message count badge */}
+                    {messageCount > 0 && (
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className="absolute -bottom-1 left-1/2 -translate-x-1/2 z-10 bg-[#7600C9] text-white text-[10px] font-bold rounded-full min-w-[20px] h-5 px-1.5 flex items-center justify-center border-2 border-background"
+                        >
+                            {formatNumber(messageCount, 1)}
+                        </motion.div>
+                    )}
                     {/* Notification badge */}
                     {showNotification && (
                         <motion.div
@@ -67,25 +93,40 @@ export default function User({
                         </motion.div>
                     )}
                     
-                    <Avatar className="w-14 h-14 border border-input p-2 bg-background hover:border-ring transition-colors">
+                    <Avatar className={cn(
+                        "w-14 h-14 border border-input p-2 bg-background hover:border-ring transition-colors",
+                        selected && "border-2 border-[#7600C9]"
+                    )}>
                         <AvatarImage src={src} />
                         <AvatarFallback>{name[0] + name[1]}</AvatarFallback>
                     </Avatar>
-                    {status === "online" && <div className="absolute bottom-1 right-1 w-2 h-2 bg-green-500 rounded-full" />}
-                    {status === "away" && <div className="absolute bottom-1 right-1 w-2 h-2 bg-yellow-500 rounded-full" />}
-                    {status === "offline" && <div className="absolute bottom-1 right-1 w-2 h-2 bg-red-500 rounded-full" />}
+                    {!selected && (
+                        <>
+                            {status === "online" && <div className="absolute bottom-1 right-1 w-2 h-2 bg-green-500 rounded-full" />}
+                            {status === "away" && <div className="absolute bottom-1 right-1 w-2 h-2 bg-yellow-500 rounded-full" />}
+                            {status === "offline" && <div className="absolute bottom-1 right-1 w-2 h-2 bg-red-500 rounded-full" />}
+                        </>
+                    )}
                 </Button>
             </HoverCardTrigger>
             <HoverCardContent 
                 side="right" 
                 align="start"
-                sideOffset={15}
+                sideOffset={type === "in-chat" ? 15 : 30}
                 className="w-64 p-4 relative bg-background/90 rounded-2xl border border-input backdrop-blur-sm overflow-visible"
             >
-                {/* Arrow pointer - outer border */}
-                <div className="absolute -right-3 top-4 w-0 h-0 border-t-12 border-t-transparent border-b-12 border-b-transparent border-l-12 border-l-border" />
-                {/* Arrow pointer - inner fill */}
-                <div className="absolute -right-[10px] top-4 w-0 h-0 border-t-12 border-t-transparent border-b-12 border-b-transparent border-l-12 border-l-background" />
+                {type === "feed" && <>
+                    {/* Arrow pointer - outer border */}
+                    <div className={"absolute -right-3 top-4 w-0 h-0 border-t-12 border-t-transparent border-b-12 border-b-transparent border-l-12 border-l-border"} />
+                    {/* Arrow pointer - inner fill */}
+                    <div className="absolute -right-[10px] top-4 w-0 h-0 border-t-12 border-t-transparent border-b-12 border-b-transparent border-l-12 border-l-background" />
+                </>}
+                
+                {type === "in-chat" && <>
+                    <div className={"absolute -left-3 top-4 w-0 h-0 border-t-12 border-t-transparent border-b-12 border-b-transparent border-r-12 border-r-border"} />
+                    {/* Arrow pointer - inner fill */}
+                    <div className="absolute -left-[10px] top-4 w-0 h-0 border-t-12 border-t-transparent border-b-12 border-b-transparent border-r-12 border-r-background" />
+                </>}
                 
                 <UserClump
                     avatar={src}
