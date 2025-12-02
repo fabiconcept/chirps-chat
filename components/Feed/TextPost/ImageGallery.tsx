@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { ChevronLeftIcon, ChevronRightIcon, LucideExpand, XIcon, Loader2 } from "lucide-react"
-import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogClose, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import ProtectedImage from "./ProtectedImage"
@@ -264,6 +264,9 @@ export default function ImageGallery({ images, className }: ImageGalleryProps) {
                     className="max-w-[98vw] w-full h-[95vh] p-0 bg-background/70 backdrop-blur-sm border-input"
                     showCloseButton={false}
                 >
+                    <DialogHeader hidden>
+                        <DialogTitle>Image Viewer</DialogTitle>
+                    </DialogHeader>
                     <div className="relative w-full h-full flex items-center justify-center">
                         {/* Close Button */}
                         <DialogClose asChild>
