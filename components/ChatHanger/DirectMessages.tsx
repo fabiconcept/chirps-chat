@@ -74,7 +74,7 @@ export default function DirectMessages() {
                 side="right"
                 align="start"
                 sideOffset={15}
-                className="w-fit mt-2 p-4 relative bg-background/90 rounded-2xl border border-input backdrop-blur-sm overflow-visible"
+                className="w-fit mt-2 p-4 relative bg-background/50 rounded-2xl border border-input backdrop-blur-sm overflow-visible"
             >
                 <>
                     <div className={"absolute -left-3 top-[30%] w-0 h-0 border-t-12 border-t-transparent border-b-12 border-b-transparent border-r-12 border-r-border"} />

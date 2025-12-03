@@ -1,5 +1,8 @@
-import { cn } from "@/lib/utils";
+"use client"
+import { cn, getRelativeTime } from "@/lib/utils";
 import ProfileAvatar from "../ProfileCard/ProfileAvatar";
+import { Check, CheckCheck } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface UserCardProps {
     url: string,
@@ -7,33 +10,105 @@ interface UserCardProps {
     name: string,
     message?: string,
     hasUnread?: boolean,
+    unreadCount?: number,
+    timestamp?: Date | string,
+    isYou?: boolean,
+    messageStatus?: "sent" | "delivered" | "seen",
+    isTyping?: boolean,
+    variant?: "default" | "compact" | "detailed",
 }
+
+const variantStyles = {
+    default: "p-2 py-3",
+    compact: "p-1.5 py-2",
+    detailed: "p-3 py-4",
+};
 
 export default function UserCard({ 
     url,
     size,
     name,
     message,
-    hasUnread
+    hasUnread,
+    unreadCount = 0,
+    timestamp,
+    isYou = false,
+    messageStatus,
+    isTyping = false,
+    variant = "default",
 }: UserCardProps) {
     return (
         <div className={cn(
-            "flex items-center gap-2 p-2 cursor-pointer active:scale-95 transition-[transform,translate,scale,rotate,color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to] duration-300 ease-in-out hover:bg-foreground/3 perspective-distant group last:rounded-b-2xl",
+            "flex items-center gap-2 max-w-xs cursor-pointer active:scale-95 transition-[transform,translate,scale,rotate,color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to] duration-300 ease-in-out hover:bg-foreground/3 perspective-distant group last:rounded-b-2xl",
+            variantStyles[variant],
             {"bg-foreground/10 hover:bg-foreground/5" : hasUnread}
         )}>
             <ProfileAvatar
                 avatarUrl={url}
                 fallback="HM"
                 status="online"
-                className="group-active:rotate-x-45 origin-bottom"
+                className="origin-bottom -ml-2"
                 size={size}
             />
-            <div className="flex-1 flex gap-4 items-center pr-3">
-                <div className="flex-1 flex flex-col w-full group-active:rotate-x-45 select-none transition-transform duration-300 origin-bottom">
-                    <span className="font-medium">{name}</span>
-                    <span className="text-xs max-w-56 min-w-20 truncate text-muted-foreground">{message}</span>
+            <div className="flex-1 flex gap-2 items-center pr-2 min-w-0">
+                <div className="flex-1 flex flex-col w-full select-none transition-transform duration-300 origin-bottom min-w-0">
+                    <span className="font-medium truncate">{name}</span>
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground min-w-0">
+                        <AnimatePresence mode="wait">
+                            {isTyping ? (
+                                <motion.div 
+                                    key="typing"
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: 10 }}
+                                    transition={{ duration: 0.2 }}
+                                    className="flex items-center gap-1 text-blue-500 font-medium"
+                                >
+                                    <div className="flex gap-0.5 items-center px-1 py-1 rounded-2xl bg-foreground/10">
+                                        <span className="w-1 h-1 bg-blue-500 rounded-full animate-[bounce_1.4s_ease-in-out_0s_infinite]"></span>
+                                        <span className="w-1 h-1 bg-blue-500 rounded-full animate-[bounce_1.4s_ease-in-out_0.2s_infinite]"></span>
+                                        <span className="w-1 h-1 bg-blue-500 rounded-full animate-[bounce_1.4s_ease-in-out_0.4s_infinite]"></span>
+                                    </div>
+                                </motion.div>
+                            ) : (
+                                <motion.div
+                                    key="message"
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: 10 }}
+                                    transition={{ duration: 0.2 }}
+                                    className="flex items-center gap-1 min-w-0 flex-1"
+                                >
+                                    {isYou && (
+                                        <>
+                                            <span className="text-foreground/70 shrink-0">You:</span>
+                                            {messageStatus && (
+                                                <span className="shrink-0">
+                                                    {messageStatus === "sent" && <Check size={14} className="text-muted-foreground" />}
+                                                    {messageStatus === "delivered" && <CheckCheck size={14} className="text-muted-foreground" />}
+                                                    {messageStatus === "seen" && <CheckCheck size={14} className="text-blue-500" />}
+                                                </span>
+                                            )}
+                                        </>
+                                    )}
+                                    <span className="truncate min-w-0">{message}</span>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
                 </div>
-                {hasUnread && <div className="h-2 w-2 rounded-full bg-orange-500 animate-pulse" />}
+                <div className="flex flex-col items-end gap-1 shrink-0">
+                    {timestamp && (
+                        <span className="text-xs text-muted-foreground">
+                            {getRelativeTime(timestamp)}
+                        </span>
+                    )}
+                    {hasUnread && unreadCount > 0 && (
+                        <div className="bg-foreground/10 text-white text-[12px] font-semibold border border-foreground/20 rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
+                            {unreadCount > 99 ? '99+' : unreadCount}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     )

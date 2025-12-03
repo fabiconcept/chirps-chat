@@ -135,3 +135,45 @@ export function removeSearchParam(key: string) {
 
   window.history.pushState({}, "", url.toString());
 }
+
+export function getRelativeTime(date: Date | string): string {
+  const now = new Date();
+  const targetDate = typeof date === 'string' ? new Date(date) : date;
+  const diffInMs = now.getTime() - targetDate.getTime();
+  const diffInSeconds = Math.floor(diffInMs / 1000);
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  const diffInDays = Math.floor(diffInHours / 24);
+
+  // Just now (less than 1 minute)
+  if (diffInSeconds < 60) {
+    return 'now';
+  }
+
+  // Minutes ago (less than 1 hour)
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes}m`;
+  }
+
+  // Hours ago (less than 24 hours)
+  if (diffInHours < 24) {
+    return `${diffInHours}h`;
+  }
+
+  // Yesterday
+  if (diffInDays === 1) {
+    return 'Yesterday';
+  }
+
+  // Days of week (less than 7 days)
+  if (diffInDays < 7) {
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    return days[targetDate.getDay()];
+  }
+
+  // Full date for older messages
+  const day = targetDate.getDate().toString().padStart(2, '0');
+  const month = (targetDate.getMonth() + 1).toString().padStart(2, '0');
+  const year = targetDate.getFullYear();
+  return `${day}.${month}.${year}`;
+}
