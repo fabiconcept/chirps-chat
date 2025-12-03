@@ -8,11 +8,15 @@ import { initialUsers } from "@/constants/User.const";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
-export default function ChatHanger({ type = "feed", usersList = [...initialUsers, ...initialUsers.map((user, id) => ({ ...user, name: `${user.name} ${id} ru` }))] }: { type: "in-chat" | "feed", usersList?: Omit<UserProps, "type">[] }) {
+export default function ChatHanger({ type = "feed", usersList = [...initialUsers.slice(0, 8)] }: { type: "in-chat" | "feed", usersList?: Omit<UserProps, "type">[] }) {
     const [users] = useState<Omit<UserProps, "type">[]>(usersList);
     const searchParams = useSearchParams();
     const chatParam = searchParams.get('chat');
-    const selectedUser = chatParam && chatParam !== 'direct-messages' ? chatParam : null;
+    
+    // Validate if chatParam matches an actual user
+    const isValidUser = chatParam && chatParam !== 'direct-messages' && users.some(user => user.name === chatParam);
+    const selectedUser = isValidUser ? chatParam : null;
+    
     const containerRef = useRef<HTMLDivElement>(null);
     const userRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
@@ -61,25 +65,30 @@ export default function ChatHanger({ type = "feed", usersList = [...initialUsers
             type === "in-chat" && "relative",
             type === "feed" && "sticky top-32"
         )}>
-            <div
-                onClick={handleScrollUp}
-                className="h-6 w-6 hover:text-blue-500 rounded-full bg-background/50 absolute border backdrop-blur-sm border-input -top-1.5 cursor-pointer transition-transform duration-300 active:scale-70 left-1/2 -translate-x-1/2 z-50 grid place-items-center"
-            >
-                <ChevronUp size={16} />
-            </div>
-            <div
-                onClick={handleScrollDown}
-                className="h-6 w-6 hover:text-blue-500 rounded-full bg-background/50 absolute border backdrop-blur-sm border-input -bottom-1.5 cursor-pointer transition-transform duration-300 active:scale-70 left-1/2 -translate-x-1/2 z-50 grid place-items-center"
-            >
-                <ChevronDown size={16} />
-            </div>
+            {((type === "in-chat" && users.length > 8) || (type === "feed" && users.length > 6)) &&  <>
+                <div
+                    onClick={handleScrollUp}
+                    className="h-6 w-6 hover:text-blue-500 rounded-full bg-background/50 absolute border backdrop-blur-sm border-input -top-1.5 cursor-pointer transition-transform duration-300 active:scale-70 left-1/2 -translate-x-1/2 z-50 grid place-items-center"
+                >
+                    <ChevronUp size={16} />
+                </div>
+                <div
+                    onClick={handleScrollDown}
+                    className="h-6 w-6 hover:text-blue-500 rounded-full bg-background/50 absolute border backdrop-blur-sm border-input -bottom-1.5 cursor-pointer transition-transform duration-300 active:scale-70 left-1/2 -translate-x-1/2 z-50 grid place-items-center"
+                >
+                    <ChevronDown size={16} />
+                </div>
+            </>}
             <div className={cn(
-                "max-sm:hidden shadow-lg relative shadow-foreground/5 pb-1 rounded-full border border-input flex items-center gap-2 flex-col overflow-hidden",
+                "max-sm:hidden shadow-lg relative shadow-foreground/5 rounded-full border border-input flex items-center gap-2 flex-col overflow-hidden",
                 type === "in-chat" && "bg-background",
-                type === "feed" && "bg-foreground/5"
+                type === "feed" && "bg-foreground/5",
+                ((type === "in-chat" && users.length > 8) || (type === "feed" && users.length > 6)) ? "": "pb-2"
             )}>
-                <div className="w-full pointer-events-none bg-linear-to-b from-background via-background/75 to-transparent absolute top-0 left-0 h-10 z-20" />
-                <div className="w-full pointer-events-none bg-linear-to-t from-background via-background/90 to-transparent absolute bottom-0 left-0 h-10 z-20" />
+                {((type === "in-chat" && users.length > 8) || (type === "feed" && users.length > 6)) && <>
+                    <div className="w-full pointer-events-none bg-linear-to-b from-background via-background/75 to-transparent absolute top-0 left-0 h-10 z-20" />
+                    <div className="w-full pointer-events-none bg-linear-to-t from-background via-background/90 to-transparent absolute bottom-0 left-0 h-10 z-20" />
+                </>}
 
                 <div
                     className={cn(
@@ -89,7 +98,7 @@ export default function ChatHanger({ type = "feed", usersList = [...initialUsers
                     )}
                     ref={containerRef}
                 >
-                    <div className="h-2" />
+                    {((type === "in-chat" && users.length > 8) || (type === "feed" && users.length > 6)) && <div className="h-2" />}
                     <AnimatePresence mode="popLayout">
                         {users.map((user, index) => {
                             // Generate random message count for demo (you'd get this from your data)
@@ -104,7 +113,7 @@ export default function ChatHanger({ type = "feed", usersList = [...initialUsers
                                     data-user-name={user.name}
                                 >
                                     <motion.div
-                                        layout
+                                        layout 
                                         initial={{ opacity: 0, scale: 0.8, y: -20 }}
                                         animate={{ opacity: 1, scale: 1, y: 0 }}
                                         exit={{ opacity: 0, scale: 0.8, x: -20 }}
@@ -120,6 +129,7 @@ export default function ChatHanger({ type = "feed", usersList = [...initialUsers
                                             src={user.src}
                                             name={user.name}
                                             type={type}
+                                            userType={user.userType}
                                             status={user.status}
                                             hasNewMessage={user.hasNewMessage}
                                             messagePreview={user.messagePreview}
@@ -131,7 +141,7 @@ export default function ChatHanger({ type = "feed", usersList = [...initialUsers
                             );
                         })}
                     </AnimatePresence>
-                    <div className="h-6" />
+                    {((type === "in-chat" && users.length > 8) || (type === "feed" && users.length > 6)) && <div className="h-6" />}
                 </div>
             </div>
         </div>

@@ -2,15 +2,29 @@
 import { FolderOpenIcon, FolderOpenIconHandle } from "@/components/FolderOpenIcon";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { cn, updateSearchParam } from "@/lib/utils";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { initialUsers } from "@/constants/User.const";
 
 
 export default function DirectMessages() {
     const searchParams = useSearchParams();
     const animRef = useRef<FolderOpenIconHandle>(null);
     const chatParam = searchParams.get('chat');
-    const selected = chatParam === 'direct-messages' || !chatParam;
+    
+    // Check if chatParam is a valid user
+    const allUsers = [...initialUsers, ...initialUsers.map((user, id) => ({ ...user, name: `${user.name} ${id} ru` }))];
+    const isValidUser = chatParam && chatParam !== 'direct-messages' && allUsers.some(user => user.name === chatParam);
+    
+    // Selected if no param, 'direct-messages', or invalid user (fallback)
+    const selected = !chatParam || chatParam === 'direct-messages' || !isValidUser;
+    
+    // Auto-correct invalid params to direct-messages
+    useEffect(() => {
+        if (chatParam && chatParam !== 'direct-messages' && !isValidUser) {
+            updateSearchParam('chat', 'direct-messages');
+        }
+    }, [chatParam, isValidUser]);
 
     const handleMouseEnter = () => {
         if (!animRef.current) return;

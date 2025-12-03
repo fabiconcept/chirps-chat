@@ -15,6 +15,7 @@ export interface UserProps {
     hasNewMessage?: boolean;
     messagePreview?: string;
     type: "in-chat" | "feed";
+    userType?: "user" | "bot" | "room";
     selected?: boolean;
     messageCount?: number;
 }
@@ -26,6 +27,7 @@ export default function User({
     hasNewMessage = false,
     messagePreview = "Hey! How are you doing?",
     type = "feed",
+    userType = "user",
     selected = false,
     messageCount = 0,
 }: UserProps) {
@@ -94,13 +96,13 @@ export default function User({
                     )}
                     
                     <Avatar className={cn(
-                        "w-14 h-14 border border-input p-2 bg-background hover:border-ring transition-colors",
-                        selected && "border-2 border-[#7600C9]"
+                        "w-14 h-14 p-2 bg-background transition-colors",
+                        selected ? "border-2 border-[#7600C9]" : "border border-input hover:border-ring"
                     )}>
                         <AvatarImage src={src} />
                         <AvatarFallback>{name[0] + name[1]}</AvatarFallback>
                     </Avatar>
-                    {!selected && (
+                    {!selected && userType === "user" && (
                         <>
                             {status === "online" && <div className="absolute bottom-1 right-1 w-2 h-2 bg-green-500 rounded-full" />}
                             {status === "away" && <div className="absolute bottom-1 right-1 w-2 h-2 bg-yellow-500 rounded-full" />}
@@ -112,8 +114,8 @@ export default function User({
             <HoverCardContent 
                 side="right" 
                 align="start"
-                sideOffset={type === "in-chat" ? 15 : 30}
-                className="w-64 p-4 relative bg-background/90 rounded-2xl border border-input backdrop-blur-sm overflow-visible"
+                sideOffset={15}
+                className="w-64 p-4 pt-2 relative bg-background/90 rounded-2xl border border-input backdrop-blur-sm overflow-visible"
             >
                 {type === "feed" && <>
                     {/* Arrow pointer - outer border */}
