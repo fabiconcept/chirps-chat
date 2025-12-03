@@ -5,6 +5,7 @@ import { cn, updateSearchParam } from "@/lib/utils";
 import { useRef, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { initialUsers } from "@/constants/User.const";
+import { AnimatePresence, motion } from "framer-motion";
 
 
 export default function DirectMessages() {
@@ -36,11 +37,14 @@ export default function DirectMessages() {
         animRef.current.stopAnimation();
     };
 
+    // Example message count - you'd get this from your data
+    const messageCount = 3;
+
     return (
         <HoverCard>
             <HoverCardTrigger asChild>
                 <div 
-                    className="shadow-lg aspect-square shadow-foreground/5 rounded-full border border-input grid place-items-center overflow-hidden"
+                    className="shadow-lg aspect-square shadow-foreground/5 rounded-full border border-input grid place-items-center overflow-hidden relative cursor-pointer"
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                     onClick={() => updateSearchParam('chat', 'direct-messages')}
@@ -51,6 +55,19 @@ export default function DirectMessages() {
                     >
                         <FolderOpenIcon ref={animRef} size={24} color="#fff" />
                     </div>
+                    <AnimatePresence>
+                        {!selected && messageCount > 0 && (
+                            <motion.div 
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.5 }}
+                                transition={{ duration: 0.2 }}
+                                className="absolute top-3 right-3 bg-orange-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1"
+                            >
+                                {messageCount > 9 ? '9+' : messageCount}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
             </HoverCardTrigger>
             <HoverCardContent

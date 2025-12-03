@@ -4,7 +4,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
 import { Button } from "../ui/button";
 import { CheckCheck, MessageCircle } from "lucide-react";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import UserClump from "../modular/UserClump";
 import { cn, formatNumber } from "@/lib/utils";
 
@@ -68,15 +68,19 @@ export default function User({
                     )}
                     
                     {/* Message count badge */}
-                    {messageCount > 0 && (
-                        <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            className="absolute -bottom-1 left-1/2 -translate-x-1/2 z-10 bg-[#7600C9] text-white text-[10px] font-bold rounded-full min-w-[20px] h-5 px-1.5 flex items-center justify-center border-2 border-background"
-                        >
-                            {formatNumber(messageCount, 1)}
-                        </motion.div>
-                    )}
+                    <AnimatePresence>
+                        {!selected && messageCount > 0 && (
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.5 }}
+                                transition={{ duration: 0.2 }}
+                                className="absolute -bottom-1 left-1/2 -translate-x-1/2 z-10 bg-[#7600C9] text-white text-[10px] font-bold rounded-full min-w-[20px] h-5 px-1.5 flex items-center justify-center border-2 border-background"
+                            >
+                                {formatNumber(messageCount, 1)}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                     {/* Notification badge */}
                     {showNotification && (
                         <motion.div

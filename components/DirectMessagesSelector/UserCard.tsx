@@ -18,7 +18,7 @@ export default function UserCard({
 }: UserCardProps) {
     return (
         <div className={cn(
-            "flex items-center gap-2 p-2 cursor-pointer active:scale-95 transition-[transform,translate,scale,rotate,color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to] duration-300 ease-in-out hover:bg-foreground/3 perspective-distant group",
+            "flex items-center gap-2 p-2 cursor-pointer active:scale-95 transition-[transform,translate,scale,rotate,color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to] duration-300 ease-in-out hover:bg-foreground/3 perspective-distant group last:rounded-b-2xl",
             {"bg-foreground/10 hover:bg-foreground/5" : hasUnread}
         )}>
             <ProfileAvatar
