@@ -16,6 +16,7 @@ interface UserCardProps {
     messageStatus?: "sent" | "delivered" | "seen",
     isTyping?: boolean,
     variant?: "default" | "compact" | "detailed",
+    isLast?: boolean,
 }
 
 const variantStyles = {
@@ -36,18 +37,20 @@ export default function UserCard({
     messageStatus,
     isTyping = false,
     variant = "default",
+    isLast = false,
 }: UserCardProps) {
     return (
         <div className={cn(
-            "flex items-center gap-2 max-w-xs cursor-pointer active:scale-95 transition-[transform,translate,scale,rotate,color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to] duration-300 ease-in-out hover:bg-foreground/3 perspective-distant group last:rounded-b-2xl",
+            "flex items-center gap-2 max-w-xs cursor-pointer active:scale-95 transition-[transform,translate,scale,rotate,color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to] duration-300 ease-in-out hover:bg-foreground/3 perspective-distant group",
             variantStyles[variant],
-            {"bg-foreground/10 hover:bg-foreground/5" : hasUnread}
+            {"bg-foreground/5 hover:bg-foreground/3" : hasUnread},
+            {"rounded-b-2xl" : isLast}
         )}>
             <ProfileAvatar
                 avatarUrl={url}
                 fallback="HM"
                 status="online"
-                className="origin-bottom -ml-2"
+                className="origin-bottom"
                 size={size}
             />
             <div className="flex-1 flex gap-2 items-center pr-2 min-w-0">
@@ -62,12 +65,12 @@ export default function UserCard({
                                     animate={{ opacity: 1, x: 0 }}
                                     exit={{ opacity: 0, x: 10 }}
                                     transition={{ duration: 0.2 }}
-                                    className="flex items-center gap-1 text-blue-500 font-medium"
+                                    className="flex items-center gap-1 font-medium"
                                 >
-                                    <div className="flex gap-0.5 items-center px-1 py-1 rounded-2xl bg-foreground/10">
-                                        <span className="w-1 h-1 bg-blue-500 rounded-full animate-[bounce_1.4s_ease-in-out_0s_infinite]"></span>
-                                        <span className="w-1 h-1 bg-blue-500 rounded-full animate-[bounce_1.4s_ease-in-out_0.2s_infinite]"></span>
-                                        <span className="w-1 h-1 bg-blue-500 rounded-full animate-[bounce_1.4s_ease-in-out_0.4s_infinite]"></span>
+                                    <div className="flex gap-0.5 border border-foreground/10 items-center px-1 py-1 rounded-2xl bg-foreground/10">
+                                        <span className="w-1 h-1 bg-foreground rounded-full animate-[bounce_1.4s_ease-in-out_0s_infinite]"></span>
+                                        <span className="w-1 h-1 bg-foreground rounded-full animate-[bounce_1.4s_ease-in-out_0.2s_infinite]"></span>
+                                        <span className="w-1 h-1 bg-foreground rounded-full animate-[bounce_1.4s_ease-in-out_0.4s_infinite]"></span>
                                     </div>
                                 </motion.div>
                             ) : (
@@ -104,7 +107,7 @@ export default function UserCard({
                         </span>
                     )}
                     {hasUnread && unreadCount > 0 && (
-                        <div className="bg-foreground/10 text-white text-[12px] font-semibold border border-foreground/20 rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
+                        <div className="bg-foreground/10 text-foreground text-[12px] font-semibold border border-foreground/20 rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
                             {unreadCount > 99 ? '99+' : unreadCount}
                         </div>
                     )}

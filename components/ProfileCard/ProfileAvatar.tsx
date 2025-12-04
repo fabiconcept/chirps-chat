@@ -21,8 +21,8 @@ const sizeClasses = {
 };
 
 const statusSizeClasses = {
-    xs: "w-1.5 h-1.5 bottom-0 right-0",
-    sm: "w-2 h-2 bottom-0 right-0",
+    xs: "w-2.5 h-2.5 bottom-0 right-0",
+    sm: "w-2.5 h-2.5 bottom-0 right-0",
     md: "w-2.5 h-2.5 bottom-0.5 right-0.5",
     lg: "w-3 h-3 bottom-0.5 right-0.5 border-2",
     xl: "w-3.5 h-3.5 bottom-1 right-1 border-2",
@@ -47,7 +47,7 @@ export default function ProfileAvatar({
             className
         )}>
             <Avatar className={cn(
-                "ml-2 border-2 border-input bg-background transition-all duration-300 rounded-full grid place-items-center overflow-hidden z-10 relative group-hover:bg-background/90",
+                "border-2 border-input bg-background transition-all duration-300 rounded-full grid place-items-center overflow-hidden z-10 relative group-hover:bg-background/90",
                 avatarSizeClass,
                 avatarClass,
                 avatarPadding || "p-0.5"
