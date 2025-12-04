@@ -8,7 +8,7 @@ import { Input } from "../ui/input";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import SearchResult from "./SearchResult";
 import SectionList from "./SectionList";
-import { useState, useMemo, useEffect, useLayoutEffect, useRef, useCallback } from "react";
+import { useState, useMemo, useLayoutEffect, useRef, useCallback } from "react";
 import useShortcuts from "@useverse/useshortcuts";
 import { useKeyBoardShortCut } from "../Providers/KeyBoardShortCutProvider";
 import { allResults } from "../../constants/User.const";
@@ -264,7 +264,10 @@ const FindConversation = () => {
                             className="w-full text-lg"
                             value={searchQuery}
                             onChange={handleSearchChange}
-                            onFocus={() => setIsSearchFocused(true)}
+                            onFocus={() => {
+                                setIsSearchFocused(true)
+                                setFocusedItemId(null);
+                            }}
                             onBlur={() => setIsSearchFocused(false)}
                             autoFocus
                         />

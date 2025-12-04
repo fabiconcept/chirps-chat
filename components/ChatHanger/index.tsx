@@ -114,8 +114,7 @@ export default function ChatHanger({ type = "feed", usersList = [...initialUsers
                                 >
                                     <motion.div
                                         layout 
-                                        initial={{ opacity: 0, scale: 0.8, y: -20 }}
-                                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                                        initial={false}
                                         exit={{ opacity: 0, scale: 0.8, x: -20 }}
                                         transition={{
                                             layout: { type: "spring", stiffness: 300, damping: 30 },

@@ -1,6 +1,6 @@
 import ChatHanger from "@/components/ChatHanger";
 import DirectMessages from "@/components/ChatHanger/DirectMessages";
-import DirectMessagesSelector from "@/components/DirectMessagesSelector";
+import RoomSelector from "@/components/RoomSelector";
 
 export default function ChatPage() {
     return (
@@ -9,7 +9,7 @@ export default function ChatPage() {
                 <DirectMessages />
                 <ChatHanger type="in-chat" />
             </div>
-            <DirectMessagesSelector />
+            <RoomSelector />
         </div>
     )
 }

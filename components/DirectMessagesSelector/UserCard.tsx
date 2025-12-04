@@ -68,9 +68,9 @@ export default function UserCard({
                                     className="flex items-center gap-1 font-medium"
                                 >
                                     <div className="flex gap-0.5 border border-foreground/10 items-center px-1 py-1 rounded-2xl bg-foreground/10">
-                                        <span className="w-1 h-1 bg-foreground rounded-full animate-[bounce_1.4s_ease-in-out_0s_infinite]"></span>
-                                        <span className="w-1 h-1 bg-foreground rounded-full animate-[bounce_1.4s_ease-in-out_0.2s_infinite]"></span>
-                                        <span className="w-1 h-1 bg-foreground rounded-full animate-[bounce_1.4s_ease-in-out_0.4s_infinite]"></span>
+                                        <span className="w-1 h-1 dark:bg-blue-500 bg-foreground rounded-full animate-[bounce_1.4s_ease-in-out_0s_infinite]"></span>
+                                        <span className="w-1 h-1 dark:bg-blue-500 bg-foreground rounded-full animate-[bounce_1.4s_ease-in-out_0.2s_infinite]"></span>
+                                        <span className="w-1 h-1 dark:bg-blue-500 bg-foreground rounded-full animate-[bounce_1.4s_ease-in-out_0.4s_infinite]"></span>
                                     </div>
                                 </motion.div>
                             ) : (
@@ -106,11 +106,11 @@ export default function UserCard({
                             {getRelativeTime(timestamp)}
                         </span>
                     )}
-                    {hasUnread && unreadCount > 0 && (
-                        <div className="bg-foreground/10 text-foreground text-[12px] font-semibold border border-foreground/20 rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
+                    {hasUnread && unreadCount > 0 ? (
+                        <div className="bg-foreground/10 not-dark:text-[#7600C9] text-foreground text-[12px] font-semibold border border-foreground/20 rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
                             {unreadCount > 99 ? '99+' : unreadCount}
                         </div>
-                    )}
+                    ) : <div className="w-4 h-4" />}
                 </div>
             </div>
         </div>
