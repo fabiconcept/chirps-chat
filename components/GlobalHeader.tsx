@@ -24,7 +24,7 @@ import {
 import Search from './header components/Search';
 import UserClump from './modular/UserClump';
 import { BellDot } from 'lucide-react';
-import { updateSearchParam } from '@/lib/utils';
+import { cn, updateSearchParam } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -80,7 +80,10 @@ export default function GlobalHeader() {
                         <Button
                             size={"icon-sm"}
                             variant={"outline"}
-                            className='lg:hidden overflow-hidden relative'
+                            className={cn(
+                                'overflow-hidden relative',
+                                (pathname === "/chat" || pathname.includes("/chat/")) ? "" : "lg:hidden"
+                            )}
                         >
                             <div onClick={() => updateSearchParam("activitybar", "open")} className='max-md:hidden block absolute inset-0 h-full w-full' />
                             <Link href={"/activities"} className='max-md:block hidden absolute inset-0 h-full w-full' />

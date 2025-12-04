@@ -38,6 +38,7 @@ interface CollapsibleProps {
     className?: string;
     containerClassName?: string;
     searchParamKey?: string;
+    fullCollapse?: boolean;
 }
 
 export function Collapsible({
@@ -48,7 +49,8 @@ export function Collapsible({
     collapsedHeight = '4rem',
     className = '',
     containerClassName = '',
-    searchParamKey = "activitybar"
+    searchParamKey = "activitybar",
+    fullCollapse = false
 }: CollapsibleProps) {
     const [isOpen, setIsOpen] = useState(defaultOpen);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -73,18 +75,26 @@ export function Collapsible({
 
     return (
         <CollapsibleContext.Provider value={{ isOpen, setIsOpen: handleSetOpen, toggle }}>
-            <motion.div
-                ref={containerRef}
-                className={cn(
-                    'overflow-hidden z-50 w-md shadow-2xl shadow-foreground/10',
-                    'fixed bottom-0',
-                    className
-                )}
-                animate={{ height: isOpen ? expandedHeight : collapsedHeight }}
+            <motion.div 
+                className='opacity-0 fixed cursor-pointer backdrop-blur-[2px] z-[99] inset-0 bg-black/50' onClick={() => handleSetOpen(false)} 
+                animate={{ opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? "auto" : "none" }}
                 transition={{
                     duration: 0.3,
                     ease: [0.4, 0, 0.2, 1],
                 }}
+            />
+            <motion.div
+                ref={containerRef}
+                className={cn(
+                    'overflow-hidden z-[999] w-md shadow-2xl shadow-foreground/10',
+                    'fixed bottom-0',
+                    className
+                )}
+                    animate={{ height: isOpen ? expandedHeight : collapsedHeight, y: fullCollapse ? collapsedHeight : 0 }}
+                    transition={{
+                        duration: 0.3,
+                        ease: [0.4, 0, 0.2, 1],
+                    }}
             >
                 <div className={cn('h-full flex flex-col', containerClassName)}>
                     {children}

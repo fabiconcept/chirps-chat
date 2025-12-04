@@ -3,20 +3,24 @@
 import User, { UserProps } from "./User";
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { cn, updateSearchParam } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { initialUsers } from "@/constants/User.const";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function ChatHanger({ type = "feed", usersList = [...initialUsers.slice(0, 8)] }: { type: "in-chat" | "feed", usersList?: Omit<UserProps, "type">[] }) {
     const [users] = useState<Omit<UserProps, "type">[]>(usersList);
-    const searchParams = useSearchParams();
-    const chatParam = searchParams.get('chat');
+    const pathname = usePathname();
+    const router = useRouter();
     
-    // Validate if chatParam matches an actual user
-    const isValidUser = chatParam && chatParam !== 'direct-messages' && users.some(user => user.name === chatParam);
-    const selectedUser = isValidUser ? chatParam : null;
+    // Extract room ID from pathname (e.g., /chat/room-983786)
+    const roomIdMatch = pathname.match(/\/chat\/(room-[^/]+)/);
+    const roomId = roomIdMatch ? roomIdMatch[1] : null;
     
+    // Validate if roomId matches pattern and exists in users
+    const isValidRoom = roomId && /^room-\w+$/.test(roomId);
+    const selectedUser = isValidRoom ? users.find(user => user.name === roomId.replace("room-", ""))?.name || null : null;
+
     const containerRef = useRef<HTMLDivElement>(null);
     const userRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
@@ -122,7 +126,7 @@ export default function ChatHanger({ type = "feed", usersList = [...initialUsers
                                             scale: { duration: 0.2 }
                                         }}
                                         className="snap-proximity"
-                                        onClick={() => type === "in-chat" && updateSearchParam('chat', user.name)}
+                                        onClick={() => type === "in-chat" && router.push(`/chat/room-${user.name}`)}
                                     >
                                         <User
                                             src={user.src}

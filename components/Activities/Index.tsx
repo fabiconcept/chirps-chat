@@ -13,9 +13,10 @@ import RoomInvite from './RoomInvite';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn, removeSearchParam} from '@/lib/utils';
 import { useAuth } from '../Providers/AuthProvider';
+import { usePathname } from 'next/navigation';
 
 export default function Activities({ type = "component" }: { type?: "page" | "component"}) {
-    
+    const pathname = usePathname();
     const [open, setOpen] = useState(false);
     const { isMobile } = useAuth();
     const [activities] = useState([
@@ -67,7 +68,7 @@ export default function Activities({ type = "component" }: { type?: "page" | "co
                 }
                 setOpen(state);
             }}
-            
+            fullCollapse={(pathname === "/chat" || pathname.includes("/chat/"))}
             expandedHeight="70vh"
             collapsedHeight="4.25rem"
             className={cn('md:right-10 right-[2%] gap-3 max-w-[96%] mx-auto', type === "component" ? "max-sm:hidden" : "")}

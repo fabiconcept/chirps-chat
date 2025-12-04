@@ -50,7 +50,7 @@ const channels: Channel[] = [
 
 export default function ChannelsList() {
     return (
-        <ScrollArea className="p-2 max-h-[calc(100dvh-20rem)] overflow-y-auto max-w-xs">
+        <ScrollArea className="p-2 max-h-[calc(100dvh-12rem)] overflow-y-auto max-w-xs">
             <ScrollBar />
             {/* Main Room - Stationary */}
             <Button

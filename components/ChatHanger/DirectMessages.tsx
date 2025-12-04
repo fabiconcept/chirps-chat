@@ -1,31 +1,16 @@
 "use client"
 import { FolderOpenIcon, FolderOpenIconHandle } from "@/components/FolderOpenIcon";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
-import { cn, updateSearchParam } from "@/lib/utils";
-import { useRef, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
-import { initialUsers } from "@/constants/User.const";
+import { cn } from "@/lib/utils";
+import { useMemo, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { usePathname, useRouter } from "next/navigation";
 
 
 export default function DirectMessages() {
-    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const router = useRouter();
     const animRef = useRef<FolderOpenIconHandle>(null);
-    const chatParam = searchParams.get('chat');
-    
-    // Check if chatParam is a valid user
-    const allUsers = [...initialUsers, ...initialUsers.map((user, id) => ({ ...user, name: `${user.name} ${id} ru` }))];
-    const isValidUser = chatParam && chatParam !== 'direct-messages' && allUsers.some(user => user.name === chatParam);
-    
-    // Selected if no param, 'direct-messages', or invalid user (fallback)
-    const selected = !chatParam || chatParam === 'direct-messages' || !isValidUser;
-    
-    // Auto-correct invalid params to direct-messages
-    useEffect(() => {
-        if (chatParam && chatParam !== 'direct-messages' && !isValidUser) {
-            updateSearchParam('chat', 'direct-messages');
-        }
-    }, [chatParam, isValidUser]);
 
     const handleMouseEnter = () => {
         if (!animRef.current) return;
@@ -37,6 +22,8 @@ export default function DirectMessages() {
         animRef.current.stopAnimation();
     };
 
+    const selected = useMemo(() => pathname === "/chat", [pathname]);
+
     // Example message count - you'd get this from your data
     const messageCount = 3;
 
@@ -47,7 +34,7 @@ export default function DirectMessages() {
                     className="shadow-lg aspect-square shadow-foreground/5 rounded-full border border-input grid place-items-center overflow-hidden relative cursor-pointer"
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
-                    onClick={() => updateSearchParam('chat', 'direct-messages')}
+                    onClick={() => router.push("/chat")}
                 >
                     <div className={cn("w-14 h-14 border border-input p-2 rounded-full hover:border-ring cursor-pointer transition-all duration-300 active:scale-95 grid place-items-center hover:bg-[#7600C9] bg-[#7600C9]/5  hover:text-white", {
                         "bg-[#7600C9] text-white": selected,
