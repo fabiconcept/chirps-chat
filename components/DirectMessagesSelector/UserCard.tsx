@@ -1,5 +1,5 @@
 "use client"
-import { cn, getRelativeTime } from "@/lib/utils";
+import { cn, getRelativeTime, updateSearchParam } from "@/lib/utils";
 import ProfileAvatar from "../ProfileCard/ProfileAvatar";
 import { Check, CheckCheck } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -17,6 +17,7 @@ interface UserCardProps {
     isTyping?: boolean,
     variant?: "default" | "compact" | "detailed",
     isLast?: boolean,
+    selected?: boolean,
 }
 
 const variantStyles = {
@@ -38,14 +39,19 @@ export default function UserCard({
     isTyping = false,
     variant = "default",
     isLast = false,
+    selected = false,
 }: UserCardProps) {
     return (
-        <div className={cn(
-            "flex items-center gap-2 max-w-xs cursor-pointer active:scale-95 transition-[transform,translate,scale,rotate,color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to] duration-300 ease-in-out hover:bg-foreground/3 perspective-distant group",
-            variantStyles[variant],
-            {"bg-foreground/5 hover:bg-foreground/3" : hasUnread},
-            {"rounded-b-2xl" : isLast}
-        )}>
+        <div 
+            className={cn(
+                "flex items-center gap-2 max-w-xs cursor-pointer transition-[transform,translate,scale,rotate,color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to,padding] duration-300 ease-in-out hover:bg-foreground/3 perspective-distant group relative after:absolute after:inset-0 after:w-1.5 after:rounded-r-3xl after:left-0 after:top-1/2 after:-translate-y-1/2 after:h-[80%] after:bg-[#7600c9] after:-translate-x-full after:transition-transform after:duration-300 after:ease-in-out",
+                variantStyles[variant],
+                { "bg-foreground/5 hover:bg-foreground/3": hasUnread },
+                { "after:translate-x-0 after:z-[-1] pl-4": selected },
+                { "rounded-b-2xl": isLast }
+            )}
+            onClick={() => updateSearchParam("user", name.toLowerCase())}
+        >
             <ProfileAvatar
                 avatarUrl={url}
                 fallback="HM"

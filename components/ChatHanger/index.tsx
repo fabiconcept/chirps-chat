@@ -8,7 +8,7 @@ import { initialUsers } from "@/constants/User.const";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
-export default function ChatHanger({ type = "feed", usersList = [...initialUsers.slice(0, 8)] }: { type: "in-chat" | "feed", usersList?: Omit<UserProps, "type">[] }) {
+export default function ChatHanger({ type = "feed", usersList = [...initialUsers.slice(0, 16)] }: { type: "in-chat" | "feed", usersList?: Omit<UserProps, "type">[] }) {
     const [users] = useState<Omit<UserProps, "type">[]>(usersList);
     const pathname = usePathname();
     const router = useRouter();

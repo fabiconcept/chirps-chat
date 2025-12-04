@@ -35,31 +35,31 @@ export const initialUsers: Omit<UserProps, "type">[] = [
     },
     {
         src: "https://chirps-chat.sirv.com/panda.png",
-        name: "Panda-01",
+        name: "Panda01",
         status: "online",
         userType: "user",
     },
     {
         src: "https://chirps-chat.sirv.com/panda.png",
-        name: "Panda-02",
+        name: "Panda02",
         status: "online",
         userType: "user",
     },
     {
         src: "https://chirps-chat.sirv.com/panda.png",
-        name: "Panda-03",
+        name: "Panda03",
         status: "online",
         userType: "bot",
     },
     {
         src: "https://chirps-chat.sirv.com/panda.png",
-        name: "Panda-04",
+        name: "Panda04",
         status: "online",
         userType: "user",
     },
     {
         src: "https://chirps-chat.sirv.com/panda.png",
-        name: "Panda-05",
+        name: "Panda05",
         status: "online",
     }
 ];
@@ -177,4 +177,46 @@ export const allResults = [
     { id: "channel-1", type: "channel" as const, name: "General" },
     { id: "channel-2", type: "channel" as const, name: "Random" },
     { id: "channel-3", type: "channel" as const, name: "Announcements" },
+];
+
+interface Channel {
+    id: string;
+    name: string;
+    type: "text" | "voice";
+    unread?: number;
+}
+
+export const channels: Channel[] = [
+    { id: "2", name: "announcements", type: "text" },
+    { id: "3", name: "random", type: "text", unread: 12 },
+    { id: "4", name: "voice-chat", type: "voice" },
+    { id: "5", name: "gaming", type: "voice" },
+    { id: "6", name: "movies", type: "text" },
+    { id: "7", name: "books", type: "text" },
+    { id: "8", name: "music", type: "text" },
+    { id: "9", name: "food", type: "text" },
+    { id: "10", name: "travel", type: "text" },
+    { id: "11", name: "sports", type: "text" },
+    { id: "12", name: "coding", type: "text" },
+    { id: "13", name: "bitcoin", type: "text" },
+    { id: "14", name: "ethereum", type: "text" },
+    { id: "15", name: "gaming-2", type: "voice" },
+    { id: "16", name: "gaming-3", type: "voice" },
+    { id: "17", name: "gaming-4", type: "voice" },
+    { id: "18", name: "gaming-5", type: "voice" },
+    { id: "19", name: "gaming-6", type: "voice" },
+    { id: "20", name: "gaming-7", type: "voice" },
+    { id: "21", name: "gaming-8", type: "voice" },
+    { id: "22", name: "gaming-9", type: "voice" },
+    { id: "23", name: "gaming-10", type: "voice" },
+    { id: "24", name: "gaming-11", type: "voice" },
+    { id: "25", name: "gaming-12", type: "voice" },
+    { id: "26", name: "gaming-13", type: "voice" },
+    { id: "27", name: "gaming-14", type: "voice" },
+    { id: "28", name: "gaming-15", type: "voice" },
+    { id: "29", name: "gaming-16", type: "voice" },
+    { id: "30", name: "gaming-17", type: "voice" },
+    { id: "31", name: "gaming-18", type: "voice" },
+    { id: "32", name: "gaming-19", type: "voice" },
+    { id: "33", name: "gaming-20", type: "voice" },
 ];

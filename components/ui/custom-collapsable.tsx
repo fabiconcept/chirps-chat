@@ -90,11 +90,12 @@ export function Collapsible({
                     'fixed bottom-0',
                     className
                 )}
-                    animate={{ height: isOpen ? expandedHeight : collapsedHeight, y: fullCollapse ? collapsedHeight : 0 }}
-                    transition={{
-                        duration: 0.3,
-                        ease: [0.4, 0, 0.2, 1],
-                    }}
+                initial={{ y: fullCollapse ? collapsedHeight : 0 }}
+                animate={{ height: isOpen ? expandedHeight : collapsedHeight, y: fullCollapse ? collapsedHeight : 0 }}
+                transition={{
+                    duration: 0.3,
+                    ease: [0.4, 0, 0.2, 1],
+                }}
             >
                 <div className={cn('h-full flex flex-col', containerClassName)}>
                     {children}
