@@ -1,10 +1,11 @@
 "use client"
 
-import { useMemo } from "react";
-import { cn } from "@/lib/utils";
+import { useMemo, useState } from "react";
+import { cn, copyToClipboard } from "@/lib/utils";
 import Hashtag from "@/components/ui/hashtag";
 import ProtectedImage from "@/components/Feed/TextPost/ProtectedImage";
 import LinkPreview from "./LinkPreview";
+import { Copy, Check } from "lucide-react";
 
 interface MarkdownRenderProps {
     content: string;
@@ -12,6 +13,16 @@ interface MarkdownRenderProps {
 }
 
 export default function MarkDownRender({ content, className }: MarkdownRenderProps) {
+    const [copiedIndex, setCopiedIndex] = useState<string | null>(null);
+
+    const handleCopy = async (text: string, key: string) => {
+        const success = await copyToClipboard(text);
+        if (success) {
+            setCopiedIndex(key);
+            setTimeout(() => setCopiedIndex(null), 2000);
+        }
+    };
+
     const renderMarkdown = useMemo(() => {
         const lines = content.split('\n');
         const elements: React.ReactElement[] = [];
@@ -62,42 +73,87 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
             else if (line.startsWith('```')) {
                 const language = line.slice(3).trim();
                 const codeLines: string[] = [];
+                const codeStartIndex = i;
                 i++;
                 while (i < lines.length && !lines[i].startsWith('```')) {
                     codeLines.push(lines[i]);
                     i++;
                 }
+                const codeContent = codeLines.join('\n');
+                const codeKey = `code-${codeStartIndex}`;
                 elements.push(
-                    <div key={i} className="my-2">
+                    <div key={i} className="my-2 group relative">
                         {language && (
-                            <div className="bg-foreground/10 px-3 py-1 text-xs font-mono rounded-t-md border-b border-foreground/20">
-                                {language}
+                            <div className="bg-foreground/10 px-3 py-1 text-xs font-mono rounded-t-md border-b border-foreground/20 flex items-center justify-between">
+                                <span>{language}</span>
+                                <button
+                                    onClick={() => handleCopy(codeContent, codeKey)}
+                                    className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 hover:bg-foreground/10 rounded"
+                                    title="Copy code"
+                                >
+                                    {copiedIndex === codeKey ? (
+                                        <Check size={14} className="text-green-500" />
+                                    ) : (
+                                        <Copy size={14} />
+                                    )}
+                                </button>
                             </div>
                         )}
-                        <pre className={cn(
-                            "bg-foreground/5 p-3 rounded-md overflow-x-auto border border-foreground/10",
-                            language && "rounded-t-none"
-                        )}>
-                            <code className="text-sm font-mono">{codeLines.join('\n')}</code>
-                        </pre>
+                        <div className="relative">
+                            <pre className={cn(
+                                "bg-foreground/5 p-3 rounded-md overflow-x-auto border border-foreground/10",
+                                language && "rounded-t-none"
+                            )}>
+                                <code className="text-sm font-mono">{codeContent}</code>
+                            </pre>
+                            {!language && (
+                                <button
+                                    onClick={() => handleCopy(codeContent, codeKey)}
+                                    className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1.5 hover:bg-foreground/10 rounded bg-foreground/5 border border-foreground/10"
+                                    title="Copy code"
+                                >
+                                    {copiedIndex === codeKey ? (
+                                        <Check size={14} className="text-green-500" />
+                                    ) : (
+                                        <Copy size={14} />
+                                    )}
+                                </button>
+                            )}
+                        </div>
                     </div>
                 );
             }
             // Blockquotes (multi-line support)
             else if (line.startsWith('> ')) {
                 const quoteLines: string[] = [line.slice(2)];
+                const quoteStartIndex = i;
                 i++;
                 while (i < lines.length && lines[i].startsWith('> ')) {
                     quoteLines.push(lines[i].slice(2));
                     i++;
                 }
                 i--;
+                const quoteContent = quoteLines.join('\n');
+                const quoteKey = `quote-${quoteStartIndex}`;
                 elements.push(
-                    <blockquote key={i} className="border-l-4 border-[#7600C9] pl-4 py-2 my-2 italic text-muted-foreground">
-                        {quoteLines.map((quote, idx) => (
-                            <p key={idx}>{parseInlineMarkdown(quote)}</p>
-                        ))}
-                    </blockquote>
+                    <div key={i} className="relative group my-2">
+                        <blockquote className="border-l-4 border-[#7600C9] pl-4 py-2 italic text-muted-foreground">
+                            {quoteLines.map((quote, idx) => (
+                                <p key={idx}>{parseInlineMarkdown(quote)}</p>
+                            ))}
+                        </blockquote>
+                        <button
+                            onClick={() => handleCopy(quoteContent, quoteKey)}
+                            className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1.5 hover:bg-foreground/10 rounded bg-foreground/5 border border-foreground/10"
+                            title="Copy quote"
+                        >
+                            {copiedIndex === quoteKey ? (
+                                <Check size={14} className="text-green-500" />
+                            ) : (
+                                <Copy size={14} />
+                            )}
+                        </button>
+                    </div>
                 );
             }
             // Tables
@@ -396,7 +452,7 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
         }
 
         return elements;
-    }, [content]);
+    }, [content, copiedIndex]);
 
     return (
         <div className={cn("prose prose-sm w-full", className)}>
