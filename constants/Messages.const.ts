@@ -15,7 +15,8 @@ Here's some \`inline code\` for you.`,
         reactions: [
             { emoji: "😂", count: 1, reacted: true },
             { emoji: "😊", count: 2, reacted: false }
-        ]
+        ],
+        userReaction: "😂" // Current user has reacted with 😂
     },
     {
         avatarUrl: "https://chirps-chat.sirv.com/octopus.png",
