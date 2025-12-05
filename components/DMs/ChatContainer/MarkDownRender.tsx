@@ -353,30 +353,24 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
                     </dl>
                 );
             }
-            // Images ![alt](url) - inline rendering for multiple images
-            else if (line.match(/^\s*!\[.*?\]\(.*?\)/)) {
-                const imageMatches = [...line.matchAll(/!\[(.*?)\]\((.*?)\)/g)];
-                if (imageMatches.length > 0) {
+            // Images ![alt](url)
+            else if (line.match(/^!\[.*?\]\(.*?\)$/)) {
+                const match = line.match(/^!\[(.*?)\]\((.*?)\)$/);
+                if (match) {
+                    const [, alt, url] = match;
                     elements.push(
-                        <div key={i} className="flex flex-wrap gap-2 my-3">
-                            {imageMatches.map((match, idx) => {
-                                const [, alt, url] = match;
-                                return (
-                                    <div key={idx} className="inline-flex rounded-lg overflow-hidden border border-foreground/10 max-w-sm">
-                                        <ProtectedImage
-                                            src={url}
-                                            alt={alt}
-                                            className="w-full h-auto max-h-96 object-contain bg-foreground/5"
-                                            fill
-                                        />
-                                        {alt && (
-                                            <div className="px-3 py-1.5 text-xs text-muted-foreground bg-foreground/5 border-t border-foreground/10">
-                                                {alt}
-                                            </div>
-                                        )}
-                                    </div>
-                                );
-                            })}
+                        <div key={i} className="inline-flex rounded-lg overflow-hidden border border-foreground/10 w-full">
+                            <ProtectedImage
+                                src={url}
+                                alt={alt}
+                                className="w-full h-auto max-h-96 object-contain bg-foreground/5"
+                                fill
+                            />
+                            {alt && (
+                                <div className="px-3 py-1.5 text-xs text-muted-foreground bg-foreground/5 border-t border-foreground/10">
+                                    {alt}
+                                </div>
+                            )}
                         </div>
                     );
                 }

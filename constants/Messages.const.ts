@@ -11,7 +11,11 @@ You can also use __bold__ and *italic* this way.
 
 Want to ~~cross something out~~? Easy!
 
-Here's some \`inline code\` for you.`
+Here's some \`inline code\` for you.`,
+        reactions: [
+            { emoji: "😂", count: 1, reacted: true },
+            { emoji: "😊", count: 2, reacted: false }
+        ]
     },
     {
         avatarUrl: "https://chirps-chat.sirv.com/octopus.png",
@@ -246,7 +250,7 @@ This message showcases **all features**:
 ## Lists
 1. First item
 2. Second item
-   - Nested bullet
+   - Nested  ![Image](https://chirps-chat.sirv.com/frog.png) bullet
    - Another one
 
 ## Tasks
