@@ -43,11 +43,27 @@ export default function GlobalHeader() {
 
     if (!shouldShowHeader) return null;
 
+    const isHidden = pathname === "/chat" || pathname.includes("/chat/");
+
     return (
-        <header ref={headerRef} className={cn(
-            'top-0 sticky border-b border-input/50 shadow-xl shadow-black/3 z-50',
-            pathname === "/chat" || pathname.includes("/chat/") ? "hidden" : ""
-        )}>
+        <motion.header 
+            ref={headerRef}
+            initial={false}
+            onAnimationEnd={() => console.log("Animation has ended")}
+            animate={{
+                y: isHidden ? -100 : 0,
+                marginTop: isHidden ? -100 : 0,
+                opacity: isHidden ? 0 : 1,
+            }}
+            transition={{
+                duration: 0.3,
+                ease: "easeInOut"
+            }}
+            className={cn(
+                'top-0 sticky border-b border-input/50 shadow-xl shadow-black/3 z-50',
+                isHidden && "pointer-events-none"
+            )}
+        >
             <div className='sm:p-4 px-4 md:px-10 flex items-center justify-between overflow-hidden relative gap-2 md:gap-10'>
                 <div className='absolute inset-0 scale-105 -mt-5 filter-ios'></div>
                 <div className='flex items-center z-10 sm:gap-5 gap-3 flex-1'>
@@ -187,6 +203,6 @@ export default function GlobalHeader() {
                     </React.Fragment>
                 </motion.div>
             </div>
-        </header>
+        </motion.header>
     )
 }

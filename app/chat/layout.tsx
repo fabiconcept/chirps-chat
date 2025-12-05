@@ -3,8 +3,8 @@ import DirectMessages from "@/components/ChatHanger/DirectMessages";
 
 export default function ChatLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="flex flex-row gap-6 items-start flex-wrap w-full sticky top-32">
-            <div className="flex flex-col gap-3">
+        <div className="flex flex-row gap-6 items-start flex-wrap w-full sticky top-32 h-full">
+            <div className="flex flex-col gap-3 h-[calc(100vh-3rem)]">
                 <DirectMessages />
                 <ChatHanger type="in-chat" />
             </div>

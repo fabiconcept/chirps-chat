@@ -151,9 +151,9 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                                 <span className="text-xs truncate max-w-sm cursor-pointer transition-all duration-150 active:scale-[0.98] hover:underline hover:underline-offset-2">{replyingTo.content}</span>
                             </div>
                         )}
-                        <div className="text-base flex flex-col p-2">
-                            <div className="flex items-center gap-2">
-                                <span className="font-semibold">{name}</span>
+                        <div className="text-sm flex flex-col p-2">
+                            <div className="flex items-center gap-2 mb-2">
+                                <span className="font-semibold text-base">{name}</span>
                                 <span className="text-xs text-muted-foreground">{getRelativeTime(timestamp, true)}</span>
                             </div>
                             <MarkDownRender content={content} />

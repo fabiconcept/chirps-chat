@@ -38,7 +38,7 @@ export default function ChannelsList() {
     }, [activeChannel]);
     
     return (
-        <div ref={scrollAreaRef} className="max-h-[calc(100dvh-12.5rem)] relative overflow-y-auto w-xs">
+        <div ref={scrollAreaRef} className="flex-1 relative overflow-y-auto w-xs">
             {/* Main Room - Stationary */}
             <div className="p-2 top-0 sticky dark:bg-[#282828] bg-[#f3f3f3]">
                 <Button

@@ -39,7 +39,7 @@ export default function DirectMessagesSelector() {
         <div className="border border-input h-full flex flex-col rounded-l-2xl bg-foreground/5 overflow-hidden">
             <FindConversation />
             <Separator />
-            <div ref={scrollAreaRef} className="grid h-fit gap-0.5 flex-1 overflow-y-auto relative">
+            <div ref={scrollAreaRef} className="grid h-fit gap-px flex-1 overflow-y-auto relative">
                 <div className="flex items-center justify-between px-3 dark:bg-[#282828] bg-[#f3f3f3] sticky top-0 z-10 pt-3 pb-1">
                     <span className="text-sm font-medium">Direct Messages</span>
                 </div>

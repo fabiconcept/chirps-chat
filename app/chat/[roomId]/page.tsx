@@ -13,7 +13,7 @@ export default async function page({ params }: { params: Promise<{ roomId: strin
     }
     
     return (
-        <div className="flex flex-row gap-6 items-start flex-wrap flex-1 sticky top-32">
+        <div className="flex flex-row gap-6 items-start flex-wrap flex-1 h-[calc(100dvh-2.5rem)]">
             <RoomSelector />
         </div>
     )

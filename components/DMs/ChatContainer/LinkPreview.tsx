@@ -67,7 +67,7 @@ export default function LinkPreview({ url, children }: LinkPreviewProps) {
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#7600C9] hover:underline inline-flex items-center gap-1"
+                    className="text-[#7600C9] dark:brightness-150 hover:underline inline-flex items-center gap-1"
                 >
                     {children}
                     <ExternalLink size={12} className="opacity-50" />

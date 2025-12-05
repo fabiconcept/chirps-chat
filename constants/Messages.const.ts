@@ -101,7 +101,7 @@ Pretty deep stuff! 🤔`
         timestamp: "Monday, November 10, 2025 @ 01:26:52 PM",
         content: `Check out these resources:
 
-[Google](https://google.com)
+[My Portfolio](https://my-portfolio-liart-rho-62.vercel.app/)
 [GitHub](https://github.com "Visit GitHub")
 <https://twitter.com>
 
@@ -199,7 +199,6 @@ Final section!`
     {
         avatarUrl: "https://chirps-chat.sirv.com/octopus.png",
         name: "Complex Formatter",
-        isUnread: true,
         timestamp: "Monday, November 17, 2025 @ 11:19:57 AM",
         content: `# Project Overview
 
@@ -236,7 +235,6 @@ Contact @admin for more info or check #announcements
     {
         avatarUrl: "https://chirps-chat.sirv.com/frog.png",
         name: "All-in-One Demo",
-        isUnread: true,
         timestamp: "Tuesday, November 18, 2025 @ 04:02:25 PM",
         content: `# Complete Markdown Demo
 

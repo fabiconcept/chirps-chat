@@ -66,7 +66,7 @@ export default function ChatHanger({ type = "feed", usersList = [...initialUsers
     return (
         <div className={cn(
             "relative",
-            type === "in-chat" && "relative",
+            type === "in-chat" && "relative flex-1",
             type === "feed" && "sticky top-32"
         )}>
             {((type === "in-chat" && users.length > 8) || (type === "feed" && users.length > 6)) &&  <>
@@ -85,7 +85,7 @@ export default function ChatHanger({ type = "feed", usersList = [...initialUsers
             </>}
             <div className={cn(
                 "max-sm:hidden shadow-lg relative shadow-foreground/5 rounded-full border border-input flex items-center gap-2 flex-col overflow-hidden",
-                type === "in-chat" && "bg-background",
+                type === "in-chat" && "bg-background h-full",
                 type === "feed" && "bg-foreground/5",
                 ((type === "in-chat" && users.length > 8) || (type === "feed" && users.length > 6)) ? "": "pb-2"
             )}>
@@ -97,7 +97,7 @@ export default function ChatHanger({ type = "feed", usersList = [...initialUsers
                 <div
                     className={cn(
                         "max-h-[calc(100vh*0.5)] overflow-y-auto no-scrollbar scroll-smooth",
-                        type === "in-chat" && "max-h-[calc(100vh*0.7)]",
+                        type === "in-chat" && "max-h-full",
                         type === "feed" && "max-h-[calc(100vh*0.5)]"
                     )}
                     ref={containerRef}

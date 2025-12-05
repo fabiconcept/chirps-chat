@@ -5,7 +5,7 @@ import { cn, copyToClipboard } from "@/lib/utils";
 import Hashtag from "@/components/ui/hashtag";
 import ProtectedImage from "@/components/Feed/TextPost/ProtectedImage";
 import LinkPreview from "./LinkPreview";
-import { Copy, Check } from "lucide-react";
+import { Copy } from "lucide-react";
 
 interface MarkdownRenderProps {
     content: string;
@@ -88,11 +88,11 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
                                 <span>{language}</span>
                                 <button
                                     onClick={() => handleCopy(codeContent, codeKey)}
-                                    className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 hover:bg-foreground/10 rounded"
+                                    className="opacity-0 cursor-pointer group-hover:opacity-100 transition-opacity duration-200 p-1 hover:bg-foreground/10 rounded"
                                     title="Copy code"
                                 >
                                     {copiedIndex === codeKey ? (
-                                        <Check size={14} className="text-green-500" />
+                                        <span className="text-xs text-green-500">copied</span>
                                     ) : (
                                         <Copy size={14} />
                                     )}
@@ -113,7 +113,7 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
                                     title="Copy code"
                                 >
                                     {copiedIndex === codeKey ? (
-                                        <Check size={14} className="text-green-500" />
+                                        <span className="text-xs text-green-500">copied</span>
                                     ) : (
                                         <Copy size={14} />
                                     )}
@@ -137,7 +137,7 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
                 const quoteKey = `quote-${quoteStartIndex}`;
                 elements.push(
                     <div key={i} className="relative group my-2">
-                        <blockquote className="border-l-4 border-[#7600C9] pl-4 py-2 italic text-muted-foreground">
+                        <blockquote className="border-l-4 border-[#7600C9] dark:brightness-150 pl-4 py-2 italic text-muted-foreground">
                             {quoteLines.map((quote, idx) => (
                                 <p key={idx}>{parseInlineMarkdown(quote)}</p>
                             ))}
@@ -148,7 +148,7 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
                             title="Copy quote"
                         >
                             {copiedIndex === quoteKey ? (
-                                <Check size={14} className="text-green-500" />
+                                <span className="text-xs text-green-500">copied</span>
                             ) : (
                                 <Copy size={14} />
                             )}
@@ -442,7 +442,7 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
             // Regular paragraph
             else {
                 elements.push(
-                    <p key={i} className="my-1">
+                    <p key={i} className="">
                         {parseInlineMarkdown(line)}
                     </p>
                 );
@@ -674,7 +674,7 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
                 elements.push(
                     <span
                         key={`mention-${i}`}
-                        className="inline-flex items-center h-5 bg-[#7600C9]/10 hover:bg-[#7600C9]/20 text-[#7600C9] dark:text-[#9D4EDD] px-1 rounded-3xl font-medium transition-colors cursor-pointer border border-[#7600C9]/20"
+                        className="inline-flex items-center dark:brightness-150 h-5 bg-[#7600C9]/10 hover:bg-[#7600C9]/20 text-[#7600C9] dark:text-[#9D4EDD] px-1 rounded-3xl font-medium transition-colors cursor-pointer border border-[#7600C9]/20"
                     >
                         <span className="text-xs">@</span><span>{match[0].slice(1)}</span>
                     </span>
