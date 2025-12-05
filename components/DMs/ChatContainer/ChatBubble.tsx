@@ -13,6 +13,9 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import EmojiPicker, { Theme } from "emoji-picker-react";
 import { useTheme } from "next-themes";
+import { Dialog, DialogContent, DialogClose, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ChevronLeftIcon, ChevronRightIcon, XIcon } from "lucide-react";
+import ProtectedImage from "@/components/Feed/TextPost/ProtectedImage";
 
 export interface ChatBubbleProps {
     avatarUrl: string;
@@ -42,6 +45,9 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
     const [currentUserReaction, setCurrentUserReaction] = useState(userReaction);
     const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
     const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
+    const [imageViewerOpen, setImageViewerOpen] = useState(false);
+    const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+    const [allImages, setAllImages] = useState<string[]>([]);
     const { theme } = useTheme();
 
     // Memoize the onSeen callback to prevent it from changing on every render
@@ -139,6 +145,24 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
         });
     }, [currentUserReaction]);
 
+    // Handle image click to open viewer
+    const handleImageClick = useCallback((imageUrl: string, images: string[]) => {
+        setAllImages(images);
+        const index = images.indexOf(imageUrl);
+        setSelectedImageIndex(index >= 0 ? index : 0);
+        setImageViewerOpen(true);
+    }, []);
+
+    // Navigate to previous image
+    const prevImage = useCallback(() => {
+        setSelectedImageIndex((prev) => (prev > 0 ? prev - 1 : allImages.length - 1));
+    }, [allImages.length]);
+
+    // Navigate to next image
+    const nextImage = useCallback(() => {
+        setSelectedImageIndex((prev) => (prev < allImages.length - 1 ? prev + 1 : 0));
+    }, [allImages.length]);
+
     return (
         <ContextMenu>
             <HoverCard 
@@ -210,7 +234,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                                         <span className="font-semibold text-base">{name}</span>
                                         <span className="text-xs text-muted-foreground">{getRelativeTime(timestamp, true)}</span>
                                     </div>
-                                    <MarkDownRender content={content} />
+                                    <MarkDownRender content={content} onImageClick={handleImageClick} />
                                 </div>
                     
                                 <ChatReactions
@@ -367,6 +391,72 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                     Delete Message
                 </ContextMenuItem>
             </ContextMenuContent>
+
+            {/* Image Viewer Dialog */}
+            <Dialog open={imageViewerOpen} onOpenChange={setImageViewerOpen}>
+                <DialogContent
+                    className="max-w-[98vw] w-full h-[95vh] p-0 bg-transparent border-none"
+                    showCloseButton={false}
+                >
+                    <DialogHeader hidden>
+                        <DialogTitle>Image Viewer</DialogTitle>
+                    </DialogHeader>
+                    <div className="relative w-full h-full flex items-center justify-center">
+                        {/* Close Button */}
+                        <DialogClose asChild>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="absolute top-4 right-4 z-50 text-white hover:bg-white/20 rounded-full"
+                            >
+                                <XIcon className="size-6" />
+                                <span className="sr-only">Close Image viewer</span>
+                            </Button>
+                        </DialogClose>
+
+                        {/* Navigation Buttons */}
+                        {allImages.length > 1 && (
+                            <>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="absolute left-4 z-50 text-white hover:bg-white/20 rounded-full"
+                                    onClick={prevImage}
+                                >
+                                    <ChevronLeftIcon className="size-8" />
+                                </Button>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="absolute right-4 z-50 text-white hover:bg-white/20 rounded-full"
+                                    onClick={nextImage}
+                                >
+                                    <ChevronRightIcon className="size-8" />
+                                </Button>
+                            </>
+                        )}
+
+                        {/* Main Image */}
+                        <div className="relative w-full h-full flex items-center justify-center p-4">
+                            {allImages[selectedImageIndex] && (
+                                <ProtectedImage
+                                    src={allImages[selectedImageIndex]}
+                                    alt={`Image ${selectedImageIndex + 1}`}
+                                    className="max-w-full max-h-full object-contain"
+                                    fill
+                                />
+                            )}
+                        </div>
+
+                        {/* Image Counter */}
+                        {allImages.length > 1 && (
+                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-4 py-2 rounded-full text-sm">
+                                {selectedImageIndex + 1} / {allImages.length}
+                            </div>
+                        )}
+                    </div>
+                </DialogContent>
+            </Dialog>
         </ContextMenu>
     )
 }

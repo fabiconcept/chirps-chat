@@ -10,9 +10,10 @@ import { Copy } from "lucide-react";
 interface MarkdownRenderProps {
     content: string;
     className?: string;
+    onImageClick?: (imageUrl: string, allImages: string[]) => void;
 }
 
-export default function MarkDownRender({ content, className }: MarkdownRenderProps) {
+export default function MarkDownRender({ content, className, onImageClick }: MarkdownRenderProps) {
     const [copiedIndex, setCopiedIndex] = useState<string | null>(null);
 
     const handleCopy = async (text: string, key: string) => {
@@ -22,6 +23,13 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
             setTimeout(() => setCopiedIndex(null), 2000);
         }
     };
+
+    // Extract all images from content
+    const allImages = useMemo(() => {
+        const imageRegex = /!\[.*?\]\((.*?)\)/g;
+        const matches = content.matchAll(imageRegex);
+        return Array.from(matches).map(match => match[1]);
+    }, [content]);
 
     const renderMarkdown = useMemo(() => {
         const lines = content.split('\n');
@@ -35,37 +43,37 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
             if (line.startsWith('###### ')) {
                 elements.push(
                     <h6 key={i} className="text-xs font-semibold mt-3 mb-1.5">
-                        {parseInlineMarkdown(line.slice(7))}
+                        {parseInlineMarkdown(line.slice(7), onImageClick, allImages)}
                     </h6>
                 );
             } else if (line.startsWith('##### ')) {
                 elements.push(
                     <h5 key={i} className="text-sm font-semibold mt-3 mb-1.5">
-                        {parseInlineMarkdown(line.slice(6))}
+                        {parseInlineMarkdown(line.slice(6), onImageClick, allImages)}
                     </h5>
                 );
             } else if (line.startsWith('#### ')) {
                 elements.push(
                     <h4 key={i} className="text-sm font-semibold mt-3 mb-2">
-                        {parseInlineMarkdown(line.slice(5))}
+                        {parseInlineMarkdown(line.slice(5), onImageClick, allImages)}
                     </h4>
                 );
             } else if (line.startsWith('### ')) {
                 elements.push(
                     <h3 key={i} className="text-base font-semibold mt-4 mb-2">
-                        {parseInlineMarkdown(line.slice(4))}
+                        {parseInlineMarkdown(line.slice(4), onImageClick, allImages)}
                     </h3>
                 );
             } else if (line.startsWith('## ')) {
                 elements.push(
                     <h2 key={i} className="text-lg font-semibold mt-4 mb-2">
-                        {parseInlineMarkdown(line.slice(3))}
+                        {parseInlineMarkdown(line.slice(3), onImageClick, allImages)}
                     </h2>
                 );
             } else if (line.startsWith('# ')) {
                 elements.push(
                     <h1 key={i} className="text-xl font-bold mt-4 mb-2">
-                        {parseInlineMarkdown(line.slice(2))}
+                        {parseInlineMarkdown(line.slice(2), onImageClick, allImages)}
                     </h1>
                 );
             }
@@ -139,7 +147,7 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
                     <div key={i} className="relative group my-2">
                         <blockquote className="border-l-4 border-[#7600C9] dark:brightness-150 pl-4 py-2 italic text-muted-foreground">
                             {quoteLines.map((quote, idx) => (
-                                <p key={idx}>{parseInlineMarkdown(quote)}</p>
+                                <p key={idx}>{parseInlineMarkdown(quote, onImageClick, allImages)}</p>
                             ))}
                         </blockquote>
                         <button
@@ -195,7 +203,7 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
                                                 className="border border-foreground/20 px-3 py-2 font-semibold text-left"
                                                 style={{ textAlign: alignments[idx] }}
                                             >
-                                                {parseInlineMarkdown(header)}
+                                                {parseInlineMarkdown(header, onImageClick, allImages)}
                                             </th>
                                         ))}
                                     </tr>
@@ -209,7 +217,7 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
                                                     className="border border-foreground/20 px-3 py-2"
                                                     style={{ textAlign: alignments[cellIdx] }}
                                                 >
-                                                    {parseInlineMarkdown(cell)}
+                                                    {parseInlineMarkdown(cell, onImageClick, allImages)}
                                                 </td>
                                             ))}
                                         </tr>
@@ -255,7 +263,7 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
                                     className="mt-1 cursor-default"
                                 />
                                 <span className={item.checked ? "line-through opacity-60" : ""}>
-                                    {parseInlineMarkdown(item.text)}
+                                    {parseInlineMarkdown(item.text, onImageClick, allImages)}
                                 </span>
                             </li>
                         ))}
@@ -305,7 +313,7 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
                                     listStyleType: getListStyle(item.indent)
                                 }}
                             >
-                                {parseInlineMarkdown(item.text)}
+                                {parseInlineMarkdown(item.text, onImageClick, allImages)}
                             </li>
                         ))}
                     </ul>
@@ -358,7 +366,7 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
                             
                             result.push(
                                 <li key={idx}>
-                                    {parseInlineMarkdown(item.text)}
+                                    {parseInlineMarkdown(item.text, onImageClick, allImages)}
                                     {nestedItems.length > 0 && (
                                         <ol style={{ listStyleType: styles[(level + 1) % styles.length] }} className="mt-1 space-y-1 ml-5">
                                             {buildNestedList(nestedItems, nestedItems[0].indent, level + 1)}
@@ -402,8 +410,8 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
                     <dl key={i} className="my-3">
                         {definitions.map((def, idx) => (
                             <div key={idx} className="mb-2">
-                                <dt className="font-semibold">{parseInlineMarkdown(def.term)}</dt>
-                                <dd className="ml-5 text-muted-foreground">{parseInlineMarkdown(def.definition)}</dd>
+                                <dt className="font-semibold">{parseInlineMarkdown(def.term, onImageClick, allImages)}</dt>
+                                <dd className="ml-5 text-muted-foreground">{parseInlineMarkdown(def.definition, onImageClick, allImages)}</dd>
                             </div>
                         ))}
                     </dl>
@@ -415,7 +423,11 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
                 if (match) {
                     const [, alt, url] = match;
                     elements.push(
-                        <div key={i} className="inline-flex rounded-lg overflow-hidden border border-foreground/10 w-full">
+                        <div 
+                            key={i} 
+                            className="inline-flex rounded-lg overflow-hidden border border-foreground/10 w-full cursor-pointer hover:opacity-90 transition-opacity"
+                            onClick={() => onImageClick?.(url, allImages)}
+                        >
                             <ProtectedImage
                                 src={url}
                                 alt={alt}
@@ -443,7 +455,7 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
             else {
                 elements.push(
                     <p key={i} className="">
-                        {parseInlineMarkdown(line)}
+                        {parseInlineMarkdown(line, onImageClick, allImages)}
                     </p>
                 );
             }
@@ -452,7 +464,7 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
         }
 
         return elements;
-    }, [content, copiedIndex]);
+    }, [content, copiedIndex, allImages, onImageClick]);
 
     return (
         <div className={cn("prose prose-sm w-full", className)}>
@@ -462,7 +474,7 @@ export default function MarkDownRender({ content, className }: MarkdownRenderPro
 }
 
 // Parse inline markdown (bold, italic, code, links, hashtags, etc.)
-function parseInlineMarkdown(text: string): React.ReactNode[] {
+function parseInlineMarkdown(text: string, onImageClick?: (imageUrl: string, allImages: string[]) => void, allImages?: string[]): React.ReactNode[] {
     const elements: React.ReactNode[] = [];
     let currentText = '';
     let i = 0;
@@ -482,7 +494,7 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
             if (endIndex !== -1) {
                 elements.push(
                     <strong key={`bold-${i}`} className="font-bold">
-                        {parseInlineMarkdown(text.slice(i + 2, endIndex))}
+                        {parseInlineMarkdown(text.slice(i + 2, endIndex), onImageClick, allImages)}
                     </strong>
                 );
                 i = endIndex + 2;
@@ -496,7 +508,7 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
             if (endIndex !== -1) {
                 elements.push(
                     <strong key={`bold-${i}`} className="font-bold">
-                        {parseInlineMarkdown(text.slice(i + 2, endIndex))}
+                        {parseInlineMarkdown(text.slice(i + 2, endIndex), onImageClick, allImages)}
                     </strong>
                 );
                 i = endIndex + 2;
@@ -510,7 +522,7 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
             if (endIndex !== -1 && text[endIndex - 1] !== '\\') {
                 elements.push(
                     <em key={`italic-${i}`} className="italic">
-                        {parseInlineMarkdown(text.slice(i + 1, endIndex))}
+                        {parseInlineMarkdown(text.slice(i + 1, endIndex), onImageClick, allImages)}
                     </em>
                 );
                 i = endIndex + 1;
@@ -524,7 +536,7 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
             if (endIndex !== -1 && text[endIndex - 1] !== '\\') {
                 elements.push(
                     <em key={`italic-${i}`} className="italic">
-                        {parseInlineMarkdown(text.slice(i + 1, endIndex))}
+                        {parseInlineMarkdown(text.slice(i + 1, endIndex), onImageClick, allImages)}
                     </em>
                 );
                 i = endIndex + 1;
@@ -552,7 +564,7 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
             if (endIndex !== -1) {
                 elements.push(
                     <mark key={`mark-${i}`} className="bg-yellow-200 dark:bg-yellow-700/50 dark:text-white px-1 rounded">
-                        {parseInlineMarkdown(text.slice(i + 2, endIndex))}
+                        {parseInlineMarkdown(text.slice(i + 2, endIndex), onImageClick, allImages)}
                     </mark>
                 );
                 i = endIndex + 2;
@@ -594,7 +606,7 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
             if (endIndex !== -1) {
                 elements.push(
                     <del key={`del-${i}`} className="line-through opacity-70">
-                        {parseInlineMarkdown(text.slice(i + 2, endIndex))}
+                        {parseInlineMarkdown(text.slice(i + 2, endIndex), onImageClick, allImages)}
                     </del>
                 );
                 i = endIndex + 2;
@@ -611,7 +623,11 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
                     const alt = text.slice(i + 2, closeBracket);
                     const url = text.slice(closeBracket + 2, closeParen);
                     elements.push(
-                        <span key={`img-${i}`} className="inline-block my-1 mx-1 rounded-md overflow-hidden border border-foreground/10 align-middle">
+                        <span 
+                            key={`img-${i}`} 
+                            className="inline-block my-1 mx-1 rounded-md overflow-hidden border border-foreground/10 align-middle cursor-pointer hover:opacity-90 transition-opacity"
+                            onClick={() => onImageClick?.(url, allImages || [])}
+                        >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                                 src={url}

@@ -281,8 +281,8 @@ console.log("Hi!");
 | Lists   | ✅     |
 | Tables  | ✅     |
 
- ![Image](https://chirps-chat.sirv.com/frog.png)
- ![Image](https://chirps-chat.sirv.com/frog.png)
+ ![Image](https://chirps-chat.sirv.com/termite.png)
+ ![Image](https://chirps-chat.sirv.com/fish.png)
  ![Image](https://chirps-chat.sirv.com/frog.png)`
     }
 ];
