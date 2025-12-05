@@ -61,7 +61,7 @@ export default function UserCard({
             />
             <div className="flex-1 flex gap-2 items-center pr-2 min-w-0">
                 <div className="flex-1 flex flex-col w-full select-none transition-transform duration-300 origin-bottom min-w-0">
-                    <span className="font-medium truncate">{name}</span>
+                    <span className="font-medium text-sm truncate">{name}</span>
                     <div className="flex items-center gap-1 text-xs text-muted-foreground min-w-0">
                         <AnimatePresence mode="wait">
                             {isTyping ? (

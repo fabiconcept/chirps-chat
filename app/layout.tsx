@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./stylesheets/globals.css";
 // import "./stylesheets/debug.css";
+import "./stylesheets/pattern.css";
 import "./stylesheets/fonts.css";
 import Providers from "@/components/Providers/theme-provider";
 import { RootMetadata } from "@/lib/metadata";
