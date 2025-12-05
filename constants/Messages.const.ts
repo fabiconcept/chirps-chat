@@ -7,6 +7,8 @@ export const MARKDOWN_EXAMPLES: ChatBubbleProps[] = [
         timestamp: "Monday, November 3, 2025 @ 10:14:22 AM",
         content: `Hey! Check out these **bold** and _italic_ styles!
 
+        @[youtube](YMmdQw17TU4)
+
 You can also use __bold__ and *italic* this way.
 
 Want to ~~cross something out~~? Easy!
@@ -54,6 +56,27 @@ And my todo list:
     },
     {
         avatarUrl: "https://chirps-chat.sirv.com/tiger.png",
+        replyingTo: {
+            name: "Lists Master",
+            content: `Here's my shopping list:
+
+- Apples
+- Bananas
+- Oranges
+  - Blood oranges
+  - Navel oranges
+- Grapes
+
+And my todo list:
+
+1. Wake up
+2. Write code
+3. Ship features
+   1. Test thoroughly
+   2. Deploy to prod
+4. Celebrate! 🎉`,
+            id: "1"
+        },
         name: "Code Wizard",
         timestamp: "Friday, November 7, 2025 @ 11:05:03 AM",
         content: `Here's a quick React component:
@@ -93,6 +116,7 @@ Let's collaborate on this! @teamlead what do you think?`
 > To be or not to be, that is the question.
 > Whether 'tis nobler in the mind to suffer
 > The slings and arrows of outrageous fortune
+> https://aism-edu.vercel.app/
 
 Pretty deep stuff! 🤔`
     },
@@ -102,9 +126,9 @@ Pretty deep stuff! 🤔`
         timestamp: "Monday, November 10, 2025 @ 01:26:52 PM",
         content: `Check out these resources:
 
-[My Portfolio](https://my-portfolio-liart-rho-62.vercel.app/)
-[GitHub](https://github.com "Visit GitHub")
-<https://twitter.com>
+[My Portfolio](https://linktree-three-lovat.vercel.app/fabiconcept)
+[LinkedIn](https://www.linkedin.com/in/fabiconcept)
+[Twitter](https://twitter.com)
 
 Or visit [https://example.com](https://example.com) directly!`
     },

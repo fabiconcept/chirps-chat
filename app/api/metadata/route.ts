@@ -75,10 +75,10 @@ export async function GET(request: NextRequest) {
     } catch (error) {
         console.error("Error fetching metadata:", error);
         return NextResponse.json(
-            { 
+            {
                 error: "Failed to fetch metadata",
                 url,
-                siteName: new URL(url).hostname 
+                siteName: new URL(url).hostname
             },
             { status: 500 }
         );

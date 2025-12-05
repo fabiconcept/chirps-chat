@@ -665,6 +665,35 @@ function parseInlineMarkdown(text: string, onImageClick?: (imageUrl: string, all
                 }
             }
         }
+
+        // Standalone URLs (not already in markdown link syntax)
+        else if (text.slice(i).match(/^https?:\/\/[^\s<>)]+/)) {
+            const match = text.slice(i).match(/^https?:\/\/[^\s<>)]+/);
+            if (match) {
+                const url = match[0];
+                
+                // Check if this URL is part of [url](url) pattern
+                // Look back to see if we're inside a markdown link where display text equals URL
+                const beforeUrl = text.slice(0, i);
+                const afterUrl = text.slice(i + url.length);
+                
+                // Pattern: [https://example.com](https://example.com)
+                // Check if preceded by [ and followed by ](same-url)
+                const isInMarkdownLink = beforeUrl.endsWith('[') && afterUrl.startsWith(`](${url})`);
+                
+                if (!isInMarkdownLink) {
+                    flushText();
+                    elements.push(
+                        <LinkPreview key={`url-${i}`} url={url}>
+                            {url}
+                        </LinkPreview>
+                    );
+                    i += url.length;
+                    continue;
+                }
+            }
+        }
+        
         // Auto-links <url>
         else if (text[i] === '<') {
             const closeAngle = text.indexOf('>', i);
@@ -682,7 +711,38 @@ function parseInlineMarkdown(text: string, onImageClick?: (imageUrl: string, all
                 }
             }
         }
-        // Mentions @username
+        // YouTube embeds @[youtube](videoId)
+        else if (text[i] === '@' && text[i + 1] === '[') {
+            const closeBracket = text.indexOf(']', i + 2);
+            if (closeBracket !== -1 && text[closeBracket + 1] === '(') {
+                const closeParen = text.indexOf(')', closeBracket + 2);
+                if (closeParen !== -1) {
+                    const embedType = text.slice(i + 2, closeBracket);
+                    const embedId = text.slice(closeBracket + 2, closeParen);
+                    
+                    if (embedType === 'youtube') {
+                        flushText();
+                        elements.push(
+                            <div key={`youtube-${i}`} className="my-4 rounded-lg overflow-hidden border border-foreground/10">
+                                <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                                    <iframe
+                                        className="absolute top-0 left-0 w-full h-full"
+                                        src={`https://www.youtube.com/embed/${embedId}`}
+                                        title="YouTube video player"
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                    />
+                                </div>
+                            </div>
+                        );
+                        i = closeParen + 1;
+                        continue;
+                    }
+                }
+            }
+        }
+        // @mentions
         else if (text[i] === '@' && (i === 0 || /\s/.test(text[i - 1]))) {
             const match = text.slice(i).match(/^@[\w-]+/);
             if (match) {

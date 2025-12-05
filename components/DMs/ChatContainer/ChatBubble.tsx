@@ -201,7 +201,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                                         />
                                     </div>
                                 </HoverCardTrigger>
-                                <HoverCardContent side="left" className="p-0 w-fit">
+                                <HoverCardContent side="bottom" align="start" className="p-0 w-fit bg-background/75 backdrop-blur-sm rounded-4xl border-none">
                                     <ProfileCard size="sm" />
                                 </HoverCardContent>
                             </HoverCard>
@@ -220,7 +220,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                                                         />
                                                     </div>
                                                 </HoverCardTrigger>
-                                                <HoverCardContent side="right" className="p-0 w-fit">
+                                                <HoverCardContent side="bottom" align="start" className="p-0 w-fit bg-background/75 backdrop-blur-sm rounded-4xl border-none">
                                                     <ProfileCard size="sm" />
                                                 </HoverCardContent>
                                             </HoverCard>
@@ -334,7 +334,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
             </HoverCard>
             
             <ContextMenuContent className="w-56">
-                <ContextMenuItem onClick={() => reactionsRef.current?.openEmojiPicker()}>
+                <ContextMenuItem onClick={() => internalReactions.length > 0 ? reactionsRef.current?.openEmojiPicker(): setIsHoverCardOpen(true)}>
                     <SmilePlus size={16} />
                     Add Reactions
                 </ContextMenuItem>

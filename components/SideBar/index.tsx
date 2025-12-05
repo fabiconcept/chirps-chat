@@ -85,7 +85,7 @@ export default function SideBar() {
     }, [allowedShortcuts, feedLinkRef, leaderboardLinkRef, marketplaceLinkRef, suggestionsLinkRef, chatLinkRef]);
 
     return (
-        <div className="w-32 sticky top-32 overflow-hidden h-[80dvh] hidden md:flex flex-col items-center">
+        <div className="w-24 sticky top-32 overflow-hidden h-[80dvh] hidden md:flex flex-col items-center">
             <div className="flex-1 " onKeyDown={(e)=> console.table(e)}>
                 <div className="w-fit shadow-lg shadow-foreground/5 p-2 border border-input/50 bg-foreground/5 rounded-full origin-top -rotate-3 hover:rotate-0 hover:delay-0 delay-1000 transition-transform duration-300 ease-in-out">
                     <div className="flex flex-col gap-3">
