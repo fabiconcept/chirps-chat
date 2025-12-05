@@ -551,7 +551,7 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
             const endIndex = text.indexOf('==', i + 2);
             if (endIndex !== -1) {
                 elements.push(
-                    <mark key={`mark-${i}`} className="bg-yellow-200 dark:bg-yellow-700/50 px-1 rounded">
+                    <mark key={`mark-${i}`} className="bg-yellow-200 dark:bg-yellow-700/50 dark:text-white px-1 rounded">
                         {parseInlineMarkdown(text.slice(i + 2, endIndex))}
                     </mark>
                 );

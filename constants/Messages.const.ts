@@ -4,7 +4,7 @@ export const MARKDOWN_EXAMPLES: ChatBubbleProps[] = [
     {
         avatarUrl: "https://chirps-chat.sirv.com/parrot.png",
         name: "Basic Formatting",
-        timestamp: "12:34 PM",
+        timestamp: "Monday, November 3, 2025 @ 10:14:22 AM",
         content: `Hey! Check out these **bold** and _italic_ styles!
 
 You can also use __bold__ and *italic* this way.
@@ -20,7 +20,7 @@ Here's some \`inline code\` for you.`,
     {
         avatarUrl: "https://chirps-chat.sirv.com/octopus.png",
         name: "Lists Master",
-        timestamp: "12:35 PM",
+        timestamp: "Wednesday, November 5, 2025 @ 04:33:57 PM",
         content: `Here's my shopping list:
 
 - Apples
@@ -42,7 +42,7 @@ And my todo list:
     {
         avatarUrl: "https://chirps-chat.sirv.com/frog.png",
         name: "Task Manager",
-        timestamp: "12:36 PM",
+        timestamp: "Thursday, November 6, 2025 @ 08:22:41 AM",
         content: `Project Status:
 
 - [x] Design mockups
@@ -54,7 +54,7 @@ And my todo list:
     {
         avatarUrl: "https://chirps-chat.sirv.com/tiger.png",
         name: "Code Wizard",
-        timestamp: "12:37 PM",
+        timestamp: "Friday, November 7, 2025 @ 11:05:03 AM",
         content: `Here's a quick React component:
 
 \`\`\`javascript
@@ -75,7 +75,7 @@ Use \`npm install\` to get started!`
     {
         avatarUrl: "https://chirps-chat.sirv.com/parrot.png",
         name: "Social Butterfly",
-        timestamp: "12:38 PM",
+        timestamp: "Saturday, November 8, 2025 @ 09:44:18 AM",
         content: `Hey @john and @sarah! 👋
 
 Check out these cool topics:
@@ -86,7 +86,7 @@ Let's collaborate on this! @teamlead what do you think?`
     {
         avatarUrl: "https://chirps-chat.sirv.com/octopus.png",
         name: "Quote Master",
-        timestamp: "12:39 PM",
+        timestamp: "Sunday, November 9, 2025 @ 06:11:59 PM",
         content: `Someone once said:
 
 > To be or not to be, that is the question.
@@ -98,7 +98,7 @@ Pretty deep stuff! 🤔`
     {
         avatarUrl: "https://chirps-chat.sirv.com/frog.png",
         name: "Link Sharer",
-        timestamp: "12:40 PM",
+        timestamp: "Monday, November 10, 2025 @ 01:26:52 PM",
         content: `Check out these resources:
 
 [Google](https://google.com)
@@ -110,7 +110,7 @@ Or visit [https://example.com](https://example.com) directly!`
     {
         avatarUrl: "https://chirps-chat.sirv.com/tiger.png",
         name: "Science Nerd",
-        timestamp: "12:41 PM",
+        timestamp: "Tuesday, November 11, 2025 @ 07:43:19 PM",
         content: `Did you know?
 
 Water is H~2~O and the equation is E=mc^2^
@@ -122,7 +122,7 @@ Chemical formula: CO~2~ (carbon dioxide)`
     {
         avatarUrl: "https://chirps-chat.sirv.com/parrot.png",
         name: "Table Creator",
-        timestamp: "12:42 PM",
+        timestamp: "Wednesday, November 12, 2025 @ 03:18:05 PM",
         content: `Here's our team performance:
 
 | Name | Tasks | Status |
@@ -136,7 +136,7 @@ Great work everyone! 🎯`
     {
         avatarUrl: "https://chirps-chat.sirv.com/octopus.png",
         name: "Image Poster",
-        timestamp: "12:43 PM",
+        timestamp: "Thursday, November 13, 2025 @ 09:01:47 AM",
         content: `Check out these awesome images!
 
  ![A cute octopus](https://chirps-chat.sirv.com/octopus.png)
@@ -147,7 +147,7 @@ Aren't they adorable? 🐙🐸`
     {
         avatarUrl: "https://chirps-chat.sirv.com/frog.png",
         name: "Header Hero",
-        timestamp: "12:44 PM",
+        timestamp: "Friday, November 14, 2025 @ 05:55:31 PM",
         content: `# Main Title
 
 ## Subtitle Here
@@ -166,7 +166,7 @@ Regular paragraph text continues here.`
     {
         avatarUrl: "https://chirps-chat.sirv.com/tiger.png",
         name: "Definition Guru",
-        timestamp: "12:45 PM",
+        timestamp: "Saturday, November 15, 2025 @ 02:44:12 PM",
         content: `Technical Terms:
 
 React
@@ -181,7 +181,7 @@ npm
     {
         avatarUrl: "https://chirps-chat.sirv.com/parrot.png",
         name: "Divider Fan",
-        timestamp: "12:46 PM",
+        timestamp: "Sunday, November 16, 2025 @ 07:33:46 AM",
         content: `First section with some important info.
 
 ---
@@ -199,7 +199,8 @@ Final section!`
     {
         avatarUrl: "https://chirps-chat.sirv.com/octopus.png",
         name: "Complex Formatter",
-        timestamp: "12:47 PM",
+        isUnread: true,
+        timestamp: "Monday, November 17, 2025 @ 11:19:57 AM",
         content: `# Project Overview
 
 ## Features
@@ -235,7 +236,8 @@ Contact @admin for more info or check #announcements
     {
         avatarUrl: "https://chirps-chat.sirv.com/frog.png",
         name: "All-in-One Demo",
-        timestamp: "12:48 PM",
+        isUnread: true,
+        timestamp: "Tuesday, November 18, 2025 @ 04:02:25 PM",
         content: `# Complete Markdown Demo
 
 This message showcases **all features**:
@@ -250,7 +252,7 @@ This message showcases **all features**:
 ## Lists
 1. First item
 2. Second item
-   - Nested  ![Image](https://chirps-chat.sirv.com/frog.png) bullet
+   - Nested bullet
    - Another one
 
 ## Tasks

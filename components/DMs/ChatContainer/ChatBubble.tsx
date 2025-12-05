@@ -1,16 +1,20 @@
+"use client"
+
 import ProfileAvatar from "@/components/ProfileCard/ProfileAvatar";
 import MarkDownRender from "./MarkDownRender";
-import { cn } from "@/lib/utils";
+import { cn, getRelativeTime } from "@/lib/utils";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import ProfileCard from "@/components/ProfileCard";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuSeparator, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from "@/components/ui/context-menu";
 import { Reply, Forward, Copy, Link, Volume2, Pencil, Pin, Smile, Frown, Trash } from "lucide-react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 export interface ChatBubbleProps {
     avatarUrl: string;
     name: string;
     content: string;
     timestamp: string;
+    isUnread?: boolean;
     replyingTo?: {
         name: string;
         content: string;
@@ -21,13 +25,89 @@ export interface ChatBubbleProps {
         count: number;
         reacted: boolean;
     }[];
+    onSeen?: () => void;
 }
 
-export default function ChatBubble({ avatarUrl, name, content, timestamp, replyingTo, reactions = [] }: ChatBubbleProps) {
+export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnread = false, replyingTo, reactions = [], onSeen }: ChatBubbleProps) {
+    const bubbleRef = useRef<HTMLDivElement>(null);
+    const hasBeenSeenRef = useRef(false);
+    const [internalReactions, setInternalReactions] = useState(reactions);
+
+    // Memoize the onSeen callback to prevent it from changing on every render
+    const onSeenCallback = useCallback(() => {
+        if (onSeen && !hasBeenSeenRef.current) {
+            hasBeenSeenRef.current = true;
+            onSeen();
+        }
+    }, [onSeen]);
+
+    // Intersection Observer for seen trigger
+    useEffect(() => {
+        if (!bubbleRef.current || hasBeenSeenRef.current) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+                        onSeenCallback();
+                    }
+                });
+            },
+            {
+                threshold: 0.5,
+            }
+        );
+
+        observer.observe(bubbleRef.current);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [onSeenCallback]);
+
+    // Handle adding/removing reactions
+    const handleReactionToggle = useCallback((emoji: string) => {
+        setInternalReactions((prev) => {
+            const existingReaction = prev.find((r) => r.emoji === emoji);
+            
+            if (existingReaction) {
+                // Toggle reacted state
+                if (existingReaction.reacted) {
+                    // Remove reaction
+                    const newCount = existingReaction.count - 1;
+                    if (newCount === 0) {
+                        return prev.filter((r) => r.emoji !== emoji);
+                    }
+                    return prev.map((r) =>
+                        r.emoji === emoji
+                            ? { ...r, count: newCount, reacted: false }
+                            : r
+                    );
+                } else {
+                    // Add reaction
+                    return prev.map((r) =>
+                        r.emoji === emoji
+                            ? { ...r, count: r.count + 1, reacted: true }
+                            : r
+                    );
+                }
+            } else {
+                // Add new reaction
+                return [...prev, { emoji, count: 1, reacted: true }];
+            }
+        });
+    }, []);
+
     return (
         <ContextMenu>
             <ContextMenuTrigger asChild>
-                <div className="flex items-start gap-2 w-full transition-colors duration-200 dark:hover:bg-[#282828]/50 hover:bg-[#F3F3F3]/75 px-3 py-2">
+                <div 
+                    ref={bubbleRef}
+                    className={cn(
+                        "flex items-start gap-2 w-full transition-colors duration-200 px-3 py-2",
+                        isUnread ? "bg-yellow-600/5 relative after:absolute after:content-[''] after:w-1 after:h-full after:bg-yellow-600/20 after:left-0 after:z-10 after:top-0" : "dark:hover:bg-[#282828]/50 hover:bg-[#F3F3F3]/75"
+                    )}
+                >
                     {replyingTo && <div className="h-4 w-9 border-2 rounded-tl-3xl translate-x-14 translate-y-4 border-b-0 border-r-0"></div>}
                     <HoverCard openDelay={300}>
                         <HoverCardTrigger asChild>
@@ -74,16 +154,17 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, replyi
                         <div className="text-base flex flex-col p-2">
                             <div className="flex items-center gap-2">
                                 <span className="font-semibold">{name}</span>
-                                <span className="text-xs text-muted-foreground">{timestamp}</span>
+                                <span className="text-xs text-muted-foreground">{getRelativeTime(timestamp, true)}</span>
                             </div>
                             <MarkDownRender content={content} />
                         </div>
                         
-                        {reactions.length > 0 && (
+                        {internalReactions.length > 0 && (
                             <div className="flex items-center gap-2 px-2 pb-1 flex-wrap">
-                                {reactions.map((reaction, idx) => (
+                                {internalReactions.map((reaction, idx) => (
                                     <button
                                         key={idx}
+                                        onClick={() => handleReactionToggle(reaction.emoji)}
                                         className={cn(
                                             "flex items-center gap-1 px-2 py-1 rounded-full text-sm border transition-all duration-150 hover:scale-105 active:scale-95",
                                             reaction.reacted
@@ -115,6 +196,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, replyi
                             {['😂', '❤️', '👍', '🎉', '😮', '😢', '🔥', '👏', '✨', '💯'].map((emoji) => (
                                 <button
                                     key={emoji}
+                                    onClick={() => handleReactionToggle(emoji)}
                                     className="text-2xl hover:bg-foreground/10 rounded p-1 transition-all duration-150 hover:scale-110 active:scale-95"
                                 >
                                     {emoji}

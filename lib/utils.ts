@@ -140,7 +140,7 @@ export function removeSearchParam(key: string) {
   window.history.pushState({}, "", url.toString());
 }
 
-export function getRelativeTime(date: Date | string): string {
+export function getRelativeTime(date: Date | string, withTime: boolean = false): string {
   const now = new Date();
   const targetDate = typeof date === 'string' ? new Date(date) : date;
   const diffInMs = now.getTime() - targetDate.getTime();
@@ -166,18 +166,24 @@ export function getRelativeTime(date: Date | string): string {
 
   // Yesterday
   if (diffInDays === 1) {
-    return 'Yesterday';
+    return !withTime ? 'Yesterday' : `Yesterday, ${targetDate.getHours()}:${targetDate.getMinutes()}:${targetDate.getSeconds()}`;
   }
 
   // Days of week (less than 7 days)
   if (diffInDays < 7) {
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    return days[targetDate.getDay()];
+    return !withTime ? `${days[targetDate.getDay()]}` : `${days[targetDate.getDay()]}, ${targetDate.getHours()}:${targetDate.getMinutes()}:${targetDate.getSeconds()}`;
   }
 
   // Full date for older messages
   const day = targetDate.getDate().toString().padStart(2, '0');
   const month = (targetDate.getMonth() + 1).toString().padStart(2, '0');
   const year = targetDate.getFullYear();
-  return `${day}.${month}.${year}`;
+  return withTime ? `${day}/${month}/${year} ${targetDate.getHours()}:${targetDate.getMinutes()}:${targetDate.getSeconds()}` : `${day}/${month}/${year}`;
 }
+
+export const isGapGreaterThan24Hours = (date1: Date, date2: Date) => {
+  const diffInMs = Math.abs(date1.getTime() - date2.getTime());
+  const diffInHours = diffInMs / (1000 * 60 * 60);
+  return diffInHours > 24;
+};
