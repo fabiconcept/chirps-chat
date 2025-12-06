@@ -4,7 +4,7 @@ import { MarkdownFormatterActions } from "./types";
 interface UseMarkdownFormatterProps {
     message: string;
     setMessage: (message: string) => void;
-    textareaRef: RefObject<HTMLTextAreaElement> | null;
+    textareaRef: RefObject<HTMLTextAreaElement | null>;
     setIsImageDropdownOpen?: (open: boolean) => void;
 }
 
@@ -80,7 +80,15 @@ export function useMarkdownFormatter({
     const formatH3 = useCallback(() => insertMarkdown("\n### ", "", "Heading 3"), [insertMarkdown]);
     const formatMention = useCallback(() => insertMarkdown("@", "", "username"), [insertMarkdown]);
     const formatHashtag = useCallback(() => insertMarkdown("#", "", "tag"), [insertMarkdown]);
+    
+    // Table formatters
     const formatTable = useCallback(() => insertMarkdown("\n| Header 1 | Header 2 |\n|----------|----------|\n| Cell 1   | Cell 2   |\n", "", ""), [insertMarkdown]);
+    const formatTable2x2 = useCallback(() => insertMarkdown("\n| Header 1 | Header 2 |\n|----------|----------|\n| Cell 1   | Cell 2   |\n| Cell 3   | Cell 4   |\n", "", ""), [insertMarkdown]);
+    const formatTable3x3 = useCallback(() => insertMarkdown("\n| Header 1 | Header 2 | Header 3 |\n|----------|----------|----------|\n| Cell 1   | Cell 2   | Cell 3   |\n| Cell 4   | Cell 5   | Cell 6   |\n| Cell 7   | Cell 8   | Cell 9   |\n", "", ""), [insertMarkdown]);
+    const formatTable4x4 = useCallback(() => insertMarkdown("\n| Header 1 | Header 2 | Header 3 | Header 4 |\n|----------|----------|----------|----------|\n| Cell 1   | Cell 2   | Cell 3   | Cell 4   |\n| Cell 5   | Cell 6   | Cell 7   | Cell 8   |\n| Cell 9   | Cell 10  | Cell 11  | Cell 12  |\n| Cell 13  | Cell 14  | Cell 15  | Cell 16  |\n", "", ""), [insertMarkdown]);
+    const formatTableAddRow = useCallback(() => insertMarkdown("| Cell 1   | Cell 2   |\n", "", ""), [insertMarkdown]);
+    const formatTableAddColumn = useCallback(() => insertMarkdown(" | Column ", "", ""), [insertMarkdown]);
+    
     const formatYouTube = useCallback(() => insertMarkdown("@[youtube](", ")", "videoId"), [insertMarkdown]);
 
     return {
@@ -101,6 +109,11 @@ export function useMarkdownFormatter({
         formatMention,
         formatHashtag,
         formatTable,
+        formatTable2x2,
+        formatTable3x3,
+        formatTable4x4,
+        formatTableAddRow,
+        formatTableAddColumn,
         formatYouTube
     };
 }

@@ -1,7 +1,7 @@
 "use client"
 import { useAuth } from './Providers/AuthProvider';
 import { Button } from './ui/button';
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ThemeSwitch from './ui/theme-switch';
 import { useTheme } from "next-themes";
 import Image from "next/image";
@@ -24,11 +24,15 @@ import {
 import Search from './header components/Search';
 import UserClump from './modular/UserClump';
 import { BellDot } from 'lucide-react';
-import { cn, updateSearchParam } from '@/lib/utils';
+import { cn, removeSearchParam, updateSearchParam } from '@/lib/utils';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { MaximizeScreenIcon, MinimizeScreenIcon } from '@hugeicons/core-free-icons';
+import { useKeyBoardShortCut } from './Providers/KeyBoardShortCutProvider';
+import useShortcuts from '@useverse/useshortcuts';
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
+import { toast } from 'sonner';
 
 const noHeaderPages = [
     "/activities"
@@ -39,13 +43,56 @@ export default function GlobalHeader() {
     const headerRef = useRef<HTMLDivElement>(null);
     const { theme } = useTheme();
     const pathname = usePathname();
+    const isFullscreen = useSearchParams().get("fullscreen");
     const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+    const { allowedShortcuts, allowShortcuts, disallowShortcuts } = useKeyBoardShortCut();
+
+    useEffect(()=>{
+        allowShortcuts(["alt+F", "commandESC"])
+
+        if (isFullscreen) {
+            toast("Fullscreen enabled, press ESC to exit", {
+                duration: 2000,
+            })
+        }
+    
+        return ()=> {
+            disallowShortcuts(["alt+F"]);
+        }
+    }, [isFullscreen]);
+
+    const handleFullScreenToggle = useCallback(() => {
+        if (!isFullscreen) {
+            updateSearchParam("fullscreen", "true");
+            return;
+        }
+        removeSearchParam("fullscreen");
+    }, [isFullscreen, updateSearchParam, removeSearchParam]);
+
+    useShortcuts({
+        shortcuts: [
+            { key: "F", altKey: true, enabled: allowedShortcuts.has("alt+F") },
+            { key: "Escape", isSpecialKey: true,  enabled: allowedShortcuts.has("commandESC") },
+        ],
+        onTrigger: (shortcut) => {
+            switch (shortcut.key) {
+                case "F":
+                    handleFullScreenToggle()
+                    allowShortcuts(["commandESC"])
+                    break;
+                case "Escape":
+                    removeSearchParam("fullscreen");
+                    disallowShortcuts(["commandESC"]);
+                    break;
+            }
+        }
+    }, [allowedShortcuts, handleFullScreenToggle]);
 
     const shouldShowHeader = !noHeaderPages.includes(pathname);
 
     if (!shouldShowHeader) return null;
 
-    const isHidden = pathname === "/chat" || pathname.includes("/chat/");
+    const isHidden = (pathname === "/chat" || pathname.includes("/chat/"));
 
     return (
         <motion.header 
@@ -53,20 +100,23 @@ export default function GlobalHeader() {
             initial={false}
             onAnimationEnd={() => console.log("Animation has ended")}
             animate={{
-                y: isHidden ? -100 : 0,
-                marginTop: isHidden ? -100 : 0,
-                opacity: isHidden ? 0 : 1,
+                y: (isHidden && isFullscreen) ? -100 : 0,
+                marginTop: (isHidden && isFullscreen) ? -100 : 0,
+                opacity: (isHidden && isFullscreen) ? 0 : 1,
             }}
             transition={{
                 duration: 0.3,
                 ease: "easeInOut"
             }}
             className={cn(
-                'top-0 sticky border-b border-input/50 shadow-xl shadow-black/3 z-50',
-                isHidden && "pointer-events-none"
+                'border-b border-input/50 shadow-xl shadow-black/3 z-50',
+                isHidden ? "" : "top-0 sticky",
+                (isHidden && isFullscreen) && "pointer-events-none"
             )}
         >
-            <div className='sm:p-4 px-4 md:px-10 flex items-center justify-between overflow-hidden relative gap-2 md:gap-10'>
+            <div  
+                className='sm:p-4 px-4 md:px-10 flex items-center justify-between overflow-hidden relative gap-2 md:gap-10'
+            >
                 <div className='absolute inset-0 scale-105 -mt-5 filter-ios'></div>
                 <div className='flex items-center z-10 sm:gap-5 gap-3 flex-1'>
                     <div className="flex items-center gap-2 max-md:py-5">
@@ -91,7 +141,24 @@ export default function GlobalHeader() {
                     transition={{ duration: 0.2, ease: 'easeInOut' }}
                     className='flex items-center z-10 gap-2 justify-end overflow-hidden'
                 >
-
+                    {isHidden && (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button 
+                                    onClick={handleFullScreenToggle} 
+                                    size={"icon-sm"} 
+                                    variant={"ghost"}
+                                >
+                                    <HugeiconsIcon
+                                        icon={isFullscreen ? MaximizeScreenIcon : MinimizeScreenIcon}
+                                    />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                {isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+                            </TooltipContent>
+                        </Tooltip>
+                    )}
                     <div
                         className="lg:flex hidden items-center gap-2"
                     >
@@ -115,14 +182,6 @@ export default function GlobalHeader() {
                             {20 > 10 ? '10+' : 20}
                         </span>
                     </div>
-                    {isHidden && <Button size={"icon-sm"} variant={"ghost"}>
-                        <HugeiconsIcon
-                            icon={MaximizeScreenIcon}
-                        />
-                        <HugeiconsIcon
-                            icon={MinimizeScreenIcon}
-                        />
-                    </Button>}
                     <React.Fragment>
                         {!isAuthenticated && (
                             <AnimatePresence>

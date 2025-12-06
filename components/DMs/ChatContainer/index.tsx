@@ -3,6 +3,7 @@ import ChatBubble from "./ChatBubble";
 import ChatSeperator, { ChatSeperatorType } from "./ChatSeperator";
 import DmIntroCard from "./DmIntroCard";
 import { isGapGreaterThan24Hours } from "@/lib/utils";
+import TypingIndicator from "./TypingIndicator";
 
 export default function ChatContainer() {
     // Find the first unread message index
@@ -37,6 +38,9 @@ export default function ChatContainer() {
                         </div>
                     );
                 })}
+                <TypingIndicator
+                    users={MARKDOWN_EXAMPLES.slice(0, 19)}
+                />
             </div>
         </div>
     )

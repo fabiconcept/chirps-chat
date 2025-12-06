@@ -21,5 +21,10 @@ export interface MarkdownFormatterActions {
     formatMention: () => void;
     formatHashtag: () => void;
     formatTable: () => void;
+    formatTable2x2: () => void;
+    formatTable3x3: () => void;
+    formatTable4x4: () => void;
+    formatTableAddRow: () => void;
+    formatTableAddColumn: () => void;
     formatYouTube: () => void;
 }

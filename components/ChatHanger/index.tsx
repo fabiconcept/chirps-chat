@@ -6,11 +6,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { initialUsers } from "@/constants/User.const";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function ChatHanger({ type = "feed", usersList = [...initialUsers.slice(0, 16)] }: { type: "in-chat" | "feed", usersList?: Omit<UserProps, "type">[] }) {
     const [users] = useState<Omit<UserProps, "type">[]>(usersList);
     const pathname = usePathname();
+    const isFullscreen = useSearchParams().get("fullscreen");
     const router = useRouter();
     
     // Extract room ID from pathname (e.g., /chat/room-983786)
@@ -126,7 +127,7 @@ export default function ChatHanger({ type = "feed", usersList = [...initialUsers
                                             scale: { duration: 0.2 }
                                         }}
                                         className="snap-proximity"
-                                        onClick={() => type === "in-chat" && router.push(`/chat/room-${user.name}`)}
+                                        onClick={() => type === "in-chat" && router.push(`/chat/room-${user.name}` + (isFullscreen ? "?fullscreen=true" : ""))}
                                     >
                                         <User
                                             src={user.src}

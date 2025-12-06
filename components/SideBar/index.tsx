@@ -5,7 +5,7 @@ import { UserStarIcon } from "../UserStarIcon";
 import { SendIcon, SendIconHandle } from "../SendIcon";
 import { useRef } from "react";
 import { UserStarHandle } from "../UserStarIcon";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { HandCoinsIcon } from "../HandCoinsIcon";
@@ -21,12 +21,13 @@ export default function SideBar() {
     const { allowedShortcuts } = useKeyBoardShortCut();
     const { isMacOS } = useAuth();
     const pathname = usePathname();
+    const isFullscreen = useSearchParams().get("fullscreen");
 
     const feedPath = "/";
     const leaderboardPath = "/leaderboard";
     const marketplacePath = "/marketplace";
     const suggestionsPath = "/suggestions";
-    const chatPath = "/chat";
+    const chatPath = isFullscreen ? "/chat?fullscreen=true" : "/chat";
 
     const isFeed = pathname === feedPath;
     const isLeaderboard = pathname === leaderboardPath;
@@ -85,17 +86,28 @@ export default function SideBar() {
         }
     }, [allowedShortcuts, feedLinkRef, leaderboardLinkRef, marketplaceLinkRef, suggestionsLinkRef, chatLinkRef]);
 
-    const hideSidebar = ["/chat", "/chat/"];
+    const isHidden = (pathname === "/chat" || pathname.includes("/chat/"));
 
     return (
         <motion.div 
             className="w-24 sticky top-32 overflow-hidden h-[80dvh] hidden md:flex flex-col items-center"
-            initial={{ opacity: 0, x: hideSidebar.includes(pathname) ? -24 : 0 }}
-            animate={{ opacity: 1, x: hideSidebar.includes(pathname) ? -24 : 0 }}
+            initial={{ 
+                opacity: 0, 
+                x: (isHidden && isFullscreen) ? -24 : 0,
+                width: (isHidden && isFullscreen) ? 0 : "8rem"
+            }}
+            animate={{ 
+                opacity: (isHidden && isFullscreen) ? 0 : 1, 
+                x: (isHidden && isFullscreen) ? -24 : 0,
+                width: (isHidden && isFullscreen) ? 0 : "8rem"
+            }}
             transition={{ duration: 0.3 }}
         >
             <div className="flex-1 " onKeyDown={(e)=> console.table(e)}>
-                <div className="w-fit shadow-lg shadow-foreground/5 p-2 border border-input/50 bg-foreground/5 rounded-full origin-top -rotate-3 hover:rotate-0 hover:delay-0 delay-1000 transition-transform duration-300 ease-in-out">
+                <div className={cn(
+                    "w-fit shadow-lg shadow-foreground/5 p-2 border border-input/50 bg-foreground/5 rounded-full origin-top hover:rotate-0 hover:delay-0 delay-1000 transition-transform duration-300 ease-in-out",
+                    isHidden ? "" : "-rotate-3"
+                )}>
                     <div className="flex flex-col gap-3">
                         <Tooltip delayDuration={500}>
                             <TooltipTrigger>

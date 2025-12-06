@@ -7,7 +7,7 @@ import { Send, Trash2 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface MessageInputProps {
-    textareaRef: RefObject<HTMLTextAreaElement> | null;
+    textareaRef: RefObject<HTMLTextAreaElement | null>;
     message: string;
     onMessageChange: (message: string) => void;
     onKeyDown: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;

@@ -208,19 +208,22 @@ const FindConversation = () => {
         <div className="p-3 w-full">
             <Dialog onOpenChange={(open: boolean) => {
                 if (open) {
-                    disallowShortcuts([...Array.from(notoriousShortcuts)]);
+                    disallowShortcuts([...Array.from(notoriousShortcuts), "alt+F", "commandESC"]);
                     allowShortcuts([
                         "arrowDown",
                         "arrowUp",
                         "enter",
                     ]);
                 } else {
-                    allowShortcuts([...Array.from(notoriousShortcuts)]);
+                    allowShortcuts([...Array.from(notoriousShortcuts), "alt+F"]);
                     disallowShortcuts([
                         "arrowDown",
                         "arrowUp",
                         "enter",
                     ]);
+                    setTimeout(() => {
+                        allowShortcuts(["commandESC"]);
+                    }, 100);
                     setFocusedItemId(null);
                 }
             }}>
