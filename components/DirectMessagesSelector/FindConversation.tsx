@@ -23,7 +23,7 @@ const FindConversation = () => {
     const scrollAreaRef = useRef<HTMLDivElement>(null);
     const itemRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
     const searchInputRef = useRef<HTMLInputElement>(null);
-    const { disallowShortcuts, allowShortcuts, notoriousShortcuts } = useKeyBoardShortCut();
+    const { disallowShortcuts, allowShortcuts, notoriousShortcuts, allowedShortcuts } = useKeyBoardShortCut();
 
     // Detect search type from query
     const searchType = useMemo(() => {
@@ -140,9 +140,9 @@ const FindConversation = () => {
     // Use shortcuts for keyboard navigation
     useShortcuts({
         shortcuts: [
-            { key: "ArrowDown", isSpecialKey: true, enabled: true },
-            { key: "ArrowUp", isSpecialKey: true, enabled: true },
-            { key: "Enter", isSpecialKey: true, enabled: true },
+            { key: "ArrowDown", isSpecialKey: true, enabled: allowedShortcuts.has("arrowDown") },
+            { key: "ArrowUp", isSpecialKey: true, enabled: allowedShortcuts.has("arrowUp") },
+            { key: "Enter", isSpecialKey: true, enabled: allowedShortcuts.has("enter") },
         ],
         onTrigger: (shortcut) => {
             switch (shortcut.key) {
@@ -157,7 +157,7 @@ const FindConversation = () => {
                     break;
             }
         }
-    }, [navigateDown, navigateUp, handleSelect]);
+    }, [navigateDown, navigateUp, handleSelect, allowedShortcuts]);
 
     /* eslint-disable */
     useLayoutEffect(() => {
@@ -209,8 +209,18 @@ const FindConversation = () => {
             <Dialog onOpenChange={(open: boolean) => {
                 if (open) {
                     disallowShortcuts([...Array.from(notoriousShortcuts)]);
+                    allowShortcuts([
+                        "arrowDown",
+                        "arrowUp",
+                        "enter",
+                    ]);
                 } else {
                     allowShortcuts([...Array.from(notoriousShortcuts)]);
+                    disallowShortcuts([
+                        "arrowDown",
+                        "arrowUp",
+                        "enter",
+                    ]);
                     setFocusedItemId(null);
                 }
             }}>

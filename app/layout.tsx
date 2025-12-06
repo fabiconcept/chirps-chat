@@ -33,7 +33,7 @@ export default function RootLayout({
                                 <div className="min-h-screen relative flex">
                                     <div className="flex-1">
                                         <GlobalHeader />
-                                        <main className="flex md:px-10 sm:px-5 px-3 py-6 gap-4 max-sm:pb-10">
+                                        <main className="flex md:px-10 sm:px-5 px-3 py-6 max-sm:pb-10">
                                             <SideBar />
                                             {children}
                                         </main>

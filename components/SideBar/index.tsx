@@ -14,6 +14,7 @@ import useShortcuts from '@useverse/useshortcuts';
 import { Kbd, KbdGroup } from "../ui/kbd";
 import { useKeyBoardShortCut } from "../Providers/KeyBoardShortCutProvider";
 import { useAuth } from "../Providers/AuthProvider";
+import { motion } from "framer-motion";
 
 
 export default function SideBar() {
@@ -84,8 +85,15 @@ export default function SideBar() {
         }
     }, [allowedShortcuts, feedLinkRef, leaderboardLinkRef, marketplaceLinkRef, suggestionsLinkRef, chatLinkRef]);
 
+    const hideSidebar = ["/chat", "/chat/"];
+
     return (
-        <div className="w-24 sticky top-32 overflow-hidden h-[80dvh] hidden md:flex flex-col items-center">
+        <motion.div 
+            className="w-24 sticky top-32 overflow-hidden h-[80dvh] hidden md:flex flex-col items-center"
+            initial={{ opacity: 0, x: hideSidebar.includes(pathname) ? -24 : 0 }}
+            animate={{ opacity: 1, x: hideSidebar.includes(pathname) ? -24 : 0 }}
+            transition={{ duration: 0.3 }}
+        >
             <div className="flex-1 " onKeyDown={(e)=> console.table(e)}>
                 <div className="w-fit shadow-lg shadow-foreground/5 p-2 border border-input/50 bg-foreground/5 rounded-full origin-top -rotate-3 hover:rotate-0 hover:delay-0 delay-1000 transition-transform duration-300 ease-in-out">
                     <div className="flex flex-col gap-3">
@@ -103,7 +111,7 @@ export default function SideBar() {
                                 </Link>
                             </TooltipTrigger>
                             <TooltipContent sideOffset={5} dir="right">
-                                <p>Global Feed <KbdGroup><Kbd className="border border-background/20">⌘</Kbd><Kbd className="border border-background/20">1</Kbd></KbdGroup></p>
+                                <p>Global Feed {pathname} <KbdGroup><Kbd className="border border-background/20">⌘</Kbd><Kbd className="border border-background/20">1</Kbd></KbdGroup></p>
                             </TooltipContent>
                         </Tooltip>
                         <Tooltip delayDuration={500}>
@@ -179,6 +187,6 @@ export default function SideBar() {
                 </TooltipContent>
             </Tooltip>
             <div className="h-10" />
-        </div>
+        </motion.div>
     )
 }

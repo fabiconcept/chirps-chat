@@ -182,29 +182,31 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                         <div
                             ref={bubbleRef}
                             className={cn(
-                                "flex items-start relative gap-2 w-full transition-colors duration-200 px-3 py-2",
+                                "flex items-start relative gap-2 w-full transition-colors duration-200 px-5 py-2",
                                 isUnread ? "bg-yellow-600/5 relative after:absolute after:content-[''] after:w-1 after:h-full after:bg-yellow-600/20 after:left-0 after:z-10 after:top-0" : "dark:hover:bg-[#282828]/50 hover:bg-[#F3F3F3]/75"
                             )}
                         >
-                            {replyingTo && <div className="h-4 w-9 border-2 rounded-tl-3xl translate-x-14 translate-y-4 border-b-0 border-r-0"></div>}
-                            <HoverCard openDelay={300}>
-                                <HoverCardTrigger asChild>
-                                    <div>
-                                        <ProfileAvatar
-                                            avatarUrl={avatarUrl}
-                                            fallback={name[0]}
-                                            size="sm"
-                                            className={cn(
-                                                "border border-foreground/25 rounded-full mt-3 cursor-pointer",
-                                                replyingTo && "translate-y-6"
-                                            )}
-                                        />
-                                    </div>
-                                </HoverCardTrigger>
-                                <HoverCardContent side="bottom" align="start" className="p-0 w-fit bg-background/75 backdrop-blur-sm rounded-4xl border-none">
-                                    <ProfileCard size="sm" />
-                                </HoverCardContent>
-                            </HoverCard>
+                            <div className="relative w-fit h-fit">
+                            {replyingTo && <div className="relative top-1/2 translate-y-1/2 left-1/3 translate-x-1/12  h-4 w-8 border-2 rounded-tl-3xl border-b-0 border-r-0"></div>}
+                                <HoverCard openDelay={300}>
+                                    <HoverCardTrigger asChild>
+                                        <div>
+                                            <ProfileAvatar
+                                                avatarUrl={avatarUrl}
+                                                fallback={name[0]}
+                                                size="sm"
+                                                className={cn(
+                                                    "border border-foreground/25 rounded-full mt-3 cursor-pointer",
+                                                    // replyingTo && "translate-y-6"
+                                                )}
+                                            />
+                                        </div>
+                                    </HoverCardTrigger>
+                                    <HoverCardContent side="bottom" align="start" className="p-0 w-fit bg-background/75 backdrop-blur-sm rounded-4xl border-none">
+                                        <ProfileCard size="sm" />
+                                    </HoverCardContent>
+                                </HoverCard>
+                            </div>
                             <div className="flex flex-col text-sm gap-1 w-full relative z-10">
                                 {replyingTo && (
                                     <div className="flex items-center gap-2 w-full pr-3">
@@ -258,16 +260,6 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                         variant="ghost" 
                         className={cn(
                             "p-0 py-0 h-7 text-lg aspect-square w-7 select-none transition-all duration-150",
-                            currentUserReaction === "👍🏾" && "bg-[#7600C9]/10 border-2 border-[#7600C9] scale-110"
-                        )}
-                        onClick={() => addReaction("👍🏾")}
-                    >
-                        👍🏾
-                    </Button>
-                    <Button 
-                        variant="ghost" 
-                        className={cn(
-                            "p-0 py-0 h-7 text-lg aspect-square w-7 select-none transition-all duration-150",
                             currentUserReaction === "😂" && "bg-[#7600C9]/10 border-2 border-[#7600C9] scale-110"
                         )}
                         onClick={() => addReaction("😂")}
@@ -293,16 +285,6 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                         onClick={() => addReaction("🔥")}
                     >
                         🔥
-                    </Button>
-                    <Button 
-                        variant="ghost" 
-                        className={cn(
-                            "p-0 py-0 h-7 text-lg aspect-square w-7 select-none transition-all duration-150",
-                            currentUserReaction === "👎🏾" && "bg-[#7600C9]/10 border-2 border-[#7600C9] scale-110"
-                        )}
-                        onClick={() => addReaction("👎🏾")}
-                    >
-                        👎🏾
                     </Button>
                     <div className="w-px h-5 bg-input/50" />
                     <DropdownMenu open={isEmojiPickerOpen} onOpenChange={setIsEmojiPickerOpen}>

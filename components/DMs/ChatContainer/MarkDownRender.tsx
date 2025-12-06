@@ -625,14 +625,14 @@ function parseInlineMarkdown(text: string, onImageClick?: (imageUrl: string, all
                     elements.push(
                         <span 
                             key={`img-${i}`} 
-                            className="inline-block my-1 mx-1 rounded-md overflow-hidden border border-foreground/10 align-middle cursor-pointer hover:opacity-90 transition-opacity"
+                            className="inline-block my-1 mx-1 overflow-hidden rounded-lg align-middle cursor-pointer hover:opacity-90 transition-opacity"
                             onClick={() => onImageClick?.(url, allImages || [])}
                         >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                                 src={url}
                                 alt={alt}
-                                className="max-h-48 max-w-full h-auto object-contain bg-foreground/5"
+                                className="max-h-48 max-w-full h-auto object-contain transition-all duration-150 hover:brightness-125 hover:bg-foreground/5 hover:scale-105"
                                 loading="lazy"
                                 title={alt}
                             />

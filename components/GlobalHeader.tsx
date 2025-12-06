@@ -27,6 +27,8 @@ import { BellDot } from 'lucide-react';
 import { cn, updateSearchParam } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { MaximizeScreenIcon, MinimizeScreenIcon } from '@hugeicons/core-free-icons';
 
 const noHeaderPages = [
     "/activities"
@@ -113,6 +115,14 @@ export default function GlobalHeader() {
                             {20 > 10 ? '10+' : 20}
                         </span>
                     </div>
+                    {isHidden && <Button size={"icon-sm"} variant={"ghost"}>
+                        <HugeiconsIcon
+                            icon={MaximizeScreenIcon}
+                        />
+                        <HugeiconsIcon
+                            icon={MinimizeScreenIcon}
+                        />
+                    </Button>}
                     <React.Fragment>
                         {!isAuthenticated && (
                             <AnimatePresence>
