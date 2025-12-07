@@ -1,15 +1,21 @@
 "use client"
 
-import { ChevronRight, Hash, Volume2 } from "lucide-react";
+import { ChevronRight, Hash, Settings, UserPlus, Volume2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { cn, removeSearchParam, updateSearchParam } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { channels } from "@/constants/User.const";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, RefObject } from "react";
 
-export default function ChannelsList() {
+export default function ChannelsList({
+    owner,
+    inviteDialogRef
+}: {
+    owner?: boolean;
+    inviteDialogRef?: RefObject<HTMLButtonElement | null>;
+}) {
     const activeChannel = useSearchParams().get("channel");
     const scrollAreaRef = useRef<HTMLDivElement>(null);
     const channelRefs = useRef<Map<string, HTMLDivElement>>(new Map());
@@ -21,14 +27,14 @@ export default function ChannelsList() {
             if (channelElement) {
                 const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]') as HTMLDivElement;
                 const scrollElement = viewport || scrollAreaRef.current;
-                
+
                 const channelTop = channelElement.offsetTop;
                 const containerHeight = scrollElement.clientHeight;
                 const channelHeight = channelElement.clientHeight;
-                
+
                 // Center the selected channel in the viewport
                 const scrollPosition = channelTop - (containerHeight / 2) + (channelHeight / 2);
-                
+
                 scrollElement.scrollTo({
                     top: scrollPosition,
                     behavior: 'smooth'
@@ -36,22 +42,43 @@ export default function ChannelsList() {
             }
         }
     }, [activeChannel]);
-    
+
     return (
         <div ref={scrollAreaRef} className="flex-1 relative overflow-y-auto w-xs">
             {/* Main Room - Stationary */}
             <div className="p-2 top-0 sticky dark:bg-[#282828] bg-[#f3f3f3]">
-                <Button
+                <div
+                    className={cn(
+                        "w-full p-2 flex items-center rounded-md group justify-start hover:bg-foreground/10 dark:hover:bg-foreground/10 focus:bg-foreground/10 dark:focus:bg-foreground/10 text-muted-foreground font-medium transition-all",
+                        activeChannel === null && "text-foreground bg-foreground/10 hover:bg-foreground/10 border-foreground/10 focus:border-foreground/20"
+                    )}
+                >
+                    <Button
                         variant="ghost"
-                        onClick={()=> removeSearchParam("channel")}
-                        className={cn(
-                            "w-full p-2 rounded-md justify-start hover:bg-foreground/10 dark:hover:bg-foreground/10 focus:bg-foreground/10 dark:focus:bg-foreground/10 text-muted-foreground font-medium transition-all",
-                            activeChannel === null && "text-foreground bg-foreground/10 hover:bg-foreground/10 border-foreground/10 focus:border-foreground/20"
-                        )}
+                        onClick={() => removeSearchParam("channel")}
+                        className="flex items-center gap-1 flex-1 p-0 px-0 py-0 h-fit justify-start hover:bg-transparent dark:hover:bg-transparent focus:bg-transparent dark:focus:bg-transparent active:scale-100 active:rotate-0"
                     >
-                        <Hash strokeWidth={2} size={18} />
+                        <Hash strokeWidth={2} size={14} className="-ml-2" />
                         <span className="flex-1 text-left font-semibold">General</span>
                     </Button>
+
+                    {owner && <div className={cn(
+                        "flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200",
+                        activeChannel === null && "opacity-100"
+                    )}>
+                        <Button 
+                            variant={"ghost"} 
+                            size={"icon"} 
+                            className="size-6"
+                            onClick={() => inviteDialogRef?.current?.click()}
+                        >
+                            <UserPlus strokeWidth={2} size={14} />
+                        </Button>
+                        <Button variant={"ghost"} size={"icon"} className="size-6">
+                            <Settings strokeWidth={2} size={14} />
+                        </Button>
+                    </div>}
+                </div>
                 <Separator className="my-3" />
             </div>
 
@@ -78,30 +105,49 @@ export default function ChannelsList() {
                                     scale: { duration: 0.2 }
                                 }}
                             >
-                                <Button
-                                    variant="ghost"
+                                <div
                                     className={cn(
-                                        "w-full p-2 rounded-md justify-start hover:bg-foreground/5 dark:hover:bg-foreground/5 focus:bg-foreground/10 dark:focus:bg-foreground/10 text-muted-foreground hover:text-foreground transition-all group border border-transparent hover:border-foreground/10 focus:border-foreground/10",
+                                        "w-full p-2 flex items-center rounded-md group justify-start hover:bg-foreground/10 dark:hover:bg-foreground/10 focus:bg-foreground/10 dark:focus:bg-foreground/10 text-muted-foreground font-medium transition-all",
                                         activeChannel === channel.name && "text-foreground bg-foreground/10 hover:bg-foreground/10 border-foreground/10 focus:border-foreground/20"
                                     )}
-                                    onClick={()=> updateSearchParam("channel", channel.name)}
                                 >
-                                    {channel.type === "text" ? (
-                                        <Hash strokeWidth={2} size={18} />
-                                    ) : (
-                                        <Volume2 strokeWidth={2} size={18} />
-                                    )}
-                                    <span className="flex-1 text-left">
-                                        {channel.name}
-                                        {channel.unread && activeChannel !== channel.name && (
-                                            <span className="ml-2 bg-destructive text-white text-[11px] font-semibold dark:shadow-[inset_0.5px_0.5px_0.5px_0.15px_#fff,0.5px_0.5px_0.5px_0.15px_#fff]/25 shadow-[inset_0.5px_0.5px_0.5px_0.15px_#000,0.5px_0.5px_0.5px_0.15px_#000]/25 rounded min-w-[18px] h-[18px] inline px-1.5">
-                                                {channel.unread > 99 ? '99+' : channel.unread}
-                                            </span>
+                                    <Button
+                                        variant="ghost"
+                                        onClick={() => updateSearchParam("channel", channel.name)}
+                                        className="flex items-center gap-1 flex-1 p-0 px-0 py-0 h-fit justify-start hover:bg-transparent dark:hover:bg-transparent focus:bg-transparent dark:focus:bg-transparent active:scale-100 active:rotate-0"
+                                    >
+                                        {channel.type === "text" ? (
+                                            <Hash strokeWidth={2} size={14} className="-ml-2" />
+                                        ) : (
+                                            <Volume2 strokeWidth={2} size={14} className="-ml-2" />
                                         )}
-                                    </span>
-                                    
-                                    <ChevronRight strokeWidth={2} size={18} className="-mr-2" />
-                                </Button>
+                                        <span className="flex-1 text-left font-semibold">
+                                            {channel.name}
+                                            {channel.unread && activeChannel !== channel.name && (
+                                                <span className="ml-2 bg-destructive text-white text-[11px] font-semibold dark:shadow-[inset_0.5px_0.5px_0.5px_0.15px_#fff,0.5px_0.5px_0.5px_0.15px_#fff]/25 shadow-[inset_0.5px_0.5px_0.5px_0.15px_#000,0.5px_0.5px_0.5px_0.15px_#000]/25 rounded min-w-[18px] h-[18px] inline px-1.5">
+                                                    {channel.unread > 99 ? '99+' : channel.unread}
+                                                </span>
+                                            )}
+                                        </span>
+                                    </Button>
+
+                                    {owner && <div className={cn(
+                                        "flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200",
+                                        activeChannel === channel.name && "opacity-100"
+                                    )}>
+                                        <Button 
+                                            variant={"ghost"} 
+                                            size={"icon"} 
+                                            className="size-6"
+                                            onClick={() => inviteDialogRef?.current?.click()}
+                                        >
+                                            <UserPlus strokeWidth={2} size={14} />
+                                        </Button>
+                                        <Button variant={"ghost"} size={"icon"} className="size-6">
+                                            <Settings strokeWidth={2} size={14} />
+                                        </Button>
+                                    </div>}
+                                </div>
                             </motion.div>
                         ))}
                     </AnimatePresence>

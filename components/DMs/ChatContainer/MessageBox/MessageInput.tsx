@@ -28,7 +28,7 @@ export function MessageInput({
     onSend
 }: MessageInputProps) {
     return (
-        <InputGroup className="border-none shadow-none rounded-none relative items-end">
+        <InputGroup className="border-x shadow-none rounded-none relative items-end">
             <InputGroupTextarea
                 ref={textareaRef}
                 value={message}

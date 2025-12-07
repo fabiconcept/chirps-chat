@@ -3,7 +3,7 @@ import DMs from "@/components/DMs";
 
 export default function ChatPage() {
     return (
-        <div className="flex overflow-hidden flex-row items-start flex-wrap flex-1 h-[calc(100dvh-2.5rem)] translate-y-2">
+        <div className="flex overflow-hidden flex-row items-start flex-wrap flex-1 h-[calc(100dvh-2.5rem)]">
             <DirectMessagesSelector />
             <DMs />
         </div>

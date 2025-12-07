@@ -1,3 +1,4 @@
+import Channel from "@/components/Channel";
 import RoomSelector from "@/components/RoomSelector";
 import { notFound } from "next/navigation";
 
@@ -13,8 +14,9 @@ export default async function page({ params }: { params: Promise<{ roomId: strin
     }
     
     return (
-        <div className="flex flex-row gap-6 items-start flex-wrap flex-1 h-[calc(100dvh-2.5rem)]">
+        <div className="flex flex-row items-start flex-wrap flex-1 h-[calc(100dvh-2.5rem)]">
             <RoomSelector />
+            <Channel />
         </div>
     )
 }

@@ -46,8 +46,8 @@ export default function UserCard({
             className={cn(
                 "flex items-center gap-2 max-w-xs cursor-pointer transition-[transform,translate,scale,rotate,color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to,padding] duration-300 ease-in-out hover:bg-foreground/3 perspective-distant group relative after:absolute after:inset-0 after:w-1.5 after:rounded-r-3xl after:left-0 after:top-1/2 after:-translate-y-1/2 after:h-[80%] after:bg-[#7600c9] after:-translate-x-full after:transition-transform after:duration-300 after:ease-in-out",
                 variantStyles[variant],
-                { "bg-foreground/5 hover:bg-foreground/3": hasUnread },
-                { "after:translate-x-0 after:z-[-1] pl-4": selected },
+                { "dark:bg-foreground/5 dark:hover:bg-foreground/3 bg-white hover:bg-white/50": hasUnread },
+                { "after:translate-x-0 after:z-[-1] pl-4 dark:bg-background dark:hover:bg-background bg-foreground/10 hover:bg-foreground/3": selected },
                 { "rounded-b-2xl": isLast }
             )}
             onClick={() => updateSearchParam("user", name.toLowerCase())}
