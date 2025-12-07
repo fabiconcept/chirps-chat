@@ -66,7 +66,7 @@ export default function RichText({ text, className, maxLines = 2 }: RichTextProp
         <ContextMenu>
             <ContextMenuTrigger asChild>
                 <div className={cn("relative", className)}>
-                    <div className="text-lg max-sm:text-base whitespace-pre-wrap">
+                    <div className="text-base max-sm:text-base whitespace-pre-wrap">
                         {parseText(displayText)}
                         {isTruncated && !isExpanded && (
                             <span

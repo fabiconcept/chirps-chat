@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import Search from './header components/Search';
 import UserClump from './modular/UserClump';
-import { BellDot } from 'lucide-react';
+import { BellDot, Fullscreen } from 'lucide-react';
 import { cn, removeSearchParam, updateSearchParam } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -51,9 +51,12 @@ export default function GlobalHeader() {
         allowShortcuts(["alt+F", "commandESC"])
 
         if (isFullscreen) {
-            toast("Fullscreen enabled, press ESC to exit", {
-                duration: 2000,
-            })
+            toast.custom((t)=>(
+                <div className='px-6 py-3 text-lg font-medium bg-background/75 backdrop-blur-sm rounded-md flex items-center gap-2 border border-input shadow-lg shadow-black/5'>
+                    <Fullscreen className='h-5 w-5' />
+                    <p>In Fullscreen Mode, ESC to exit</p>
+                </div>
+            ), { duration: 2000 })
         }
     
         return ()=> {

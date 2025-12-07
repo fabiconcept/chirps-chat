@@ -32,7 +32,7 @@ export default function DirectMessages() {
         <HoverCard>
             <HoverCardTrigger asChild>
                 <div 
-                    className="shadow-lg aspect-square shadow-foreground/5 rounded-full border border-input grid place-items-center overflow-hidden relative cursor-pointer"
+                    className="shadow-lg shrink-0 aspect-square shadow-foreground/5 rounded-full border border-input grid place-items-center overflow-hidden relative cursor-pointer"
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                     onClick={() => router.push("/chat" + (isFullscreen ? "?fullscreen=true" : ""))}

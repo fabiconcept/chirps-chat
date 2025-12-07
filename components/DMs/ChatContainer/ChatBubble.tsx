@@ -35,9 +35,10 @@ export interface ChatBubbleProps {
     }[];
     userReaction?: string;
     onSeen?: () => void;
+    type?: "normal" | "starred";
 }
 
-export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnread = false, replyingTo, reactions = [], userReaction = "", onSeen }: ChatBubbleProps) {
+export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnread = false, replyingTo, reactions = [], userReaction = "", onSeen, type = "normal" }: ChatBubbleProps) {
     const bubbleRef = useRef<HTMLDivElement>(null);
     const hasBeenSeenRef = useRef(false);
     const reactionsRef = useRef<ChatReactionsRef>(null);
@@ -52,6 +53,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
 
     // Memoize the onSeen callback to prevent it from changing on every render
     const onSeenCallback = useCallback(() => {
+        if (type === "starred") return;
         if (onSeen && !hasBeenSeenRef.current) {
             hasBeenSeenRef.current = true;
             onSeen();
@@ -60,6 +62,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
 
     // Intersection Observer for seen trigger
     useEffect(() => {
+        if (type === "starred") return;
         if (!bubbleRef.current || hasBeenSeenRef.current) return;
 
         const observer = new IntersectionObserver(
@@ -83,6 +86,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
     }, [onSeenCallback]);
 
     const addReaction = useCallback((reaction: string) => {
+        if (type === "starred") return;
         setInternalReactions((prev) => {
             let updated = [...prev];
 
@@ -168,7 +172,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
             <HoverCard 
                 closeDelay={100} 
                 openDelay={100}
-                open={isHoverCardOpen}
+                open={isHoverCardOpen && type !== "starred"}
                 onOpenChange={(open) => {
                     // Prevent closing if emoji picker is open
                     if (!open && isEmojiPickerOpen) {
@@ -182,13 +186,18 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                         <div
                             ref={bubbleRef}
                             className={cn(
-                                "flex items-start relative gap-2 w-full transition-colors duration-200 px-5 py-2",
-                                isUnread ? "bg-yellow-600/5 relative after:absolute after:content-[''] after:w-1 after:h-full after:bg-yellow-600/20 after:left-0 after:z-10 after:top-0" : "dark:hover:bg-[#282828]/50 hover:bg-[#F3F3F3]/75"
+                                "flex items-start relative gap-2 w-full group transition-colors duration-200 px-5 py-2",
+                                isUnread ? "bg-yellow-600/5 relative after:absolute after:content-[''] after:w-1 after:h-full after:bg-yellow-600/20 after:left-0 after:z-10 after:top-0" : "dark:hover:bg-[#282828]/50 hover:bg-[#F3F3F3]/75",
+                                type === "starred" && "rounded-md"
                             )}
                         >
                             <div className="relative w-fit h-fit">
                             {replyingTo && <div className="relative top-1/2 translate-y-1/2 left-1/3 translate-x-1/12  h-4 w-8 border-2 rounded-tl-3xl border-b-0 border-r-0"></div>}
-                                <HoverCard openDelay={300}>
+                                <HoverCard 
+                                    openDelay={300}
+                                    closeDelay={100}
+                                    open={type === "starred" ? false : undefined}
+                                >
                                     <HoverCardTrigger asChild>
                                         <div>
                                             <ProfileAvatar
@@ -211,7 +220,11 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                                 {replyingTo && (
                                     <div className="flex items-center gap-2 w-full pr-3">
                                         <div className="flex items-center gap-1">
-                                            <HoverCard openDelay={300}>
+                                            <HoverCard 
+                                                openDelay={300}
+                                                closeDelay={100}
+                                                open={type === "starred" ? false : undefined}
+                                            >
                                                 <HoverCardTrigger asChild>
                                                     <div>
                                                         <ProfileAvatar
@@ -232,6 +245,11 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                                     </div>
                                 )}
                                 <div className="text-sm flex flex-col p-2">
+                                    {type === "starred" && <Button
+                                        className="absolute top-0 -right-2 opacity-0 group-hover:opacity-100 px-3 py-1"
+                                    >
+                                        Jump to
+                                    </Button>}
                                     <div className="flex items-center gap-2 mb-2">
                                         <span className="font-semibold text-base">{name}</span>
                                         <span className="text-xs text-muted-foreground">{getRelativeTime(timestamp, true)}</span>
@@ -377,7 +395,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
             {/* Image Viewer Dialog */}
             <Dialog open={imageViewerOpen} onOpenChange={setImageViewerOpen}>
                 <DialogContent
-                    className="max-w-[98vw] w-full h-[95vh] p-0 bg-transparent border-none"
+                    className="max-w-[98vw] w-full h-[95vh] p-0 bg-transparent border-none shadow-none"
                     showCloseButton={false}
                 >
                     <DialogHeader hidden>

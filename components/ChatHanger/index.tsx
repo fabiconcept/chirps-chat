@@ -8,7 +8,7 @@ import { initialUsers } from "@/constants/User.const";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-export default function ChatHanger({ type = "feed", usersList = [...initialUsers.slice(0, 16)] }: { type: "in-chat" | "feed", usersList?: Omit<UserProps, "type">[] }) {
+export default function ChatHanger({ type = "feed", usersList = [...initialUsers.slice(0, 16), ...initialUsers.slice(0, 16).map(user => ({ ...user, name: user.name + "2" }))] }: { type?: "in-chat" | "feed" | "side", usersList?: Omit<UserProps, "type">[] }) {
     const [users] = useState<Omit<UserProps, "type">[]>(usersList);
     const pathname = usePathname();
     const isFullscreen = useSearchParams().get("fullscreen");
@@ -67,10 +67,11 @@ export default function ChatHanger({ type = "feed", usersList = [...initialUsers
     return (
         <div className={cn(
             "relative",
-            type === "in-chat" && "relative flex-1",
-            type === "feed" && "sticky top-32"
+            type === "in-chat" && "relative h-[calc(100vh*0.8625)]",
+            type === "feed" && "sticky top-32",
+            type === "side" && "h-full"
         )}>
-            {((type === "in-chat" && users.length > 8) || (type === "feed" && users.length > 6)) &&  <>
+            {((type === "in-chat" && users.length > 10) || (type === "feed" && users.length > 6)) &&  <>
                 <div
                     onClick={handleScrollUp}
                     className="h-6 w-6 hover:text-blue-500 rounded-full bg-background/50 absolute border backdrop-blur-sm border-input -top-1.5 cursor-pointer transition-transform duration-300 active:scale-70 left-1/2 -translate-x-1/2 z-50 grid place-items-center"
@@ -85,12 +86,14 @@ export default function ChatHanger({ type = "feed", usersList = [...initialUsers
                 </div>
             </>}
             <div className={cn(
-                "max-sm:hidden shadow-lg relative shadow-foreground/5 rounded-full border border-input flex items-center gap-2 flex-col overflow-hidden",
+                "shadow-lg relative shadow-foreground/5 rounded-full border border-input flex items-center gap-2 flex-col overflow-hidden",
                 type === "in-chat" && "bg-background h-full",
-                type === "feed" && "bg-foreground/5",
-                ((type === "in-chat" && users.length > 8) || (type === "feed" && users.length > 6)) ? "": "pb-2"
+                type === "feed" && "bg-foreground/5 max-sm:hidden",
+                type === "side" && "bg-transparent h-full rounded-none rounded-r-2xl",
+                ((type === "in-chat" && users.length > 10) || (type === "feed" && users.length > 6)) ? "": "pb-2",
+                type === "side" && "pb-0 border-0 border-l"
             )}>
-                {((type === "in-chat" && users.length > 8) || (type === "feed" && users.length > 6)) && <>
+                {((type === "in-chat" && users.length > 10) || (type === "feed" && users.length > 6)) && <>
                     <div className="w-full pointer-events-none bg-linear-to-b from-background via-background/75 to-transparent absolute top-0 left-0 h-10 z-20" />
                     <div className="w-full pointer-events-none bg-linear-to-t from-background via-background/90 to-transparent absolute bottom-0 left-0 h-10 z-20" />
                 </>}
@@ -99,11 +102,12 @@ export default function ChatHanger({ type = "feed", usersList = [...initialUsers
                     className={cn(
                         "max-h-[calc(100vh*0.5)] overflow-y-auto no-scrollbar scroll-smooth",
                         type === "in-chat" && "max-h-full",
-                        type === "feed" && "max-h-[calc(100vh*0.5)]"
+                        type === "feed" && "max-h-[calc(100vh*0.5)]",
+                        type === "side" && "max-h-full"
                     )}
                     ref={containerRef}
                 >
-                    {((type === "in-chat" && users.length > 8) || (type === "feed" && users.length > 6)) && <div className="h-2" />}
+                    {((type === "in-chat" && users.length > 10) || (type === "feed" && users.length > 6)) && <div className="h-2" />}
                     <AnimatePresence mode="popLayout">
                         {users.map((user, index) => {
                             // Generate random message count for demo (you'd get this from your data)
@@ -132,13 +136,13 @@ export default function ChatHanger({ type = "feed", usersList = [...initialUsers
                                         <User
                                             src={user.src}
                                             name={user.name}
-                                            type={type}
-                                            userType={user.userType}
+                                            type={type === "side" ? "feed" : type}
+                                            userType={type === "side" ? "user" : user.userType}
                                             status={user.status}
-                                            hasNewMessage={user.hasNewMessage}
-                                            messagePreview={user.messagePreview}
+                                            hasNewMessage={type === "side" ? false : user.hasNewMessage}
+                                            messagePreview={type === "side" ? undefined : user.messagePreview}
                                             selected={type === "in-chat" && selectedUser === user.name}
-                                            messageCount={messageCount}
+                                            messageCount={type === "side" ? undefined : messageCount}
                                         />
                                     </motion.div>
                                 </div>

@@ -101,7 +101,7 @@ export default function User({
                     
                     <Avatar className={cn(
                         "w-14 h-14 p-2 bg-background transition-colors",
-                        selected ? "border-2 border-[#7600C9]" : "border border-input hover:border-ring"
+                        selected ? "border-2 border-[#7600C9]" : "border border-input hover:border-ring",
                     )}>
                         <AvatarImage src={src} />
                         <AvatarFallback>{name[0] + name[1]}</AvatarFallback>

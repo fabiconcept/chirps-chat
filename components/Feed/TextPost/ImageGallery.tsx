@@ -261,7 +261,7 @@ export default function ImageGallery({ images, className }: ImageGalleryProps) {
             {/* Carousel Dialog */}
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogContent
-                    className="max-w-[98vw] w-full h-[95vh] p-0 bg-transparent border-none"
+                    className="max-w-[98vw] w-full h-[95vh] p-0 bg-transparent border-none shadow-none"
                     showCloseButton={false}
                 >
                     <DialogHeader hidden>
