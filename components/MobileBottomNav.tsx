@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { DashboardIcon } from "./DashboardIcon";
 import { SendIcon } from "./SendIcon";
@@ -26,9 +26,14 @@ const navItems: {
 
 export default function MobileBottomNav() {
     const pathname = usePathname();
+    const user = useSearchParams().get("user");
+    const channel = useSearchParams().get("channel");
 
     return (
-        <nav className="fixed bottom-4 left-0 right-0 z-40 flex md:hidden justify-center pointer-events-none">
+        <nav className={cn(
+            "fixed bottom-4 left-0 right-0 z-40 flex md:hidden justify-center pointer-events-none",
+            pathname.includes("/chat") && (user || channel) && "hidden"
+        )}>
             <div className="pointer-events-auto shadow-lg shadow-foreground/5 p-2 border border-foreground/20 bg-background/75 rounded-full transition-transform duration-300 ease-in-out relative overflow-hidden">
                 <div className='absolute inset-0 scale-105 -mt-5 filter-ios'></div>
                 <div className="flex flex-row gap-3 relative z-20">

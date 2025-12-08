@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { channels } from "@/constants/User.const";
 import { useEffect, useRef, RefObject } from "react";
+import { useAuth } from "../Providers/AuthProvider";
 
 export default function ChannelsList({
     owner,
@@ -16,9 +17,18 @@ export default function ChannelsList({
     owner?: boolean;
     inviteDialogRef?: RefObject<HTMLButtonElement | null>;
 }) {
+    const { isMobile, isTablet } = useAuth();
     const activeChannel = useSearchParams().get("channel");
     const scrollAreaRef = useRef<HTMLDivElement>(null);
     const channelRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+
+    useEffect(() => {
+        if (isMobile || isTablet) return;
+
+        if (!activeChannel) {
+            updateSearchParam("channel", "general");
+        }
+    }, [activeChannel, isMobile, isTablet])
 
     // Scroll to selected channel
     useEffect(() => {
@@ -44,18 +54,18 @@ export default function ChannelsList({
     }, [activeChannel]);
 
     return (
-        <div ref={scrollAreaRef} className="flex-1 relative overflow-y-auto w-xs">
+        <div ref={scrollAreaRef} className="flex-1 relative overflow-y-auto min-[900px]:w-xs w-full">
             {/* Main Room - Stationary */}
             <div className="p-2 top-0 sticky dark:bg-[#282828] bg-[#f3f3f3]">
                 <div
                     className={cn(
                         "w-full p-2 flex items-center rounded-md group justify-start hover:bg-foreground/10 dark:hover:bg-foreground/10 focus:bg-foreground/10 dark:focus:bg-foreground/10 text-muted-foreground font-medium transition-all",
-                        activeChannel === null && "text-foreground bg-foreground/10 hover:bg-foreground/10 border-foreground/10 focus:border-foreground/20"
+                        activeChannel === ((isMobile || isTablet) ? "general" : null) && "text-foreground bg-foreground/10 hover:bg-foreground/10 border-foreground/10 focus:border-foreground/20"
                     )}
                 >
                     <Button
                         variant="ghost"
-                        onClick={() => removeSearchParam("channel")}
+                        onClick={() => updateSearchParam("channel", "general")}
                         className="flex items-center gap-1 flex-1 p-0 px-0 py-0 h-fit justify-start hover:bg-transparent dark:hover:bg-transparent focus:bg-transparent dark:focus:bg-transparent active:scale-100 active:rotate-0"
                     >
                         <Hash strokeWidth={2} size={14} className="-ml-2" />

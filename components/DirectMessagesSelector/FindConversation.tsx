@@ -218,35 +218,37 @@ const FindConversation = () => {
 
     return (
         <div className="p-3 w-full flex items-center gap-2">
-            <Button
-                size="icon-sm"
-                onClick={handleHamburgerController}
-                className="relative sm:hidden"
-            >
-                <motion.span
-                    className="absolute w-4 h-0.5 bg-current"
-                    animate={{
-                        rotate: !isOpen ? 45 : 0,
-                        y: !isOpen ? 0 : -4,
-                    }}
-                    transition={{ duration: 0.3 }}
-                />
-                <motion.span
-                    className="absolute w-4 h-0.5 bg-current"
-                    animate={{
-                        opacity: !isOpen ? 0 : 1,
-                    }}
-                    transition={{ duration: 0.2 }}
-                />
-                <motion.span
-                    className="absolute w-4 h-0.5 bg-current"
-                    animate={{
-                        rotate: !isOpen ? -45 : 0,
-                        y: !isOpen ? 0 : 4,
-                    }}
-                    transition={{ duration: 0.3 }}
-                />
-            </Button>
+            <div className="max-[900px]:flex hidden items-center justify-center">
+                <Button
+                    size="icon-sm"
+                    onClick={handleHamburgerController}
+                    className="relative"
+                >
+                    <motion.span
+                        className="absolute w-4 h-0.5 bg-current"
+                        animate={{
+                            rotate: !isOpen ? 45 : 0,
+                            y: !isOpen ? 0 : -4,
+                        }}
+                        transition={{ duration: 0.3 }}
+                    />
+                    <motion.span
+                        className="absolute w-4 h-0.5 bg-current"
+                        animate={{
+                            opacity: !isOpen ? 0 : 1,
+                        }}
+                        transition={{ duration: 0.2 }}
+                    />
+                    <motion.span
+                        className="absolute w-4 h-0.5 bg-current"
+                        animate={{
+                            rotate: !isOpen ? -45 : 0,
+                            y: !isOpen ? 0 : 4,
+                        }}
+                        transition={{ duration: 0.3 }}
+                    />
+                </Button>
+            </div>
             <Dialog onOpenChange={(open: boolean) => {
                 if (open) {
                     disallowShortcuts([...Array.from(notoriousShortcuts), "alt+F", "commandESC"]);

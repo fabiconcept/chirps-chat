@@ -68,7 +68,7 @@ export default function ChatHanger({ type = "feed", usersList = [] }: { type?: "
     return (
         <div className={cn(
             "relative",
-            type === "in-chat" && "relative h-[calc(100vh*0.8625)]",
+            type === "in-chat" && "relative h-[calc(100vh*0.8625)] max-[900px]:h-[calc(100vh*0.88)]",
             type === "feed" && "sticky top-32 max-sm:hidden",
             type === "side" && "h-full"
         )}>

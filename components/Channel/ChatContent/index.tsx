@@ -9,12 +9,9 @@ export default function ChatContent() {
     const firstUnreadIndex = CHANNEL_CHAT_EXAMPLES.findIndex(msg => msg.isUnread);
 
     return (
-        <div className="flex-1 bg-background relative overflow-y-auto border border-b-0 border-input">
+        <div className="flex-1 bg-background w-full rounded-t-3xl relative overflow-y-auto border border-b-0 border-input">
             <div className="no-scrollbar flex flex-col justify-end">
-                <DmIntroCard
-                    variant="channel"
-                    isOwner
-                />
+                <DmIntroCard />
                 {CHANNEL_CHAT_EXAMPLES.map((message, index) => {
                     const currentDate = new Date(message.timestamp);
                     const previousDate = index > 0 ? new Date(CHANNEL_CHAT_EXAMPLES[index - 1].timestamp) : null;
@@ -41,7 +38,7 @@ export default function ChatContent() {
                     );
                 })}
                 <TypingIndicator
-                    users={CHANNEL_CHAT_EXAMPLES.slice(0, 2)}
+                    users={CHANNEL_CHAT_EXAMPLES.slice(0, 19)}
                 />
             </div>
         </div>

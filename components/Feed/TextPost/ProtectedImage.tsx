@@ -33,7 +33,7 @@ export default function ProtectedImage({
     width = undefined,
     height = undefined,
     unoptimized = false,
-    fallbackSrc = "https://placehold.co/600x400/1a1a1a/666666?text=Image+Not+Found"
+    fallbackSrc = "/broken.png"
 }: ProtectedImageProps) {
     const [isLoading, setIsLoading] = React.useState(!globalImageCache.has(src))
     const [hasError, setHasError] = React.useState(false)

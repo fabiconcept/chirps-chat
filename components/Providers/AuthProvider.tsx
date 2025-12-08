@@ -19,6 +19,7 @@ interface AuthContextType {
     login: () => void;
     isMacOS: boolean;
     isMobile: boolean;
+    isTablet: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -29,6 +30,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const isMacOS = useMemo(() => detectOS() === 'macos', []);
     const { width } = useWindowSize();
     const isMobile = width < 808;
+    const isTablet = (width < 900) && !isMobile;
     const isWindowDefined = typeof window !== 'undefined';
 
     const logout = () => {
@@ -48,7 +50,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         </div>
     );
     
-    return <AuthContext.Provider value={{ isAuthenticated, logout, login, isMacOS, isMobile }}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={{ isAuthenticated, logout, login, isMacOS, isMobile, isTablet }}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {

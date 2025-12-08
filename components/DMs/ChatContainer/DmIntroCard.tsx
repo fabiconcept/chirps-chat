@@ -32,7 +32,7 @@ export default function DmIntroCard({
                     <p className="text-sm text-muted-foreground mb-6">This is the start of the #🏠 - General channel.</p>
                     
                     {isOwner && (
-                        <div className="flex flex-col gap-2 w-full max-w-md mt-4">
+                        <div className="flex flex-col gap-2 w-full min-[900px]:max-w-md max-w-full px-5 mt-4">
                             <Button variant="outline" className="w-full justify-start gap-3">
                                 <UserPlus className="size-4" />
                                 Invite your friends

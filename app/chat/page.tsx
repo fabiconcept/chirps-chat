@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 
 export default function ChatPage() {
-    const { isMobile } = useAuth();
+    const { isMobile, isTablet } = useAuth();
     const searchParams = useSearchParams();
     const user = searchParams.get("user");
 
@@ -40,7 +40,7 @@ export default function ChatPage() {
 
     return (
         <div className="flex overflow-hidden flex-row items-start flex-wrap flex-1 md:h-[calc(100dvh-2.5rem)] sm:h-[calc(100dvh-1.5rem)] h-[calc(100dvh-2rem)]">
-            {isMobile ? (
+            {(isMobile || isTablet) ? (
                 <AnimatePresence mode="popLayout" initial={false} custom={user ? 1 : -1}>
                     {user ? (
                         <motion.div

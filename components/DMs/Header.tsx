@@ -10,12 +10,12 @@ import { removeSearchParam, updateSearchParam } from "@/lib/utils";
 
 export default function Header() {
     return (
-        <div className="flex items-center justify-between gap-5 p-2 px-0 max-md:px-2">
+        <div className="flex items-center justify-between gap-5 p-2 px-0 max-lg:px-2">
             <div className="flex items-center">
                 <Button 
                     size={"icon-sm"} 
                     variant="ghost" 
-                    className="min-[808px]:hidden"
+                    className="min-[900px]:hidden"
                     onClick={()=>removeSearchParam("user")}
                 >
                     <ChevronLeft />

@@ -1,10 +1,10 @@
-import { Star, Users } from "lucide-react";
+import { ChevronLeft, Star, Users } from "lucide-react";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { CHANNEL_CHAT_EXAMPLES } from "@/constants/Messages.const";
 import ChatBubble from "../DMs/ChatContainer/ChatBubble";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn, removeSearchParam } from "@/lib/utils";
 
 interface HeaderProps {
     showMembers?: boolean;
@@ -13,8 +13,16 @@ interface HeaderProps {
 
 export default function Header({ showMembers = false, onToggleMembers }: HeaderProps) {
     return (
-        <div className="flex items-center justify-between gap-5 p-3 px-5 border-b border-input">
+        <div className="flex items-center justify-between gap-5 p-3 md:px-5 px-3 border-b border-input">
             <h3 className="flex gap-1 items-center text-lg">
+                <Button 
+                    variant="ghost" 
+                    size="icon-sm"
+                    className="min-[900px]:hidden"
+                    onClick={() => removeSearchParam("channel")}
+                >
+                    <ChevronLeft />
+                </Button>
                 <span className="text-muted-foreground">#</span>
                 <span className="font-semibold">General</span>
             </h3>

@@ -11,6 +11,10 @@ import {
 } from "../ui/dropdown-menu";
 import { UserPlus, Settings, Plus, Bell, Lock, Edit} from "lucide-react";
 import { RefObject } from 'react';
+import { Button } from '../ui/button';
+import { removeSearchParam, updateSearchParam } from '@/lib/utils';
+import { useSearchParams } from 'next/navigation';
+import { motion } from "framer-motion"
 
 interface MenuItem {
     id: string;
@@ -41,46 +45,88 @@ export default function RoomDropdown({
     owner?: boolean;
     inviteDialogRef?: RefObject<HTMLButtonElement | null>;
 }) {
+    const isOpen = useSearchParams().get("hide-menu") === "true";
+
+    const handleHamburgerController = () => {
+        if (isOpen) {
+            removeSearchParam("hide-menu");
+        } else {
+            updateSearchParam("hide-menu", "true");
+        }
+    }
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger
-                className="flex w-fit items-center gap-2 border hover:bg-foreground/10 dark:hover:bg-foreground/10 focus:bg-foreground/10 dark:focus:bg-foreground/10 border-transparent hover:border-input py-2 rounded-md active:rotate-0 px-2 cursor-pointer transition-all active:scale-95"
-            >
-                <HugeiconsIcon
-                    icon={AngryBirdFreeIcons}
-                    size={22}
-                    color="currentColor"
-                    strokeWidth={1.5}
-                />
-                <span className="flex-1 font-semibold text-left truncate">Black Bulls</span>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-60 p-2 bg-background/70 backdrop-blur-sm">
-                {menuSections.map((section, sectionIndex) => (
-                    <div key={sectionIndex}>
-                        {section.map((item) => {
-                            if (item.ownerOnly && !owner) return null;
-                            return (
-                                <DropdownMenuItem 
-                                    key={item.id} 
-                                    onClick={() => {
-                                        if (item.id === "invite") {
-                                            inviteDialogRef?.current?.click();
-                                        }
-                                    }}
-                                    className="cursor-pointer flex items-center justify-between px-2 py-2 rounded-sm"
-                                >
-                                    <span className="text-sm">{item.label}</span>
-                                    <item.icon size={18} className="text-muted-foreground" strokeWidth={1.5} />
-                                </DropdownMenuItem>
-                            );
-                        })}
-                        {(sectionIndex < menuSections.length - 1) && 
-                         section.some(item => !item.ownerOnly || owner) && (
-                            <DropdownMenuSeparator className="my-1" />
-                        )}
-                    </div>
-                ))}
-            </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex items-center gap-2">
+            <div className="max-[900px]:flex hidden items-center justify-center mt-1.5">
+                <Button
+                    size="icon-sm"
+                    onClick={handleHamburgerController}
+                    className="relative"
+                >
+                    <motion.span
+                        className="absolute w-4 h-0.5 bg-current"
+                        animate={{
+                            rotate: !isOpen ? 45 : 0,
+                            y: !isOpen ? 0 : -4,
+                        }}
+                        transition={{ duration: 0.3 }}
+                    />
+                    <motion.span
+                        className="absolute w-4 h-0.5 bg-current"
+                        animate={{
+                            opacity: !isOpen ? 0 : 1,
+                        }}
+                        transition={{ duration: 0.2 }}
+                    />
+                    <motion.span
+                        className="absolute w-4 h-0.5 bg-current"
+                        animate={{
+                            rotate: !isOpen ? -45 : 0,
+                            y: !isOpen ? 0 : 4,
+                        }}
+                        transition={{ duration: 0.3 }}
+                    />
+                </Button>
+            </div>
+            <DropdownMenu>
+                <DropdownMenuTrigger
+                    className="flex w-fit items-center gap-2 border hover:bg-foreground/10 dark:hover:bg-foreground/10 focus:bg-foreground/10 dark:focus:bg-foreground/10 border-transparent hover:border-input py-2 rounded-md active:rotate-0 px-2 cursor-pointer transition-all active:scale-95"
+                >
+                    <HugeiconsIcon
+                        icon={AngryBirdFreeIcons}
+                        size={22}
+                        color="currentColor"
+                        strokeWidth={1.5}
+                    />
+                    <span className="flex-1 font-semibold text-left truncate">Black Bulls</span>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-60 p-2 bg-background/70 backdrop-blur-sm">
+                    {menuSections.map((section, sectionIndex) => (
+                        <div key={sectionIndex}>
+                            {section.map((item) => {
+                                if (item.ownerOnly && !owner) return null;
+                                return (
+                                    <DropdownMenuItem
+                                        key={item.id}
+                                        onClick={() => {
+                                            if (item.id === "invite") {
+                                                inviteDialogRef?.current?.click();
+                                            }
+                                        }}
+                                        className="cursor-pointer flex items-center justify-between px-2 py-2 rounded-sm"
+                                    >
+                                        <span className="text-sm">{item.label}</span>
+                                        <item.icon size={18} className="text-muted-foreground" strokeWidth={1.5} />
+                                    </DropdownMenuItem>
+                                );
+                            })}
+                            {(sectionIndex < menuSections.length - 1) &&
+                             section.some(item => !item.ownerOnly || owner) && (
+                                <DropdownMenuSeparator className="my-1" />
+                            )}
+                        </div>
+                    ))}
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
     );
 }
