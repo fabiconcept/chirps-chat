@@ -4,14 +4,15 @@ import User, { UserProps } from "./User";
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { initialUsers } from "@/constants/User.const";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-export default function ChatHanger({ type = "feed", usersList = [...initialUsers.slice(0, 16), ...initialUsers.slice(0, 16).map(user => ({ ...user, name: user.name + "2" }))] }: { type?: "in-chat" | "feed" | "side", usersList?: Omit<UserProps, "type">[] }) {
+export default function ChatHanger({ type = "feed", usersList = [] }: { type?: "in-chat" | "feed" | "side", usersList?: Omit<UserProps, "type">[] }) {
     const [users] = useState<Omit<UserProps, "type">[]>(usersList);
     const pathname = usePathname();
     const isFullscreen = useSearchParams().get("fullscreen");
+    const userParam = useSearchParams().get("user");
+    const isMenuOpen = useSearchParams().get("hide-menu") !== "true";
     const router = useRouter();
     
     // Extract room ID from pathname (e.g., /chat/room-983786)
@@ -68,34 +69,33 @@ export default function ChatHanger({ type = "feed", usersList = [...initialUsers
         <div className={cn(
             "relative",
             type === "in-chat" && "relative h-[calc(100vh*0.8625)]",
-            type === "feed" && "sticky top-32",
+            type === "feed" && "sticky top-32 max-sm:hidden",
             type === "side" && "h-full"
         )}>
             {((type === "in-chat" && users.length > 10) || (type === "feed" && users.length > 6)) &&  <>
                 <div
                     onClick={handleScrollUp}
-                    className="h-6 w-6 hover:text-blue-500 rounded-full bg-background/50 absolute border backdrop-blur-sm border-input -top-1.5 cursor-pointer transition-transform duration-300 active:scale-70 left-1/2 -translate-x-1/2 z-50 grid place-items-center"
+                    className="h-6 w-6 max-md:hidden hover:text-blue-500 rounded-full bg-background/50 absolute border backdrop-blur-sm border-input -top-1.5 cursor-pointer transition-transform duration-300 active:scale-70 left-1/2 -translate-x-1/2 z-50 grid place-items-center"
                 >
                     <ChevronUp size={16} />
                 </div>
                 <div
                     onClick={handleScrollDown}
-                    className="h-6 w-6 hover:text-blue-500 rounded-full bg-background/50 absolute border backdrop-blur-sm border-input -bottom-1.5 cursor-pointer transition-transform duration-300 active:scale-70 left-1/2 -translate-x-1/2 z-50 grid place-items-center"
+                    className="h-6 w-6 max-md:hidden hover:text-blue-500 rounded-full bg-background/50 absolute border backdrop-blur-sm border-input -bottom-1.5 cursor-pointer transition-transform duration-300 active:scale-70 left-1/2 -translate-x-1/2 z-50 grid place-items-center"
                 >
                     <ChevronDown size={16} />
                 </div>
             </>}
             <div className={cn(
                 "shadow-lg relative shadow-foreground/5 rounded-full border border-input flex items-center gap-2 flex-col overflow-hidden",
-                type === "in-chat" && "bg-background h-full",
-                type === "feed" && "bg-foreground/5 max-sm:hidden",
+                type === "in-chat" && "bg-background h-full max-md:pb-0 max-md:shadow-none",
+                type === "feed" && "bg-foreground/5",
                 type === "side" && "bg-transparent h-full rounded-none rounded-r-2xl",
-                ((type === "in-chat" && users.length > 10) || (type === "feed" && users.length > 6)) ? "": "pb-2",
                 type === "side" && "pb-0 border-0 border-l"
             )}>
                 {((type === "in-chat" && users.length > 10) || (type === "feed" && users.length > 6)) && <>
-                    <div className="w-full pointer-events-none bg-linear-to-b from-background via-background/75 to-transparent absolute top-0 left-0 h-10 z-20" />
-                    <div className="w-full pointer-events-none bg-linear-to-t from-background via-background/90 to-transparent absolute bottom-0 left-0 h-10 z-20" />
+                    <div className="w-full max-md:hidden pointer-events-none bg-linear-to-b from-background via-background/75 to-transparent absolute top-0 left-0 h-10 z-20" />
+                    <div className="w-full max-md:hidden pointer-events-none bg-linear-to-t from-background via-background/90 to-transparent absolute bottom-0 left-0 h-10 z-20" />
                 </>}
 
                 <div
@@ -103,7 +103,8 @@ export default function ChatHanger({ type = "feed", usersList = [...initialUsers
                         "max-h-[calc(100vh*0.5)] overflow-y-auto no-scrollbar scroll-smooth",
                         type === "in-chat" && "max-h-full",
                         type === "feed" && "max-h-[calc(100vh*0.5)]",
-                        type === "side" && "max-h-full"
+                        type === "side" && "max-h-full",
+                        ((type === "in-chat" && users.length > 10) || (type === "feed" && users.length > 6)) && "py-3 max-md:py-0"
                     )}
                     ref={containerRef}
                 >
@@ -130,16 +131,17 @@ export default function ChatHanger({ type = "feed", usersList = [...initialUsers
                                             opacity: { duration: 0.2 },
                                             scale: { duration: 0.2 }
                                         }}
-                                        className="snap-proximity"
+                                        className={"snap-proximity"}
                                         onClick={() => type === "in-chat" && router.push(`/chat/room-${user.name}` + (isFullscreen ? "?fullscreen=true" : ""))}
                                     >
                                         <User
                                             src={user.src}
                                             name={user.name}
+                                            role={user.role || "member"}
                                             type={type === "side" ? "feed" : type}
                                             userType={type === "side" ? "user" : user.userType}
                                             status={user.status}
-                                            hasNewMessage={type === "side" ? false : user.hasNewMessage}
+                                            hasNewMessage={(userParam || !isMenuOpen) ? false : type === "side" ? false : user.hasNewMessage}
                                             messagePreview={type === "side" ? undefined : user.messagePreview}
                                             selected={type === "in-chat" && selectedUser === user.name}
                                             messageCount={type === "side" ? undefined : messageCount}

@@ -30,10 +30,10 @@ export default function RootLayout({
                     <ReduxProvider>
                         <AuthProvider>
                             <KeyBoardShortCutProvider>
-                                <div className="min-h-screen relative flex not-dark:text-black">
-                                    <div className="flex-1">
+                                <div className="h-screen overflow-hidden relative flex not-dark:text-black">
+                                    <div className="flex-1 max-h-full overflow-y-auto relative">
                                         <GlobalHeader />
-                                        <main className="flex md:px-10 sm:px-5 px-3 py-6 max-sm:pb-10">
+                                        <main className="flex h-full md:px-10 sm:px-5 px-3 md:pt-6 py-3 max-sm:pb-0">
                                             <SideBar />
                                             {children}
                                         </main>

@@ -2,11 +2,13 @@
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card";
 import { Button } from "../ui/button";
-import { CheckCheck, MessageCircle } from "lucide-react";
+import { CheckCheck, Crown, MessageCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import UserClump from "../modular/UserClump";
 import { cn, formatNumber } from "@/lib/utils";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Crown02Icon, ShieldEnergyIcon, ShieldKeyIcon } from "@hugeicons/core-free-icons";
 
 export interface UserProps {
     src: string;
@@ -16,6 +18,7 @@ export interface UserProps {
     messagePreview?: string;
     type: "in-chat" | "feed";
     userType?: "user" | "bot" | "room";
+    role?: "owner" | "admin" | "mod" | "member";
     selected?: boolean;
     messageCount?: number;
 }
@@ -28,6 +31,7 @@ export default function User({
     messagePreview = "Hey! How are you doing?",
     type = "feed",
     userType = "user",
+    role = "member",
     selected = false,
     messageCount = 0,
 }: UserProps) {
@@ -113,6 +117,28 @@ export default function User({
                             {status === "offline" && <div className="absolute bottom-1 right-1 w-2 h-2 bg-red-500 rounded-full" />}
                         </>
                     )}
+
+                    {role === "owner" && <div className="absolute top-0 left-0 size-6 bg-[#FFD700] text-foreground dark:text-background border-2 border-background rounded-full grid place-items-center">
+                        <HugeiconsIcon
+                            icon={Crown02Icon}
+                            className="size-4"
+                            strokeWidth={2.5}
+                        />
+                    </div>}
+                    {role === "admin" && <div className="absolute top-0 left-0 size-6 bg-[#7600C9] text-background border-2 border-background rounded-full grid place-items-center">
+                        <HugeiconsIcon 
+                            icon={ShieldEnergyIcon}
+                            className="size-4"
+                            strokeWidth={2.5}
+                        />
+                    </div>}
+                    {role === "mod" && <div className="absolute top-0 left-0 size-6 bg-[#3498DB] text-background border-2 border-background rounded-full grid place-items-center">
+                        <HugeiconsIcon 
+                            icon={ShieldKeyIcon}
+                            className="size-4"
+                            strokeWidth={2.5}
+                        />
+                    </div>}
                 </Button>
             </HoverCardTrigger>
             <HoverCardContent 

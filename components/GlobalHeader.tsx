@@ -33,9 +33,10 @@ import { useKeyBoardShortCut } from './Providers/KeyBoardShortCutProvider';
 import useShortcuts from '@useverse/useshortcuts';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { toast } from 'sonner';
+import { useWindowSize } from 'react-use';
 
 const noHeaderPages = [
-    "/activities"
+    "/activities",
 ]
 
 export default function GlobalHeader() {
@@ -46,6 +47,10 @@ export default function GlobalHeader() {
     const isFullscreen = useSearchParams().get("fullscreen");
     const [isSearchExpanded, setIsSearchExpanded] = useState(false);
     const { allowedShortcuts, allowShortcuts, disallowShortcuts } = useKeyBoardShortCut();
+    const isHidden = (pathname === "/chat" || pathname.includes("/chat/"));
+
+    const { width: windowWidth } = useWindowSize()
+
 
     useEffect(()=>{
         allowShortcuts(["alt+F", "commandESC"])
@@ -65,12 +70,13 @@ export default function GlobalHeader() {
     }, [isFullscreen]);
 
     const handleFullScreenToggle = useCallback(() => {
+        if (!isHidden) return;
         if (!isFullscreen) {
             updateSearchParam("fullscreen", "true");
             return;
         }
         removeSearchParam("fullscreen");
-    }, [isFullscreen, updateSearchParam, removeSearchParam]);
+    }, [isFullscreen, updateSearchParam, removeSearchParam, isHidden]);
 
     useShortcuts({
         shortcuts: [
@@ -78,6 +84,7 @@ export default function GlobalHeader() {
             { key: "Escape", isSpecialKey: true,  enabled: allowedShortcuts.has("commandESC") },
         ],
         onTrigger: (shortcut) => {
+            if (!isHidden) return;
             switch (shortcut.key) {
                 case "F":
                     handleFullScreenToggle()
@@ -95,16 +102,13 @@ export default function GlobalHeader() {
 
     if (!shouldShowHeader) return null;
 
-    const isHidden = (pathname === "/chat" || pathname.includes("/chat/"));
-
     return (
         <motion.header 
             ref={headerRef}
             initial={false}
-            onAnimationEnd={() => console.log("Animation has ended")}
             animate={{
-                y: (isHidden && isFullscreen) ? -100 : 0,
-                marginTop: (isHidden && isFullscreen) ? -100 : 0,
+                y: (isHidden && isFullscreen) ? (isMobile ? (windowWidth <= 638 ? -73 : -110) : -99) : 0,
+                marginTop: (isHidden && isFullscreen) ? (isMobile ? (windowWidth <= 638 ? -73 : -110) : -99) : 0,
                 opacity: (isHidden && isFullscreen) ? 0 : 1,
             }}
             transition={{

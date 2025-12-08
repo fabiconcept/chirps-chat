@@ -12,6 +12,9 @@ import { useState, useMemo, useLayoutEffect, useRef, useCallback } from "react";
 import useShortcuts from "@useverse/useshortcuts";
 import { useKeyBoardShortCut } from "../Providers/KeyBoardShortCutProvider";
 import { allResults } from "../../constants/User.const";
+import { motion } from "framer-motion";
+import { useSearchParams } from "next/navigation";
+import { removeSearchParam, updateSearchParam } from "@/lib/utils";
 
 const FindConversation = () => {
     const [searchQuery, setSearchQuery] = useState("");
@@ -24,6 +27,7 @@ const FindConversation = () => {
     const itemRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
     const searchInputRef = useRef<HTMLInputElement>(null);
     const { disallowShortcuts, allowShortcuts, notoriousShortcuts, allowedShortcuts } = useKeyBoardShortCut();
+    const isOpen = useSearchParams().get("hide-menu") === "true";
 
     // Detect search type from query
     const searchType = useMemo(() => {
@@ -204,8 +208,45 @@ const FindConversation = () => {
         setFocusedItemId(itemId);
     }, []);
 
+    const handleHamburgerController = () => {
+        if (isOpen) {
+            removeSearchParam("hide-menu");
+        } else {
+            updateSearchParam("hide-menu", "true");
+        }
+    }
+
     return (
-        <div className="p-3 w-full">
+        <div className="p-3 w-full flex items-center gap-2">
+            <Button
+                size="icon-sm"
+                onClick={handleHamburgerController}
+                className="relative sm:hidden"
+            >
+                <motion.span
+                    className="absolute w-4 h-0.5 bg-current"
+                    animate={{
+                        rotate: !isOpen ? 45 : 0,
+                        y: !isOpen ? 0 : -4,
+                    }}
+                    transition={{ duration: 0.3 }}
+                />
+                <motion.span
+                    className="absolute w-4 h-0.5 bg-current"
+                    animate={{
+                        opacity: !isOpen ? 0 : 1,
+                    }}
+                    transition={{ duration: 0.2 }}
+                />
+                <motion.span
+                    className="absolute w-4 h-0.5 bg-current"
+                    animate={{
+                        rotate: !isOpen ? -45 : 0,
+                        y: !isOpen ? 0 : 4,
+                    }}
+                    transition={{ duration: 0.3 }}
+                />
+            </Button>
             <Dialog onOpenChange={(open: boolean) => {
                 if (open) {
                     disallowShortcuts([...Array.from(notoriousShortcuts), "alt+F", "commandESC"]);
@@ -230,7 +271,7 @@ const FindConversation = () => {
                 <DialogTrigger asChild>
                     <Button
                         variant="outline"
-                        className="w-full p-2"
+                        className="flex-1 p-2"
                     >
                         Find or start a conversation
                     </Button>

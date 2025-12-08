@@ -188,7 +188,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                             className={cn(
                                 "flex items-start relative gap-2 w-full group transition-colors duration-200 px-5 py-2",
                                 isUnread ? "bg-yellow-600/5 relative after:absolute after:content-[''] after:w-1 after:h-full after:bg-yellow-600/20 after:left-0 after:z-10 after:top-0" : "dark:hover:bg-[#282828]/50 hover:bg-[#F3F3F3]/75",
-                                type === "starred" && "rounded-md"
+                                type === "starred" && "rounded-md border border-transparent hover:border-input/50"
                             )}
                         >
                             <div className="relative w-fit h-fit">

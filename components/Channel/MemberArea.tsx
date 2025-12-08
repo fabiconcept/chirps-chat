@@ -1,5 +1,6 @@
 "use client";
 
+import { channelMembers } from "@/constants/User.const";
 import ChatHanger from "../ChatHanger";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -37,8 +38,8 @@ export default function MemberArea({ isOpen }: MemberAreaProps) {
                     }}
                     className="overflow-hidden"
                 >
-                    <div className="w-20">
-                        <ChatHanger type="side" />
+                    <div className="w-20 h-full">
+                        <ChatHanger type="side" usersList={[...channelMembers, ...channelMembers.map(user => ({ ...user, name: user.name + "2" }))]} />
                     </div>
                 </motion.div>
             )}

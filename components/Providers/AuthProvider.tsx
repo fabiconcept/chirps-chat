@@ -7,6 +7,7 @@ import { logout as logoutAction } from "@/store/slices/appSlice";
 import { useMemo } from "react";
 import { detectOS } from "@/lib/utils";
 import { useWindowSize } from "react-use";
+import { LoaderPinwheel } from "lucide-react";
 
 interface AuthProviderProps {
     children: React.ReactNode;
@@ -28,6 +29,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const isMacOS = useMemo(() => detectOS() === 'macos', []);
     const { width } = useWindowSize();
     const isMobile = width < 808;
+    const isWindowDefined = typeof window !== 'undefined';
 
     const logout = () => {
         dispatch(logoutAction(false));
@@ -36,6 +38,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const login = () => {
         dispatch(logoutAction(true));
     }
+
+    if (!isWindowDefined) return (
+        <div className="h-screen w-screen flex items-center justify-center">
+            <div className="flex flex-col items-center gap-4">
+                <LoaderPinwheel className="w-12 h-12 text-theme-green animate-spin" />
+                <p className="text-sm text-muted-foreground">Loading...</p>
+            </div>
+        </div>
+    );
     
     return <AuthContext.Provider value={{ isAuthenticated, logout, login, isMacOS, isMobile }}>{children}</AuthContext.Provider>;
 }

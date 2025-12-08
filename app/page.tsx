@@ -2,6 +2,7 @@ import ChatHanger from "@/components/ChatHanger";
 import Feed from "@/components/Feed";
 import CommunityRecommendation from "@/components/CommunityRecommendation";
 import ProfileCard from "@/components/ProfileCard";
+import { initialUsers } from "@/constants/User.const";
 
 export default function Page() {
     return (
@@ -11,7 +12,7 @@ export default function Page() {
                 <CommunityRecommendation />
             </div>
             <Feed />
-            <ChatHanger />
+            <ChatHanger usersList={initialUsers.slice(0, 6)} />
         </div>
     )
 }
