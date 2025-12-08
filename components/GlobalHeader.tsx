@@ -52,7 +52,7 @@ export default function GlobalHeader() {
 
         if (isFullscreen) {
             toast.custom((t)=>(
-                <div className='px-6 py-3 text-lg font-medium bg-background/75 backdrop-blur-sm rounded-md flex items-center gap-2 border border-input shadow-lg shadow-black/5'>
+                <div className='px-6 py-6 text-lg font-medium bg-background/25 backdrop-blur-sm rounded-md flex items-center gap-2 border border-input shadow-lg shadow-black/5'>
                     <Fullscreen className='h-5 w-5' />
                     <p>In Fullscreen Mode, ESC to exit</p>
                 </div>

@@ -13,11 +13,12 @@ interface ProfileCardProps {
     size?: "sm" | "md" | "lg";
     canFollow?: boolean;
     transparent?: boolean;
+    className?: string;
 }
 
 const sizeConfig = {
     sm: {
-        container: "max-w-64",
+        container: "w-64",
         banner: "max-h-16",
         avatar: "-mt-6 h-12 w-12",
         rankBadge: "h-6 w-6 p-1",
@@ -54,7 +55,7 @@ const sizeConfig = {
     }
 };
 
-export default function ProfileCard({ size = "md", canFollow = true, transparent = true }: ProfileCardProps) {
+export default function ProfileCard({ size = "md", canFollow = true, transparent = true, className }: ProfileCardProps) {
     const config = sizeConfig[size];
 
     const handleFollow = () => {
@@ -63,7 +64,12 @@ export default function ProfileCard({ size = "md", canFollow = true, transparent
 
 
     return (
-        <div className={`p-2 ${config.container} rounded-4xl border border-input ${transparent ? "bg-foreground/5": "bg-background/80 backdrop-blur-md"}`}>
+        <div className={cn(
+            `p-2 rounded-4xl border border-input`,
+            config.container,
+            transparent ? "bg-foreground/5": "bg-background/80 backdrop-blur-md",
+            className
+        )}>
             <div>
                 <ProfileBanner
                     bannerUrl="https://chirps-chat.sirv.com/cache/bg.jpg"

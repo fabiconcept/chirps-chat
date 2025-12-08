@@ -162,16 +162,16 @@ const InviteUserDialog = forwardRef<HTMLButtonElement>((props, ref) => {
                     <p className="font-semibold text-xs">Invite Friends to Room</p>
                 </TooltipContent>
             </Tooltip>
-            <DialogContent className="max-w-lg">
-                <DialogHeader>
+            <DialogContent className="max-w-lg px-0">
+                <DialogHeader className="px-4">
                     <DialogTitle>Invite Friends to Room</DialogTitle>
                     <DialogDescription>
                         Invited users will be added to the <span className="font-medium px-1 bg-foreground/5 rounded border border-input/20"><Hashtag>#general</Hashtag></span> channel
                     </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4">
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
+                    <div className="relative px-4">
+                        <Search className="absolute left-7 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
                         <Input
                             placeholder="Search users..."
                             value={searchQuery}
@@ -198,7 +198,7 @@ const InviteUserDialog = forwardRef<HTMLButtonElement>((props, ref) => {
                             </div>
                         )}
                     </ScrollArea>
-                    <div className="grid gap-2 p-2 px-0">
+                    <div className="grid gap-2 p-2 px-4">
                         <span className="text-sm">Or, send a room invite link to your friends</span>
                         <InputGroup className="h-fit p-1 rounded-3xl">
                             <InputGroupInput
@@ -232,8 +232,8 @@ const UserCard = forwardRef<HTMLDivElement, UserCardProps>(({ user, isFocused, o
     return (
         <div
             ref={ref}
-            className={`flex items-center gap-4 p-1 rounded-md hover:bg-foreground/10 dark:hover:bg-foreground/10 focus:bg-foreground/10 dark:focus:bg-foreground/10 transition-colors ${
-                isFocused ? "bg-foreground/10 ring-2 ring-primary/50" : ""
+            className={`flex items-center gap-4 p-1 rounded-md mx-4 my-2 hover:bg-foreground/10 dark:hover:bg-foreground/10 focus:bg-foreground/10 dark:focus:bg-foreground/10 transition-colors ${
+                isFocused ? "bg-foreground/10 ring-2 ring-foreground/50" : ""
             }`}
         >
             <div className="flex items-center gap-2 flex-1 pr-3">

@@ -1,6 +1,7 @@
 import Header from "./Header";
 import ChatContainer from "./ChatContainer";
 import MessageBox from "./ChatContainer/MessageBox";
+import ProfileContainer from "./ProfileContainer";
 
 export default function DMs() {
     return (
@@ -8,6 +9,7 @@ export default function DMs() {
             <Header />
             <ChatContainer />
             <MessageBox />
+            <ProfileContainer />
         </div>
     )
 }
