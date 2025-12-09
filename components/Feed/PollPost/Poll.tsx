@@ -121,23 +121,25 @@ export default function Poll({
                             )}
                         >
                             {/* Progress Bar Background */}
-                            {(isVoted || isEnded) && (
-                                <div className="absolute inset-0 rounded-xl overflow-hidden">
-                                    <motion.div
-                                        initial={{ width: "0%" }}
-                                        animate={{ width: `${percentage}%` }}
-                                        transition={{
-                                            duration: 0.7,
-                                            delay: 0.2 + index * 0.1,
-                                            ease: "easeOut"
-                                        }}
-                                        className={cn(
-                                            "h-full",
-                                            isWinning ? "bg-primary/20" : "bg-muted/50"
-                                        )}
-                                    />
-                                </div>
-                            )}
+                            <div className="absolute inset-0 rounded-xl overflow-hidden">
+                                <motion.div
+                                    initial={(() => {
+                                        return "normal"
+                                    })()}
+                                    animate={(() => {
+                                        return (isVoted || isEnded) ? { width: `${percentage}%` } : { width: 0 }
+                                    })()}
+                                    transition={{
+                                        duration: 0.7,
+                                        delay: 0.2 + index * 0.1,
+                                        ease: "easeOut"
+                                    }}
+                                    className={cn(
+                                        "h-full",
+                                        isWinning ? "bg-primary/20" : "bg-muted/50"
+                                    )}
+                                />
+                            </div>
 
                             {/* Option Content */}
                             <div className="relative flex items-center justify-between sm:p-4 p-3">

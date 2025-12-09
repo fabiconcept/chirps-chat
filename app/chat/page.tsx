@@ -1,14 +1,17 @@
 "use client"
 import DirectMessagesSelector from "@/components/DirectMessagesSelector";
 import DMs from "@/components/DMs";
+import ProtectedImage from "@/components/Feed/TextPost/ProtectedImage";
 import { useAuth } from "@/components/Providers/AuthProvider";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "next-themes";
 import { useSearchParams } from "next/navigation";
 
 export default function ChatPage() {
     const { isMobile, isTablet } = useAuth();
     const searchParams = useSearchParams();
     const user = searchParams.get("user");
+    const { theme } = useTheme();
 
     const cardShuffleVariants = {
         enter: (direction: number) => ({
@@ -75,7 +78,23 @@ export default function ChatPage() {
             ) : (
                 <>
                     <DirectMessagesSelector />
-                    <DMs />
+                    {user ? 
+                    <DMs /> : 
+                    <div className="flex-1 bg-background relative h-full grid place-items-center">
+                        <div className="flex flex-col items-center gap-4">
+                            <ProtectedImage
+                                src={theme === 'dark' ? "/chirps-chat-logo-white.svg" : "/chirps-chat-logo.svg"}
+                                alt="Chirps Logo"
+                                className='z-20 -mt-1 object-contain opacity-50'
+                                width={48}
+                                height={48}
+                                priority
+                            />
+                            <h1 className='opacity-50 text-3xl text-foreground max-sm:hidden -translate-x-2.5 z-10 text-center'>Check <span className="ave">your DMs</span> Now!</h1>
+                            <p className='text-sm text-muted-foreground z-10 text-center absolute bottom-10 font-semibold'>Kinda Encrypted &quot;end-to-end&quot; <span className="text-sm opacity-75">maybe</span></p>
+                        </div>
+                    </div>
+                    }
                 </>
             )}
         </div>

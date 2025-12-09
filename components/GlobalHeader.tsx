@@ -34,6 +34,7 @@ import useShortcuts from '@useverse/useshortcuts';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { toast } from 'sonner';
 import { useWindowSize } from 'react-use';
+import ProtectedImage from './Feed/TextPost/ProtectedImage';
 
 const noHeaderPages = [
     "/activities",
@@ -45,7 +46,6 @@ export default function GlobalHeader() {
     const { theme } = useTheme();
     const pathname = usePathname();
     const isFullscreen = useSearchParams().get("fullscreen");
-    const [isSearchExpanded, setIsSearchExpanded] = useState(false);
     const { allowedShortcuts, allowShortcuts, disallowShortcuts } = useKeyBoardShortCut();
     const isHidden = (pathname === "/chat" || pathname.includes("/chat/"));
 
@@ -139,7 +139,7 @@ export default function GlobalHeader() {
                 <div className='absolute inset-0 scale-105 -mt-5 filter-ios'></div>
                 <div className='flex items-center z-10 sm:gap-5 gap-3 flex-1'>
                     <div className="flex items-center gap-2 max-md:py-5">
-                        <Image
+                        <ProtectedImage
                             src={theme === 'dark' ? "/chirps-chat-logo-white.svg" : "/chirps-chat-logo.svg"}
                             alt="Chirps Logo"
                             className='h-9 w-9 z-20 -mt-1 object-contain'
@@ -149,17 +149,9 @@ export default function GlobalHeader() {
                         />
                         <h1 className='text-3xl ave text-foreground max-sm:hidden -translate-x-2.5 z-10'>hirps</h1>
                     </div>
-                    {isAuthenticated && <Search expanded={isSearchExpanded} onMobileExpand={setIsSearchExpanded} />}
+                    {isAuthenticated && <Search />}
                 </div>
-                <motion.div 
-                    animate={{ 
-                        width: (isMobile && isSearchExpanded) ? 0 : 'auto',
-                        flex: (isMobile && isSearchExpanded) ? 0 : 1, 
-                        opacity: (isMobile && isSearchExpanded) ? 0 : 1
-                    }}
-                    transition={{ duration: 0.2, ease: 'easeInOut' }}
-                    className='flex items-center z-10 gap-2 justify-end overflow-hidden'
-                >
+                <div className='flex items-center z-10 gap-2 justify-end overflow-hidden'>
                     {isHidden && (
                         <Tooltip>
                             <TooltipTrigger asChild>
@@ -203,27 +195,12 @@ export default function GlobalHeader() {
                     </div>
                     <React.Fragment>
                         {!isAuthenticated && (
-                            <AnimatePresence>
-                                {(!isMobile || !isSearchExpanded) && (
-                                    <motion.div
-                                        initial={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: 20 }}
-                                        transition={{ duration: 0.2 }}
-                                    >
-                                        <Button className='my-[0.315rem]' onClick={login}>Sign In</Button>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                            <Link href={'/login'}>
+                                <Button>Login</Button>
+                            </Link>
                         )}
                         {isAuthenticated && (
-                            <AnimatePresence>
-                                {(!isMobile || !isSearchExpanded) && (
-                                    <motion.div
-                                        initial={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: 20 }}
-                                        transition={{ duration: 0.2 }}
-                                    >
-                                        <DropdownMenu>
+                            <DropdownMenu>
                                 <DropdownMenuTrigger>
                                     <UserClump 
                                         name="Hello Kitty"
@@ -283,13 +260,10 @@ export default function GlobalHeader() {
                                         <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                            </DropdownMenu>
                         )}
                     </React.Fragment>
-                </motion.div>
+                </div>
             </div>
         </motion.header>
     )

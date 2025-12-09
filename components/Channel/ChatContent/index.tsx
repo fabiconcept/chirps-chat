@@ -9,7 +9,7 @@ export default function ChatContent() {
     const firstUnreadIndex = CHANNEL_CHAT_EXAMPLES.findIndex(msg => msg.isUnread);
 
     return (
-        <div className="flex-1 bg-background w-full rounded-t-3xl relative overflow-y-auto border border-b-0 border-input">
+        <div className="flex-1 bg-background w-full relative overflow-y-auto border border-b-0 border-input">
             <div className="no-scrollbar flex flex-col justify-end">
                 <DmIntroCard />
                 {CHANNEL_CHAT_EXAMPLES.map((message, index) => {

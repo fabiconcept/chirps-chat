@@ -317,7 +317,7 @@ const FindConversation = () => {
                         <Input
                             ref={searchInputRef}
                             placeholder="Enter your destination:"
-                            className="w-full text-lg"
+                            className="w-full md:text-lg"
                             value={searchQuery}
                             onChange={handleSearchChange}
                             onFocus={() => {

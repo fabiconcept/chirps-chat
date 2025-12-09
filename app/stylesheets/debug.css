@@ -1,3 +1,29 @@
-* {
-    outline: 1px solid red;
+body:has(.only) * {
+    outline: none !important;
+}
+
+body:not(:has(.only)) * {
+    outline: 1px solid red !important;
+    .debug-green {
+        outline-color: green;
+    }
+    .debug-blue {
+        outline-color: blue;
+    }
+    .debug-purple {
+        outline-color: purple;
+    }
+}
+
+body:has(.only) .only {
+    outline: 1px solid red !important;
+    &.debug-green {
+        outline-color: green !important;
+    }
+    &.debug-blue {
+        outline-color: blue !important;
+    }
+    &.debug-purple {
+        outline-color: purple !important;
+    }
 }
