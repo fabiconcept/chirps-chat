@@ -80,7 +80,7 @@ export default function ChatPage() {
                     <DirectMessagesSelector />
                     {user ? 
                     <DMs /> : 
-                    <div className="flex-1 bg-background relative h-full grid place-items-center">
+                    <div className="flex-1 bg-background relative h-full grid place-items-center sm:rounded-r-2xl max-[900px]:rounded-2xl border border-input">
                         <div className="flex flex-col items-center gap-4">
                             <ProtectedImage
                                 src={theme === 'dark' ? "/chirps-chat-logo-white.svg" : "/chirps-chat-logo.svg"}

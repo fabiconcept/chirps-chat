@@ -218,7 +218,7 @@ export default function Search() {
                         "flex items-center gap-2 relative rounded-3xl bg-background/20",
                         "hover:border-ring hover:ring-ring/50 hover:ring-[3px]",
                         "shadow-xs transition-[color,box-shadow] border border-input dark:bg-input/30",
-                        "md:w-full w-12 max-w-xs h-12 px-5"
+                        "md:w-full w-10 max-w-xs md:h-12 h-10 max-md:py-2 px-5"
                     )}
                 >
                     <SearchIcon className="w-4 h-4 text-muted-foreground" />
@@ -270,7 +270,7 @@ export default function Search() {
                     <Input
                         ref={inputRef}
                         placeholder="What are you looking for?"
-                        className="w-full md:text-lg"
+                        className="w-full md:text-lg text-sm"
                         value={searchQuery}
                         onChange={handleSearchChange}
                         onFocus={() => {
@@ -289,7 +289,7 @@ export default function Search() {
                                 <h3 className="text-xs font-semibold text-muted-foreground px-2 mb-2">
                                     {section.title}
                                 </h3>
-                                <div className="space-y-1">
+                                <div className="space-y-1 text-sm">
                                     {section.items.map((item) => (
                                         <SearchResultItem
                                             key={item.id}
