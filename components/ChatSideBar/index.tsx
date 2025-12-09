@@ -6,6 +6,8 @@ import ChatHanger from "../ChatHanger";
 import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import { useAuth } from "../Providers/AuthProvider";
+import { useEffect } from "react";
+import { removeSearchParam } from "@/lib/utils";
 
 export default function ChatSideBar() {
     const { isMobile, isTablet } = useAuth();
@@ -13,6 +15,12 @@ export default function ChatSideBar() {
     const user = searchParams.get("user");
     const channel = searchParams.get("channel");
     const isOpen = searchParams.get("hide-menu") === "true";
+
+    useEffect(()=>{
+        if (isMobile) return;
+        if (!isOpen) return;
+        removeSearchParam("hide-menu");
+    }, [isMobile, isOpen, removeSearchParam]);
 
     const isHidden = (!!user || !!channel) || isOpen;
 
@@ -32,7 +40,7 @@ export default function ChatSideBar() {
     
     return (
         <motion.div 
-            className="flex flex-col md:gap-3 gap-2 h-full overflow-hidden min-[900px]:mr-3"
+            className="flex flex-col md:gap-3 gap-2 h-full overflow-hidden min-[900px]:mr-3 mr-2"
             initial={(isMobile || isTablet) ? initial : undefined}
             animate={(isMobile || isTablet) ? animate : undefined}
             transition={{ duration: 0.2 }}

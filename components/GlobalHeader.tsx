@@ -98,6 +98,18 @@ export default function GlobalHeader() {
         }
     }, [allowedShortcuts, handleFullScreenToggle]);
 
+    useEffect(()=>{
+        if (!isHidden) return;
+        if (!isMobile && isFullscreen === "auto") {
+            removeSearchParam("fullscreen");
+            return;
+        };
+        if (!isMobile) return;
+        if (isFullscreen) return;
+
+        updateSearchParam("fullscreen", "auto");
+    }, [isMobile, isHidden, updateSearchParam, isFullscreen])
+
     const shouldShowHeader = !noHeaderPages.includes(pathname);
 
     if (!shouldShowHeader) return null;
