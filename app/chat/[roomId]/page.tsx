@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import ProtectedImage from "@/components/Feed/TextPost/ProtectedImage";
 import { useTheme } from "next-themes";
+import { removeSearchParam } from "@/lib/utils";
 
 export default function page() {
     const { roomId } = useParams<{ roomId: string }>();
@@ -18,7 +19,6 @@ export default function page() {
     const isValidPattern = /^room-[a-zA-Z0-9]+$/.test(roomId);
 
     if (!isValidPattern) {
-        console.log("Invalid room ID pattern", roomId);
         notFound();
     }
 
