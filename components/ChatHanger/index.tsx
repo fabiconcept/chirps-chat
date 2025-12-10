@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-export default function ChatHanger({ type = "feed", usersList = [] }: { type?: "in-chat" | "feed" | "side", usersList?: Omit<UserProps, "type">[] }) {
+export default function ChatHanger({ type = "feed", usersList = [] }: { type?: "in-chat" | "feed" | "side", usersList?: Omit<UserProps, "type">[], }) {
     const [users] = useState<Omit<UserProps, "type">[]>(usersList);
     const pathname = usePathname();
     const isFullscreen = useSearchParams().get("fullscreen");

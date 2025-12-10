@@ -13,6 +13,7 @@ import Activities from "@/components/Activities/Index";
 import { KeyBoardShortCutProvider } from "@/components/Providers/KeyBoardShortCutProvider";
 import { Toaster } from "@/components/ui/sonner";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import HangMan from "@/components/HangMan";
 
 export const metadata: Metadata = RootMetadata;
 
@@ -34,7 +35,12 @@ export default function RootLayout({
                                     <div className="flex-1 max-h-full overflow-y-auto outline debug-blue">
                                         <GlobalHeader />
                                         <main className="flex max-h-full md:px-10 sm:px-5 px-3 md:pt-6 py-3 max-sm:pb-0 debug-purple only overflow-y-visible max-w-[100rem] w-full mx-auto">
-                                            <SideBar />
+                                            <HangMan 
+                                                className="relative"
+                                                exemptFrom={["/chat", "/chat/"]}
+                                            >
+                                                <SideBar />
+                                            </HangMan>
                                             {children}
                                         </main>
                                     </div>
