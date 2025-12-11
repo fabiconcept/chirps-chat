@@ -9,12 +9,12 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { UserPlus, Settings, Plus, Bell, Lock, Edit} from "lucide-react";
-import { RefObject } from 'react';
+import { UserPlus, Settings, Plus, Bell, Lock, Edit } from "lucide-react";
+import { useCallback, useMemo } from 'react';
 import { Button } from '../ui/button';
 import { removeSearchParam, updateSearchParam } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
 
 interface MenuItem {
     id: string;
@@ -40,12 +40,13 @@ const menuSections: MenuItem[][] = [
 
 export default function RoomDropdown({
     owner,
-    inviteDialogRef,
 }: {
     owner?: boolean;
-    inviteDialogRef?: RefObject<HTMLButtonElement | null>;
 }) {
-    const isOpen = useSearchParams().get("hide-menu") === "true";
+    const searchParams = useSearchParams();
+    const isOpen = useMemo(()=> searchParams.get("hide-menu") === "true", [searchParams]);
+    const isSettingsOpen = useMemo(()=> searchParams.get("settings") === "true", [searchParams]);
+    const isInviteOpen = useMemo(()=> searchParams.get("invite") === "true", [searchParams]);
 
     const handleHamburgerController = () => {
         if (isOpen) {
@@ -54,6 +55,43 @@ export default function RoomDropdown({
             updateSearchParam("hide-menu", "true");
         }
     }
+
+    const handleInviteToggle = useCallback(()=>{
+        if (isInviteOpen) {
+            removeSearchParam("invite");
+        } else {
+            updateSearchParam("invite", "true");
+        }
+    }, [isInviteOpen]);
+
+    const handleSettingsToggle = useCallback(()=>{
+        if (isSettingsOpen) {
+            removeSearchParam("settings");
+        } else {
+            updateSearchParam("settings", "true");
+        }
+    }, [isSettingsOpen]);
+
+    const handleDropMenuAction = useCallback((id: MenuItem["id"]) => {
+        switch (id) {
+            case "invite":
+                handleInviteToggle();
+                break;
+            case "settings":
+                handleSettingsToggle();
+                break;
+            case "channel":
+                break;
+            case "notifications":
+                break;
+            case "privacy":
+                break;
+            case "profile":
+                break;
+        }
+    }, [handleSettingsToggle, handleInviteToggle]);
+
+
     return (
         <div className="flex items-center gap-2">
             <div className="max-[900px]:flex hidden items-center justify-center mt-1.5">
@@ -107,11 +145,7 @@ export default function RoomDropdown({
                                 return (
                                     <DropdownMenuItem
                                         key={item.id}
-                                        onClick={() => {
-                                            if (item.id === "invite") {
-                                                inviteDialogRef?.current?.click();
-                                            }
-                                        }}
+                                        onClick={() => handleDropMenuAction(item.id)}
                                         className="cursor-pointer flex items-center justify-between px-2 py-2 rounded-sm"
                                     >
                                         <span className="text-sm">{item.label}</span>

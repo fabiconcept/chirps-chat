@@ -13,7 +13,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { ScrollArea } from "../ui/scroll-area";
 import { InputGroup, InputGroupButton, InputGroupInput } from "../ui/input-group";
 import { useKeyBoardShortCut } from "../Providers/KeyBoardShortCutProvider";
-import useShortcuts from "@useverse/useshortcuts";
+import useShortcuts, { KeyboardKey } from "@useverse/useshortcuts";
+import { useSearchParams } from "next/navigation";
+import { removeSearchParam, updateSearchParam } from "@/lib/utils";
 
 // Mock users data
 const mockUsers = [
@@ -26,11 +28,14 @@ const mockUsers = [
     { id: "7", name: "Eve Adams", avatar: "", fallback: "EA" },
 ];
 
-const InviteUserDialog = forwardRef<HTMLButtonElement>((props, ref) => {
+export default function InviteUserDialog() {
     const [searchQuery, setSearchQuery] = useState("");
     const [focusedUserId, setFocusedUserId] = useState<string | null>(null);
     const userRefs = useRef<Map<string, HTMLDivElement>>(new Map());
     const scrollAreaRef = useRef<HTMLDivElement>(null);
+    const searchParams = useSearchParams();
+    const ref = useRef<HTMLButtonElement>(null);
+    const isInviteOpen = useMemo(()=> searchParams.get("invite") === "true", [searchParams]);
     const { disallowShortcuts, allowShortcuts, notoriousShortcuts, allowedShortcuts } = useKeyBoardShortCut();
 
     // Filter users based on search query
@@ -96,19 +101,19 @@ const InviteUserDialog = forwardRef<HTMLButtonElement>((props, ref) => {
     // Keyboard shortcuts
     useShortcuts({
         shortcuts: [
-            { key: "ArrowDown", isSpecialKey: true, enabled: allowedShortcuts.has("arrowDown") },
-            { key: "ArrowUp", isSpecialKey: true, enabled: allowedShortcuts.has("arrowUp") },
-            { key: "Enter", isSpecialKey: true, enabled: allowedShortcuts.has("enter") },
+            { key: KeyboardKey.ArrowDown, isSpecialKey: true, enabled: allowedShortcuts.has("arrowDown") },
+            { key: KeyboardKey.ArrowUp, isSpecialKey: true, enabled: allowedShortcuts.has("arrowUp") },
+            { key: KeyboardKey.Enter, isSpecialKey: true, enabled: allowedShortcuts.has("enter") },
         ],
         onTrigger: (shortcut) => {
             switch (shortcut.key) {
-                case "ArrowDown":
+                case KeyboardKey.ArrowDown:
                     navigateDown();
                     break;
-                case "ArrowUp":
+                case KeyboardKey.ArrowUp:
                     navigateUp();
                     break;
-                case "Enter":
+                case KeyboardKey.Enter:
                     handleInvite();
                     break;
             }
@@ -117,9 +122,11 @@ const InviteUserDialog = forwardRef<HTMLButtonElement>((props, ref) => {
 
     return (
         <Dialog
+            open={isInviteOpen}
             onOpenChange={(open: boolean) => {
                 if (open) {
-                    disallowShortcuts([...Array.from(notoriousShortcuts), "alt+F", "commandESC"]);
+                    updateSearchParam("invite", "true");
+                    disallowShortcuts([...notoriousShortcuts, "alt+F", "commandESC"]);
                     allowShortcuts([
                         "arrowDown",
                         "arrowUp",
@@ -127,7 +134,8 @@ const InviteUserDialog = forwardRef<HTMLButtonElement>((props, ref) => {
                     ]);
                     setFocusedUserId(null);
                 } else {
-                    allowShortcuts([...Array.from(notoriousShortcuts), "alt+F"]);
+                    removeSearchParam("invite");
+                    allowShortcuts([...notoriousShortcuts, "alt+F"]);
                     setTimeout(() => {
                         allowShortcuts(["commandESC"]);
                     }, 100);
@@ -218,7 +226,7 @@ const InviteUserDialog = forwardRef<HTMLButtonElement>((props, ref) => {
             </DialogContent>
         </Dialog>
     );
-});
+}
 
 InviteUserDialog.displayName = "InviteUserDialog";
 
@@ -255,5 +263,3 @@ const UserCard = forwardRef<HTMLDivElement, UserCardProps>(({ user, isFocused, o
 });
 
 UserCard.displayName = "UserCard";
-
-export default InviteUserDialog;

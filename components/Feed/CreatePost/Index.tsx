@@ -5,7 +5,7 @@ import { Button } from "../../ui/button";
 import UserClump from "../../modular/UserClump";
 import { useKeyBoardShortCut } from "../../Providers/KeyBoardShortCutProvider";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import useShortcuts from "@useverse/useshortcuts";
+import useShortcuts, { KeyboardKey } from "@useverse/useshortcuts";
 import { useAuth } from "../../Providers/AuthProvider";
 import { useRef } from "react";
 import { Kbd, KbdGroup } from "../../ui/kbd";
@@ -173,14 +173,14 @@ export default function CreatePost({
 
     useShortcuts({
         shortcuts: [{
-            key: "N",
+            key: KeyboardKey.KeyN,
             metaKey: isMacOS,
             ctrlKey: !isMacOS,
             enabled: allowedShortcuts.has("commandN")
         }],
         onTrigger: (shortcut) => {
             switch (shortcut.key) {
-                case "N":
+                case KeyboardKey.KeyN:
                     createNewPostRef.current?.click();
                     break;
             }

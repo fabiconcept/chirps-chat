@@ -11,7 +11,7 @@ export default function ChatContent() {
     return (
         <div className="flex-1 bg-background w-full relative overflow-y-auto border border-b-0 border-input">
             <div className="no-scrollbar flex flex-col justify-end">
-                <DmIntroCard />
+                <DmIntroCard variant="channel" isOwner={true} />
                 {CHANNEL_CHAT_EXAMPLES.map((message, index) => {
                     const currentDate = new Date(message.timestamp);
                     const previousDate = index > 0 ? new Date(CHANNEL_CHAT_EXAMPLES[index - 1].timestamp) : null;

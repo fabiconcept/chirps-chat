@@ -1,5 +1,6 @@
 import ProfileAvatar from "@/components/ProfileCard/ProfileAvatar";
 import { Button } from "@/components/ui/button";
+import { updateSearchParam } from "@/lib/utils";
 import { UserPlus, Settings, Bell } from "lucide-react";
 
 export default function DmIntroCard({
@@ -33,11 +34,18 @@ export default function DmIntroCard({
                     
                     {isOwner && (
                         <div className="flex flex-col gap-2 w-full min-[900px]:max-w-md max-w-full px-5 mt-4">
-                            <Button variant="outline" className="w-full justify-start gap-3">
+                            <Button 
+                                variant="outline" 
+                                className="w-full justify-start gap-3"
+                                onClick={() => updateSearchParam("invite", "true")}
+                            >
                                 <UserPlus className="size-4" />
                                 Invite your friends
                             </Button>
-                            <Button variant="outline" className="w-full justify-start gap-3">
+                            <Button 
+                                variant="outline" 
+                                className="w-full justify-start gap-3"
+                            >
                                 <Settings className="size-4" />
                                 Personalize this channel
                             </Button>
