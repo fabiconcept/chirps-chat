@@ -5,13 +5,13 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { DashboardIcon } from "./DashboardIcon";
 import { SendIcon } from "./SendIcon";
-import { ShoppingCartIcon } from "./ShoppingCartIcon";
-import { UserStarIcon } from "./UserStarIcon";
-import { HandCoinsIcon } from "./HandCoinsIcon";
+// import { ShoppingCartIcon } from "./ShoppingCartIcon";
+// import { UserStarIcon } from "./UserStarIcon";
+// import { HandCoinsIcon } from "./HandCoinsIcon";
 
 const navItems: { 
     path: string; 
-    icon: any; 
+    icon: React.ElementType; 
     activeSize: number; 
     inactiveSize: number; 
     extraInactiveClass?: string; 

@@ -1,11 +1,10 @@
 "use client"
 import { useAuth } from './Providers/AuthProvider';
 import { Button } from './ui/button';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import ThemeSwitch from './ui/theme-switch';
 import { useTheme } from "next-themes";
-import Image from "next/image";
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
@@ -30,7 +29,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { MaximizeScreenIcon, MinimizeScreenIcon } from '@hugeicons/core-free-icons';
 import { useKeyBoardShortCut } from './Providers/KeyBoardShortCutProvider';
-import useShortcuts from '@useverse/useshortcuts';
+import useShortcuts, { KeyboardKey } from '@useverse/useshortcuts';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { toast } from 'sonner';
 import { useWindowSize } from 'react-use';
@@ -41,7 +40,7 @@ const noHeaderPages = [
 ]
 
 export default function GlobalHeader() {
-    const { isAuthenticated, logout, login, isMobile } = useAuth();
+    const { isAuthenticated, logout, isMobile } = useAuth();
     const headerRef = useRef<HTMLDivElement>(null);
     const { theme } = useTheme();
     const pathname = usePathname();
@@ -56,7 +55,7 @@ export default function GlobalHeader() {
         allowShortcuts(["alt+F", "commandESC"])
 
         if (isFullscreen) {
-            toast.custom((t)=>(
+            toast.custom(()=>(
                 <div className='px-6 py-6 text-lg font-medium bg-background/25 backdrop-blur-sm rounded-md flex items-center gap-2 border border-input shadow-lg shadow-black/5'>
                     <Fullscreen className='h-5 w-5' />
                     <p>In Fullscreen Mode, ESC to exit</p>
@@ -67,6 +66,7 @@ export default function GlobalHeader() {
         return ()=> {
             disallowShortcuts(["alt+F"]);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isFullscreen]);
 
     const handleFullScreenToggle = useCallback(() => {
@@ -76,27 +76,27 @@ export default function GlobalHeader() {
             return;
         }
         removeSearchParam("fullscreen");
-    }, [isFullscreen, updateSearchParam, removeSearchParam, isHidden]);
+    }, [isFullscreen, isHidden]);
 
     useShortcuts({
         shortcuts: [
-            { key: "F", altKey: true, enabled: allowedShortcuts.has("alt+F") },
-            { key: "Escape", isSpecialKey: true,  enabled: allowedShortcuts.has("commandESC") },
+            { key: KeyboardKey.KeyF, altKey: true, enabled: allowedShortcuts.has("alt+F") },
+            { key: KeyboardKey.Escape, isSpecialKey: true,  enabled: allowedShortcuts.has("commandESC") },
         ],
         onTrigger: (shortcut) => {
             if (!isHidden) return;
             switch (shortcut.key) {
-                case "F":
+                case KeyboardKey.KeyF:
                     handleFullScreenToggle()
                     allowShortcuts(["commandESC"])
                     break;
-                case "Escape":
+                case KeyboardKey.Escape:
                     removeSearchParam("fullscreen");
                     disallowShortcuts(["commandESC"]);
                     break;
             }
         }
-    }, [allowedShortcuts, handleFullScreenToggle]);
+    }, [allowedShortcuts]);
 
     useEffect(()=>{
         if (!isHidden) return;
@@ -108,7 +108,7 @@ export default function GlobalHeader() {
         if (isFullscreen) return;
 
         updateSearchParam("fullscreen", "auto");
-    }, [isMobile, isHidden, updateSearchParam, isFullscreen])
+    }, [isMobile, isHidden, isFullscreen])
 
     const shouldShowHeader = !noHeaderPages.includes(pathname);
 

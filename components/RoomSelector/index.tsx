@@ -12,11 +12,11 @@ export default function RoomSelector() {
     return (
         <div className="border border-input sm:rounded-l-2xl max-[900px]:rounded-2xl bg-foreground/5 overflow-hidden h-full flex flex-col">
             <div className="p-1.5 flex items-center justify-between gap-4">
-                <RoomDropdown inviteDialogRef={inviteDialogRef} />
+                <RoomDropdown inviteDialogRef={inviteDialogRef} owner />
                 <InviteUserDialog ref={inviteDialogRef} />
             </div>
             <Separator />
-            <ChannelsList inviteDialogRef={inviteDialogRef} />
+            <ChannelsList inviteDialogRef={inviteDialogRef} owner />
         </div>
     )
 }

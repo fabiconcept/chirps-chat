@@ -34,7 +34,7 @@ export default function Feed() {
                         </motion.div>
                     ))}
                 </AnimatePresence>
-                <div className="min-[900px]:hidden md:h-6 h-20" />
+                <div className="sm:h-16 h-20" />
             </div>
         </div>
     )

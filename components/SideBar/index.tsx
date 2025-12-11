@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { HandCoinsIcon } from "../HandCoinsIcon";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import useShortcuts from '@useverse/useshortcuts';
+import useShortcuts, { KeyboardKey } from '@useverse/useshortcuts';
 import { Kbd, KbdGroup } from "../ui/kbd";
 import { useKeyBoardShortCut } from "../Providers/KeyBoardShortCutProvider";
 import { useAuth } from "../Providers/AuthProvider";
@@ -64,27 +64,32 @@ export default function SideBar() {
 
     useShortcuts({
         shortcuts: [
-            { key: 'Digit1', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true, enabled: allowedShortcuts.has("command1") },
-            { key: 'Digit2', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true, enabled: allowedShortcuts.has("command2") },
-            { key: 'Digit3', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true, enabled: allowedShortcuts.has("command3") },
-            { key: 'Digit4', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true, enabled: allowedShortcuts.has("command4") },
-            { key: 'Digit5', metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true, enabled: allowedShortcuts.has("command5") },
+            { key: KeyboardKey.Digit1, metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true, enabled: allowedShortcuts.has("command1") },
+            { key: KeyboardKey.Digit2, metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true, enabled: allowedShortcuts.has("command2") },
+            { key: KeyboardKey.Digit3, metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true, enabled: allowedShortcuts.has("command3") },
+            { key: KeyboardKey.Digit4, metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true, enabled: allowedShortcuts.has("command4") },
+            { key: KeyboardKey.Digit5, metaKey: isMacOS, ctrlKey: !isMacOS, isSpecialKey: true, enabled: allowedShortcuts.has("command5") },
         ],
         onTrigger: (shortcut) => {
             switch (shortcut.key) {
                 case "Digit1":
+                    if (isFeed) return;
                     feedLinkRef.current?.click();
                     break;
                 case "Digit2":
+                    if (isChat) return;
                     chatLinkRef.current?.click();
                     break;
                 case "Digit3":
+                    if (isMarketplace) return;
                     marketplaceLinkRef.current?.click();
                     break;
                 case "Digit4":
+                    if (isLeaderboard) return;
                     leaderboardLinkRef.current?.click();
                     break;
                 case "Digit5":
+                    if (isSuggestions) return;
                     suggestionsLinkRef.current?.click();
                     break;
             }
@@ -128,7 +133,7 @@ export default function SideBar() {
                         <Tooltip delayDuration={500}>
                             <TooltipTrigger>
                                 <Link href={feedPath}
-                                    ref={feedLinkRef}
+                                    ref={!isFeed ? feedLinkRef : undefined}
                                     className={cn("flex items-center opacity-50 hover:opacity-75 gap-2 cursor-pointer h-12 w-12 border border-input rounded-full justify-center bg-background/75 hover:bg-background transition-all duration-300 ease-in-out active:scale-75", {
                                         "active:scale-100 opacity-100 not-dark:text-[#7600C9] not-dark:border-[#7600C9]/50 border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isFeed,
                                     })}
@@ -145,7 +150,7 @@ export default function SideBar() {
                         <Tooltip delayDuration={500}>
                             <TooltipTrigger>
                                 <Link href={chatPath}
-                                    ref={chatLinkRef}
+                                    ref={!isChat ? chatLinkRef : undefined}
                                     className={cn("flex items-center opacity-50 hover:opacity-75 gap-2 cursor-pointer h-12 w-12 border border-input rounded-full justify-center bg-background/75 hover:bg-background transition-all duration-300 ease-in-out active:scale-75", {
                                         "active:scale-100 opacity-100 not-dark:text-[#7600C9] not-dark:border-[#7600C9]/50 border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isChat,
                                     })}
@@ -162,7 +167,7 @@ export default function SideBar() {
                         <Tooltip delayDuration={500}>
                             <TooltipTrigger>
                                 <Link href={marketplacePath}
-                                    ref={marketplaceLinkRef}
+                                    ref={!isMarketplace ? marketplaceLinkRef : undefined}
                                     className={cn("flex items-center opacity-50 hover:opacity-75 gap-2 cursor-pointer h-12 w-12 border border-input rounded-full justify-center bg-background/75 hover:bg-background transition-all duration-300 ease-in-out active:scale-75", {
                                         "active:scale-100 opacity-100 not-dark:text-[#7600C9] not-dark:border-[#7600C9]/50 border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isMarketplace,
                                     })}
@@ -179,7 +184,7 @@ export default function SideBar() {
                         <Tooltip delayDuration={500}>
                             <TooltipTrigger>
                                 <Link href={leaderboardPath}
-                                    ref={leaderboardLinkRef}
+                                    ref={!isLeaderboard ? leaderboardLinkRef : undefined}
                                     className={cn("flex items-center opacity-50 hover:opacity-75 gap-2 cursor-pointer h-12 w-12 border border-input rounded-full justify-center bg-background/75 hover:bg-background transition-all duration-300 ease-in-out active:scale-75", {
                                         "active:scale-100 opacity-100 not-dark:text-[#7600C9] not-dark:border-[#7600C9]/50 border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isLeaderboard,
                                     })}
@@ -200,7 +205,7 @@ export default function SideBar() {
             <Tooltip delayDuration={500}>
                 <TooltipTrigger>
                     <Link href={suggestionsPath}
-                        ref={suggestionsLinkRef}
+                        ref={!isSuggestions ? suggestionsLinkRef : undefined}
                         className={cn("flex shadow-lg shadow-transparent hover:shadow-foreground/5 items-center opacity-75 hover:opacity-85 gap-2 cursor-pointer h-12 w-12 border border-input rounded-full justify-center bg-background/75 hover:bg-background transition-all duration-300 ease-in-out active:scale-75", {
                             "active:scale-100 opacity-100 not-dark:text-[#7600C9] not-dark:border-[#7600C9]/50 border-white/50 hover:opacity-100 bg-[#7600C9]/5 hover:bg-[#7600C9]/5": isSuggestions,
                         })}
