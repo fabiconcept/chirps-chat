@@ -14,6 +14,7 @@ import { KeyBoardShortCutProvider } from "@/components/Providers/KeyBoardShortCu
 import { Toaster } from "@/components/ui/sonner";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import HangMan from "@/components/HangMan";
+import NextTopLoader from 'nextjs-toploader';
 
 export const metadata: Metadata = RootMetadata;
 
@@ -27,6 +28,9 @@ export default function RootLayout({
             <body
                 className={`poppins antialiased`}
             >
+                <NextTopLoader 
+                    color="#7600c9"
+                />
                 <Providers>
                     <ReduxProvider>
                         <AuthProvider>

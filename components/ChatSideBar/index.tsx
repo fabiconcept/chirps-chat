@@ -8,38 +8,39 @@ import { useSearchParams } from "next/navigation";
 import { useAuth } from "../Providers/AuthProvider";
 import { useEffect } from "react";
 import { removeSearchParam } from "@/lib/utils";
+import { useMemo } from "react";
 
 export default function ChatSideBar() {
     const { isMobile, isTablet } = useAuth();
     const searchParams = useSearchParams();
-    const user = searchParams.get("user");
-    const channel = searchParams.get("channel");
-    const isOpen = searchParams.get("hide-menu") === "true";
+    const user = useMemo(()=>searchParams.get("user"), [searchParams]);
+    const channel = useMemo(()=>searchParams.get("channel"), [searchParams]);
+    const isOpen = useMemo(()=>searchParams.get("hide-menu") === "true", [searchParams]);
 
-    useEffect(()=>{
+    useEffect(() => {
         if (isMobile) return;
         if (!isOpen) return;
         removeSearchParam("hide-menu");
-    }, [isMobile, isOpen, removeSearchParam]);
+    }, [isMobile, isOpen]);
 
     const isHidden = (!!user || !!channel) || isOpen;
 
     const initial = {
-        opacity: 0, 
-        x: isHidden ? -40 : 0,
-        width: isHidden ? 0 : "auto",
-        marginRight: isHidden ? -0 : "0.75rem",    
-    }
-
-    const animate = {
-        opacity: isHidden ? 0 : 1, 
+        opacity: 0,
         x: isHidden ? -40 : 0,
         width: isHidden ? 0 : "auto",
         marginRight: isHidden ? -0 : "0.75rem",
     }
-    
+
+    const animate = {
+        opacity: isHidden ? 0 : 1,
+        x: isHidden ? -40 : 0,
+        width: isHidden ? 0 : "auto",
+        marginRight: isHidden ? -0 : "0.75rem",
+    }
+
     return (
-        <motion.div 
+        <motion.div
             className="flex flex-col md:gap-3 gap-2 h-full overflow-hidden min-[900px]:mr-3 mr-2"
             initial={(isMobile || isTablet) ? initial : undefined}
             animate={(isMobile || isTablet) ? animate : undefined}

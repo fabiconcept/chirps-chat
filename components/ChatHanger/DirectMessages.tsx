@@ -4,13 +4,13 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import { cn } from "@/lib/utils";
 import { useMemo, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 
 export default function DirectMessages() {
     const pathname = usePathname();
     const isFullscreen = useSearchParams().get("fullscreen");
-    const router = useRouter();
     const animRef = useRef<FolderOpenIconHandle>(null);
 
     const handleMouseEnter = () => {
@@ -31,11 +31,11 @@ export default function DirectMessages() {
     return (
         <HoverCard>
             <HoverCardTrigger asChild>
-                <div 
+                <Link
+                    href={"/chat" + (isFullscreen ? "?fullscreen=true" : "")} 
                     className="shadow-lg shrink-0 aspect-square shadow-foreground/5 rounded-full border border-input grid place-items-center overflow-hidden relative cursor-pointer"
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
-                    onClick={() => router.push("/chat" + (isFullscreen ? "?fullscreen=true" : ""))}
                 >
                     <div className={cn("w-14 h-14 border border-input p-2 rounded-full hover:border-ring cursor-pointer transition-all duration-300 active:scale-95 grid place-items-center hover:bg-[#7600C9] bg-[#7600C9]/5  hover:text-white", {
                         "bg-[#7600C9] text-white": selected,
@@ -56,7 +56,7 @@ export default function DirectMessages() {
                             </motion.div>
                         )}
                     </AnimatePresence>
-                </div>
+                </Link>
             </HoverCardTrigger>
             <HoverCardContent
                 side="right"

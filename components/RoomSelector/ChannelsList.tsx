@@ -1,9 +1,9 @@
 "use client"
 
-import { ChevronRight, Hash, Settings, UserPlus, Volume2 } from "lucide-react";
+import { Hash, Settings, UserPlus, Volume2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import { cn, removeSearchParam, updateSearchParam } from "@/lib/utils";
+import { cn, updateSearchParam } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { channels } from "@/constants/User.const";
@@ -59,8 +59,9 @@ export default function ChannelsList({
             <div className="p-2 top-0 sticky dark:bg-[#282828] bg-[#f3f3f3]">
                 <div
                     className={cn(
-                        "w-full p-2 flex items-center rounded-md group justify-start hover:bg-foreground/10 dark:hover:bg-foreground/10 focus:bg-foreground/10 dark:focus:bg-foreground/10 text-muted-foreground font-medium transition-all",
-                        activeChannel === ((isMobile || isTablet) ? "general" : null) && "text-foreground bg-foreground/10 hover:bg-foreground/10 border-foreground/10 focus:border-foreground/20"
+                        "w-full p-2 flex items-center rounded-md group justify-start hover:bg-foreground/10 dark:hover:bg-foreground/10 focus:bg-foreground/10 dark:focus:bg-foreground/10 text-muted-foreground font-medium transition-all border border-transparent",
+                        activeChannel === ((isMobile || isTablet) ? "general" : null) && "text-foreground bg-foreground/10 hover:bg-foreground/10 border-foreground/10 focus:border-foreground/20 ",
+                        activeChannel === "general" && "text-foreground bg-foreground/10 hover:bg-foreground/10 border-foreground/25 focus:border-foreground/20"
                     )}
                 >
                     <Button
@@ -117,8 +118,8 @@ export default function ChannelsList({
                             >
                                 <div
                                     className={cn(
-                                        "w-full p-2 flex items-center rounded-md group justify-start hover:bg-foreground/10 dark:hover:bg-foreground/10 focus:bg-foreground/10 dark:focus:bg-foreground/10 text-muted-foreground font-medium transition-all",
-                                        activeChannel === channel.name && "text-foreground bg-foreground/10 hover:bg-foreground/10 border-foreground/10 focus:border-foreground/20"
+                                        "w-full p-2 flex items-center rounded-md group justify-start hover:bg-foreground/10 dark:hover:bg-foreground/10 focus:bg-foreground/10 dark:focus:bg-foreground/10 text-muted-foreground font-medium transition-all border border-transparent",
+                                        activeChannel === channel.name && "text-foreground bg-foreground/10 hover:bg-foreground/10 border-foreground/25 focus:border-foreground/20"
                                     )}
                                 >
                                     <Button

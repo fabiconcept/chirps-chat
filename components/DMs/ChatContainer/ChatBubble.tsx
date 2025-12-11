@@ -58,7 +58,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
             hasBeenSeenRef.current = true;
             onSeen();
         }
-    }, [onSeen]);
+    }, [onSeen, type]);
 
     // Intersection Observer for seen trigger
     useEffect(() => {
@@ -83,7 +83,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
         return () => {
             observer.disconnect();
         };
-    }, [onSeenCallback]);
+    });
 
     const addReaction = useCallback((reaction: string) => {
         if (type === "starred") return;
@@ -93,7 +93,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
             // Case 1: User clicking the same reaction they already have - remove it
             if (currentUserReaction === reaction) {
                 setCurrentUserReaction("");
-                
+
                 // Decrement count or remove reaction entirely
                 const existingReaction = updated.find((r) => r.emoji === reaction);
                 if (existingReaction) {
@@ -147,7 +147,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
 
             return updated;
         });
-    }, [currentUserReaction]);
+    }, [currentUserReaction, type]);
 
     // Handle image click to open viewer
     const handleImageClick = useCallback((imageUrl: string, images: string[]) => {
@@ -182,7 +182,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                 }}
             >
                 <HoverCardTrigger>
-                    <ContextMenuTrigger asChild>
+                    <ContextMenuTrigger disabled={type === "starred"} asChild>
                         <div
                             ref={bubbleRef}
                             className={cn(
@@ -225,7 +225,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                                                 closeDelay={100}
                                                 open={type === "starred" ? false : undefined}
                                             >
-                                                <HoverCardTrigger asChild>
+                                                <HoverCardTrigger aria-disabled={type === "starred"} asChild>
                                                     <div>
                                                         <ProfileAvatar
                                                             avatarUrl={avatarUrl}
@@ -257,11 +257,11 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                                     <MarkDownRender content={content} onImageClick={handleImageClick} />
                                 </div>
                     
-                                <ChatReactions
+                                {type !== "starred" && <ChatReactions
                                     ref={reactionsRef}
                                     reactions={internalReactions}
                                     onReactionToggle={addReaction}
-                                />
+                                />}
                             </div>
                         </div>
                     </ContextMenuTrigger>

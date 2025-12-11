@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export default function ChatHanger({ type = "feed", usersList = [] }: { type?: "in-chat" | "feed" | "side", usersList?: Omit<UserProps, "type">[], }) {
     const [users] = useState<Omit<UserProps, "type">[]>(usersList);
@@ -13,7 +13,6 @@ export default function ChatHanger({ type = "feed", usersList = [] }: { type?: "
     const isFullscreen = useSearchParams().get("fullscreen");
     const userParam = useSearchParams().get("user");
     const isMenuOpen = useSearchParams().get("hide-menu") !== "true";
-    const router = useRouter();
     
     // Extract room ID from pathname (e.g., /chat/room-983786)
     const roomIdMatch = pathname.match(/\/chat\/(room-[^/]+)/);
@@ -132,7 +131,6 @@ export default function ChatHanger({ type = "feed", usersList = [] }: { type?: "
                                             scale: { duration: 0.2 }
                                         }}
                                         className={"snap-proximity"}
-                                        onClick={() => type === "in-chat" && router.push(`/chat/room-${user.name}` + (isFullscreen ? "?fullscreen=true" : ""))}
                                     >
                                         <User
                                             src={user.src}
@@ -141,6 +139,7 @@ export default function ChatHanger({ type = "feed", usersList = [] }: { type?: "
                                             type={type === "side" ? "feed" : type}
                                             userType={type === "side" ? "user" : user.userType}
                                             status={user.status}
+                                            isFullscreen={!!isFullscreen}
                                             hasNewMessage={(userParam || !isMenuOpen) ? false : type === "side" ? false : user.hasNewMessage}
                                             messagePreview={type === "side" ? undefined : user.messagePreview}
                                             selected={type === "in-chat" && selectedUser === user.name}

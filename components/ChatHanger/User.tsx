@@ -2,13 +2,14 @@
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card";
 import { Button } from "../ui/button";
-import { CheckCheck, Crown, MessageCircle } from "lucide-react";
+import { CheckCheck, MessageCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import UserClump from "../modular/UserClump";
 import { cn, formatNumber } from "@/lib/utils";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Crown02Icon, ShieldEnergyIcon, ShieldKeyIcon } from "@hugeicons/core-free-icons";
+import Link from "next/link";
 
 export interface UserProps {
     src: string;
@@ -21,6 +22,7 @@ export interface UserProps {
     role?: "owner" | "admin" | "mod" | "member";
     selected?: boolean;
     messageCount?: number;
+    isFullscreen?: boolean;
 }
 
 export default function User({
@@ -34,6 +36,7 @@ export default function User({
     role = "member",
     selected = false,
     messageCount = 0,
+    isFullscreen = false,
 }: UserProps) {
     const [isAutoOpen, setIsAutoOpen] = useState(hasNewMessage);
     const [showNotification, setShowNotification] = useState(hasNewMessage);
@@ -103,13 +106,17 @@ export default function User({
                         </motion.div>
                     )}
                     
-                    <Avatar className={cn(
-                        "w-14 h-14 p-2 bg-background transition-colors",
-                        selected ? "border-2 border-[#7600C9]" : "border border-input hover:border-ring",
-                    )}>
-                        <AvatarImage src={src} />
-                        <AvatarFallback>{name[0] + name[1]}</AvatarFallback>
-                    </Avatar>
+                    <Link 
+                        href={(userType !== "room" ? `/chat?user=${name}${isFullscreen ? "&" : ""}` : `/chat/@room-${name}${isFullscreen ? "?" : ""}`) + (isFullscreen ? "fullscreen=true" : "")}
+                    >
+                        <Avatar className={cn(
+                            "w-14 h-14 p-2 bg-background transition-colors",
+                            selected ? "border-2 border-[#7600C9]" : "border border-input hover:border-ring",
+                        )}>
+                            <AvatarImage src={src} />
+                            <AvatarFallback>{name[0] + name[1]}</AvatarFallback>
+                        </Avatar>
+                    </Link>
                     {!selected && userType === "user" && (
                         <>
                             {status === "online" && <div className="absolute bottom-1 right-1 w-2 h-2 bg-green-500 rounded-full" />}
@@ -178,10 +185,19 @@ export default function User({
                 )}
                 
                 <div className="flex gap-2 mt-3">
-                    <Button size="sm" variant="outline" className="flex-1">
-                        <MessageCircle className="w-4 h-4 mr-1" />
-                        Open chat
-                    </Button>
+                    <Link
+                        href={(userType !== "room" ? `/chat?user=${name}${!!isFullscreen ? "&" : ""}` : `/chat/@room-${name}${!!isFullscreen ? "?" : ""}`) + (isFullscreen ? "fullscreen=true" : "")}
+                        className="flex-1"
+                        >
+                        <Button
+                            size="sm"
+                            variant="outline"
+                            className="w-full"
+                        >
+                            <MessageCircle className="w-4 h-4 mr-1" />
+                            Open chat
+                        </Button>
+                    </Link>
                     {hasNewMessage && <Button size="sm" variant="outline" className="flex-1">
                         <CheckCheck className="w-4 h-4 mr-1" />
                         Read
