@@ -6,17 +6,18 @@ import UserClump from "../../modular/UserClump";
 import { useKeyBoardShortCut } from "../../Providers/KeyBoardShortCutProvider";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import useShortcuts, { KeyboardKey } from "@useverse/useshortcuts";
-import { useAuth } from "../../Providers/AuthProvider";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { Kbd, KbdGroup } from "../../ui/kbd";
 import { useState } from "react";
 import { useTheme } from "next-themes";
-import { BarChart2Icon, Text } from "lucide-react";
+import { ArrowBigUp, BarChart2Icon, Text } from "lucide-react";
 import TextPost from "./TextPost";
 import PollPost from "./PollPost";
 import { Separator } from "../../ui/separator";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
+import { cn, removeSearchParam, updateSearchParam } from "@/lib/utils";
+import { useSearchParams } from "next/navigation";
+import { SearchParamKeys } from "@/lib/enums";
 
 export enum PostType {
     TEXT = "text",
@@ -52,10 +53,13 @@ export default function CreatePost({
     className?: string;
 }) {
     const { disallowShortcuts, allowShortcuts, notoriousShortcuts, allowedShortcuts } = useKeyBoardShortCut();
-    const { isMacOS } = useAuth();
     const { theme } = useTheme();
     const [isHovered, setIsHovered] = useState(false);
     const [postData, setPostData] = useState<PostData>(emptyPostData);
+    const searchParams = useSearchParams();
+    const createNewPostRef = useRef<HTMLButtonElement>(null);
+
+    const isCreatingNewPost = useMemo(() => searchParams.get("newpost") === "true", [searchParams]);
 
     const resetPostData = () => {
         setTimeout(() => {
@@ -169,33 +173,36 @@ export default function CreatePost({
         setPostData(prev => ({ ...prev, poll: newPoll, text: undefined, images: undefined }));
     }
 
-    const createNewPostRef = useRef<HTMLButtonElement>(null);
 
     useShortcuts({
         shortcuts: [{
             key: KeyboardKey.KeyN,
-            metaKey: isMacOS,
-            ctrlKey: !isMacOS,
+            shiftKey: true,
             enabled: allowedShortcuts.has("commandN")
         }],
         onTrigger: (shortcut) => {
             switch (shortcut.key) {
                 case KeyboardKey.KeyN:
-                    createNewPostRef.current?.click();
+                    updateSearchParam(SearchParamKeys.NEWPOST, "true");
                     break;
             }
         }
     }, [allowedShortcuts, createNewPostRef]);
 
     return (
-        <Dialog onOpenChange={(open) => {
-            if (open) {
-                disallowShortcuts([...notoriousShortcuts, 'commandN'])
-            } else {
-                resetPostData();
-                allowShortcuts([...notoriousShortcuts, 'commandN'])
-            }
-        }}>
+        <Dialog
+            defaultOpen={isCreatingNewPost}
+            open={isCreatingNewPost}
+            onOpenChange={(open) => {
+                if (open) {
+                    updateSearchParam(SearchParamKeys.NEWPOST, "true");
+                    disallowShortcuts([...notoriousShortcuts, 'commandN']);
+                } else {
+                    resetPostData();
+                    allowShortcuts([...notoriousShortcuts, 'commandN']);
+                    removeSearchParam(SearchParamKeys.NEWPOST)
+                }
+            }}>
             <form action="">
                 <div className={cn("w-full rounded-full border border-input bg-foreground/5 p-2", className)}>
                     <div className="flex items-center gap-2">
@@ -210,7 +217,7 @@ export default function CreatePost({
                                 className="flex-1 h-12 justify-between active:rotate-0 active:scale-[.99] rounded-full"
                             >
                                 <span className="text-muted-foreground">What&rsquo;s on your mind?</span>
-                                <KbdGroup><Kbd>⌘</Kbd><Kbd>N</Kbd></KbdGroup>
+                                <KbdGroup><Kbd className="border border-input/50"><ArrowBigUp /></Kbd><Kbd className="border border-input/50">N</Kbd></KbdGroup>
                             </Button>
                         </DialogTrigger>
                     </div>
@@ -235,7 +242,7 @@ export default function CreatePost({
                         setIsHovered={setIsHovered}
                         isHovered={isHovered}
                         theme={theme as string}
-                        handleImagesChange={handleImagesChange} 
+                        handleImagesChange={handleImagesChange}
                         handleEmojiClick={handleEmojiClick}
                         handleRemoveImage={handleRemoveImage}
                     />}

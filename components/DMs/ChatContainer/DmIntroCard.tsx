@@ -1,5 +1,6 @@
 import ProfileAvatar from "@/components/ProfileCard/ProfileAvatar";
 import { Button } from "@/components/ui/button";
+import { SearchParamKeys } from "@/lib/enums";
 import { updateSearchParam } from "@/lib/utils";
 import { UserPlus, Settings, Bell } from "lucide-react";
 
@@ -37,7 +38,7 @@ export default function DmIntroCard({
                             <Button 
                                 variant="outline" 
                                 className="w-full justify-start gap-3"
-                                onClick={() => updateSearchParam("invite", "true")}
+                                onClick={() => updateSearchParam(SearchParamKeys.INVITE, "true")}
                             >
                                 <UserPlus className="size-4" />
                                 Invite your friends

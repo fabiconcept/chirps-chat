@@ -1,10 +1,7 @@
 "use client"
 
-import { useState, useRef, useCallback, useMemo, forwardRef } from "react";
-import { HugeiconsIcon } from '@hugeicons/react';
-import { UserAdd01Icon } from '@hugeicons/core-free-icons';
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { useState, useRef, useCallback, useMemo, forwardRef, useEffect } from "react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Search } from "lucide-react";
@@ -16,6 +13,7 @@ import { useKeyBoardShortCut } from "../Providers/KeyBoardShortCutProvider";
 import useShortcuts, { KeyboardKey } from "@useverse/useshortcuts";
 import { useSearchParams } from "next/navigation";
 import { removeSearchParam, updateSearchParam } from "@/lib/utils";
+import { SearchParamKeys } from "@/lib/enums";
 
 // Mock users data
 const mockUsers = [
@@ -34,8 +32,8 @@ export default function InviteUserDialog() {
     const userRefs = useRef<Map<string, HTMLDivElement>>(new Map());
     const scrollAreaRef = useRef<HTMLDivElement>(null);
     const searchParams = useSearchParams();
-    const ref = useRef<HTMLButtonElement>(null);
     const isInviteOpen = useMemo(()=> searchParams.get("invite") === "true", [searchParams]);
+    const isInvitingTo = useMemo(()=> searchParams.get("to"), [searchParams]);
     const { disallowShortcuts, allowShortcuts, notoriousShortcuts, allowedShortcuts } = useKeyBoardShortCut();
 
     // Filter users based on search query
@@ -120,21 +118,38 @@ export default function InviteUserDialog() {
         }
     }, [navigateDown, navigateUp, handleInvite, allowedShortcuts]);
 
+    useEffect(()=>{
+        if (isInviteOpen) {
+            disallowShortcuts([...notoriousShortcuts, "alt+F", "commandESC"]);
+            allowShortcuts([
+                "arrowDown",
+                "arrowUp",
+                "enter",
+            ]);
+        } else {
+            allowShortcuts([...notoriousShortcuts, "alt+F"]);
+            setTimeout(() => {
+                allowShortcuts(["commandESC"]);
+            }, 100);
+            disallowShortcuts([
+                "arrowDown",
+                "arrowUp",
+                "enter",
+            ]);
+        }
+    }, [isInviteOpen, allowShortcuts, disallowShortcuts, notoriousShortcuts]);
+
     return (
         <Dialog
+            defaultOpen={isInviteOpen}
             open={isInviteOpen}
             onOpenChange={(open: boolean) => {
                 if (open) {
-                    updateSearchParam("invite", "true");
-                    disallowShortcuts([...notoriousShortcuts, "alt+F", "commandESC"]);
-                    allowShortcuts([
-                        "arrowDown",
-                        "arrowUp",
-                        "enter",
-                    ]);
+                    updateSearchParam(SearchParamKeys.INVITE, "true");
                     setFocusedUserId(null);
                 } else {
-                    removeSearchParam("invite");
+                    removeSearchParam(SearchParamKeys.INVITE);
+                    if (isInvitingTo) removeSearchParam(SearchParamKeys.TO);
                     allowShortcuts([...notoriousShortcuts, "alt+F"]);
                     setTimeout(() => {
                         allowShortcuts(["commandESC"]);
@@ -149,32 +164,12 @@ export default function InviteUserDialog() {
                 }
             }}
         >
-            <Tooltip>
-                <TooltipTrigger asChild>
-                    <DialogTrigger
-                        ref={ref}
-                        className="size-8 grid place-items-center border hover:bg-foreground/10 dark:hover:bg-foreground/10 focus:bg-foreground/10 dark:focus:bg-foreground/10 border-transparent hover:border-input py-2 active:rotate-0 px-2 cursor-pointer transition-all active:scale-95 rounded-full"
-                    >
-                        <HugeiconsIcon
-                            icon={UserAdd01Icon}
-                            size={16}
-                            color="currentColor"
-                            strokeWidth={2}
-                        />
-                    </DialogTrigger>
-                </TooltipTrigger>
-                <TooltipContent
-                    side="bottom"
-                    className="text-center backdrop-blur-sm"
-                >
-                    <p className="font-semibold text-xs">Invite Friends to Room</p>
-                </TooltipContent>
-            </Tooltip>
+            
             <DialogContent className="max-w-lg px-0">
                 <DialogHeader className="px-4">
                     <DialogTitle>Invite Friends to Room</DialogTitle>
                     <DialogDescription>
-                        Invited users will be added to the <span className="font-medium px-1 bg-foreground/5 rounded border border-input/20"><Hashtag>#general</Hashtag></span> channel
+                        Invited users will be added to the <span className="font-medium px-1 bg-foreground/5 rounded border border-input/20"><Hashtag>#{isInvitingTo ? isInvitingTo.slice(1).toLowerCase() : "general"}</Hashtag></span> channel
                     </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4">

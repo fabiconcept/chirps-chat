@@ -34,6 +34,8 @@ import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { toast } from 'sonner';
 import { useWindowSize } from 'react-use';
 import ProtectedImage from './Feed/TextPost/ProtectedImage';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { LocalStorageKeys, SearchParamKeys } from '@/lib/enums';
 
 const noHeaderPages = [
     "/activities",
@@ -44,12 +46,26 @@ export default function GlobalHeader() {
     const headerRef = useRef<HTMLDivElement>(null);
     const { theme } = useTheme();
     const pathname = usePathname();
-    const isFullscreen = useSearchParams().get("fullscreen");
+    const isFullscreen = useSearchParams().get(SearchParamKeys.FULLSCREEN);
     const { allowedShortcuts, allowShortcuts, disallowShortcuts } = useKeyBoardShortCut();
     const isHidden = (pathname === "/chat" || pathname.includes("/chat/"));
+    const [fullscreen, setFullscreen] = useLocalStorage(LocalStorageKeys.FULLSCREEN, "false");
 
-    const { width: windowWidth } = useWindowSize()
+    const { width: windowWidth } = useWindowSize();
 
+    useEffect(()=>{
+        if (fullscreen === "true") {
+            updateSearchParam(SearchParamKeys.FULLSCREEN, "true");
+        }
+    }, [fullscreen]);
+
+    useEffect(()=>{
+        if (isFullscreen) {
+            setFullscreen("true");
+        } else {
+            setFullscreen("false");
+        }
+    }, [isFullscreen, setFullscreen]);
 
     useEffect(()=>{
         allowShortcuts(["alt+F", "commandESC"])
@@ -72,10 +88,10 @@ export default function GlobalHeader() {
     const handleFullScreenToggle = useCallback(() => {
         if (!isHidden) return;
         if (!isFullscreen) {
-            updateSearchParam("fullscreen", "true");
+            updateSearchParam(SearchParamKeys.FULLSCREEN, "true");
             return;
         }
-        removeSearchParam("fullscreen");
+        removeSearchParam(SearchParamKeys.FULLSCREEN);
     }, [isFullscreen, isHidden]);
 
     useShortcuts({
@@ -91,7 +107,7 @@ export default function GlobalHeader() {
                     allowShortcuts(["commandESC"])
                     break;
                 case KeyboardKey.Escape:
-                    removeSearchParam("fullscreen");
+                    removeSearchParam(SearchParamKeys.FULLSCREEN);
                     disallowShortcuts(["commandESC"]);
                     break;
             }
@@ -101,13 +117,13 @@ export default function GlobalHeader() {
     useEffect(()=>{
         if (!isHidden) return;
         if (!isMobile && isFullscreen === "auto") {
-            removeSearchParam("fullscreen");
+            removeSearchParam(SearchParamKeys.FULLSCREEN);
             return;
         };
         if (!isMobile) return;
         if (isFullscreen) return;
 
-        updateSearchParam("fullscreen", "auto");
+        updateSearchParam(SearchParamKeys.FULLSCREEN, "auto");
     }, [isMobile, isHidden, isFullscreen])
 
     const shouldShowHeader = !noHeaderPages.includes(pathname);
@@ -184,7 +200,7 @@ export default function GlobalHeader() {
                                 (pathname === "/chat" || pathname.includes("/chat/")) ? "" : "lg:hidden"
                             )}
                         >
-                            <div onClick={() => updateSearchParam("activitybar", "open")} className='max-md:hidden block absolute inset-0 h-full w-full' />
+                            <div onClick={() => updateSearchParam(SearchParamKeys.ACTIVITYBAR, "open")} className='max-md:hidden block absolute inset-0 h-full w-full' />
                             <Link href={"/activities"} className='max-md:block hidden absolute inset-0 h-full w-full' />
                             <BellDot />
                         </Button>

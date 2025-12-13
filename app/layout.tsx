@@ -30,6 +30,7 @@ export default function RootLayout({
             >
                 <NextTopLoader 
                     color="#7600c9"
+                    showSpinner={false}
                 />
                 <Providers>
                     <ReduxProvider>

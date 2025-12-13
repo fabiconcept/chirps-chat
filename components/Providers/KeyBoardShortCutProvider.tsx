@@ -35,6 +35,10 @@ export const KeyBoardShortCutProvider: React.FC<{ children: React.ReactNode }> =
 
     const notoriousShortcuts = React.useMemo(() => new Set(['commandA', 'commandD', 'commandL', 'search', 'command1', 'command2', 'command3', 'command4', 'command5']), []);
 
+    // useEffect(()=>{
+    //     console.log(allowedShortcuts);
+    // }, [allowedShortcuts]);
+
     const allowShortcuts = React.useCallback((shortcutIds: string[]) => {
         setAllowedShortcuts(prev => new Set([...prev, ...shortcutIds]));
     }, []);

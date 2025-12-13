@@ -7,6 +7,7 @@ import ChatBubble from "./ChatContainer/ChatBubble";
 import { MARKDOWN_EXAMPLES } from "@/constants/Messages.const";
 import { Tooltip, TooltipTrigger, TooltipContent } from "../ui/tooltip";
 import { removeSearchParam, updateSearchParam } from "@/lib/utils";
+import { SearchParamKeys } from "@/lib/enums";
 
 export default function Header() {
     return (
@@ -24,7 +25,7 @@ export default function Header() {
                     tabIndex={-1}
                     variant="ghost"
                     className="px-1 pr-3 py-1 border border-transparent hover:border-input/50 h-fit rounded-full"
-                    onClick={()=>updateSearchParam("viewing-profile", "1")}
+                    onClick={()=>updateSearchParam(SearchParamKeys.VIEWING_PROFILE, "1")}
                 >
                     <ProfileAvatar
                         avatarUrl={"https://chirps-chat.sirv.com/parrot.png"}

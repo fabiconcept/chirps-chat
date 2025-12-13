@@ -15,6 +15,7 @@ import { Button } from '../ui/button';
 import { removeSearchParam, updateSearchParam } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
 import { motion } from "framer-motion";
+import { SearchParamKeys } from '@/lib/enums';
 
 interface MenuItem {
     id: string;
@@ -50,25 +51,25 @@ export default function RoomDropdown({
 
     const handleHamburgerController = () => {
         if (isOpen) {
-            removeSearchParam("hide-menu");
+            removeSearchParam(SearchParamKeys.HIDE_MENU);
         } else {
-            updateSearchParam("hide-menu", "true");
+            updateSearchParam(SearchParamKeys.HIDE_MENU, "true");
         }
     }
 
     const handleInviteToggle = useCallback(()=>{
         if (isInviteOpen) {
-            removeSearchParam("invite");
+            removeSearchParam(SearchParamKeys.INVITE);
         } else {
-            updateSearchParam("invite", "true");
+            updateSearchParam(SearchParamKeys.INVITE, "true");
         }
     }, [isInviteOpen]);
 
     const handleSettingsToggle = useCallback(()=>{
         if (isSettingsOpen) {
-            removeSearchParam("settings");
+            removeSearchParam(SearchParamKeys.SETTINGS);
         } else {
-            updateSearchParam("settings", "true");
+            updateSearchParam(SearchParamKeys.SETTINGS, "true");
         }
     }, [isSettingsOpen]);
 

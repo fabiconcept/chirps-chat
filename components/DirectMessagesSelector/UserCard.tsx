@@ -3,6 +3,7 @@ import { cn, getRelativeTime, updateSearchParam } from "@/lib/utils";
 import ProfileAvatar from "../ProfileCard/ProfileAvatar";
 import { Check, CheckCheck } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import { SearchParamKeys } from "@/lib/enums";
 
 interface UserCardProps {
     url: string,
@@ -50,7 +51,7 @@ export default function UserCard({
                 { "after:translate-x-0 after:z-[-1] pl-4 dark:bg-background dark:hover:bg-background bg-foreground/10 hover:bg-foreground/3": selected },
                 { "rounded-b-2xl": isLast }
             )}
-            onClick={() => updateSearchParam("user", name.toLowerCase())}
+            onClick={() => updateSearchParam(SearchParamKeys.USER, name.toLowerCase())}
         >
             <ProfileAvatar
                 avatarUrl={url}

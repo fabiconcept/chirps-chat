@@ -2,7 +2,7 @@
 
 import { removeSearchParam } from "@/lib/utils";
 import { cn } from "@/lib/utils";
-import { Sheet, SheetContent, SheetHeader, SheetFooter, SheetClose } from "../ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetClose } from "../ui/sheet";
 import { useSearchParams } from "next/navigation";
 import ProfileCard from "../ProfileCard";
 import { Button } from "../ui/button";
@@ -237,7 +237,7 @@ export default function ProfileContainer() {
                 <DialogHeader>
                     <DialogTitle>Block @fabiconcept?</DialogTitle>
                     <DialogDescription>
-                        Blocked users won't be able to send you messages or see your activity. You can unblock them anytime from settings.
+                        Blocked users won&apos;t be able to send you messages or see your activity. You can unblock them anytime from settings.
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>

@@ -9,12 +9,13 @@ import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import SearchResult from "./SearchResult";
 import SectionList from "./SectionList";
 import { useState, useMemo, useLayoutEffect, useRef, useCallback } from "react";
-import useShortcuts from "@useverse/useshortcuts";
+import useShortcuts, { KeyboardKey } from "@useverse/useshortcuts";
 import { useKeyBoardShortCut } from "../Providers/KeyBoardShortCutProvider";
 import { allResults } from "../../constants/User.const";
 import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import { removeSearchParam, updateSearchParam } from "@/lib/utils";
+import { SearchParamKeys } from "@/lib/enums";
 
 const FindConversation = () => {
     const [searchQuery, setSearchQuery] = useState("");
@@ -144,19 +145,19 @@ const FindConversation = () => {
     // Use shortcuts for keyboard navigation
     useShortcuts({
         shortcuts: [
-            { key: "ArrowDown", isSpecialKey: true, enabled: allowedShortcuts.has("arrowDown") },
-            { key: "ArrowUp", isSpecialKey: true, enabled: allowedShortcuts.has("arrowUp") },
-            { key: "Enter", isSpecialKey: true, enabled: allowedShortcuts.has("enter") },
+            { key: KeyboardKey.ArrowDown, isSpecialKey: true, enabled: allowedShortcuts.has("arrowDown") },
+            { key: KeyboardKey.ArrowUp, isSpecialKey: true, enabled: allowedShortcuts.has("arrowUp") },
+            { key: KeyboardKey.Enter, isSpecialKey: true, enabled: allowedShortcuts.has("enter") },
         ],
         onTrigger: (shortcut) => {
             switch (shortcut.key) {
-                case "ArrowDown":
+                case KeyboardKey.ArrowDown:
                     navigateDown();
                     break;
-                case "ArrowUp":
+                case KeyboardKey.ArrowUp:
                     navigateUp();
                     break;
-                case "Enter":
+                case KeyboardKey.Enter:
                     handleSelect();
                     break;
             }
@@ -210,9 +211,9 @@ const FindConversation = () => {
 
     const handleHamburgerController = () => {
         if (isOpen) {
-            removeSearchParam("hide-menu");
+            removeSearchParam(SearchParamKeys.HIDE_MENU);
         } else {
-            updateSearchParam("hide-menu", "true");
+            updateSearchParam(SearchParamKeys.HIDE_MENU, "true");
         }
     }
 

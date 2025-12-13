@@ -3,14 +3,15 @@
 import { channelMembers } from "@/constants/User.const";
 import ChatHanger from "../ChatHanger";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSearchParams } from "next/navigation";
+import { SearchParamKeys } from "@/lib/enums";
 
-interface MemberAreaProps {
-    isOpen: boolean;
-}
-
-export default function MemberArea({ isOpen }: MemberAreaProps) {
+export default function MemberArea() {
+    const searchParams = useSearchParams();
+    const isOpen = searchParams.get(SearchParamKeys.MEMBERS_AREA) === "true";
+    
     return (
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="sync">
             {isOpen && (
                 <motion.div
                     initial={{ 
@@ -36,7 +37,7 @@ export default function MemberArea({ isOpen }: MemberAreaProps) {
                             opacity: { duration: 0.1 }
                         }
                     }}
-                    className="overflow-hidden"
+                    className="overflow-hidden shrink-0"
                 >
                     <div className="w-20 h-full">
                         <ChatHanger type="side" usersList={[...channelMembers, ...channelMembers.map(user => ({ ...user, name: user.name + "2" }))]} />

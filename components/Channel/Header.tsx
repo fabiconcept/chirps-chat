@@ -4,14 +4,21 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { CHANNEL_CHAT_EXAMPLES } from "@/constants/Messages.const";
 import ChatBubble from "../DMs/ChatContainer/ChatBubble";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { cn, removeSearchParam } from "@/lib/utils";
+import { cn, removeSearchParam, updateSearchParam } from "@/lib/utils";
+import { useSearchParams } from "next/navigation";
+import { SearchParamKeys } from "@/lib/enums";
 
-interface HeaderProps {
-    showMembers?: boolean;
-    onToggleMembers?: () => void;
-}
+export default function Header() {
+    const searchParams = useSearchParams();
+    const showMembers = searchParams.get(SearchParamKeys.MEMBERS_AREA) === "true";
 
-export default function Header({ showMembers = false, onToggleMembers }: HeaderProps) {
+    const toggleMembers = () => {
+        if (showMembers) {
+            removeSearchParam(SearchParamKeys.MEMBERS_AREA);
+        } else {
+            updateSearchParam(SearchParamKeys.MEMBERS_AREA, "true");
+        }
+    };
     return (
         <div className="flex items-center justify-between gap-5 p-3 md:px-5 px-3 border-b border-input">
             <h3 className="flex gap-1 items-center text-lg">
@@ -60,7 +67,7 @@ export default function Header({ showMembers = false, onToggleMembers }: HeaderP
                         <Button 
                             variant={!showMembers ? "ghost" : "default"}
                             size="icon"
-                            onClick={onToggleMembers}
+                            onClick={toggleMembers}
                             className={cn(
                                 "transition-colors",
                                 showMembers && "bg-[#7600C9] text-white hover:bg-[#7600C9]"
