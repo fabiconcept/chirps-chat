@@ -3,7 +3,7 @@
 import { useKeyBoardShortCut } from "@/components/Providers/KeyBoardShortCutProvider";
 import { useAuth } from "@/components/Providers/AuthProvider";
 import { useState, useRef, useCallback, useMemo, useEffect } from "react";
-import useShortcuts from "@useverse/useshortcuts";
+import useShortcuts, { KeyboardKey } from "@useverse/useshortcuts";
 import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu";
 import { UploadedImage } from "./types";
 import { useMarkdownFormatter } from "./useMarkdownFormatter";
@@ -113,19 +113,19 @@ export default function MessageBox() {
     useShortcuts({
         shortcuts: [
             { 
-                key: "b", 
+                key: KeyboardKey.KeyB, 
                 ctrlKey: !isMacOS, 
                 metaKey: isMacOS, 
                 enabled: allowedShortcuts.has("commandB") 
             },
             { 
-                key: "i", 
+                key: KeyboardKey.KeyI, 
                 ctrlKey: !isMacOS, 
                 metaKey: isMacOS, 
                 enabled: allowedShortcuts.has("commandI") 
             },
             { 
-                key: "k", 
+                key: KeyboardKey.KeyK, 
                 ctrlKey: !isMacOS, 
                 metaKey: isMacOS, 
                 enabled: allowedShortcuts.has("command-K") 
@@ -133,13 +133,13 @@ export default function MessageBox() {
         ],
         onTrigger: (shortcut) => {
             switch (shortcut.key) {
-                case "b":
+                case KeyboardKey.KeyB:
                     formatter.formatBold();
                     break;
-                case "i":
+                case KeyboardKey.KeyI:
                     formatter.formatItalic();
                     break;
-                case "k":
+                case KeyboardKey.KeyK:
                     formatter.formatLink();
                     break;
             }

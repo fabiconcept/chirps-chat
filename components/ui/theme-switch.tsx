@@ -1,7 +1,7 @@
 "use client"
 import { useTheme } from 'next-themes';
 import "@/app/stylesheets/theme-switch.css";
-import useShortcuts from "@useverse/useshortcuts";
+import useShortcuts, { KeyboardKey } from "@useverse/useshortcuts";
 import { useAuth } from '../Providers/AuthProvider';
 import { useKeyBoardShortCut } from '../Providers/KeyBoardShortCutProvider';
 
@@ -14,15 +14,15 @@ export default function ThemeSwitch({ className = '' }: {
 
     useShortcuts({
         shortcuts: [
-            { key: "L", metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandL") },
-            { key: "D", metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandD") },
+            { key: KeyboardKey.KeyL, metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandL") },
+            { key: KeyboardKey.KeyD, metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandD") },
         ],
-        onTrigger: (shortcut) => {
+        onTrigger: (shortcut) => {  
             switch (shortcut.key) {
-                case "L":
+                case KeyboardKey.KeyL:
                     setTheme("light");
                     break;
-                case "D":
+                case KeyboardKey.KeyD:
                     setTheme("dark");
                     break;
             }

@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { ChevronsDownIcon } from '../ChevronsDownIcon';
 import { useClickAway } from 'react-use';
 import { Kbd, KbdGroup } from './kbd';
-import useShortcuts from '@useverse/useshortcuts';
+import useShortcuts, { KeyboardKey } from '@useverse/useshortcuts';
 import { useKeyBoardShortCut } from '../Providers/KeyBoardShortCutProvider';
 import { useAuth } from '../Providers/AuthProvider';
 import { useSearchParams } from 'next/navigation';
@@ -76,7 +76,7 @@ export function Collapsible({
     return (
         <CollapsibleContext.Provider value={{ isOpen, setIsOpen: handleSetOpen, toggle }}>
             <motion.div 
-                className='opacity-0 fixed cursor-pointer backdrop-blur-[2px] z-[99] inset-0 bg-black/50' onClick={() => handleSetOpen(false)} 
+                className='opacity-0 fixed cursor-pointer backdrop-blur-[2px] z-50 inset-0 bg-black/50' onClick={() => handleSetOpen(false)} 
                 animate={{ opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? "auto" : "none" }}
                 transition={{
                     duration: 0.3,
@@ -86,7 +86,7 @@ export function Collapsible({
             <motion.div
                 ref={containerRef}
                 className={cn(
-                    'overflow-hidden z-[999] w-md shadow-2xl shadow-foreground/10',
+                    'overflow-hidden z-50 w-md shadow-2xl shadow-foreground/10',
                     'fixed bottom-0',
                     className
                 )}
@@ -228,14 +228,10 @@ export function CollapsibleHeader({
 
     useShortcuts({
         shortcuts: [
-            { key: 'A', metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandA") },
+            { key: KeyboardKey.KeyA, metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandA") },
         ],
-        onTrigger: (shortcut) => {
-            switch (shortcut.key) {
-                case "A":
-                    triggerRef.current?.click();
-                    break;
-            }
+        onTrigger: () => {
+            triggerRef.current?.click();
         }
     }, [allowedShortcuts]);
     return (

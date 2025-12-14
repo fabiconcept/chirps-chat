@@ -2,10 +2,10 @@
 import React, { useRef, useState, useMemo, useCallback, useLayoutEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Input } from '../ui/input';
-import useShortcuts from '@useverse/useshortcuts';
+import useShortcuts, { KeyboardKey } from '@useverse/useshortcuts';
 import { useKeyBoardShortCut } from '../Providers/KeyBoardShortCutProvider';
 import { useAuth } from '../Providers/AuthProvider';
-import { SearchIcon, Hash, Users, MessageSquare } from 'lucide-react';
+import { SearchIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { ScrollArea, ScrollBar } from '../ui/scroll-area';
@@ -128,31 +128,31 @@ export default function Search() {
 
     useShortcuts({
         shortcuts: [
-            { key: 'ArrowDown', isSpecialKey: true, enabled: allowedShortcuts.has('arrowDown') },
-            { key: 'ArrowUp', isSpecialKey: true, enabled: allowedShortcuts.has('arrowUp') },
-            { key: 'Enter', isSpecialKey: true, enabled: allowedShortcuts.has('enter') },
-            { key: "Slash", isSpecialKey: true, enabled: allowedShortcuts.has("search") },
-            { key: 'K', metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandK") },
-            { key: 'F', metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandF") },
+            { key: KeyboardKey.ArrowDown, isSpecialKey: true, enabled: allowedShortcuts.has('arrowDown') },
+            { key: KeyboardKey.ArrowUp, isSpecialKey: true, enabled: allowedShortcuts.has('arrowUp') },
+            { key: KeyboardKey.Enter, isSpecialKey: true, enabled: allowedShortcuts.has('enter') },
+            { key: KeyboardKey.Slash, isSpecialKey: true, enabled: allowedShortcuts.has("search") },
+            { key: KeyboardKey.KeyK, metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandK") },
+            { key: KeyboardKey.KeyF, metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandF") },
         ],
         onTrigger: (shortcut) => {
             switch (shortcut.key) {
-                case 'ArrowDown':
+                case KeyboardKey.ArrowDown:
                     navigateDown();
                     break;
-                case 'ArrowUp':
+                case KeyboardKey.ArrowUp:
                     navigateUp();
                     break;
-                case 'Enter':
+                case KeyboardKey.Enter:
                     handleSelect();
                     break;
-                case "Slash":
+                case KeyboardKey.Slash:
                     triggerRef.current?.click();
                     break;
-                case 'K':
+                case KeyboardKey.KeyK:
                     triggerRef.current?.click();
                     break;
-                case 'F':
+                case KeyboardKey.KeyF:
                     triggerRef.current?.click();
                     break;
             }
@@ -164,7 +164,7 @@ export default function Search() {
             setArrowPosition(null);
             return;
         }
-        
+            
         if (!focusedItemId || allItems.length === 0) {
             setArrowPosition(null);
             return;

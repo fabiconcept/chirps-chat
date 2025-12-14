@@ -1,4 +1,4 @@
-import Feed from "@/components/Feed";
+import Feed from "@/components/Feed/index";
 import CommunityRecommendation from "@/components/CommunityRecommendation";
 import ProfileCard from "@/components/ProfileCard";
 import HomeHanger from "@/components/HomeHanger";
