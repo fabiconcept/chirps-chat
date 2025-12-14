@@ -9,7 +9,7 @@ import GlobalHeader from "@/components/GlobalHeader";
 import { ReduxProvider } from "@/components/Providers/redux-provider";
 import { AuthProvider } from "@/components/Providers/AuthProvider";
 import SideBar from "@/components/SideBar";
-import Activities from "@/components/Activities/Index";
+import Activities from "@/components/Activities";
 import { KeyBoardShortCutProvider } from "@/components/Providers/KeyBoardShortCutProvider";
 import { Toaster } from "@/components/ui/sonner";
 import MobileBottomNav from "@/components/MobileBottomNav";
