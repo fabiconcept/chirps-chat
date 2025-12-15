@@ -24,7 +24,15 @@ export default function HangMan({
     const [baseWidth, setBaseWidth] = React.useState(0);
     const pathname = usePathname();
 
-    const shouldExempt = exemptFrom && exemptFrom.some((e) => pathname.includes(e))
+    const shouldExempt = exemptFrom && exemptFrom.some((e) => pathname.includes(e));
+
+    const ref = React.useRef<HTMLDivElement>(null);
+
+    React.useEffect(() => {
+        if (ref.current) {
+            setBaseWidth(ref.current.offsetWidth);
+        }
+    }, [ref, setBaseWidth]);
 
     return (
         <>
@@ -36,7 +44,7 @@ export default function HangMan({
                             width: baseWidth || undefined,
                         }}
                     >
-                        {children}
+                        <div className='w-fit fixed' ref={ref}>{children}</div>
                     </div>
                 </HangManContext.Provider>
                 :

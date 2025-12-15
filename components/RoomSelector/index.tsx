@@ -4,7 +4,7 @@ import { Separator } from "../ui/separator";
 import RoomDropdown from "./RoomDropdown";
 import InviteUserDialog from "./InviteUserDialog";
 import ChannelsList from "./ChannelsList";
-import ChannelSettings from "./ChannelSettings";
+import ChannelSettings from "./RoomSettings";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { UserAdd01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";

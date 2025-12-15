@@ -3,7 +3,7 @@ import { DashboardIcon, DashboardIconHandle } from "../DashboardIcon";
 import { ShoppingCartIcon, ShoppingCartIconHandle } from "../ShoppingCartIcon";
 import { UserStarIcon } from "../UserStarIcon";
 import { SendIcon, SendIconHandle } from "../SendIcon";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { UserStarHandle } from "../UserStarIcon";
 import { usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -15,18 +15,13 @@ import { Kbd, KbdGroup } from "../ui/kbd";
 import { useKeyBoardShortCut } from "../Providers/KeyBoardShortCutProvider";
 import { useAuth } from "../Providers/AuthProvider";
 import { motion } from "framer-motion";
-import { useHangMan } from "../HangMan";
 
 
 export default function SideBar() {
-    const { setBaseWidth } = useHangMan();
-
     const { allowedShortcuts } = useKeyBoardShortCut();
     const { isMacOS } = useAuth();
     const pathname = usePathname();
     const isFullscreen = useSearchParams().get("fullscreen");
-
-    const sideBarRef = useRef<HTMLDivElement>(null);
 
     const feedPath = "/";
     const leaderboardPath = "/leaderboard";
@@ -97,19 +92,12 @@ export default function SideBar() {
     }, [allowedShortcuts, feedLinkRef, leaderboardLinkRef, marketplaceLinkRef, suggestionsLinkRef, chatLinkRef]);
 
     const isHidden = (pathname === "/chat" || pathname.includes("/chat/"));
-    
-    useEffect(() => {
-        if (sideBarRef.current) {
-            setBaseWidth(sideBarRef.current.offsetWidth);
-        }
-    }, [sideBarRef, setBaseWidth, isHidden, isFullscreen]);
 
 
     return (
         <motion.div 
             className={cn(
                 "w-24 sticky top-32 overflow-hidden h-[80dvh] hidden md:flex flex-col items-center",
-                !isHidden && "fixed"
             )}
             initial={{ 
                 opacity: 0, 
@@ -121,7 +109,6 @@ export default function SideBar() {
                 x: (isHidden && isFullscreen) ? -24 : 0,
                 width: (isHidden && isFullscreen) ? 0 : "8rem"
             }}
-            ref={sideBarRef}
             transition={{ duration: 0.3 }}
         >
             <div className="flex-1 " onKeyDown={(e)=> console.table(e)}>
