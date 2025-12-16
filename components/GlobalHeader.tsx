@@ -1,7 +1,7 @@
 "use client"
 import { useAuth } from './Providers/AuthProvider';
 import { Button } from './ui/button';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import ThemeSwitch from './ui/theme-switch';
 import { useTheme } from "next-themes";
 import { motion } from 'framer-motion';
@@ -46,31 +46,26 @@ export default function GlobalHeader() {
     const headerRef = useRef<HTMLDivElement>(null);
     const { theme } = useTheme();
     const pathname = usePathname();
-    const isFullscreen = useSearchParams().get(SearchParamKeys.FULLSCREEN);
+    const searchParams = useSearchParams();
+    const isFullscreen = useMemo(()=> searchParams.get(SearchParamKeys.FULLSCREEN), [searchParams]);
     const { allowedShortcuts, allowShortcuts, disallowShortcuts } = useKeyBoardShortCut();
     const isHidden = (pathname === "/chat" || pathname.includes("/chat/"));
-    const [fullscreen, setFullscreen] = useLocalStorage(LocalStorageKeys.FULLSCREEN, "false");
+    const [fullscreen, setFullscreen] = useLocalStorage(LocalStorageKeys.FULLSCREEN, "null");
 
     const { width: windowWidth } = useWindowSize();
 
     useEffect(()=>{
-        if (fullscreen === "true") {
-            updateSearchParam(SearchParamKeys.FULLSCREEN, "true");
-        }
+        if (fullscreen === "null") return;
+        if (fullscreen === "false") return;
+
+        updateSearchParam(SearchParamKeys.FULLSCREEN, "true");
     }, [fullscreen]);
-
+ 
     useEffect(()=>{
-        if (isFullscreen) {
+        allowShortcuts(["alt+F", "commandESC"]);
+
+        if (isFullscreen && isHidden) {
             setFullscreen("true");
-        } else {
-            setFullscreen("false");
-        }
-    }, [isFullscreen, setFullscreen]);
-
-    useEffect(()=>{
-        allowShortcuts(["alt+F", "commandESC"])
-
-        if (isFullscreen) {
             toast.custom(()=>(
                 <div className='px-6 py-6 text-lg font-medium bg-background/25 backdrop-blur-sm rounded-md flex items-center gap-2 border border-input shadow-lg shadow-black/5'>
                     <Fullscreen className='h-5 w-5' />
@@ -92,7 +87,8 @@ export default function GlobalHeader() {
             return;
         }
         removeSearchParam(SearchParamKeys.FULLSCREEN);
-    }, [isFullscreen, isHidden]);
+        setFullscreen("false");
+    }, [isFullscreen, isHidden, setFullscreen]);
 
     useShortcuts({
         shortcuts: [
@@ -108,6 +104,7 @@ export default function GlobalHeader() {
                     break;
                 case KeyboardKey.Escape:
                     removeSearchParam(SearchParamKeys.FULLSCREEN);
+                    setFullscreen("false");
                     disallowShortcuts(["commandESC"]);
                     break;
             }

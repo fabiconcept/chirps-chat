@@ -8,7 +8,7 @@ import { useKeyBoardShortCut } from "@/components/Providers/KeyBoardShortCutProv
 import SETTINGS_TABS, { PERMISSIONS, ROLES } from "@/constants/Settings.const";
 import { CustomTabs } from "./CustomTabs";
 
-export default function ChannelSettings({ userType = ROLES.OWNER }: { userType?: ROLES }) {
+export default function RoomSettings({ userType = ROLES.OWNER }: { userType?: ROLES }) {
     const { disallowShortcuts, allowShortcuts, notoriousShortcuts } = useKeyBoardShortCut();
     const searchParams = useSearchParams();
     const isSettingsOpen = useMemo(()=> searchParams.get("settings") === "true", [searchParams]);
