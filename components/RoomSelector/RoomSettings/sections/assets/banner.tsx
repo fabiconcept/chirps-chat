@@ -6,9 +6,8 @@ export default function Banner({ bg, name, isSelected, onClick }: { bg: string, 
     return (
         <button
             className={cn(
-                "w-full neumorph ring ring-input group ring-offset-2 ring-offset-background overflow-hidden h-20 rounded-lg relative cursor-pointer",
+                "w-full neumorph ring-4 shadow shadow-foreground group ring-offset-2 overflow-hidden h-20 rounded-lg relative cursor-pointer",
                 "after:absolute after:inset-0 after:bg-white/50 hover:after:bg-white/75 hover:after:blur-3xl after:transition-all after:w-44 after:aspect-square after:rounded-full after:blur-2xl after:left-1/2 after:-translate-x-1/2 after:top-32 after:-translate-y-1/2 after:z-0",
-                isSelected && "ring-primary",
             )}
             onClick={onClick}
             style={{ backgroundColor: bg }}
