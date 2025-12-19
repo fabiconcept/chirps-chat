@@ -155,3 +155,8 @@ body {
     transform: translateX(8px);
   }
 }
+
+.neumorph {
+  box-shadow: inset 20px 20px 60px rgba(0, 0, 0, 0.25),
+    inset -20px -20px 60px rgba(255, 255, 255, 0.1);
+}
