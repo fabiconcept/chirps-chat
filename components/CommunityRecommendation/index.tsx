@@ -79,21 +79,8 @@ export default function CommunityRecommendation({ size = "md", transparent = tru
             activeCount: 3421,
             memberCount: 89012,
             initialJoined: false
-        },
-        {
-            id: 4,
-            avatar: "https://chirps-chat.sirv.com/termite.png",
-            name: "Termitenator",
-            snippet: "All hail the termites",
-            activeCount: 5678,
-            memberCount: 12345,
-            initialJoined: false
         }
     ]);
-
-    // const handleJoin = (_communityId: string, _isJoined: boolean) => {
-        
-    // };
 
     return (
         <div className={`p-2 w-full ${config.container} rounded-4xl border border-input ${transparent ? "bg-foreground/5" : "bg-background/80 backdrop-blur-md"}`}>

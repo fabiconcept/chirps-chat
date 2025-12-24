@@ -8,8 +8,9 @@ import { initialUsers } from "@/constants/User.const";
 export default function Page() {
     return (
         <div className="flex flex-row gap-6 items-start flex-wrap w-full">
-            <HangMan className="top-32 sticky space-y-3 max-[1200px]:hidden">
+            <HangMan className="top-32 sticky max-[1200px]:hidden">
                 <ProfileCard />
+                <div className="h-3" />
                 <CommunityRecommendation />
             </HangMan>
             <Feed />

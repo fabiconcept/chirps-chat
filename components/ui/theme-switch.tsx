@@ -15,19 +15,15 @@ export default function ThemeSwitch({ className = '' }: {
     useShortcuts({
         shortcuts: [
             { key: KeyboardKey.KeyL, metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandL") },
-            { key: KeyboardKey.KeyD, metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandD") },
         ],
         onTrigger: (shortcut) => {  
             switch (shortcut.key) {
                 case KeyboardKey.KeyL:
-                    setTheme("light");
-                    break;
-                case KeyboardKey.KeyD:
-                    setTheme("dark");
+                    setTheme((prev) => prev === "light" ? "dark" : "light");
                     break;
             }
         }
-    }, [allowedShortcuts]);
+    }, [allowedShortcuts, theme]);
 
     const isChecked = (theme === "light");
     if (!theme) return null;
