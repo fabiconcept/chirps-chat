@@ -42,4 +42,6 @@ export enum SearchParamKeys {
     MARKETPLACE_SEARCH="marketplace-search",
     MARKETPLACE_VIEW_MODE="marketplace-view-mode",
     MARKETPLACE_ITEM="marketplace-item",
+    // Leaderboard
+    LEADERBOARD_COUNTRY="leaderboard-country",
 }

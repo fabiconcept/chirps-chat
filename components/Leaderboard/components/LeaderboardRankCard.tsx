@@ -1,0 +1,191 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { TrendingUp, TrendingDown, Minus, Trophy, Users, Heart, MessageSquare, Home } from "lucide-react";
+import { LeaderboardUser, LeaderboardCategory } from "../types";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+
+interface LeaderboardRankCardProps {
+    user: LeaderboardUser;
+    rank: number;
+    category: LeaderboardCategory;
+    index: number;
+}
+
+const categoryConfig: Record<LeaderboardCategory, { 
+    label: string; 
+    accentColor: string; 
+    icon: any;
+    pattern: string;
+}> = {
+    streak: { 
+        label: "Days", 
+        accentColor: "#10b981", 
+        icon: TrendingUp,
+        pattern: "bg-[linear-gradient(135deg,transparent_25%,rgba(16,185,129,0.03)_25%,rgba(16,185,129,0.03)_50%,transparent_50%,transparent_75%,rgba(16,185,129,0.03)_75%,rgba(16,185,129,0.03))]"
+    },
+    tokens: { 
+        label: "CHT", 
+        accentColor: "#D4AF37", 
+        icon: Trophy,
+        pattern: "bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.04),transparent)]"
+    },
+    followers: { 
+        label: "Followers", 
+        accentColor: "#3b82f6", 
+        icon: Users,
+        pattern: "bg-[linear-gradient(to_right,rgba(59,130,246,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(59,130,246,0.03)_1px,transparent_1px)]"
+    },
+    likes: { 
+        label: "Likes", 
+        accentColor: "#f43f5e", 
+        icon: Heart,
+        pattern: "bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(244,63,94,0.03)_10px,rgba(244,63,94,0.03)_20px)]"
+    },
+    posts: { 
+        label: "Posts", 
+        accentColor: "#a855f7", 
+        icon: MessageSquare,
+        pattern: "bg-[linear-gradient(45deg,rgba(168,85,247,0.03)_25%,transparent_25%,transparent_75%,rgba(168,85,247,0.03)_75%,rgba(168,85,247,0.03))]"
+    },
+    rooms: { 
+        label: "Rooms", 
+        accentColor: "#6366f1", 
+        icon: Home,
+        pattern: "bg-[radial-gradient(rgba(99,102,241,0.05)_1px,transparent_1px)]"
+    }
+};
+
+const getRankBadgeStyle = (rank: number) => {
+    if (rank === 1) return "bg-foreground/10 text-foreground font-bold border-2 border-foreground/20";
+    if (rank === 2) return "bg-foreground/8 text-foreground font-semibold border-2 border-foreground/15";
+    if (rank === 3) return "bg-foreground/6 text-foreground font-semibold border-2 border-foreground/10";
+    return "bg-muted text-muted-foreground border border-border";
+};
+
+export default function LeaderboardRankCard({ user, rank, category, index }: LeaderboardRankCardProps) {
+    console.log("user", user);
+    const statValue = user?.stats?.[category] || 0;
+    const change = user?.change || 0;
+    const config = categoryConfig[category];
+    const CategoryIcon = config.icon;
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+                delay: index * 0.03,
+                type: "spring",
+                stiffness: 300,
+                damping: 30
+            }}
+            whileHover={{ y: -2 }}
+            className={cn(
+                "group relative flex items-center gap-4 p-4 rounded-xl border bg-background overflow-hidden cursor-pointer",
+                "hover:shadow-md transition-all duration-200",
+                config.pattern,
+                rank <= 3 && "border-l-4"
+            )}
+            style={{
+                borderLeftColor: rank <= 3 ? config.accentColor : undefined,
+                backgroundSize: rank <= 3 ? '20px 20px' : undefined
+            }}
+        >
+            {/* Rank Badge */}
+            <div className="flex items-center justify-center shrink-0">
+                <div 
+                    className={cn(
+                        "w-10 h-10 flex items-center justify-center rounded-lg text-sm transition-all duration-200",
+                        getRankBadgeStyle(rank)
+                    )}
+                >
+                    #{rank}
+                </div>
+            </div>
+
+            {/* User Avatar & Info */}
+            <div className="flex items-center gap-3 flex-1 min-w-0">
+                <Avatar className="h-11 w-11 border-2 border-border">
+                    <AvatarImage src={user.avatar} alt={user.name} />
+                    <AvatarFallback>{user.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+                </Avatar>
+
+                <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                        <h3 className="font-semibold text-sm truncate">{user.name}</h3>
+                        {rank === 1 && (
+                            <span className="text-sm" style={{ color: config.accentColor }}>●</span>
+                        )}
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <p className="text-xs text-muted-foreground truncate">@{user.username}</p>
+                        <span className="text-xs text-muted-foreground">•</span>
+                        <p className="text-xs text-muted-foreground">{user.countryCode}</p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Stats & Change */}
+            <div className="flex items-center gap-3 shrink-0">
+                {/* Change Indicator */}
+                {change !== 0 && (
+                    <div className={cn(
+                        "flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium",
+                        change > 0 ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" :
+                        change < 0 ? "bg-destructive/10 text-destructive" :
+                        "bg-muted text-muted-foreground"
+                    )}>
+                        {change > 0 ? (
+                            <TrendingUp className="h-3 w-3" />
+                        ) : change < 0 ? (
+                            <TrendingDown className="h-3 w-3" />
+                        ) : (
+                            <Minus className="h-3 w-3" />
+                        )}
+                        <span>{Math.abs(change)}</span>
+                    </div>
+                )}
+
+                {/* Category Icon & Stat Value */}
+                <div className="flex items-center gap-2">
+                    <div 
+                        className="p-1.5 rounded-md bg-foreground/5"
+                        style={{ 
+                            backgroundColor: rank <= 3 ? `${config.accentColor}15` : undefined 
+                        }}
+                    >
+                        <CategoryIcon 
+                            className="h-4 w-4" 
+                            style={{ 
+                                color: rank <= 3 ? config.accentColor : undefined 
+                            }}
+                        />
+                    </div>
+                    <div className="text-right">
+                        <p 
+                            className="text-xl font-bold"
+                            style={{ 
+                                color: rank <= 3 ? config.accentColor : undefined 
+                            }}
+                        >
+                            {statValue.toLocaleString()}
+                        </p>
+                        <p className="text-[10px] text-muted-foreground leading-none">{config.label}</p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Subtle hover effect */}
+            <div 
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+                style={{ 
+                    background: `linear-gradient(90deg, transparent, ${config.accentColor}05, transparent)` 
+                }}
+            />
+        </motion.div>
+    );
+}
+
