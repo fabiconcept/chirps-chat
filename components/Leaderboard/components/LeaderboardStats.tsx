@@ -71,7 +71,7 @@ export default function LeaderboardStats({ activeCategory, onCategoryChange }: L
                         whileTap={{ scale: 0.98 }}
                         onClick={() => onCategoryChange(category.id)}
                         className={cn(
-                            "relative p-4 rounded-xl border-2 transition-all duration-200",
+                            "relative p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer",
                             "flex flex-col items-center gap-2.5 overflow-hidden",
                             isActive
                                 ? "border-foreground/20 bg-foreground/5"

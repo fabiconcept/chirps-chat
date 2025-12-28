@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useTheme } from "next-themes";
-import { LeaderboardUser } from "../types";
+import { LeaderboardUser, LeaderboardCategory } from "../types";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 
@@ -10,9 +10,23 @@ interface GlobeVisualizationProps {
     users: LeaderboardUser[];
     onUserClick?: (user: LeaderboardUser) => void;
     selectedCountry?: string | null;
+    activeCategory: LeaderboardCategory;
 }
 
-export default function GlobeVisualization({ users, onUserClick, selectedCountry }: GlobeVisualizationProps) {
+const categoryConfig: Record<LeaderboardCategory, { 
+    label: string; 
+    accentColor: string;
+    emoji: string;
+}> = {
+    streak: { label: "Day Streak", accentColor: "#10b981", emoji: "🔥" },
+    tokens: { label: "Tokens", accentColor: "#D4AF37", emoji: "💰" },
+    followers: { label: "Followers", accentColor: "#3b82f6", emoji: "👥" },
+    likes: { label: "Likes", accentColor: "#f43f5e", emoji: "❤️" },
+    posts: { label: "Posts", accentColor: "#a855f7", emoji: "💬" },
+    rooms: { label: "Rooms", accentColor: "#6366f1", emoji: "🏠" }
+};
+
+export default function GlobeVisualization({ users, onUserClick, selectedCountry, activeCategory }: GlobeVisualizationProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const globeRef = useRef<HTMLDivElement>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -37,18 +51,43 @@ export default function GlobeVisualization({ users, onUserClick, selectedCountry
 
     // Memoize globe data to prevent unnecessary updates
     const globeData = useMemo(() => {
-        return users.map((user, index) => {
+        const config = categoryConfig[activeCategory];
+        
+        // Sort users by active category to determine colors
+        const sortedByCategory = [...users].sort((a, b) => 
+            b.stats[activeCategory] - a.stats[activeCategory]
+        );
+        
+        return users.map((user) => {
             const isSelected = selectedCountry && user.country === selectedCountry;
+            const categoryRank = sortedByCategory.findIndex(u => u.id === user.id) + 1;
+            const categoryValue = user.stats[activeCategory];
+            
+            // Normalize size based on category value (relative to max)
+            const maxValue = Math.max(...users.map(u => u.stats[activeCategory]));
+            const minValue = Math.min(...users.map(u => u.stats[activeCategory]));
+            const normalizedValue = (categoryValue - minValue) / (maxValue - minValue);
+            const size = 0.5 + (normalizedValue * 2); // 0.5 to 2.5 range
+            
+            // Use category accent color for top ranks, fade for lower
+            let color = config.accentColor;
+            if (categoryRank > 3) {
+                // Fade color for ranks below top 3
+                color = categoryRank <= 10 ? `${config.accentColor}CC` : `${config.accentColor}99`;
+            }
+            
             return {
                 ...user,
-                size: 0.8 + (users.length - index) * 0.3,
-                color: index < 3 ? '#D4AF37' :
-                    index < 10 ? '#7600C9' :
-                        '#3B82F6',
-                isSelected
+                size,
+                color,
+                isSelected,
+                categoryValue,
+                categoryRank,
+                categoryLabel: config.label,
+                categoryEmoji: config.emoji
             };
         });
-    }, [users.length, selectedCountry, users.map(u => u.id).join(',')]); // Only update when actual data changes
+    }, [users.length, selectedCountry, activeCategory, users.map(u => u.id).join(',')]); // Only update when actual data changes
 
     // Initialize globe only once
     useEffect(() => {
@@ -116,7 +155,7 @@ export default function GlobeVisualization({ users, onUserClick, selectedCountry
                             font-family: system-ui, -apple-system, sans-serif;
                             max-width: 250px;
                         ">
-                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                                 <img src="${d.avatar}" alt="${d.name}" style="
                                     width: 32px;
                                     height: 32px;
@@ -128,27 +167,32 @@ export default function GlobeVisualization({ users, onUserClick, selectedCountry
                                     <div style="font-size: 11px; color: rgba(255,255,255,0.7);">@${d.username}</div>
                                 </div>
                             </div>
+                            
+                            <!-- Active Category Highlight -->
                             <div style="
-                                display: grid;
-                                grid-template-columns: repeat(2, 1fr);
-                                gap: 6px;
-                                font-size: 11px;
-                                color: rgba(255,255,255,0.8);
+                                background: ${d.color}15;
+                                border: 2px solid ${d.color};
+                                border-radius: 8px;
+                                padding: 8px 12px;
+                                margin-bottom: 8px;
+                                text-align: center;
                             ">
-                                <div>🔥 ${d.stats.streak} days</div>
-                                <div>💰 ${d.stats.tokens.toLocaleString()} CHT</div>
-                                <div>👥 ${d.stats.followers.toLocaleString()}</div>
-                                <div>❤️ ${d.stats.likes.toLocaleString()}</div>
+                                <div style="font-size: 20px; margin-bottom: 4px;">${d.categoryEmoji}</div>
+                                <div style="font-size: 18px; font-weight: 700; color: ${d.color};">
+                                    ${d.categoryValue.toLocaleString()}
+                                </div>
+                                <div style="font-size: 10px; color: rgba(255,255,255,0.7);">
+                                    ${d.categoryLabel}
+                                </div>
                             </div>
+                            
                             <div style="
-                                margin-top: 8px;
-                                padding-top: 8px;
-                                border-top: 1px solid rgba(255,255,255,0.2);
                                 font-size: 10px;
                                 color: ${d.color};
                                 text-align: center;
+                                font-weight: 600;
                             ">
-                                ${d.country} • Rank #${d.rank || users.indexOf(d) + 1}
+                                ${d.country} • Rank #${d.categoryRank}
                             </div>
                         </div>
                     `)
@@ -177,7 +221,7 @@ export default function GlobeVisualization({ users, onUserClick, selectedCountry
                   })
                   .htmlElementVisibilityModifier((el: any, isVisible: boolean) => el.style.opacity = isVisible ? '1' : '0')
                 globe.controls().autoRotate = true;
-                globe.controls().autoRotateSpeed = 5;
+                globe.controls().autoRotateSpeed = 0.5;
                 globe.controls().enableZoom = true;
 
                 // Pause rotation on hover

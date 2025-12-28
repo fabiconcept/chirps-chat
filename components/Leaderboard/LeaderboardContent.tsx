@@ -202,23 +202,24 @@ export default function LeaderboardContent() {
                                 exit={{ opacity: 0, scale: 0.9 }}
                                 className="lg:sticky lg:top-24 h-fit"
                             >
-                                <div className="p-6 rounded-2xl border border-border bg-background overflow-hidden">
-                                    <div className="flex items-center justify-between mb-4">
+                                <div className="py-6 rounded-2xl border border-border bg-black/5 overflow-hidden">
+                                    <div className="flex items-center justify-between mb-4 px-6">
                                         <h2 className="text-xl font-semibold">Global Distribution</h2>
                                         <Badge variant="outline" className="text-xs">
                                             Interactive
                                         </Badge>
                                     </div>
-                                    <div className="relative rounded-xl overflow-hidden bg-black/5">
+                                    <div className="relative overflow-hidden">
                                         <GlobeVisualization 
                                             users={mockLeaderboardUsers.slice(0, 30)}
                                             onUserClick={(user) => {
                                                 handleCountryFilter(user.country);
                                             }}
                                             selectedCountry={selectedCountry}
+                                            activeCategory={activeCategory}
                                         />
                                     </div>
-                                    <div className="mt-4 flex items-center justify-center gap-4 text-xs text-muted-foreground">
+                                    <div className="mt-4 px-6 flex items-center justify-center gap-4 text-xs text-muted-foreground">
                                         <div className="flex items-center gap-2">
                                             <div className="w-3 h-3 rounded-full bg-[#D4AF37]" />
                                             <span>Top 3</span>
@@ -330,6 +331,7 @@ export default function LeaderboardContent() {
                             </div>
                         </motion.div>
                     </div>
+                    <div className="h-20" />
                 </div>
             </div>
 

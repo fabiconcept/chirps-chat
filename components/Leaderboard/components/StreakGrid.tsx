@@ -2,19 +2,29 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { useMemo } from "react";
+import { useMemo, useRef, useEffect, useState } from "react";
+
+type GridSize = "sm" | "md" | "lg";
 
 interface StreakGridProps {
     streakDays: number;
+    size?: GridSize;
+    maxWeeks?: number;
 }
 
-// Generate mock contribution data for the past year
-const generateContributionData = (streakDays: number) => {
+const sizeConfig = {
+    sm: { square: 2, gap: 0.5, text: "text-[8px]", labelGap: 1 },
+    md: { square: 3, gap: 1, text: "text-[10px]", labelGap: 2 },
+    lg: { square: 4, gap: 1.5, text: "text-xs", labelGap: 2 }
+};
+
+// Generate mock contribution data
+const generateContributionData = (streakDays: number, totalDays: number) => {
     const data: { date: Date; count: number; level: number }[] = [];
     const today = new Date();
     
-    // Go back 365 days
-    for (let i = 364; i >= 0; i--) {
+    // Go back the specified number of days
+    for (let i = totalDays - 1; i >= 0; i--) {
         const date = new Date(today);
         date.setDate(date.getDate() - i);
         
@@ -57,20 +67,65 @@ const getMonthLabel = (weekIndex: number, data: { date: Date }[]) => {
     return null;
 };
 
-export default function StreakGrid({ streakDays }: StreakGridProps) {
-    const contributionData = useMemo(() => generateContributionData(streakDays), [streakDays]);
+export default function StreakGrid({ streakDays, size = "md", maxWeeks }: StreakGridProps) {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [availableWeeks, setAvailableWeeks] = useState<number>(maxWeeks || 52);
+    const config = sizeConfig[size];
+
+    // Calculate how many weeks can fit based on container width
+    useEffect(() => {
+        if (!containerRef.current || maxWeeks) return;
+
+        const updateWeeks = () => {
+            if (!containerRef.current) return;
+            
+            const containerWidth = containerRef.current.offsetWidth;
+            // Account for: day labels (30px) + gaps + some padding
+            const dayLabelsWidth = 30;
+            const paddingBuffer = 20;
+            const availableWidth = containerWidth - dayLabelsWidth - paddingBuffer;
+            
+            // Calculate based on square size + gap
+            const squareWithGap = config.square * 4 + config.gap * 4; // in rem (converted to px approximation)
+            const calculatedWeeks = Math.floor(availableWidth / squareWithGap);
+            
+            // Clamp between 8 weeks (2 months) and 52 weeks (1 year)
+            const weeks = Math.max(8, Math.min(52, calculatedWeeks));
+            setAvailableWeeks(weeks);
+        };
+
+        updateWeeks();
+        window.addEventListener('resize', updateWeeks);
+        return () => window.removeEventListener('resize', updateWeeks);
+    }, [config.square, config.gap, maxWeeks]);
+
+    const totalDays = (maxWeeks || availableWeeks) * 7;
+    const contributionData = useMemo(
+        () => generateContributionData(streakDays, totalDays), 
+        [streakDays, totalDays]
+    );
     
     // Group by weeks
     const weeks: { date: Date; count: number; level: number }[][] = [];
     for (let i = 0; i < contributionData.length; i += 7) {
         weeks.push(contributionData.slice(i, i + 7));
     }
+    
+    // Calculate time range for display
+    const oldestDate = contributionData[0]?.date;
+    const newestDate = contributionData[contributionData.length - 1]?.date;
+    const timeRange = oldestDate && newestDate 
+        ? `${oldestDate.toLocaleDateString('default', { month: 'short', day: 'numeric' })} - ${newestDate.toLocaleDateString('default', { month: 'short', day: 'numeric' })}`
+        : '';
 
     return (
-        <div className="space-y-4">
+        <div ref={containerRef} className="space-y-3 w-full">
             {/* Stats */}
-            <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center gap-4">
+            <div className={cn(
+                "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2",
+                size === "sm" ? "text-xs" : size === "md" ? "text-sm" : "text-base"
+            )}>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
                     <div>
                         <span className="text-muted-foreground">Current Streak: </span>
                         <span className="font-bold text-emerald-500">{streakDays} days</span>
@@ -82,17 +137,26 @@ export default function StreakGrid({ streakDays }: StreakGridProps) {
                         </span>
                     </div>
                 </div>
+                {timeRange && (
+                    <div className={cn("text-muted-foreground", config.text)}>
+                        {timeRange}
+                    </div>
+                )}
             </div>
 
             {/* Grid */}
-            <div className="overflow-x-auto">
-                <div className="inline-flex flex-col gap-1 min-w-full">
+            <div className="w-full overflow-hidden">
+                <div className="inline-flex flex-col w-full" style={{ gap: `${config.gap * 4}px` }}>
                     {/* Month labels */}
-                    <div className="flex gap-1 mb-1 ml-8">
+                    <div className="flex ml-8" style={{ gap: `${config.gap * 4}px`, marginBottom: `${config.gap * 4}px` }}>
                         {weeks.map((_, weekIndex) => {
                             const label = getMonthLabel(weekIndex, contributionData);
                             return (
-                                <div key={weekIndex} className="w-3 text-[10px] text-muted-foreground">
+                                <div 
+                                    key={weekIndex} 
+                                    className={cn(config.text, "text-muted-foreground")}
+                                    style={{ width: `${config.square * 4}px` }}
+                                >
                                     {label}
                                 </div>
                             );
@@ -100,9 +164,12 @@ export default function StreakGrid({ streakDays }: StreakGridProps) {
                     </div>
 
                     {/* Day labels + Grid */}
-                    <div className="flex gap-1">
+                    <div className="flex" style={{ gap: `${config.labelGap * 4}px` }}>
                         {/* Day of week labels */}
-                        <div className="flex flex-col gap-1 justify-between text-[10px] text-muted-foreground pr-2">
+                        <div 
+                            className={cn("flex flex-col justify-between text-muted-foreground", config.text)}
+                            style={{ gap: `${config.gap * 4}px`, minWidth: '24px' }}
+                        >
                             <span>Mon</span>
                             <span className="invisible">Wed</span>
                             <span>Wed</span>
@@ -113,9 +180,9 @@ export default function StreakGrid({ streakDays }: StreakGridProps) {
                         </div>
 
                         {/* Contribution squares */}
-                        <div className="flex gap-1">
+                        <div className="flex flex-1 overflow-x-auto" style={{ gap: `${config.gap * 4}px` }}>
                             {weeks.map((week, weekIndex) => (
-                                <div key={weekIndex} className="flex flex-col gap-1">
+                                <div key={weekIndex} className="flex flex-col shrink-0" style={{ gap: `${config.gap * 4}px` }}>
                                     {week.map((day, dayIndex) => {
                                         const isToday = day.date.toDateString() === new Date().toDateString();
                                         
@@ -130,23 +197,28 @@ export default function StreakGrid({ streakDays }: StreakGridProps) {
                                                     stiffness: 500,
                                                     damping: 30
                                                 }}
-                                                whileHover={{ scale: 1.5, zIndex: 10 }}
+                                                whileHover={{ scale: size === "sm" ? 1.8 : 1.5, zIndex: 10 }}
                                                 className={cn(
-                                                    "w-3 h-3 rounded-sm cursor-pointer relative group",
+                                                    "rounded-sm cursor-pointer relative group shrink-0",
                                                     getLevelColor(day.level),
-                                                    isToday && "ring-2 ring-emerald-500 ring-offset-1 ring-offset-background"
+                                                    isToday && "ring-1 ring-emerald-500"
                                                 )}
+                                                style={{ 
+                                                    width: `${config.square * 4}px`, 
+                                                    height: `${config.square * 4}px` 
+                                                }}
                                                 title={`${day.date.toLocaleDateString()}: ${day.count} activities`}
                                             >
                                                 {/* Tooltip */}
-                                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-20">
-                                                    <div className="bg-popover text-popover-foreground text-xs rounded-md px-2 py-1 shadow-lg whitespace-nowrap border">
+                                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-20 pointer-events-none">
+                                                    <div className="bg-popover text-popover-foreground text-xs rounded-md px-2 py-1.5 shadow-lg whitespace-nowrap border">
                                                         <div className="font-semibold">{day.count} activities</div>
-                                                        <div className="text-muted-foreground">
+                                                        <div className="text-[10px] text-muted-foreground">
                                                             {day.date.toLocaleDateString('default', { 
                                                                 weekday: 'short', 
                                                                 month: 'short', 
-                                                                day: 'numeric' 
+                                                                day: 'numeric',
+                                                                year: 'numeric'
                                                             })}
                                                         </div>
                                                     </div>
@@ -162,15 +234,21 @@ export default function StreakGrid({ streakDays }: StreakGridProps) {
             </div>
 
             {/* Legend */}
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <span>Less</span>
-                {[0, 1, 2, 3, 4].map((level) => (
-                    <div
-                        key={level}
-                        className={cn("w-3 h-3 rounded-sm", getLevelColor(level))}
-                    />
-                ))}
-                <span>More</span>
+            <div className={cn("flex items-center justify-center sm:justify-start", config.text, "text-muted-foreground")}>
+                <div className="flex items-center" style={{ gap: `${config.gap * 4}px` }}>
+                    <span>Less</span>
+                    {[0, 1, 2, 3, 4].map((level) => (
+                        <div
+                            key={level}
+                            className={cn("rounded-sm", getLevelColor(level))}
+                            style={{ 
+                                width: `${config.square * 4}px`, 
+                                height: `${config.square * 4}px` 
+                            }}
+                        />
+                    ))}
+                    <span>More</span>
+                </div>
             </div>
         </div>
     );

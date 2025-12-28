@@ -289,6 +289,7 @@ export default function SuggestionsContainer() {
                         </TabsContent>
                     )}
                 </AnimatePresence>
+                <div className="h-20" />
             </Tabs>
 
             {/* Create Suggestion Dialog */}

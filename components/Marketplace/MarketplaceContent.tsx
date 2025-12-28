@@ -191,6 +191,7 @@ export default function MarketplaceContent() {
                     />
                 )}
             </div>
+            <div className="h-20" />
         </>
     );
 }
