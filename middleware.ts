@@ -11,7 +11,9 @@ export function middleware(req: NextRequest) {
     
     // get search params 
     const activitybar = searchParams.get("activitybar");
+    const wallet = searchParams.get("wallet");
 
+    // Handle activity bar on mobile
     if (activitybar === "open" && isMobile) {
         const url = req.nextUrl.clone();
         url.pathname = "/activities";
@@ -26,6 +28,20 @@ export function middleware(req: NextRequest) {
         return NextResponse.redirect(url);
     }
 
+    // Handle wallet on mobile
+    if (wallet === "open" && isMobile) {
+        const url = req.nextUrl.clone();
+        url.pathname = "/wallet";
+        url.searchParams.delete("wallet");
+        return NextResponse.redirect(url);
+    }
+
+    if (pathname === "/wallet" && !isMobile) {
+        const url = req.nextUrl.clone();
+        url.pathname = "/";
+        url.searchParams.set("wallet", "open");
+        return NextResponse.redirect(url);
+    }
 
     return NextResponse.next();
 }

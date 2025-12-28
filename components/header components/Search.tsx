@@ -12,6 +12,7 @@ import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import ProtectedImage from '../Feed/TextPost/ProtectedImage';
 import { Kbd, KbdGroup } from '../ui/kbd';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Mock data - replace with actual data
 const mockSearchResults = [
@@ -100,6 +101,8 @@ export default function Search() {
             if (element) {
                 element.focus();
                 setFocusedItemId(nextItem.id);
+                // Scroll into view smoothly
+                element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }
     }, [allItems, focusedItemId]);
@@ -114,6 +117,8 @@ export default function Search() {
             if (element) {
                 element.focus();
                 setFocusedItemId(prevItem.id);
+                // Scroll into view smoothly
+                element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }
     }, [allItems, focusedItemId]);
@@ -171,24 +176,32 @@ export default function Search() {
         }
         
         const element = itemRefs.current.get(focusedItemId);
-        if (!element || !scrollAreaRef.current) {
+        const scrollContainer = scrollAreaRef.current;
+        
+        if (!element || !scrollContainer) {
             setArrowPosition(null);
             return;
         }
         
-        const scrollContainer = scrollAreaRef.current;
+        // Get bounding rectangles
         const itemRect = element.getBoundingClientRect();
         const containerRect = scrollContainer.getBoundingClientRect();
+        
+        // Calculate relative position within the scroll container
         const relativeTop = itemRect.top - containerRect.top;
         const containerHeight = containerRect.height;
         const itemHeight = itemRect.height;
         
+        // Hide arrows if item is out of visible area
         if (relativeTop < -itemHeight || relativeTop > containerHeight) {
             setArrowPosition(null);
             return;
         }
         
-        const top = relativeTop + (itemHeight / 2);
+        // Calculate arrow position
+        // Header height (~110px) + relativeTop + half of item height for centering
+        const headerHeight = 110;
+        const top = headerHeight + relativeTop + (itemHeight / 2);
         setArrowPosition(top);
     }, [focusedItemId, allItems, isSearchFocused]);
 
@@ -215,30 +228,35 @@ export default function Search() {
                 <Button
                     variant="ghost"
                     className={cn(
-                        "flex items-center gap-2 relative rounded-3xl bg-background/20",
-                        "hover:border-ring hover:ring-ring/50 hover:ring-[3px]",
-                        "shadow-xs transition-[color,box-shadow] border border-input dark:bg-input/30",
-                        "md:w-full w-10 max-w-xs md:h-12 h-10 max-md:py-2 px-5"
+                        "flex items-center gap-2 relative rounded-2xl",
+                        "bg-linear-to-r from-background/40 via-background/60 to-background/40",
+                        "hover:from-background/60 hover:via-background/80 hover:to-background/60",
+                        "hover:border-primary/30 hover:ring-primary/10 hover:ring-2",
+                        "shadow-sm hover:shadow-md transition-all duration-300",
+                        "border border-input/60 dark:bg-input/20 backdrop-blur-sm",
+                        "md:w-full w-10 max-w-xs md:h-11 h-10 max-md:py-2 px-4"
                     )}
                 >
                     <SearchIcon className="w-4 h-4 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground md:block hidden">Search...</span>
-                    <span className="ml-auto text-xs text-muted-foreground md:block hidden">
+                    <span className="text-sm text-muted-foreground md:block hidden font-normal">Search...</span>
+                    <span className="ml-auto text-xs text-muted-foreground md:flex hidden items-center gap-0.5">
                         {isMacOS ? <KbdGroup>
-                            <Kbd className="border border-input/50">⌘</Kbd>
-                            <Kbd className="border border-input/50">K</Kbd>
+                            <Kbd className="border border-input/50 bg-background/50">⌘</Kbd>
+                            <Kbd className="border border-input/50 bg-background/50">K</Kbd>
                         </KbdGroup> : <KbdGroup>
-                            <Kbd className="border border-input/50">Ctrl</Kbd>
-                            <Kbd className="border border-input/50">K</Kbd>
+                            <Kbd className="border border-input/50 bg-background/50 text-[10px]">Ctrl</Kbd>
+                            <Kbd className="border border-input/50 bg-background/50">K</Kbd>
                         </KbdGroup>}
                     </span>
                 </Button>
             </DialogTrigger>
-            <DialogContent showCloseButton={false} className="p-3">
+            <DialogContent showCloseButton={false} className="p-0 gap-0 max-w-2xl">
+                {/* Keep original CSS-animated arrows */}
                 <div 
-                    className="absolute -left-10 animate-[bounce-left_1.5s_ease-in-out_infinite] transition-all duration-300 ease-out"
+                    className="absolute -left-10 animate-[bounce-left_1.5s_ease-in-out_infinite] transition-all duration-300 ease-out z-50"
                     style={{
-                        top: arrowPosition !== null ? `${arrowPosition + 60}px` : '24px'
+                        top: arrowPosition !== null ? `${arrowPosition}px` : '120px',
+                        opacity: arrowPosition !== null ? 1 : 0
                     }}
                 >
                     <ProtectedImage
@@ -249,9 +267,10 @@ export default function Search() {
                     />
                 </div>
                 <div 
-                    className="absolute -right-10 animate-[bounce-right_1.5s_ease-in-out_infinite] transition-all duration-300 ease-out"
+                    className="absolute -right-10 animate-[bounce-right_1.5s_ease-in-out_infinite] transition-all duration-300 ease-out z-50"
                     style={{
-                        top: arrowPosition !== null ? `${arrowPosition + 60}px` : '24px'
+                        top: arrowPosition !== null ? `${arrowPosition}px` : '120px',
+                        opacity: arrowPosition !== null ? 1 : 0
                     }}
                 >
                     <ProtectedImage
@@ -263,65 +282,98 @@ export default function Search() {
                     />
                 </div>
                 
-                <DialogHeader className="space-y-3">
-                    <DialogTitle className="font-normal text-sm absolute left-1/2 -top-7 -translate-x-1/2 whitespace-nowrap">
-                        Search Posts, Hashtags, Rooms & People
-                    </DialogTitle>
-                    <Input
-                        ref={inputRef}
-                        placeholder="What are you looking for?"
-                        className="w-full md:text-lg text-sm"
-                        value={searchQuery}
-                        onChange={handleSearchChange}
-                        onFocus={() => {
-                            setIsSearchFocused(true);
-                            setFocusedItemId(null);
-                        }}
-                        onBlur={() => setIsSearchFocused(false)}
-                        autoFocus
-                    />
-                </DialogHeader>
-                
-                <ScrollArea className="flex-1 overflow-y-auto w-full my-2 h-72 px-0 scroll-smooth" ref={scrollAreaRef}>
-                    {filteredSections.length > 0 ? (
-                        filteredSections.map((section, sectionIndex) => (
-                            <div key={sectionIndex} className="mb-4">
-                                <h3 className="text-xs font-semibold text-muted-foreground px-2 mb-2">
-                                    {section.title}
-                                </h3>
-                                <div className="space-y-1 text-sm">
-                                    {section.items.map((item) => (
-                                        <SearchResultItem
-                                            key={item.id}
-                                            item={item}
-                                            selected={focusedItemId === item.id}
-                                            onFocus={() => handleItemFocus(item.id)}
-                                            ref={(el) => {
-                                                if (el) itemRefs.current.set(item.id, el);
-                                            }}
-                                        />
-                                    ))}
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                        <div className="text-center text-muted-foreground py-8">
-                            No results found. Try searching for posts, hashtags, rooms, or people.
+                {/* Enhanced header */}
+                <div className="relative px-4 pt-4 pb-3 bg-linear-to-b from-primary/5 via-background/50 to-background border-b border-border/50">
+                    <DialogHeader className="space-y-3">
+                        <DialogTitle className="font-medium text-sm text-center text-muted-foreground">
+                            Search Posts, Hashtags, Rooms & People
+                        </DialogTitle>
+                        <div className="relative">
+                            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground z-10" />
+                            <Input
+                                ref={inputRef}
+                                placeholder="What are you looking for?"
+                                className="w-full md:text-base text-sm pl-10 h-11 bg-background/50 border-input/60 focus-visible:ring-primary/20"
+                                value={searchQuery}
+                                onChange={handleSearchChange}
+                                onFocus={() => {
+                                    setIsSearchFocused(true);
+                                    setFocusedItemId(null);
+                                }}
+                                onBlur={() => setIsSearchFocused(false)}
+                                autoFocus
+                            />
                         </div>
+                    </DialogHeader>
+                </div>
+                
+                <ScrollArea className="flex-1 overflow-y-auto w-full h-80 px-4 py-3 scroll-smooth" ref={scrollAreaRef}>
+                    {filteredSections.length > 0 ? (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.2 }}
+                        >
+                            {filteredSections.map((section, sectionIndex) => (
+                                <motion.div
+                                    key={sectionIndex}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: sectionIndex * 0.05 }}
+                                    className="mb-5"
+                                >
+                                    <h3 className="text-xs font-semibold text-muted-foreground px-2 mb-2.5 uppercase tracking-wider">
+                                        {section.title}
+                                    </h3>
+                                    <div className="space-y-0.5 text-sm">
+                                        {section.items.map((item, itemIndex) => (
+                                            <motion.div
+                                                key={item.id}
+                                                initial={{ opacity: 0, x: -10 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: (sectionIndex * 0.05) + (itemIndex * 0.02) }}
+                                            >
+                                                <SearchResultItem
+                                                    item={item}
+                                                    selected={focusedItemId === item.id}
+                                                    onFocus={() => handleItemFocus(item.id)}
+                                                    ref={(el) => {
+                                                        if (el) itemRefs.current.set(item.id, el);
+                                                    }}
+                                                />
+                                            </motion.div>
+                                        ))}
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </motion.div>
+                    ) : (
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="flex flex-col items-center justify-center text-center text-muted-foreground py-12"
+                        >
+                            <SearchIcon className="w-12 h-12 mb-3 opacity-20" />
+                            <p className="font-medium mb-1">No results found</p>
+                            <p className="text-xs">Try searching for posts, hashtags, rooms, or people</p>
+                        </motion.div>
                     )}
                     <ScrollBar asChild />
                 </ScrollArea>
                 
-                <div className="text-foreground pt-2 border-t">
-                    <span className="font-semibold text-green-500 text-sm">Tip:</span>{' '}
-                    <span className="text-xs">
-                        Start searching with{' '}
-                        <MiniToolTip child={<span className="px-1 rounded cursor-help font-semibold dark:bg-black/50 bg-black/10">~</span>} tip="Posts" />{' '}
-                        <MiniToolTip child={<span className="px-1 rounded cursor-help font-semibold dark:bg-black/50 bg-black/10">#</span>} tip="Hashtags" />{' '}
-                        <MiniToolTip child={<span className="px-1 rounded cursor-help font-semibold dark:bg-black/50 bg-black/10">*</span>} tip="Rooms" />{' '}
-                        <MiniToolTip child={<span className="px-1 rounded cursor-help font-semibold dark:bg-black/50 bg-black/10">@</span>} tip="People" />{' '}
-                        for faster results
-                    </span>
+                {/* Enhanced footer with tips */}
+                <div className="px-4 py-3 border-t border-border/50 bg-linear-to-b from-background to-primary/5">
+                    <div className="flex items-start gap-2">
+                        <span className="font-semibold text-emerald-600 dark:text-emerald-400 text-sm shrink-0">💡 Tip:</span>
+                        <span className="text-xs text-muted-foreground leading-relaxed">
+                            Start searching with{' '}
+                            <MiniToolTip child={<span className="px-1.5 py-0.5 rounded-md cursor-help font-semibold bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors">~</span>} tip="Posts" />{' '}
+                            <MiniToolTip child={<span className="px-1.5 py-0.5 rounded-md cursor-help font-semibold bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors">#</span>} tip="Hashtags" />{' '}
+                            <MiniToolTip child={<span className="px-1.5 py-0.5 rounded-md cursor-help font-semibold bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors">*</span>} tip="Rooms" />{' '}
+                            <MiniToolTip child={<span className="px-1.5 py-0.5 rounded-md cursor-help font-semibold bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors">@</span>} tip="People" />{' '}
+                            for faster results
+                        </span>
+                    </div>
                 </div>
             </DialogContent>
         </Dialog>
@@ -380,13 +432,26 @@ const SearchResultItem = React.forwardRef<HTMLButtonElement, {
             ref={ref}
             onFocus={onFocus}
             className={cn(
-                "w-full flex items-center gap-3 px-2 py-2 rounded-md transition-colors",
-                "hover:bg-foreground/5 focus:bg-foreground/10 focus:outline-none",
-                selected && "bg-foreground/10"
+                "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200",
+                "hover:bg-primary/5 hover:border-primary/20 border border-transparent",
+                "focus:bg-primary/10 focus:border-primary/30 focus:outline-none focus:ring-2 focus:ring-primary/10",
+                "group",
+                selected && "bg-primary/10 border-primary/30 ring-2 ring-primary/10"
             )}
         >
             <div className="shrink-0">{getIcon()}</div>
             <div className="flex-1 text-left min-w-0">{getContent()}</div>
+            <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ 
+                    opacity: selected ? 1 : 0,
+                    x: selected ? 0 : -10
+                }}
+                transition={{ duration: 0.2 }}
+                className="shrink-0"
+            >
+                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            </motion.div>
         </button>
     );
 });

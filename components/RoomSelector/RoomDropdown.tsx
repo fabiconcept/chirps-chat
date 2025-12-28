@@ -48,6 +48,9 @@ export default function RoomDropdown({
     const isOpen = useMemo(()=> searchParams.get("hide-menu") === "true", [searchParams]);
     const isSettingsOpen = useMemo(()=> searchParams.get("settings") === "true", [searchParams]);
     const isInviteOpen = useMemo(()=> searchParams.get("invite") === "true", [searchParams]);
+    const isCreateChannelOpen = useMemo(()=> searchParams.get("create-channel") === "true", [searchParams]);
+    const isNotificationsOpen = useMemo(()=> searchParams.get("notifications") === "true", [searchParams]);
+    const isPrivacyOpen = useMemo(()=> searchParams.get("privacy") === "true", [searchParams]);
 
     const handleHamburgerController = () => {
         if (isOpen) {
@@ -65,13 +68,41 @@ export default function RoomDropdown({
         }
     }, [isInviteOpen]);
 
-    const handleSettingsToggle = useCallback(()=>{
+    const handleSettingsToggle = useCallback((tab?: string)=>{
         if (isSettingsOpen) {
             removeSearchParam(SearchParamKeys.SETTINGS);
+            removeSearchParam(SearchParamKeys.TAB);
         } else {
             updateSearchParam(SearchParamKeys.SETTINGS, "true");
+            if (tab) {
+                updateSearchParam(SearchParamKeys.TAB, tab);
+            }
         }
     }, [isSettingsOpen]);
+
+    const handleCreateChannelToggle = useCallback(()=>{
+        if (isCreateChannelOpen) {
+            removeSearchParam(SearchParamKeys.CREATE_CHANNEL);
+        } else {
+            updateSearchParam(SearchParamKeys.CREATE_CHANNEL, "true");
+        }
+    }, [isCreateChannelOpen]);
+
+    const handleNotificationsToggle = useCallback(()=>{
+        if (isNotificationsOpen) {
+            removeSearchParam(SearchParamKeys.NOTIFICATIONS);
+        } else {
+            updateSearchParam(SearchParamKeys.NOTIFICATIONS, "true");
+        }
+    }, [isNotificationsOpen]);
+
+    const handlePrivacyToggle = useCallback(()=>{
+        if (isPrivacyOpen) {
+            removeSearchParam(SearchParamKeys.PRIVACY);
+        } else {
+            updateSearchParam(SearchParamKeys.PRIVACY, "true");
+        }
+    }, [isPrivacyOpen]);
 
     const handleDropMenuAction = useCallback((id: MenuItem["id"]) => {
         switch (id) {
@@ -82,15 +113,19 @@ export default function RoomDropdown({
                 handleSettingsToggle();
                 break;
             case "channel":
+                handleCreateChannelToggle();
                 break;
             case "notifications":
+                handleNotificationsToggle();
                 break;
             case "privacy":
+                handlePrivacyToggle();
                 break;
             case "profile":
+                handleSettingsToggle("per-room-profile");
                 break;
         }
-    }, [handleSettingsToggle, handleInviteToggle]);
+    }, [handleSettingsToggle, handleInviteToggle, handleCreateChannelToggle, handleNotificationsToggle, handlePrivacyToggle]);
 
 
     return (

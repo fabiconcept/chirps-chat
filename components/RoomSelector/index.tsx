@@ -5,6 +5,10 @@ import RoomDropdown from "./RoomDropdown";
 import InviteUserDialog from "./InviteUserDialog";
 import ChannelsList from "./ChannelsList";
 import ChannelSettings from "./RoomSettings";
+import CreateChannelDialog from "./CreateChannelDialog";
+import NotificationSettingsDialog from "./NotificationSettingsDialog";
+import PrivacySettingsDialog from "./PrivacySettingsDialog";
+import ChannelSettingsDialog from "./ChannelSettingsDialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { UserAdd01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -44,6 +48,10 @@ export default function RoomSelector() {
             <ChannelsList owner />
             <InviteUserDialog />
             <ChannelSettings />
+            <CreateChannelDialog />
+            <NotificationSettingsDialog />
+            <PrivacySettingsDialog />
+            <ChannelSettingsDialog />
         </div>
     )
 }

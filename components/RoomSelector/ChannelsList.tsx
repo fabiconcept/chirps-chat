@@ -83,7 +83,15 @@ export default function ChannelsList({
                         >
                             <UserPlus strokeWidth={2} size={14} />
                         </Button>
-                        <Button variant={"ghost"} size={"icon"} className="size-6">
+                        <Button 
+                            variant={"ghost"} 
+                            size={"icon"} 
+                            className="size-6"
+                            onClick={() => {
+                                updateSearchParam(SearchParamKeys.CHANNEL_SETTINGS, "true");
+                                updateSearchParam(SearchParamKeys.CHANNEL_NAME, "general");
+                            }}
+                        >
                             <Settings strokeWidth={2} size={14} />
                         </Button>
                     </div>}
@@ -155,7 +163,15 @@ export default function ChannelsList({
                                         >
                                             <UserPlus strokeWidth={2} size={14} />
                                         </Button>
-                                        <Button variant={"ghost"} size={"icon"} className="size-6">
+                                        <Button 
+                                            variant={"ghost"} 
+                                            size={"icon"} 
+                                            className="size-6"
+                                            onClick={() => {
+                                                updateSearchParam(SearchParamKeys.CHANNEL_SETTINGS, "true");
+                                                updateSearchParam(SearchParamKeys.CHANNEL_NAME, channel.name);
+                                            }}
+                                        >
                                             <Settings strokeWidth={2} size={14} />
                                         </Button>
                                     </div>}

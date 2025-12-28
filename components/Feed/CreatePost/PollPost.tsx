@@ -6,6 +6,7 @@ import { Button } from "../../ui/button";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../../ui/select";
 import { Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 export const PollDuration = [
     {
@@ -63,96 +64,171 @@ const PollPost = ({ pollData, onPollChange }: { pollData: { question: string; op
     }
 
     return (
-        <div className="px-3 relative">
-            <div className="grid w-full items-center gap-3">
-                <Label htmlFor="question">Question</Label>
+        <div className="px-4 py-4 relative space-y-6">
+            {/* Question Section */}
+            <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="space-y-3"
+            >
+                <div className="flex items-center justify-between">
+                    <Label htmlFor="question" className="text-sm font-semibold">
+                        Poll Question
+                    </Label>
+                    <span className={cn(
+                        "text-xs font-medium tabular-nums transition-colors",
+                        question.length > maxQuestionLength * 0.9 ? "text-destructive" : "text-muted-foreground"
+                    )}>
+                        {question.length}/{maxQuestionLength}
+                    </span>
+                </div>
                 <Textarea
                     id="question"
-                    placeholder="Question"
-                    className="resize-none min-h-28"
+                    placeholder="What would you like to ask?"
+                    className="resize-none min-h-28 bg-background/50 border-input/60 focus-visible:ring-primary/20"
                     value={question}
                     maxLength={maxQuestionLength}
                     onChange={(e) => handleQuestionChange(e.target.value)}
                 />
-                <span className="text-right text-muted-foreground text-xs">{question.length}/{maxQuestionLength}</span>
-            </div>
-            <div className="flex flex-col gap-y-2 mt-2">
-                <AnimatePresence mode="popLayout" initial={false}>
-                    {options.map((option, index) => (
-                        <motion.div
-                            key={option.id}
-                            layout
-                            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-                            transition={{
-                                layout: { type: "spring", stiffness: 300, damping: 30 },
-                                opacity: { duration: 0.2 },
-                                scale: { duration: 0.2 },
-                                y: { duration: 0.2 }
-                            }}
-                            className="flex flex-col w-full items-start gap-3"
-                        >
-                            <div className="flex w-full justify-between items-center">
-                                <Label htmlFor="option">Option {index + 1}{(index + 1) <= minOptionLength && <sup className="text-destructive">*</sup>}</Label>
-                                {optionsCount > minOptionLength && (
-                                    <span onClick={() => handleRemoveOption(option.id)} className="hover:text-destructive text-xs cursor-pointer">Remove Option</span>
-                                )}
-                            </div>
-                            <Input
-                                id="option"
-                                type="text"
-                                placeholder="Option"
-                                value={option.option}
-                                maxLength={maxOptionLength}
-                                onChange={(e) => handleUpdateOptionValue(option.id, e.target.value)}
-                            />
-                            <p className="text-right w-full text-muted-foreground text-xs">{option.option.length}/{maxOptionLength}</p>
-                        </motion.div>
-                    ))}
-                    {optionsCount < maxOptionsLength && (
-                        <motion.div
-                            layout
-                            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-                            transition={{
-                                layout: { type: "spring", stiffness: 300, damping: 30 },
-                                opacity: { duration: 0.2 },
-                                scale: { duration: 0.2 },
-                                y: { duration: 0.2 }
-                            }}
-                        >
-                            <Button
-                                variant="outline"
-                                className="px-3 py-2"
-                                onClick={handleAddOption}
+            </motion.div>
+
+            {/* Options Section */}
+            <div className="space-y-3">
+                <div className="flex items-center justify-between mb-2">
+                    <Label className="text-sm font-semibold">
+                        Answer Options
+                    </Label>
+                    <span className="text-xs text-muted-foreground">
+                        {optionsCount}/{maxOptionsLength} options
+                    </span>
+                </div>
+
+                <div className="space-y-2.5">
+                    <AnimatePresence mode="popLayout" initial={false}>
+                        {options.map((option, index) => (
+                            <motion.div
+                                key={option.id}
+                                layout
+                                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.95, x: -20 }}
+                                transition={{
+                                    layout: { type: "spring", stiffness: 350, damping: 35 },
+                                    opacity: { duration: 0.2 },
+                                    scale: { duration: 0.2 },
+                                    y: { duration: 0.2 }
+                                }}
+                                className="relative group"
                             >
-                                <Plus />
-                                <span className="">Add Option</span>
-                            </Button>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                                <div className={cn(
+                                    "p-3 rounded-xl border-2 transition-all",
+                                    "bg-background/50 border-input/60",
+                                    "hover:border-primary/30 hover:bg-primary/5",
+                                    "focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/10"
+                                )}>
+                                    <div className="flex items-center justify-between mb-2">
+                                        <div className="flex items-center gap-2">
+                                            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-semibold">
+                                                {index + 1}
+                                            </span>
+                                            <Label htmlFor={`option-${option.id}`} className="text-sm font-medium">
+                                                Option {index + 1}
+                                                {(index + 1) <= minOptionLength && <sup className="text-destructive ml-0.5">*</sup>}
+                                            </Label>
+                                        </div>
+                                        {optionsCount > minOptionLength && (
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() => handleRemoveOption(option.id)}
+                                                className="h-7 px-2 text-xs hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            >
+                                                Remove
+                                            </Button>
+                                        )}
+                                    </div>
+                                    <Input
+                                        id={`option-${option.id}`}
+                                        type="text"
+                                        placeholder={`Enter option ${index + 1}`}
+                                        value={option.option}
+                                        maxLength={maxOptionLength}
+                                        onChange={(e) => handleUpdateOptionValue(option.id, e.target.value)}
+                                        className="border-0 bg-transparent focus-visible:ring-0 px-3 h-9"
+                                    />
+                                    <div className="flex items-center justify-end mt-1">
+                                        <span className={cn(
+                                            "text-[10px] font-medium tabular-nums transition-colors",
+                                            option.option.length > maxOptionLength * 0.9 ? "text-destructive" : "text-muted-foreground"
+                                        )}>
+                                            {option.option.length}/{maxOptionLength}
+                                        </span>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                        {optionsCount < maxOptionsLength && (
+                            <motion.div
+                                layout
+                                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                                transition={{
+                                    layout: { type: "spring", stiffness: 350, damping: 35 },
+                                    opacity: { duration: 0.2 },
+                                    scale: { duration: 0.2 },
+                                    y: { duration: 0.2 }
+                                }}
+                            >
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    className={cn(
+                                        "w-full h-11 gap-2 border-2 border-dashed",
+                                        "hover:border-primary/50 hover:bg-primary/5",
+                                        "hover:text-primary transition-all"
+                                    )}
+                                    onClick={handleAddOption}
+                                >
+                                    <Plus className="w-4 h-4" />
+                                    <span className="font-medium">Add Option</span>
+                                </Button>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
             </div>
 
-            <div className="grid w-full items-center gap-3 mt-5">
-                <Label htmlFor="question">Poll Duration</Label>
+            {/* Duration Section */}
+            <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="space-y-3"
+            >
+                <Label htmlFor="duration" className="text-sm font-semibold">
+                    Poll Duration
+                </Label>
                 <Select defaultValue={PollDuration[0].value.toString()}>
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger id="duration" className="w-full h-11 bg-background/50 border-input/60 focus:ring-primary/20">
                         <SelectValue placeholder="Select a duration" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
                             {PollDuration.map((duration) => (
-                                <SelectItem key={duration.id} value={duration.value.toString()}>
+                                <SelectItem 
+                                    key={duration.id} 
+                                    value={duration.value.toString()}
+                                    className="cursor-pointer"
+                                >
                                     {duration.label}
                                 </SelectItem>
                             ))}
                         </SelectGroup>
                     </SelectContent>
                 </Select>
-            </div>
+            </motion.div>
         </div>
     )
 }

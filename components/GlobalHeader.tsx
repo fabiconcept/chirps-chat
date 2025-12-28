@@ -1,6 +1,7 @@
 "use client"
 import { useAuth } from './Providers/AuthProvider';
 import { Button } from './ui/button';
+import { Badge } from './ui/badge';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import ThemeSwitch from './ui/theme-switch';
 import { useTheme } from "next-themes";
@@ -22,7 +23,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import Search from './header components/Search';
 import UserClump from './modular/UserClump';
-import { BellDot, Fullscreen } from 'lucide-react';
+import { BellDot, Fullscreen, Wallet } from 'lucide-react';
 import { cn, removeSearchParam, updateSearchParam } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -62,7 +63,7 @@ export default function GlobalHeader() {
     }, [fullscreen]);
  
     useEffect(()=>{
-        allowShortcuts(["alt+F", "commandESC"]);
+        allowShortcuts(["alt+F", "alt+W", "commandESC"]);
 
         if (isFullscreen && isHidden) {
             setFullscreen("true");
@@ -75,7 +76,7 @@ export default function GlobalHeader() {
         }
     
         return ()=> {
-            disallowShortcuts(["alt+F"]);
+            disallowShortcuts(["alt+F", "alt+W"]);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isFullscreen]);
@@ -93,23 +94,33 @@ export default function GlobalHeader() {
     useShortcuts({
         shortcuts: [
             { key: KeyboardKey.KeyF, altKey: true, enabled: allowedShortcuts.has("alt+F") },
+            { key: KeyboardKey.KeyW, altKey: true, enabled: allowedShortcuts.has("alt+W") },
             { key: KeyboardKey.Escape, isSpecialKey: true,  enabled: allowedShortcuts.has("commandESC") },
         ],
         onTrigger: (shortcut) => {
-            if (!isHidden) return;
             switch (shortcut.key) {
                 case KeyboardKey.KeyF:
+                    if (!isHidden) return;
                     handleFullScreenToggle()
                     allowShortcuts(["commandESC"])
                     break;
+                case KeyboardKey.KeyW:
+                    const walletOpen = searchParams.get("wallet");
+                    if (walletOpen) {
+                        removeSearchParam("wallet");
+                    } else {
+                        updateSearchParam("wallet", "open");
+                    }
+                    break;
                 case KeyboardKey.Escape:
+                    if (!isHidden) return;
                     removeSearchParam(SearchParamKeys.FULLSCREEN);
                     setFullscreen("false");
                     disallowShortcuts(["commandESC"]);
                     break;
             }
         }
-    }, [allowedShortcuts]);
+    }, [allowedShortcuts, searchParams, isHidden]);
 
     useEffect(()=>{
         if (!isHidden) return;
@@ -165,6 +176,41 @@ export default function GlobalHeader() {
                     {isAuthenticated && <Search />}
                 </div>
                 <div className='flex items-center z-10 gap-2 justify-end overflow-hidden'>
+                    {isAuthenticated && (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    size={isMobile ? "sm" : "default"}
+                                    className="gap-2 bg-linear-to-r from-[#D4AF37]/10 to-transparent border-[#D4AF37]/30 hover:border-[#D4AF37]/50 transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden relative"
+                                >
+                                    {isMobile ? (
+                                        <Link href="/wallet" className="absolute inset-0 flex items-center justify-center gap-2 px-3">
+                                            <Wallet className="h-4 w-4 text-[#D4AF37]" />
+                                            <span className="font-semibold text-[#D4AF37] ave">Wallet</span>
+                                            <Badge variant="outline" className="bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/20 px-1.5">
+                                                CHT
+                                            </Badge>
+                                        </Link>
+                                    ) : (
+                                        <div onClick={() => updateSearchParam("wallet", "open")} className="flex items-center gap-2">
+                                            <Wallet className="h-4 w-4 text-[#D4AF37]" />
+                                            <span className="font-semibold text-[#D4AF37] ave">12,847.50</span>
+                                            <Badge variant="outline" className="bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/20 px-1.5">
+                                                CHT
+                                            </Badge>
+                                        </div>
+                                    )}
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <div className="flex items-center gap-2">
+                                    <span>Open Wallet</span>
+                                    {!isMobile && <kbd className="px-1.5 py-0.5 text-xs font-semibold border rounded">Alt+W</kbd>}
+                                </div>
+                            </TooltipContent>
+                        </Tooltip>
+                    )}
                     {isHidden && (
                         <Tooltip>
                             <TooltipTrigger asChild>

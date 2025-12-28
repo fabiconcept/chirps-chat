@@ -12,6 +12,7 @@ export default function RoomSettings({ userType = ROLES.OWNER }: { userType?: RO
     const { disallowShortcuts, allowShortcuts, notoriousShortcuts } = useKeyBoardShortCut();
     const searchParams = useSearchParams();
     const isSettingsOpen = useMemo(()=> searchParams.get("settings") === "true", [searchParams]);
+    const activeTab = useMemo(()=> searchParams.get("tab"), [searchParams]);
     
     useEffect(() => {
         if (isSettingsOpen) {
@@ -58,7 +59,11 @@ export default function RoomSettings({ userType = ROLES.OWNER }: { userType?: RO
             <DialogContent className="sm:max-w-[calc(100%-10em)] h-full sm:max-h-[calc(100%-10em)] flex p-0 overflow-hidden rounded-2xl">
                 <CustomTabs 
                     className="w-full"
-                    defaultTab={SETTINGS_TABS.find(tab => tab.permission[userType].includes(PERMISSIONS.CAN_VIEW))?.key || "room-profile"}
+                    defaultTab={
+                        activeTab && SETTINGS_TABS.find(tab => tab.key === activeTab && tab.permission[userType].includes(PERMISSIONS.CAN_VIEW))?.key
+                        ? activeTab
+                        : SETTINGS_TABS.find(tab => tab.permission[userType].includes(PERMISSIONS.CAN_VIEW))?.key || "room-profile"
+                    }
                     tabs={SETTINGS_TABS
                         .filter(tab => tab.permission[userType].includes(PERMISSIONS.CAN_VIEW))
                         .map(tab => ({

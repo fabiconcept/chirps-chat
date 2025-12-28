@@ -108,45 +108,47 @@ export default function ChatHanger({ type = "feed", usersList = [] }: { type?: "
                     ref={containerRef}
                 >
                     {((type === "in-chat" && users.length > 10) || (type === "feed" && users.length > 6)) && <div className="h-2" />}
-                    <AnimatePresence mode="popLayout">
+                    <AnimatePresence initial={false}>
                         {users.map((user, index) => {
                             // Generate random message count for demo (you'd get this from your data)
                             const messageCount = index === 0 ? 4200 : index === 1 ? 150 : index === 2 ? 12 : 0;
                             
                             return (
-                                <div
+                                <motion.div
                                     key={user.name}
-                                    ref={(el) => {
-                                        if (el) userRefs.current.set(user.name, el);
+                                    layout="position"
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.8, x: -20 }}
+                                    transition={{
+                                        layout: { type: "spring", stiffness: 300, damping: 30 },
+                                        opacity: { duration: 0.2 },
+                                        scale: { duration: 0.2 }
                                     }}
+                                    className="snap-proximity"
                                     data-user-name={user.name}
+                                    ref={(el: HTMLDivElement | null) => {
+                                        if (el) {
+                                            userRefs.current.set(user.name, el);
+                                        } else {
+                                            userRefs.current.delete(user.name);
+                                        }
+                                    }}
                                 >
-                                    <motion.div
-                                        layout 
-                                        initial={false}
-                                        exit={{ opacity: 0, scale: 0.8, x: -20 }}
-                                        transition={{
-                                            layout: { type: "spring", stiffness: 300, damping: 30 },
-                                            opacity: { duration: 0.2 },
-                                            scale: { duration: 0.2 }
-                                        }}
-                                        className={"snap-proximity"}
-                                    >
-                                        <User
-                                            src={user.src}
-                                            name={user.name}
-                                            role={user.role || "member"}
-                                            type={type === "side" ? "feed" : type}
-                                            userType={type === "side" ? "user" : user.userType}
-                                            status={user.status}
-                                            isFullscreen={!!isFullscreen}
-                                            hasNewMessage={(userParam || !isMenuOpen) ? false : type === "side" ? false : user.hasNewMessage}
-                                            messagePreview={type === "side" ? undefined : user.messagePreview}
-                                            selected={type === "in-chat" && selectedUser === user.name}
-                                            messageCount={type === "side" ? undefined : messageCount}
-                                        />
-                                    </motion.div>
-                                </div>
+                                    <User
+                                        src={user.src}
+                                        name={user.name}
+                                        role={user.role || "member"}
+                                        type={type === "side" ? "feed" : type}
+                                        userType={type === "side" ? "user" : user.userType}
+                                        status={user.status}
+                                        isFullscreen={!!isFullscreen}
+                                        hasNewMessage={(userParam || !isMenuOpen) ? false : type === "side" ? false : user.hasNewMessage}
+                                        messagePreview={type === "side" ? undefined : user.messagePreview}
+                                        selected={type === "in-chat" && selectedUser === user.name}
+                                        messageCount={type === "side" ? undefined : messageCount}
+                                    />
+                                </motion.div>
                             );
                         })}
                     </AnimatePresence>

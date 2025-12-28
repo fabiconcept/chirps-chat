@@ -10,6 +10,7 @@ import { ReduxProvider } from "@/components/Providers/redux-provider";
 import { AuthProvider } from "@/components/Providers/AuthProvider";
 import SideBar from "@/components/SideBar";
 import Activities from "@/components/Activities";
+import WalletHangingPanel from "@/components/Wallet/WalletHangingPanel";
 import { KeyBoardShortCutProvider } from "@/components/Providers/KeyBoardShortCutProvider";
 import { Toaster } from "@/components/ui/sonner";
 import MobileBottomNav from "@/components/MobileBottomNav";
@@ -50,6 +51,7 @@ export default function RootLayout({
                                         </main>
                                     </div>
                                     <Activities />
+                                    <WalletHangingPanel />
                                     <MobileBottomNav />
                                 </div>
                             </KeyBoardShortCutProvider>
