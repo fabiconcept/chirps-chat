@@ -5,6 +5,7 @@ import { useTheme } from "next-themes";
 import { LeaderboardUser, LeaderboardCategory } from "../types";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
+import { ObjAccessor } from "three-globe";
 
 interface GlobeVisualizationProps {
     users: LeaderboardUser[];
@@ -137,18 +138,18 @@ export default function GlobeVisualization({ users, onUserClick, selectedCountry
                     .atmosphereAltitude(0.15)
                     // Use points layer for fixed markers with tooltips
                     .pointsData(gData)
-                    .pointLat((d: any) => d.lat)
-                    .pointLng((d: any) => d.lng)
-                    .pointColor((d: any) => d.color)
-                    .pointAltitude((d: any) => d.size * 0.03) // Longer pointers (3x taller)
+                    .pointLat((d: unknown) => (d as { lat: number }).lat as number)
+                    .pointLng((d: unknown) => (d as { lng: number }).lng as number)
+                    .pointColor((d: unknown) => (d as { color: string }).color as string)
+                    .pointAltitude((d: unknown) => (d as { size: number }).size * 0.03) // Longer pointers (3x taller)
                     .pointRadius(0.5) // Fixed radius in angular degrees
                     .pointResolution(16) // Smooth circular points
                     .pointsMerge(false) // Keep points separate for interactions
-                    .pointLabel((d: any) => `
+                    .pointLabel((d: unknown) => `
                         <div style="
                             background: rgba(0, 0, 0, 0.9);
                             backdrop-filter: blur(10px);
-                            border: 1px solid ${d.color};
+                            border: 1px solid ${(d as { color: string }).color};
                             border-radius: 12px;
                             padding: 12px 16px;
                             color: white;
@@ -156,43 +157,43 @@ export default function GlobeVisualization({ users, onUserClick, selectedCountry
                             max-width: 250px;
                         ">
                             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
-                                <img src="${d.avatar}" alt="${d.name}" style="
+                                <img src="${(d as { avatar: string }).avatar}" alt="${(d as { name: string }).name}" style="
                                     width: 32px;
                                     height: 32px;
                                     border-radius: 50%;
-                                    border: 2px solid ${d.color};
+                                    border: 2px solid ${(d as { color: string }).color};
                                 " />
                                 <div>
-                                    <div style="font-weight: 600; font-size: 14px;">${d.name}</div>
-                                    <div style="font-size: 11px; color: rgba(255,255,255,0.7);">@${d.username}</div>
+                                    <div style="font-weight: 600; font-size: 14px;">${(d as { name: string }).name}</div>
+                                    <div style="font-size: 11px; color: rgba(255,255,255,0.7);">@${(d as { username: string }).username}</div>
                                 </div>
                             </div>
                             
                             <!-- Active Category Highlight -->
                             <div style="
-                                background: ${d.color}15;
-                                border: 2px solid ${d.color};
+                                background: ${(d as { color: string }).color}15;
+                                border: 2px solid ${(d as { color: string }).color};
                                 border-radius: 8px;
                                 padding: 8px 12px;
                                 margin-bottom: 8px;
                                 text-align: center;
                             ">
-                                <div style="font-size: 20px; margin-bottom: 4px;">${d.categoryEmoji}</div>
-                                <div style="font-size: 18px; font-weight: 700; color: ${d.color};">
-                                    ${d.categoryValue.toLocaleString()}
+                                <div style="font-size: 20px; margin-bottom: 4px;">${(d as { categoryEmoji: string }).categoryEmoji}</div>
+                                <div style="font-size: 18px; font-weight: 700; color: ${(d as { color: string }).color};">
+                                    ${(d as { categoryValue: number }).categoryValue.toLocaleString()}
                                 </div>
                                 <div style="font-size: 10px; color: rgba(255,255,255,0.7);">
-                                    ${d.categoryLabel}
+                                    ${(d as { categoryLabel: string }).categoryLabel}
                                 </div>
                             </div>
                             
                             <div style="
                                 font-size: 10px;
-                                color: ${d.color};
+                                color: ${(d as { color: string }).color};
                                 text-align: center;
                                 font-weight: 600;
                             ">
-                                ${d.country} • Rank #${d.categoryRank}
+                                ${(d as { country: string }).country} • Rank #${(d as { categoryRank: number }).categoryRank}
                             </div>
                         </div>
                     `)

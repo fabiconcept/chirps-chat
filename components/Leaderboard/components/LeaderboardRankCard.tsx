@@ -1,11 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TrendingUp, TrendingDown, Minus, Trophy, Users, Heart, MessageSquare, Home } from "lucide-react";
+import { TrendingUp, TrendingDown, Minus, Trophy, Users, Heart, MessageSquare, Home, LucideProps } from "lucide-react";
 import { LeaderboardUser, LeaderboardCategory } from "../types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 interface LeaderboardRankCardProps {
     user: LeaderboardUser;
@@ -17,7 +18,7 @@ interface LeaderboardRankCardProps {
 const categoryConfig: Record<LeaderboardCategory, { 
     label: string; 
     accentColor: string; 
-    icon: any;
+    icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
     pattern: string;
 }> = {
     streak: { 
