@@ -5,7 +5,6 @@ import { useTheme } from "next-themes";
 import { LeaderboardUser, LeaderboardCategory } from "../types";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
-import { ObjAccessor } from "three-globe";
 
 interface GlobeVisualizationProps {
     users: LeaderboardUser[];
