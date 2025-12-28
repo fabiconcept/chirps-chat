@@ -78,7 +78,7 @@ export default function QuickTransferHorizontal({ users, onSelectUser, onViewAll
                 {/* Horizontal scrollable container */}
                 <div
                     ref={containerRef}
-                    className="flex gap-0 overflow-x-auto no-scrollbar scroll-smooth py-2 px-5"
+                    className="flex gap-2 overflow-x-auto no-scrollbar scroll-smooth py-2 px-5"
                 >
                     <AnimatePresence mode="popLayout">
                         {users.map((user, index) => (

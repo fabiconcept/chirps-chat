@@ -16,6 +16,7 @@ import {
     DrawerTitle,
 } from "./drawer";
 import { ScrollArea } from "./scroll-area";
+import { cn } from "@/lib/utils";
 
 interface ResponsiveModalProps {
     open: boolean;
@@ -56,7 +57,7 @@ export function ResponsiveModal({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className={className}>
+            <DialogContent showCloseButton={false} className={cn("p-0 rounded-3xl", className)}>
                 {(title || description) && (
                     <DialogHeader>
                         {title && <DialogTitle>{title}</DialogTitle>}

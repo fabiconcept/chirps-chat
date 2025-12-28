@@ -32,4 +32,14 @@ export enum SearchParamKeys {
     WALLET_ALL_USERS="wallet-all-users",
     WALLET_ALL_TXS="wallet-all-txs",
     WALLET_TX_DETAIL="wallet-tx-detail",
+    // Marketplace
+    MARKETPLACE_VIEW="marketplace-view",
+    MARKETPLACE_CATEGORY="marketplace-category",
+    MARKETPLACE_RARITY="marketplace-rarity",
+    MARKETPLACE_PRICE="marketplace-price",
+    MARKETPLACE_SORT="marketplace-sort",
+    MARKETPLACE_SHOW_OWNED="marketplace-show-owned",
+    MARKETPLACE_SEARCH="marketplace-search",
+    MARKETPLACE_VIEW_MODE="marketplace-view-mode",
+    MARKETPLACE_ITEM="marketplace-item",
 }
