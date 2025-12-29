@@ -46,11 +46,17 @@ export default function DmIntroCard({
                             <Button 
                                 variant="outline" 
                                 className="w-full justify-start gap-3"
+                                onClick={() => {
+                                    updateSearchParam(SearchParamKeys.CHANNEL_SETTINGS, "true")
+                                    updateSearchParam(SearchParamKeys.CHANNEL_NAME, "general")
+                                }}
                             >
                                 <Settings className="size-4" />
                                 Personalize this channel
                             </Button>
-                            <Button variant="outline" className="w-full justify-start gap-3">
+                            <Button variant="outline" className="w-full justify-start gap-3" onClick={() => {
+                                updateSearchParam(SearchParamKeys.NOTIFICATIONS, "true")
+                            }}>
                                 <Bell className="size-4" />
                                 Set up notifications
                             </Button>

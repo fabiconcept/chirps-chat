@@ -44,6 +44,7 @@ export default function RoomSettings({ userType = ROLES.OWNER }: { userType?: RO
                     updateSearchParam(SearchParamKeys.SETTINGS, "true");
                 } else {
                     removeSearchParam(SearchParamKeys.SETTINGS);
+                    removeSearchParam(SearchParamKeys.TAB);
                     allowShortcuts([...notoriousShortcuts, "alt+F"]);
                     setTimeout(() => {
                         allowShortcuts(["commandESC"]);
@@ -56,7 +57,7 @@ export default function RoomSettings({ userType = ROLES.OWNER }: { userType?: RO
                 }
             }}
         >
-            <DialogContent className="sm:max-w-[calc(100%-10em)] h-full sm:max-h-[calc(100%-10em)] flex p-0 overflow-hidden rounded-2xl">
+            <DialogContent className="sm:max-w-[calc(100%-10em)] h-full sm:max-h-[calc(100%-10em)] flex p-0 overflow-hidden rounded-3xl">
                 <CustomTabs 
                     className="w-full"
                     defaultTab={

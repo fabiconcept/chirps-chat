@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,11 +12,35 @@ import { removeSearchParam } from "@/lib/utils";
 import { SearchParamKeys } from "@/lib/enums";
 import { Hash, Lock, Trash2, AlertTriangle, Volume2, VolumeX, Users } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useKeyBoardShortCut } from "../Providers/KeyBoardShortCutProvider";
 
 export default function ChannelSettingsDialog() {
     const searchParams = useSearchParams();
     const isOpen = useMemo(() => searchParams.get("channel-settings") === "true", [searchParams]);
     const channelName = useMemo(() => searchParams.get("channel-name") || "general", [searchParams]);
+
+    const { allowShortcuts, disallowShortcuts, notoriousShortcuts } = useKeyBoardShortCut();
+
+    useEffect(()=>{
+        if (isOpen) {
+            disallowShortcuts([...notoriousShortcuts, "alt+F", "commandESC"]);
+            allowShortcuts([
+                "arrowDown",
+                "arrowUp",
+                "enter",
+            ]);
+        } else {
+            allowShortcuts([...notoriousShortcuts, "alt+F"]);
+            setTimeout(() => {
+                allowShortcuts(["commandESC"]);
+            }, 100);
+            disallowShortcuts([
+                "arrowDown",
+                "arrowUp",
+                "enter",
+            ]);
+        }
+    }, [isOpen, allowShortcuts, disallowShortcuts, notoriousShortcuts]);
 
     const [name, setName] = useState(channelName);
     const [description, setDescription] = useState("");
@@ -38,7 +62,7 @@ export default function ChannelSettingsDialog() {
             setIsPrivate(false);
             setIsMuted(false);
             setSlowMode(false);
-        }, 300);
+        }, 100);
     };
 
     const handleSave = () => {
@@ -66,7 +90,7 @@ export default function ChannelSettingsDialog() {
 
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
-            <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto">
+            <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto rounded-3xl">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                         <Hash className="h-5 w-5 text-primary" />

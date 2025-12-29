@@ -165,7 +165,7 @@ export default function InviteUserDialog() {
             }}
         >
             
-            <DialogContent className="max-w-lg px-0">
+            <DialogContent className="max-w-lg px-0 rounded-3xl">
                 <DialogHeader className="px-4">
                     <DialogTitle>Invite Friends to Room</DialogTitle>
                     <DialogDescription>

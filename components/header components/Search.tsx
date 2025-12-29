@@ -12,7 +12,7 @@ import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import ProtectedImage from '../Feed/TextPost/ProtectedImage';
 import { Kbd, KbdGroup } from '../ui/kbd';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 // Mock data - replace with actual data
 const mockSearchResults = [
@@ -250,7 +250,7 @@ export default function Search() {
                     </span>
                 </Button>
             </DialogTrigger>
-            <DialogContent showCloseButton={false} className="p-0 gap-0 max-w-2xl">
+            <DialogContent showCloseButton={false} className="p-0 gap-0 max-w-2xl rounded-3xl">
                 {/* Keep original CSS-animated arrows */}
                 <div 
                     className="absolute -left-10 animate-[bounce-left_1.5s_ease-in-out_infinite] transition-all duration-300 ease-out z-50"

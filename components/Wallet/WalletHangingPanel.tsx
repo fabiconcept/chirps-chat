@@ -151,12 +151,6 @@ export default function WalletHangingPanel() {
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Badge
-                            variant="outline"
-                            className="bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/30 font-bold tabular-nums"
-                        >
-                            {currentBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} CHT
-                        </Badge>
                         <CollapsibleIcon />
                     </div>
                 </CollapsibleTrigger>

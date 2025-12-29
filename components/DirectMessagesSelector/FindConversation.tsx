@@ -281,7 +281,7 @@ const FindConversation = () => {
                 </DialogTrigger>
                 <DialogContent 
                     showCloseButton={false} 
-                    className="p-3"
+                    className="p-3 rounded-3xl"
                 >
                     <div 
                         className="absolute -left-10 animate-[bounce-left_1.5s_ease-in-out_infinite] transition-all duration-300 ease-out"

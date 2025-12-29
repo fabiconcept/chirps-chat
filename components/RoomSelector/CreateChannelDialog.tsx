@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,7 @@ import { SearchParamKeys } from "@/lib/enums";
 import { Hash, Lock, Volume2, VolumeX } from "lucide-react";
 import { motion } from "framer-motion";
 import { useMemo } from "react";
+import { useKeyBoardShortCut } from "../Providers/KeyBoardShortCutProvider";
 
 export default function CreateChannelDialog() {
     const searchParams = useSearchParams();
@@ -20,6 +21,29 @@ export default function CreateChannelDialog() {
     const [channelDescription, setChannelDescription] = useState("");
     const [isPrivate, setIsPrivate] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
+
+    const { allowShortcuts, disallowShortcuts, notoriousShortcuts } = useKeyBoardShortCut();
+
+    useEffect(()=>{
+        if (isOpen) {
+            disallowShortcuts([...notoriousShortcuts, "alt+F", "commandESC"]);
+            allowShortcuts([
+                "arrowDown",
+                "arrowUp",
+                "enter",
+            ]);
+        } else {
+            allowShortcuts([...notoriousShortcuts, "alt+F"]);
+            setTimeout(() => {
+                allowShortcuts(["commandESC"]);
+            }, 100);
+            disallowShortcuts([
+                "arrowDown",
+                "arrowUp",
+                "enter",
+            ]);
+        }
+    }, [isOpen, allowShortcuts, disallowShortcuts, notoriousShortcuts]);
 
     const handleClose = () => {
         removeSearchParam(SearchParamKeys.CREATE_CHANNEL);
@@ -45,7 +69,7 @@ export default function CreateChannelDialog() {
 
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
-            <DialogContent className="sm:max-w-[500px]">
+            <DialogContent className="sm:max-w-[500px] rounded-3xl">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                         <Hash className="h-5 w-5 text-primary" />

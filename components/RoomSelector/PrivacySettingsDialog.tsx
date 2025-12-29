@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -11,6 +11,7 @@ import { Lock, Eye, MessageSquare, UserCheck, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
 import { useMemo } from "react";
 import { Separator } from "@/components/ui/separator";
+import { useKeyBoardShortCut } from "../Providers/KeyBoardShortCutProvider";
 
 type PrivacySetting = {
     id: string;
@@ -23,6 +24,28 @@ type PrivacySetting = {
 export default function PrivacySettingsDialog() {
     const searchParams = useSearchParams();
     const isOpen = useMemo(() => searchParams.get("privacy") === "true", [searchParams]);
+    const { allowShortcuts, disallowShortcuts, notoriousShortcuts } = useKeyBoardShortCut();
+
+    useEffect(()=>{
+        if (isOpen) {
+            disallowShortcuts([...notoriousShortcuts, "alt+F", "commandESC"]);
+            allowShortcuts([
+                "arrowDown",
+                "arrowUp",
+                "enter",
+            ]);
+        } else {
+            allowShortcuts([...notoriousShortcuts, "alt+F"]);
+            setTimeout(() => {
+                allowShortcuts(["commandESC"]);
+            }, 100);
+            disallowShortcuts([
+                "arrowDown",
+                "arrowUp",
+                "enter",
+            ]);
+        }
+    }, [isOpen, allowShortcuts, disallowShortcuts, notoriousShortcuts]);
     
     const [settings, setSettings] = useState<PrivacySetting[]>([
         {
@@ -73,7 +96,7 @@ export default function PrivacySettingsDialog() {
 
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
-            <DialogContent className="sm:max-w-[550px]">
+            <DialogContent className="sm:max-w-[550px] rounded-3xl">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                         <Lock className="h-5 w-5 text-primary" />
