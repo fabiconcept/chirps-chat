@@ -194,6 +194,25 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         change: -1
     },
     {
+        id: "user-92",
+        name: "Molly Jones",
+        username: "mollyjones",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
+        country: "Italy",
+        countryCode: "IT",
+        lat: 41.9028,
+        lng: 12.4964,
+        stats: {
+            streak: 100,
+            tokens: 100000,
+            followers: 10000,
+            likes: 1000000,
+            posts: 1000,
+            rooms: 10
+        },
+        change: 0
+    },
+    {
         id: "user-10",
         name: "Mohammed Al-Rashid",
         username: "mohammedalrashid",

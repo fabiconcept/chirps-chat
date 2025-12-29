@@ -54,7 +54,12 @@ export default function PurchaseDialog({ item, isOpen, onClose }: PurchaseDialog
     };
 
     return (
-        <ResponsiveModal open={isOpen} onOpenChange={handleClose}>
+        <ResponsiveModal 
+            open={isOpen} 
+            onOpenChange={handleClose}
+            title="Purchase Item"
+            description={item.owned ? "You already own this item" : "Review your purchase before confirming"}
+        >
             <div className="relative">
                 <AnimatePresence mode="wait">
                     {step === "confirm" && (

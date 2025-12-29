@@ -36,7 +36,7 @@ export default function DirectMessagesSelector() {
     }, [selectedUser]);
 
     return (
-        <div className="border border-input h-full max-[900px]:w-full flex flex-col sm:rounded-l-2xl max-[900px]:rounded-2xl bg-foreground/5 overflow-hidden">
+        <div className="border border-input h-full max-[900px]:w-full flex flex-col sm:rounded-l-3xl max-[900px]:rounded-3xl bg-foreground/5 overflow-hidden">
             <FindConversation />
             <Separator />
             <div ref={scrollAreaRef} className="grid h-fit gap-px flex-1 overflow-y-auto relative">

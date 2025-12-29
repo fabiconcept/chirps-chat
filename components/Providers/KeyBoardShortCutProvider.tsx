@@ -17,8 +17,7 @@ const SHORTCUTS: Record<string, Shortcut> = {
     search: { id: 'search' },
     commandK: { id: 'commandK' },
     commandN: { id: 'commandN' },
-    commandA: { id: 'commandA' },
-    commandL: { id: 'commandL' },
+    altA: { id: 'alt+A' },
     commandF: { id: 'commandF' },
     commandW: { id: 'commandW' },
     command1: { id: 'command1' },
@@ -26,14 +25,15 @@ const SHORTCUTS: Record<string, Shortcut> = {
     command3: { id: 'command3' },
     command4: { id: 'command4' },
     command5: { id: 'command5' },
+    altW: { id: 'alt+W' },
 };
 
 const KeyBoardShortCutContext = React.createContext<KeyBoardShortCutContext | undefined>(undefined);
 
 export const KeyBoardShortCutProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [allowedShortcuts, setAllowedShortcuts] = React.useState<Set<string>>(new Set([...Object.keys(SHORTCUTS)]));
+    const [allowedShortcuts, setAllowedShortcuts] = React.useState<Set<string>>(new Set([...Object.keys(SHORTCUTS), 'commandL']));
 
-    const notoriousShortcuts = React.useMemo(() => new Set(['commandA', 'commandL', 'commandW', 'search', 'command1', 'command2', 'command3', 'command4', 'command5']), []);
+    const notoriousShortcuts = React.useMemo(() => new Set(['alt+A', 'commandW', 'search', 'command1', 'command2', 'command3', 'command4', 'command5', 'alt+W']), []);
 
     // useEffect(()=>{
     //     console.log(allowedShortcuts);

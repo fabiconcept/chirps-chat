@@ -1,4 +1,5 @@
 "use client"
+import { useResized } from '@/hooks/use-resized';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
@@ -23,6 +24,7 @@ export default function HangMan({
 }) {
     const [baseWidth, setBaseWidth] = React.useState(0);
     const pathname = usePathname();
+    const resized = useResized();
 
     const shouldExempt = exemptFrom && exemptFrom.some((e) => pathname.includes(e));
 
@@ -33,6 +35,14 @@ export default function HangMan({
             setBaseWidth(ref.current.offsetWidth);
         }
     }, [ref, setBaseWidth]);
+
+    React.useEffect(() => {
+        if (resized) {
+            if (ref.current) {
+                setBaseWidth(ref.current.offsetWidth);
+            }
+        }
+    }, [resized, setBaseWidth]);
 
     return (
         <>

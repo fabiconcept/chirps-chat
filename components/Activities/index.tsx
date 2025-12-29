@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Collapsible, CollapsibleHeader, CollapsibleContent } from '../ui/custom-collapsable';
 import { Badge } from '../ui/badge';
 import NewFollower from './NewFollower';
@@ -14,6 +14,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn, removeSearchParam} from '@/lib/utils';
 import { useAuth } from '../Providers/AuthProvider';
 import { usePathname } from 'next/navigation';
+import { useKeyBoardShortCut } from '../Providers/KeyBoardShortCutProvider';
 
 export default function Activities({ type = "component" }: { type?: "page" | "component"}) {
     const pathname = usePathname();
@@ -31,6 +32,18 @@ export default function Activities({ type = "component" }: { type?: "page" | "co
         { id: 9, type: 'purchase-failed' as const },
         { id: 10, type: 'follower' as const },
     ]);
+    const { allowShortcuts, disallowShortcuts, notoriousShortcuts } = useKeyBoardShortCut();
+
+    useEffect(()=>{
+        if (open) {
+            disallowShortcuts([...notoriousShortcuts, "commandK", "commandF", "search"]);
+            allowShortcuts(["alt+A"]);
+        }
+
+        return () => {
+            allowShortcuts([...notoriousShortcuts, "commandK", "commandF", "search"]);
+        };
+    }, [open, allowShortcuts, disallowShortcuts, notoriousShortcuts]);
 
     const renderActivity = (type: string) => {
         switch (type) {
@@ -71,7 +84,11 @@ export default function Activities({ type = "component" }: { type?: "page" | "co
             fullCollapse={(pathname === "/chat" || pathname.includes("/chat/"))}
             expandedHeight="70vh"
             collapsedHeight="4.25rem"
-            className={cn('md:right-10 right-[2%] gap-3 max-w-[96%] mx-auto', type === "component" ? "max-sm:hidden" : "")}
+            className={cn(
+                'md:right-10 right-[2%] gap-3 max-w-[96%] mx-auto', 
+                type === "component" ? "max-sm:hidden" : "",
+                "debug-red",
+            )}
         >
             <CollapsibleHeader
                 title="My Activities"

@@ -6,12 +6,12 @@ import ProfileCard from "@/components/ProfileCard";
 
 export default function SuggestionsPage() {
     return (
-        <div className="flex flex-row gap-6 items-start flex-wrap w-full md:p-5 p-2">
+        <div className="flex flex-row gap-6 items-start flex-wrap w-full max-sm:px-3">
             <HangMan className="top-32 sticky max-[1200px]:hidden">
                 <ProfileCard />
             </HangMan>
             <SuggestionsContainer />
-            <HangMan className="relative">
+            <HangMan className="relative max-sm:hidden">
                 <ChatHanger type="feed" usersList={initialUsers.slice(0, 5)} />
             </HangMan>
         </div>

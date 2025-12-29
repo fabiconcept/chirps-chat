@@ -12,6 +12,7 @@ import OwnedItemsView from "./components/OwnedItemsView";
 import { MarketplaceItem } from "./types";
 import { SearchParamKeys } from "@/lib/enums";
 import { updateSearchParam, removeSearchParam } from "@/lib/utils";
+import { AnimatePresence } from "framer-motion";
 
 export default function MarketplaceContent() {
     const searchParams = useSearchParams();
@@ -183,16 +184,17 @@ export default function MarketplaceContent() {
                     />
                 )}
 
-                {selectedItem && (
-                    <PurchaseDialog
-                        item={selectedItem}
-                        isOpen={!!selectedItem}
-                        onClose={handleCloseDialog}
-                    />
-                )}
+                <AnimatePresence mode="wait">
+                    {selectedItem && (
+                        <PurchaseDialog
+                            item={selectedItem}
+                            isOpen={!!selectedItem}
+                            onClose={handleCloseDialog}
+                        />
+                    )}
+                </AnimatePresence>
             </div>
-            <div className="h-20" />
+            <div className="h-20 w-full" />
         </>
     );
 }
-

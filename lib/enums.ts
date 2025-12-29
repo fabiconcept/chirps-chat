@@ -44,4 +44,6 @@ export enum SearchParamKeys {
     MARKETPLACE_ITEM="marketplace-item",
     // Leaderboard
     LEADERBOARD_COUNTRY="leaderboard-country",
+    // Keyboard shortcuts
+    SHORTCUTS_MODAL="shortcuts-modal",
 }

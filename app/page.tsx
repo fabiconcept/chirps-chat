@@ -7,14 +7,14 @@ import { initialUsers } from "@/constants/User.const";
 
 export default function Page() {
     return (
-        <div className="flex flex-row gap-6 items-start flex-wrap w-full">
+        <div className="flex flex-row gap-6 items-start flex-wrap w-full max-sm:px-3">
             <HangMan className="top-32 sticky max-[1200px]:hidden">
                 <ProfileCard />
                 <div className="h-3" />
                 <CommunityRecommendation />
             </HangMan>
             <Feed />
-            <HangMan className="relative">
+            <HangMan className="relative max-sm:hidden">
                 <ChatHanger type="feed" usersList={initialUsers.slice(0, 6)} />
             </HangMan>
         </div>

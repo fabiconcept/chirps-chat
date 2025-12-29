@@ -50,35 +50,35 @@ export default function GlobalHeader() {
     const { theme } = useTheme();
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    const isFullscreen = useMemo(()=> searchParams.get(SearchParamKeys.FULLSCREEN), [searchParams]);
+    const isFullscreen = useMemo(() => searchParams.get(SearchParamKeys.FULLSCREEN), [searchParams]);
     const { allowedShortcuts, allowShortcuts, disallowShortcuts } = useKeyBoardShortCut();
     const isHidden = (pathname === "/chat" || pathname.includes("/chat/"));
     const [fullscreen, setFullscreen] = useLocalStorage(LocalStorageKeys.FULLSCREEN, "null");
-    const [showShortcutsModal, setShowShortcutsModal] = useState(false);
+    const showShortcutsModal = useMemo(() => searchParams.get(SearchParamKeys.SHORTCUTS_MODAL) === "true", [searchParams]);
 
     const { width: windowWidth } = useWindowSize();
 
-    useEffect(()=>{
+    useEffect(() => {
         if (fullscreen === "null") return;
         if (fullscreen === "false") return;
 
         updateSearchParam(SearchParamKeys.FULLSCREEN, "true");
     }, [fullscreen]);
- 
-    useEffect(()=>{
+
+    useEffect(() => {
         allowShortcuts(["alt+F", "alt+W", "commandESC", "commandK"]);
 
         if (isFullscreen && isHidden) {
             setFullscreen("true");
-            toast.custom(()=>(
+            toast.custom(() => (
                 <div className='px-6 py-6 text-lg font-medium bg-background/25 backdrop-blur-sm rounded-md flex items-center gap-2 border border-input shadow-lg shadow-black/5'>
                     <Fullscreen className='h-5 w-5' />
                     <p>In Fullscreen Mode, ESC to exit</p>
                 </div>
             ), { duration: 2000 })
         }
-    
-        return ()=> {
+
+        return () => {
             disallowShortcuts(["alt+F", "alt+W", "commandK"]);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -99,7 +99,7 @@ export default function GlobalHeader() {
             { key: KeyboardKey.KeyF, altKey: true, enabled: allowedShortcuts.has("alt+F") },
             { key: KeyboardKey.KeyW, altKey: true, enabled: allowedShortcuts.has("alt+W") },
             { key: KeyboardKey.KeyK, metaKey: true, ctrlKey: true, enabled: allowedShortcuts.has("commandK") },
-            { key: KeyboardKey.Escape, isSpecialKey: true,  enabled: allowedShortcuts.has("commandESC") },
+            { key: KeyboardKey.Escape, isSpecialKey: true, enabled: allowedShortcuts.has("commandESC") },
         ],
         onTrigger: (shortcut) => {
             switch (shortcut.key) {
@@ -117,7 +117,7 @@ export default function GlobalHeader() {
                     }
                     break;
                 case KeyboardKey.KeyK:
-                    setShowShortcutsModal(true);
+                    updateSearchParam(SearchParamKeys.SHORTCUTS_MODAL, "true");
                     break;
                 case KeyboardKey.Escape:
                     if (!isHidden) return;
@@ -129,7 +129,7 @@ export default function GlobalHeader() {
         }
     }, [allowedShortcuts, searchParams, isHidden, showShortcutsModal]);
 
-    useEffect(()=>{
+    useEffect(() => {
         if (!isHidden) return;
         if (!isMobile && isFullscreen === "auto") {
             removeSearchParam(SearchParamKeys.FULLSCREEN);
@@ -146,7 +146,7 @@ export default function GlobalHeader() {
     if (!shouldShowHeader) return null;
 
     return (
-        <motion.header 
+        <motion.header
             ref={headerRef}
             initial={false}
             animate={{
@@ -164,7 +164,7 @@ export default function GlobalHeader() {
                 (isHidden && isFullscreen) && "pointer-events-none"
             )}
         >
-            <div  
+            <div
                 className='sm:p-4 px-4 md:px-10 flex items-center justify-between overflow-hidden relative gap-2 md:gap-10'
             >
                 <div className='absolute inset-0 scale-105 -mt-5 filter-ios'></div>
@@ -187,29 +187,22 @@ export default function GlobalHeader() {
                         <>
                             {/* Streak Tracker */}
                             <StreakTracker currentStreak={42} isMobile={isMobile} />
-                            
+
                             {/* Wallet Button */}
                             <Tooltip>
                                 <TooltipTrigger asChild>
                                     <Button
                                         variant="outline"
                                         size={isMobile ? "sm" : "default"}
-                                        className="gap-1.5 md:gap-2 bg-linear-to-r from-[#D4AF37]/10 to-transparent border-[#D4AF37]/30 hover:border-[#D4AF37]/50 transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden relative"
+                                        className="gap-1.5 md:gap-2 bg-linear-to-r from-[#D4AF37]/10 to-transparent border-[#D4AF37]/30 hover:border-[#D4AF37]/50 transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden relative max-sm:hidden"
                                     >
-                                        {isMobile ? (
-                                            <Link href="/wallet" className="absolute inset-0 flex items-center justify-center gap-1.5 px-2">
-                                                <Wallet className="h-4 w-4 text-[#D4AF37]" />
-                                                <span className="font-semibold text-[#D4AF37] ave text-sm">Wallet</span>
-                                            </Link>
-                                        ) : (
-                                            <div onClick={() => updateSearchParam("wallet", "open")} className="flex items-center gap-2">
-                                                <Wallet className="h-4 w-4 text-[#D4AF37]" />
-                                                <span className="font-semibold text-[#D4AF37] ave">12,847.50</span>
-                                                <Badge variant="outline" className="bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/20 px-1.5 text-[10px]">
-                                                    CHT
-                                                </Badge>
-                                            </div>
-                                        )}
+                                        <div onClick={() => updateSearchParam("wallet", "open")} className="flex items-center gap-2">
+                                            <Wallet className="h-4 w-4 text-[#D4AF37]" />
+                                            <span className="font-semibold text-[#D4AF37] ave">12,847.50</span>
+                                            <Badge variant="outline" className="bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/20 px-1.5 text-[10px]">
+                                                CHT
+                                            </Badge>
+                                        </div>
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>
@@ -224,9 +217,9 @@ export default function GlobalHeader() {
                     {isHidden && (
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Button 
-                                    onClick={handleFullScreenToggle} 
-                                    size={"icon-sm"} 
+                                <Button
+                                    onClick={handleFullScreenToggle}
+                                    size={"icon-sm"}
                                     variant={"ghost"}
                                 >
                                     <HugeiconsIcon
@@ -281,7 +274,7 @@ export default function GlobalHeader() {
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <button className="focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-full">
-                                        <UserClump 
+                                        <UserClump
                                             name="Hello Kitty"
                                             username="@hello-kitty"
                                             size={isMobile ? "xs" : undefined}
@@ -294,8 +287,8 @@ export default function GlobalHeader() {
                                     <div className="px-2 py-3 border-b border-border">
                                         <div className="flex items-center gap-3">
                                             <div className="h-10 w-10 rounded-full overflow-hidden border-2 border-border">
-                                                <img 
-                                                    src="https://chirps-chat.sirv.com/premium/rasta.png" 
+                                                <img
+                                                    src="https://chirps-chat.sirv.com/premium/rasta.png"
                                                     alt="Hello Kitty"
                                                     className="h-full w-full object-cover"
                                                 />
@@ -343,11 +336,11 @@ export default function GlobalHeader() {
                                             <ThemeSwitch className='ml-auto' />
                                         </DropdownMenuItem>
                                     </DropdownMenuGroup>
-                                    
+
                                     <DropdownMenuSeparator />
-                                    
+
                                     <DropdownMenuGroup>
-                                        <DropdownMenuItem onClick={() => setShowShortcutsModal(true)}>
+                                        <DropdownMenuItem onClick={() => updateSearchParam(SearchParamKeys.SHORTCUTS_MODAL, "true")}>
                                             <Zap className="mr-2 h-4 w-4" />
                                             <span>Keyboard Shortcuts</span>
                                             <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
@@ -357,9 +350,9 @@ export default function GlobalHeader() {
                                             <span>Help & Support</span>
                                         </DropdownMenuItem>
                                     </DropdownMenuGroup>
-                                    
+
                                     <DropdownMenuSeparator />
-                                    
+
                                     <DropdownMenuItem onClick={logout} className="text-destructive focus:text-destructive">
                                         <LogOut className="mr-2 h-4 w-4" />
                                         <span>Log out</span>
@@ -373,9 +366,15 @@ export default function GlobalHeader() {
             </div>
 
             {/* Keyboard Shortcuts Modal */}
-            <KeyboardShortcutsModal 
-                open={showShortcutsModal} 
-                onOpenChange={setShowShortcutsModal}
+            <KeyboardShortcutsModal
+                open={showShortcutsModal}
+                onOpenChange={(open) => {
+                    if (open) {
+                        updateSearchParam(SearchParamKeys.SHORTCUTS_MODAL, "true");
+                    } else {
+                        removeSearchParam(SearchParamKeys.SHORTCUTS_MODAL);
+                    }
+                }}
             />
         </motion.header>
     )

@@ -228,7 +228,7 @@ export function CollapsibleHeader({
 
     useShortcuts({
         shortcuts: [
-            { key: KeyboardKey.KeyA, metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandA") },
+            { key: KeyboardKey.KeyA, altKey: true, enabled: allowedShortcuts.has("alt+A") },
         ],
         onTrigger: () => {
             triggerRef.current?.click();

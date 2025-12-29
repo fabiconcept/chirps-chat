@@ -5,7 +5,7 @@ import MemberArea from "./MemberArea";
 
 export default function Channel() {
     return (
-        <div className="flex-1 overflow-hidden bg-foreground/5 h-full sm:rounded-r-2xl max-[900px]:rounded-2xl border border-input flex items-stretch">
+        <div className="flex-1 overflow-hidden bg-foreground/5 h-full sm:rounded-r-3xl max-[900px]:rounded-3xl border border-input flex items-stretch">
             <div className="flex flex-col h-full flex-1 w-full">
                 <Header />
                 <ChatContent />

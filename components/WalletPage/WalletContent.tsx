@@ -65,7 +65,7 @@ export default function WalletContent() {
     };
 
     return (
-        <div className="px-4 pb-24">
+        <div className="px-0 pb-24">
             <div className="max-w-2xl mx-auto space-y-6 pt-6">
                 {/* Wallet Address */}
                 <motion.div

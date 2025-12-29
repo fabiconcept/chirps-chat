@@ -104,9 +104,9 @@ export default function KeyboardShortcutsModal({ open, onOpenChange }: KeyboardS
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-3xl max-h-[85vh] p-0 gap-0">
+            <DialogContent className="max-w-3xl max-h-[85vh] p-0 gap-0 rounded-3xl">
                 {/* Header */}
-                <DialogHeader className="px-6 py-4 border-b border-border bg-muted/30">
+                <DialogHeader className="px-6 py-4 border-b border-border bg-muted/30 bg-linear-to-b from-transparent to-foreground/5">
                     <div className="flex items-center gap-3">
                         <div className="p-2 rounded-lg bg-primary/10">
                             <Keyboard className="h-5 w-5 text-primary" />
@@ -121,12 +121,12 @@ export default function KeyboardShortcutsModal({ open, onOpenChange }: KeyboardS
                 </DialogHeader>
 
                 {/* Content */}
-                <ScrollArea className="flex-1 max-h-[calc(85vh-120px)]">
-                    <div className="px-6 py-4 space-y-6">
+                <ScrollArea className="flex-1 max-h-[calc(85vh-220px)]">
+                    <div className="px-2 py-4 space-y-6">
                         {shortcutCategories.map((category, categoryIndex) => (
                             <div key={category.title}>
                                 {/* Category Header */}
-                                <div className="mb-3">
+                                <div className="mb-3 px-4">
                                     <h3 className="font-semibold text-base">{category.title}</h3>
                                     <p className="text-xs text-muted-foreground mt-0.5">
                                         {category.description}
@@ -141,8 +141,9 @@ export default function KeyboardShortcutsModal({ open, onOpenChange }: KeyboardS
                                             <div
                                                 key={shortcutIndex}
                                                 className={cn(
-                                                    "flex items-center justify-between p-3 rounded-lg",
-                                                    "hover:bg-muted/50 transition-colors group"
+                                                    "flex items-center justify-between px-3 py-2 rounded-lg",
+                                                    "hover:bg-muted/50 transition-colors group",
+                                                    "border border-transparent hover:border-input rounded-xl",
                                                 )}
                                             >
                                                 {/* Description */}
@@ -158,7 +159,7 @@ export default function KeyboardShortcutsModal({ open, onOpenChange }: KeyboardS
                                                 {/* Keys */}
                                                 <KbdGroup>
                                                     {shortcut.keys.map((key, keyIndex) => (
-                                                        <Kbd key={keyIndex} className="min-w-[2rem] justify-center">
+                                                        <Kbd key={keyIndex} className="min-w-8 h-6 text-base justify-center">
                                                             {key}
                                                         </Kbd>
                                                     ))}

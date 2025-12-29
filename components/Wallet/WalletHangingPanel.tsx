@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import { Collapsible, CollapsibleHeader, CollapsibleContent, CollapsibleTrigger, CollapsibleIcon } from "../ui/custom-collapsable";
 import { Badge } from "../ui/badge";
 import { Kbd, KbdGroup } from "../ui/kbd";
@@ -40,7 +40,6 @@ export default function WalletHangingPanel() {
     // Modal states from search params
     const showTopUpDialog = useMemo(() => searchParams.get(SearchParamKeys.WALLET_TOP_UP) === "true", [searchParams]);
     const showTransferModal = useMemo(() => searchParams.get(SearchParamKeys.WALLET_TRANSFER) === "true", [searchParams]);
-    const showQRDialog = useMemo(() => searchParams.get(SearchParamKeys.WALLET_QR) === "true", [searchParams]);
     const showAllUsersDialog = useMemo(() => searchParams.get(SearchParamKeys.WALLET_ALL_USERS) === "true", [searchParams]);
     const showAllTransactionsDialog = useMemo(() => searchParams.get(SearchParamKeys.WALLET_ALL_TXS) === "true", [searchParams]);
     const txDetailId = useMemo(() => searchParams.get(SearchParamKeys.WALLET_TX_DETAIL), [searchParams]);
@@ -53,10 +52,23 @@ export default function WalletHangingPanel() {
     const walletAddress = "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb";
     const usdValue = (currentBalance * 0.85).toFixed(2);
 
+    const { allowShortcuts, disallowShortcuts, notoriousShortcuts } = useKeyBoardShortCut();
+
+    useEffect(()=>{
+        if (open) {
+            disallowShortcuts([...notoriousShortcuts, "commandK", "commandF", "search"]);
+            allowShortcuts(["alt+W"]);
+        }
+
+        return () => {
+            allowShortcuts([...notoriousShortcuts, "commandK", "commandF", "search"]);
+        };
+    }, [open, allowShortcuts, disallowShortcuts, notoriousShortcuts]);
+
     // Alt+W shortcut handler
     useShortcuts({
         shortcuts: [
-            { key: KeyboardKey.KeyW, altKey: true, enabled: allowedShortcuts.has("commandW") },
+            { key: KeyboardKey.KeyW, altKey: true, enabled: allowedShortcuts.has("alt+W") },
         ],
         onTrigger: () => {
             if (open) {
@@ -137,7 +149,7 @@ export default function WalletHangingPanel() {
                 <CollapsibleTrigger
                     className={cn(
                         'rounded-t-2xl border-t border-l border-r',
-                        'bg-linear-to-br from-[#D4AF37]/5 to-background/95 backdrop-blur-sm',
+                        'bg-linear-to-br dark:from-[#D4AF37]/5 from-[#D4AF37]/5 to-background/95 backdrop-blur-sm',
                         'hover:border-[#D4AF37]/50 active:translate-y-3 transition-all py-3'
                     )}
                     ref={triggerRef}

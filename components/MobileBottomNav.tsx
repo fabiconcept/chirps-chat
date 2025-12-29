@@ -5,9 +5,9 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { DashboardIcon } from "./DashboardIcon";
 import { SendIcon } from "./SendIcon";
-// import { ShoppingCartIcon } from "./ShoppingCartIcon";
-// import { UserStarIcon } from "./UserStarIcon";
-// import { HandCoinsIcon } from "./HandCoinsIcon";
+import { ShoppingCartIcon } from "./ShoppingCartIcon";
+import { UserStarIcon } from "./UserStarIcon";
+import { HandCoinsIcon } from "./HandCoinsIcon";
 
 const navItems: { 
     path: string; 
@@ -19,9 +19,9 @@ const navItems: {
 }[] = [
     { path: "/", icon: DashboardIcon, activeSize: 24, inactiveSize: 16 },
     { path: "/chat", icon: SendIcon, activeSize: 24, inactiveSize: 16 },
-    // { path: "/marketplace", icon: ShoppingCartIcon, activeSize: 24, inactiveSize: 16, extraInactiveClass: "max-sm:opacity-75" },
-    // { path: "/leaderboard", icon: UserStarIcon, activeSize: 24, inactiveSize: 16, hasIsActive: true },
-    // { path: "/suggestions", icon: HandCoinsIcon, activeSize: 24, inactiveSize: 20 },
+    { path: "/marketplace", icon: ShoppingCartIcon, activeSize: 24, inactiveSize: 16, extraInactiveClass: "max-sm:opacity-75" },
+    { path: "/leaderboard", icon: UserStarIcon, activeSize: 24, inactiveSize: 16, hasIsActive: true },
+    { path: "/suggestions", icon: HandCoinsIcon, activeSize: 24, inactiveSize: 20 },
 ];
 
 export default function MobileBottomNav() {

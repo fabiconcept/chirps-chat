@@ -17,6 +17,8 @@ import {
 } from "./drawer";
 import { ScrollArea } from "./scroll-area";
 import { cn } from "@/lib/utils";
+import { useEffect } from "react";
+import { useKeyBoardShortCut } from "../Providers/KeyBoardShortCutProvider";
 
 interface ResponsiveModalProps {
     open: boolean;
@@ -36,13 +38,27 @@ export function ResponsiveModal({
     className
 }: ResponsiveModalProps) {
     const isMobile = useIsMobile();
+    const { allowShortcuts, disallowShortcuts, notoriousShortcuts } = useKeyBoardShortCut();
+
+    useEffect(()=>{
+        if (open) {
+            disallowShortcuts([...notoriousShortcuts]);
+        }
+
+        return () => {
+            allowShortcuts([...notoriousShortcuts]);
+        };
+    }, [open, allowShortcuts, disallowShortcuts, notoriousShortcuts]);
 
     if (isMobile) {
         return (
             <Drawer open={open} onOpenChange={onOpenChange}>
-                <DrawerContent className={className}>
+                <DrawerContent className={cn(
+                    className,
+                    "rounded-t-3xl"
+                )}>
                     {(title || description) && (
-                        <DrawerHeader className="text-left">
+                        <DrawerHeader className="text-left sr-only">
                             {title && <DrawerTitle>{title}</DrawerTitle>}
                             {description && <DrawerDescription>{description}</DrawerDescription>}
                         </DrawerHeader>
@@ -59,7 +75,7 @@ export function ResponsiveModal({
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent showCloseButton={false} className={cn("p-0 rounded-3xl", className)}>
                 {(title || description) && (
-                    <DialogHeader>
+                    <DialogHeader className="sr-only">
                         {title && <DialogTitle>{title}</DialogTitle>}
                         {description && <DialogDescription>{description}</DialogDescription>}
                     </DialogHeader>
