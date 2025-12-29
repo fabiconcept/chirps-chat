@@ -8,7 +8,6 @@ import { useClickAway } from 'react-use';
 import { Kbd, KbdGroup } from './kbd';
 import useShortcuts, { KeyboardKey } from '@useverse/useshortcuts';
 import { useKeyBoardShortCut } from '../Providers/KeyBoardShortCutProvider';
-import { useAuth } from '../Providers/AuthProvider';
 import { useSearchParams } from 'next/navigation';
 
 interface CollapsibleContextType {
@@ -223,7 +222,6 @@ export function CollapsibleHeader({
     className = '',
 }: CollapsibleHeaderProps) {
     const { allowedShortcuts } = useKeyBoardShortCut();
-    const { isMacOS } = useAuth();
     const triggerRef = useRef<HTMLDivElement>(null);
 
     useShortcuts({
@@ -239,7 +237,7 @@ export function CollapsibleHeader({
             <div className="flex items-center gap-2">
                 {icon && <div className="text-muted-foreground">{icon}</div>}
                 <div>
-                    <h2 className="text-base font-medium text-foreground">{title} <KbdGroup><Kbd>⌘</Kbd><Kbd>A</Kbd></KbdGroup></h2>
+                    <h2 className="text-base font-medium text-foreground">{title} <KbdGroup><Kbd>Alt</Kbd><Kbd>A</Kbd></KbdGroup></h2>
                     {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
                 </div>
             </div>

@@ -1,5 +1,6 @@
 import { cn, formatNumber } from "@/lib/utils";
 import { Users, CoinsIcon, ThumbsUp } from "lucide-react";
+import Link from "next/link";
 
 interface StatsSheetProps {
     size?: "sm" | "md" | "lg";
@@ -64,11 +65,11 @@ export default function StatsSheet({
             </div>
             <div className={cn(styles.divider, "bg-input")} />
             <div className={cn("flex-1 flex", styles.stat)}>
-                <span className="flex w-full items-center gap-1 justify-center">
+                <Link href="/wallet" className="flex w-full items-center gap-1 justify-center">
                     <CoinsIcon className={cn(styles.icon, "text-muted-foreground")} />
-                    <span className={cn(styles.number, "text-[#D4AF37] dark:brightness-150 digital")}>{formatNumber(chirps)}</span>
-                </span>
-                <span className={styles.label}>Chirps</span>
+                    <span className={cn(styles.number, "text-[#D4AF37] ave")}>{formatNumber(chirps)}</span>
+                </Link>
+                <span className={styles.label}>Tokens</span>
             </div>
         </div>
     );

@@ -12,7 +12,7 @@ export default function WalletHeaderComponent() {
     const balance = 12847.50;
 
     return (
-        <div className="sticky top-0 z-50 border-b border-input bg-background/95 backdrop-blur-sm">
+        <div className="sticky top-0 z-50 border-b border-input bg-background/95 backdrop-blur-sm shadow-lg shadow-foreground/5">
             <WalletHeader
                 balance={balance}
                 usdValue={(balance * 0.85).toString()}

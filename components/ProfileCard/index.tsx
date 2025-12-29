@@ -119,7 +119,7 @@ export default function ProfileCard({ size = "md", canFollow = true, transparent
                 size={size} 
                 followers={1200}
                 likes={71000000000}
-                chirps={10393}
+                chirps={12_847.50}
                 className={config.sectionPadding}
             />
             

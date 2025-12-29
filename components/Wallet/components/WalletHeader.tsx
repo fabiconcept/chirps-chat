@@ -21,9 +21,9 @@ export default function WalletHeader({
 }: WalletHeaderProps) {
     const formatBalance = (amount: number) => {
         if (!balanceVisible) return "••••••";
-        return amount.toLocaleString('en-US', { 
-            minimumFractionDigits: 2, 
-            maximumFractionDigits: 2 
+        return amount.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
         });
     };
 
@@ -34,7 +34,7 @@ export default function WalletHeader({
                     <div className="flex items-center gap-2">
                         <Wallet className="h-5 w-5 text-muted-foreground" />
                         <p className="text-sm text-muted-foreground font-medium">
-                            Total Balance
+                            Wallet Balance
                         </p>
                     </div>
                 </div>
@@ -65,7 +65,7 @@ export default function WalletHeader({
                         CHT
                     </span>
                 </div>
-                
+
                 {balanceVisible && (
                     <motion.div
                         initial={{ opacity: 0 }}
@@ -73,15 +73,17 @@ export default function WalletHeader({
                         className="flex items-center gap-3"
                     >
                         <span className="text-sm text-muted-foreground">
-                            ≈ ${usdValue} USD
+                            ≈ ${Number(usdValue).toLocaleString('en-US', {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            })} USD
                         </span>
-                        <Badge 
-                            variant="outline" 
-                            className={`gap-1 ${
-                                percentageChange >= 0 
-                                    ? "bg-green-500/10 text-green-600 border-green-500/20" 
+                        <Badge
+                            variant="outline"
+                            className={`gap-1 ${percentageChange >= 0
+                                    ? "bg-green-500/10 text-green-600 border-green-500/20"
                                     : "bg-red-500/10 text-red-600 border-red-500/20"
-                            }`}
+                                }`}
                         >
                             <TrendingUp className="h-3 w-3" />
                             {percentageChange >= 0 ? "+" : ""}{percentageChange}%

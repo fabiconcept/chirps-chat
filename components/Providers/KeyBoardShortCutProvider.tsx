@@ -33,7 +33,7 @@ const KeyBoardShortCutContext = React.createContext<KeyBoardShortCutContext | un
 export const KeyBoardShortCutProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [allowedShortcuts, setAllowedShortcuts] = React.useState<Set<string>>(new Set([...Object.keys(SHORTCUTS), 'commandL']));
 
-    const notoriousShortcuts = React.useMemo(() => new Set(['alt+A', 'commandW', 'search', 'command1', 'command2', 'command3', 'command4', 'command5', 'alt+W']), []);
+    const notoriousShortcuts = React.useMemo(() => new Set(['alt+A', 'commandN', 'commandW', 'search', 'command1', 'command2', 'command3', 'command4', 'command5', 'alt+W']), []);
 
     // useEffect(()=>{
     //     console.log(allowedShortcuts);

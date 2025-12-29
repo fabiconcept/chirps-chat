@@ -75,7 +75,7 @@ export default function CategoryDropdown({ activeCategory, onCategoryChange }: C
                 <Button
                     variant="outline"
                     size="sm"
-                    className="gap-2"
+                    className="gap-2 rounded-3xl"
                 >
                     <ActiveIcon className="h-4 w-4" />
                     <span className="hidden sm:inline">{activeConfig.label}</span>
@@ -83,7 +83,7 @@ export default function CategoryDropdown({ activeCategory, onCategoryChange }: C
                 </Button>
             </DropdownMenuTrigger>
             
-            <DropdownMenuContent align="end" className="w-[240px]">
+            <DropdownMenuContent align="end" className="w-[240px] rounded-3xl">
                 <DropdownMenuLabel className="text-xs font-normal">
                     Category
                 </DropdownMenuLabel>

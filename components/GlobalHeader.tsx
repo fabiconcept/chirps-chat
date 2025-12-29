@@ -303,15 +303,15 @@ export default function GlobalHeader() {
                                     {/* Quick Stats */}
                                     <div className="px-2 py-2 border-b border-border bg-muted/30">
                                         <div className="grid grid-cols-3 gap-2 text-center">
-                                            <Link href="/leaderboard" className="hover:bg-background rounded p-1.5 transition-colors">
+                                            <Link href="/leaderboard" className="hover:bg-background border border-transparent hover:border-input/50 rounded-lg active:scale-95 active:rotate-6 p-1.5 transition-all">
                                                 <p className="text-lg font-bold">42</p>
                                                 <p className="text-[10px] text-muted-foreground">Streak</p>
                                             </Link>
-                                            <Link href="/wallet" className="hover:bg-background rounded p-1.5 transition-colors">
-                                                <p className="text-lg font-bold text-[#D4AF37]">12.8K</p>
+                                            <Link href="/wallet" className="hover:bg-background border border-transparent hover:border-input/50 rounded-lg active:scale-95 active:rotate-6 p-1.5 transition-all">
+                                                <p className="text-lg font-bold text-[#D4AF37] ave">12.8K</p>
                                                 <p className="text-[10px] text-muted-foreground">Tokens</p>
                                             </Link>
-                                            <div className="hover:bg-background rounded p-1.5 transition-colors cursor-pointer">
+                                            <div className="hover:bg-background border border-transparent hover:border-input/50 rounded-lg active:scale-95 active:rotate-6 p-1.5 transition-all cursor-pointer">
                                                 <p className="text-lg font-bold">1.2K</p>
                                                 <p className="text-[10px] text-muted-foreground">Followers</p>
                                             </div>
