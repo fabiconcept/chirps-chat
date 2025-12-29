@@ -11,11 +11,12 @@ export const mockSuggestions: Suggestion[] = [
         upvotes: 247,
         downvotes: 12,
         score: 235,
+        views: 1000,
         author: {
             id: "user1",
             name: "Alice Johnson",
             username: "@alicej",
-            avatar: "https://i.pravatar.cc/150?img=1"
+            avatar: "https://chirps-chat.sirv.com/fox.png"
         },
         createdAt: "2024-01-15T10:30:00Z",
         userVote: "upvote"
@@ -29,11 +30,12 @@ export const mockSuggestions: Suggestion[] = [
         upvotes: 189,
         downvotes: 23,
         score: 166,
+        views: 3987,
         author: {
             id: "user2",
             name: "Bob Smith",
             username: "@bobsmith",
-            avatar: "https://i.pravatar.cc/150?img=2"
+            avatar: "https://chirps-chat.sirv.com/dog.png"
         },
         createdAt: "2024-01-20T14:20:00Z",
         userVote: null
@@ -47,11 +49,12 @@ export const mockSuggestions: Suggestion[] = [
         upvotes: 156,
         downvotes: 45,
         score: 111,
+        views: 1200,
         author: {
             id: "user3",
             name: "Carol White",
             username: "@carolw",
-            avatar: "https://i.pravatar.cc/150?img=3"
+            avatar: "https://chirps-chat.sirv.com/bug.png"
         },
         createdAt: "2024-01-22T09:15:00Z",
         userVote: "downvote"
@@ -65,11 +68,12 @@ export const mockSuggestions: Suggestion[] = [
         upvotes: 203,
         downvotes: 18,
         score: 185,
+        views: 1500,
         author: {
             id: "user4",
             name: "David Brown",
             username: "@davidb",
-            avatar: "https://i.pravatar.cc/150?img=4"
+            avatar: "https://chirps-chat.sirv.com/bat.png"
         },
         createdAt: "2024-01-18T16:45:00Z",
         userVote: "upvote"
@@ -83,11 +87,12 @@ export const mockSuggestions: Suggestion[] = [
         upvotes: 512,
         downvotes: 34,
         score: 478,
+        views: 2000,
         author: {
             id: "user5",
             name: "Emma Davis",
             username: "@emmad",
-            avatar: "https://i.pravatar.cc/150?img=5"
+            avatar: "https://chirps-chat.sirv.com/dove.png"
         },
         createdAt: "2024-01-10T11:00:00Z",
         userVote: "upvote"
@@ -101,11 +106,12 @@ export const mockSuggestions: Suggestion[] = [
         upvotes: 178,
         downvotes: 8,
         score: 170,
+        views: 2500,
         author: {
             id: "user6",
             name: "Frank Miller",
             username: "@frankm",
-            avatar: "https://i.pravatar.cc/150?img=6"
+            avatar: "https://chirps-chat.sirv.com/lioness.png"
         },
         createdAt: "2023-12-05T13:30:00Z",
         implementedAt: "2024-01-25T10:00:00Z",
@@ -120,11 +126,12 @@ export const mockSuggestions: Suggestion[] = [
         upvotes: 234,
         downvotes: 12,
         score: 222,
+        views: 3000,
         author: {
             id: "user7",
             name: "Grace Lee",
             username: "@gracee",
-            avatar: "https://i.pravatar.cc/150?img=7"
+            avatar: "https://chirps-chat.sirv.com/platopus.png"
         },
         createdAt: "2023-11-20T08:15:00Z",
         implementedAt: "2024-01-10T14:30:00Z",
@@ -139,11 +146,12 @@ export const mockSuggestions: Suggestion[] = [
         upvotes: 145,
         downvotes: 7,
         score: 138,
+        views: 3500,
         author: {
             id: "user8",
             name: "Henry Wilson",
             username: "@henryw",
-            avatar: "https://i.pravatar.cc/150?img=8"
+            avatar: "https://chirps-chat.sirv.com/prawn.png"
         },
         createdAt: "2024-01-21T15:20:00Z",
         userVote: null

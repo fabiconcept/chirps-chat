@@ -142,6 +142,7 @@ export default function SuggestionsContainer() {
             upvotes: 1,
             downvotes: 0,
             score: 1,
+            views: 0,
             author: {
                 id: "current-user",
                 name: "You",

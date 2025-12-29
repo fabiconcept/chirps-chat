@@ -13,6 +13,7 @@ export interface Suggestion {
     upvotes: number;
     downvotes: number;
     score: number; // upvotes - downvotes
+    views: number;
     author: {
         id: string;
         name: string;

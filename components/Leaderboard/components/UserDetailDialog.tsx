@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, TrendingUp, Trophy, Users, Heart, MessageSquare, Home, MapPin, Calendar, LucideProps } from "lucide-react";
+import { X, Trophy, Users, Heart, MessageSquare, Home, MapPin, Calendar, LucideProps, CalendarCheck } from "lucide-react";
 import { LeaderboardUser, LeaderboardCategory } from "../types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -23,7 +23,7 @@ const categoryConfig: Record<LeaderboardCategory, {
     accentColor: string;
     icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
 }> = {
-    streak: { label: "Day Streak", accentColor: "#10b981", icon: TrendingUp },
+    streak: { label: "Day Streak", accentColor: "#10b981", icon: CalendarCheck },
     tokens: { label: "Tokens", accentColor: "#D4AF37", icon: Trophy },
     followers: { label: "Followers", accentColor: "#3b82f6", icon: Users },
     likes: { label: "Total Likes", accentColor: "#f43f5e", icon: Heart },
@@ -39,7 +39,7 @@ export default function UserDetailDialog({ user, isOpen, onClose, category }: Us
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent showCloseButton={false} className="max-w-3xl max-h-[90vh] overflow-y-auto p-0">
+            <DialogContent showCloseButton={false} className="max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl p-0">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -152,8 +152,8 @@ export default function UserDetailDialog({ user, isOpen, onClose, category }: Us
                         <div className="px-6 pb-6">
                             <div className="space-y-3">
                                 <div className="flex items-center gap-2">
-                                    <TrendingUp className="h-5 w-5 text-emerald-500" />
-                                    <h3 className="text-lg font-semibold">Activity Streak</h3>
+                                    <CalendarCheck className="h-5 w-5 text-emerald-500" />
+                                    <h3 className="text-lg font-semibold">Days</h3>
                                 </div>
                                 <StreakGrid maxWeeks={27} streakDays={user.stats.streak} />
                             </div>

@@ -65,7 +65,7 @@ export default function StreakTracker({ currentStreak, isMobile }: StreakTracker
             </TooltipTrigger>
             <TooltipContent side="bottom">
                 <div className="space-y-1">
-                    <p className="font-semibold">{currentStreak} Day Streak 🔥</p>
+                    <p className="font-semibold">{currentStreak} Days 🔥</p>
                     <p className="text-xs text-muted-foreground">{getStreakLabel(currentStreak)} • Click to view leaderboard</p>
                 </div>
             </TooltipContent>

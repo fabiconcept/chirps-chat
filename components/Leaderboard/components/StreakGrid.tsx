@@ -145,7 +145,7 @@ export default function StreakGrid({ streakDays, size = "md", maxWeeks }: Streak
             </div>
 
             {/* Grid */}
-            <div className="w-full overflow-hidden">
+            <div className="w-full">
                 <div className="inline-flex flex-col w-full" style={{ gap: `${config.gap * 4}px` }}>
                     {/* Month labels */}
                     <div className="flex ml-8" style={{ gap: `${config.gap * 4}px`, marginBottom: `${config.gap * 4}px` }}>
@@ -180,7 +180,7 @@ export default function StreakGrid({ streakDays, size = "md", maxWeeks }: Streak
                         </div>
 
                         {/* Contribution squares */}
-                        <div className="flex flex-1 overflow-x-auto" style={{ gap: `${config.gap * 4}px` }}>
+                        <div className="flex flex-1" style={{ gap: `${config.gap * 4}px` }}>
                             {weeks.map((week, weekIndex) => (
                                 <div key={weekIndex} className="flex flex-col shrink-0" style={{ gap: `${config.gap * 4}px` }}>
                                     {week.map((day, dayIndex) => {
@@ -199,7 +199,7 @@ export default function StreakGrid({ streakDays, size = "md", maxWeeks }: Streak
                                                 }}
                                                 whileHover={{ scale: size === "sm" ? 1.8 : 1.5, zIndex: 10 }}
                                                 className={cn(
-                                                    "rounded-sm cursor-pointer relative group shrink-0",
+                                                    "rounded-sm cursor-pointer relative group shrink-0 text-xs",
                                                     getLevelColor(day.level),
                                                     isToday && "ring-1 ring-emerald-500"
                                                 )}
@@ -212,8 +212,8 @@ export default function StreakGrid({ streakDays, size = "md", maxWeeks }: Streak
                                                 {/* Tooltip */}
                                                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-20 pointer-events-none">
                                                     <div className="bg-popover text-popover-foreground text-xs rounded-md px-2 py-1.5 shadow-lg whitespace-nowrap border">
-                                                        <div className="font-semibold">{day.count} activities</div>
-                                                        <div className="text-[10px] text-muted-foreground">
+                                                        <div className="font-semibold text-[8px]">{day.count} activities</div>
+                                                        <div className="text-[7px] text-muted-foreground">
                                                             {day.date.toLocaleDateString('default', { 
                                                                 weekday: 'short', 
                                                                 month: 'short', 

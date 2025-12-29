@@ -128,6 +128,76 @@
   }
 }
 
+/* Metallic Shine Effects for Leaderboard Pedestal */
+.metallic-shine-gold {
+  position: relative;
+}
+
+.metallic-shine-gold::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(255, 223, 0, 0.3) 25%,
+    rgba(255, 241, 118, 0.35) 45%,
+    rgba(255, 234, 185, 0.35) 50%,
+    rgba(255, 241, 118, 0.35) 55%,
+    rgba(255, 223, 0, 0.3) 75%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 1.5rem;
+}
+
+.metallic-shine-silver {
+  position: relative;
+}
+
+.metallic-shine-silver::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(192, 192, 192, 0.1) 25%,
+    rgba(220, 220, 220, 0.2) 45%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(220, 220, 220, 0.2) 55%,
+    rgba(192, 192, 192, 0.1) 75%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 1.5rem;
+}
+
+.metallic-shine-bronze {
+  position: relative;
+}
+
+.metallic-shine-bronze::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(169, 113, 66, 0.1) 25%,
+    rgba(205, 150, 100, 0.2) 45%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(205, 150, 100, 0.2) 55%,
+    rgba(169, 113, 66, 0.1) 75%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 1.5rem;
+}
+
 body {
   transition: background 0.5s ease-in-out;
 }

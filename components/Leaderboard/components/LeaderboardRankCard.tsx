@@ -1,11 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TrendingUp, TrendingDown, Minus, Trophy, Users, Heart, MessageSquare, Home, LucideProps } from "lucide-react";
+import { TrendingDown, Minus, Trophy, Users, Heart, MessageSquare, Home, LucideProps, CalendarCheck, TrendingUp } from "lucide-react";
 import { LeaderboardUser, LeaderboardCategory } from "../types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+import { cn, formatNumber } from "@/lib/utils";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 interface LeaderboardRankCardProps {
@@ -24,7 +24,7 @@ const categoryConfig: Record<LeaderboardCategory, {
     streak: { 
         label: "Days", 
         accentColor: "#10b981", 
-        icon: TrendingUp,
+        icon: CalendarCheck,
         pattern: "bg-[linear-gradient(135deg,transparent_25%,rgba(16,185,129,0.03)_25%,rgba(16,185,129,0.03)_50%,transparent_50%,transparent_75%,rgba(16,185,129,0.03)_75%,rgba(16,185,129,0.03))]"
     },
     tokens: { 
@@ -67,7 +67,6 @@ const getRankBadgeStyle = (rank: number) => {
 };
 
 export default function LeaderboardRankCard({ user, rank, category, index }: LeaderboardRankCardProps) {
-    console.log("user", user);
     const statValue = user?.stats?.[category] || 0;
     const change = user?.change || 0;
     const config = categoryConfig[category];
@@ -172,7 +171,7 @@ export default function LeaderboardRankCard({ user, rank, category, index }: Lea
                                 color: rank <= 3 ? config.accentColor : undefined 
                             }}
                         >
-                            {statValue.toLocaleString()}
+                            {formatNumber(statValue)}
                         </p>
                         <p className="text-[10px] text-muted-foreground leading-none">{config.label}</p>
                     </div>

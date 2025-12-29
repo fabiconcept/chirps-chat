@@ -15,7 +15,7 @@ export default function MarketplaceGrid({ items, onItemClick }: MarketplaceGridP
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="flex flex-col items-center justify-center py-20 min-h-[400px] w-full"
+                className="flex flex-col items-center justify-center py-20 w-full"
             >
                 <div className="text-center space-y-2">
                     <p className="text-2xl font-semibold">No items found</p>

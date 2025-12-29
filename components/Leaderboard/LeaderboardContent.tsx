@@ -3,13 +3,14 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Trophy, Globe, MapPin, X } from "lucide-react";
-import { LeaderboardCategory, LeaderboardFilters, LeaderboardUser } from "./types";
+import { MapPin, X } from "lucide-react";
+import { LeaderboardCategory, LeaderboardUser } from "./types";
 import { mockLeaderboardUsers, currentUser } from "./mockData";
 import { SearchParamKeys } from "@/lib/enums";
 import { updateSearchParam, removeSearchParam } from "@/lib/utils";
-import LeaderboardStats from "./components/LeaderboardStats";
+import CategoryDropdown from "./components/CategoryDropdown";
 import LeaderboardRankCard from "./components/LeaderboardRankCard";
+import LeaderboardPedestal from "./components/LeaderboardPedestal";
 import GlobeVisualization from "./components/GlobeVisualization";
 import UserDetailDialog from "./components/UserDetailDialog";
 import { Button } from "../ui/button";
@@ -101,96 +102,58 @@ export default function LeaderboardContent() {
 
     return (
         <>
-            {/* Header */}
-            <div className="sticky top-0 z-40 border-b border-border/50 bg-background/95 backdrop-blur-sm w-full">
-                <div className="container mx-auto px-4 py-6 w-full">
-                    <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="flex flex-col gap-4 w-full"
-                    >
-                        {/* Title */}
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <div className="p-3 rounded-xl bg-linear-to-br from-[#7600C9]/20 to-[#7600C9]/5 border border-[#7600C9]/30">
-                                    <Trophy className="h-6 w-6 text-[#7600C9]" />
-                                </div>
-                                <div>
-                                    <h1 className="text-2xl md:text-3xl font-bold">Global Leaderboard</h1>
-                                    <p className="text-sm text-muted-foreground">
-                                        Top performers from around the world
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Globe Toggle */}
-                            <Button
-                                variant={showGlobe ? "default" : "outline"}
-                                size="sm"
-                                onClick={() => setShowGlobe(!showGlobe)}
-                                className={showGlobe ? "bg-[#7600C9] hover:bg-[#7600C9]/90" : ""}
-                            >
-                                <Globe className="h-4 w-4 mr-2" />
-                                <span className="hidden sm:inline">
-                                    {showGlobe ? "Hide" : "Show"} Globe
-                                </span>
-                            </Button>
-                        </div>
-
-                        {/* Stats Banner with Country Filter */}
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.1 }}
-                            className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-xl bg-linear-to-r from-[#7600C9]/10 via-[#7600C9]/5 to-transparent border border-[#7600C9]/30"
-                        >
-                            <div className="flex items-center gap-3 flex-wrap">
-                                <Badge className="bg-[#7600C9] hover:bg-[#7600C9]/90 text-white">
-                                    {selectedCountry ? `📍 ${selectedCountry}` : "🌍 Global"}
-                                </Badge>
-                                <span className="text-sm font-medium">
-                                    Tracking {rankedUsers.length} elite performers
-                                </span>
-                                
-                                {/* Country Filter Badge */}
-                                <AnimatePresence mode="wait">
-                                    {selectedCountry && (
-                                        <motion.div
-                                            initial={{ opacity: 0, scale: 0.8 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            exit={{ opacity: 0, scale: 0.8 }}
-                                            transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                                        >
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={clearCountryFilter}
-                                                className="h-7 px-2 text-xs gap-1 hover:bg-destructive/10 hover:text-destructive"
-                                            >
-                                                <MapPin className="h-3 w-3" />
-                                                <span>{selectedCountry}</span>
-                                                <X className="h-3 w-3" />
-                                            </Button>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                            </div>
-                            <span className="text-xs text-muted-foreground hidden sm:block">
-                                Updated in real-time
-                            </span>
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </div>
-
             {/* Content */}
             <div className="container mx-auto px-4 py-6">
                 <div className="space-y-6">
-                    {/* Category Stats */}
-                    <LeaderboardStats 
-                        activeCategory={activeCategory}
-                        onCategoryChange={handleCategoryChange}
-                    />
+                    {/* Top Controls */}
+                    <div className="flex items-center justify-between">
+                        {/* Country Filter (Left) */}
+                        <AnimatePresence mode="wait">
+                            {selectedCountry ? (
+                                <motion.div
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -20 }}
+                                >
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={clearCountryFilter}
+                                        className="gap-2"
+                                    >
+                                        <MapPin className="h-4 w-4" />
+                                        <span>{selectedCountry}</span>
+                                        <X className="h-4 w-4" />
+                                    </Button>
+                                </motion.div>
+                            ) : (
+                                <div />
+                            )}
+                        </AnimatePresence>
+
+                        {/* Category Dropdown (Right) */}
+                        <CategoryDropdown 
+                            activeCategory={activeCategory}
+                            onCategoryChange={handleCategoryChange}
+                        />
+                    </div>
+
+                    {/* Top 3 Pedestal */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                    >
+                        <LeaderboardPedestal
+                            topThree={[
+                                ...(currentUserWithRank && currentUserRank <= 3 ? [currentUserWithRank] : []),
+                                ...rankedUsers.filter(u => u.rank && u.rank <= 3)
+                            ].slice(0, 3)}
+                            category={activeCategory}
+                            onUserClick={handleUserClick}
+                            selectedCountry={selectedCountry}
+                        />
+                    </motion.div>
 
                     {/* Globe & Rankings Layout */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -246,7 +209,9 @@ export default function LeaderboardContent() {
                         >
                             <div className="space-y-3">
                                 <div className="flex items-center justify-between mb-4">
-                                    <h2 className="text-xl font-semibold">Rankings</h2>
+                                    <h2 className="text-xl font-semibold">
+                                        {selectedCountry ? `Rankings From ${selectedCountry}` : 'Rankings'}
+                                    </h2>
                                     <Badge variant="secondary">
                                         {showCurrentUser ? rankedUsers.length + 1 : rankedUsers.length} Users
                                     </Badge>
@@ -281,16 +246,18 @@ export default function LeaderboardContent() {
                                     </motion.div>
                                 )}
 
-                                {/* Top Rankings */}
+                                {/* Top Rankings (Starting from 4th since top 3 are on pedestal) */}
                                 {(() => {
                                     const items = [];
-                                    let rankCounter = 1;
+                                    // Start from rank 4 since top 3 are on pedestal
+                                    const usersToShow = rankedUsers.filter(u => u.rank && u.rank > 3);
                                     
-                                    for (let i = 0; i < rankedUsers.length; i++) {
-                                        const user = rankedUsers[i];
+                                    for (let i = 0; i < usersToShow.length; i++) {
+                                        const user = usersToShow[i];
+                                        const currentRank = user.rank || (i + 4);
                                         
-                                        // Insert current user at their rank position if in top 15 and shown
-                                        if (showCurrentUser && currentUserWithRank && currentUserRank <= 15 && currentUserRank === rankCounter) {
+                                        // Insert current user at their rank position if shown and in list range
+                                        if (showCurrentUser && currentUserWithRank && currentUserRank > 3 && currentUserRank === currentRank) {
                                             items.push(
                                                 <div 
                                                     key={`current-user-in-list`}
@@ -305,25 +272,25 @@ export default function LeaderboardContent() {
                                                     />
                                                 </div>
                                             );
-                                            rankCounter++;
                                         }
                                         
-                                        // Add regular user
-                                        items.push(
-                                            <div 
-                                                key={user.id}
-                                                className="cursor-pointer"
-                                                onClick={() => handleUserClick(user)}
-                                            >
-                                                <LeaderboardRankCard
-                                                    user={user}
-                                                    rank={user.rank!}
-                                                    category={activeCategory}
-                                                    index={items.length}
-                                                />
-                                            </div>
-                                        );
-                                        rankCounter++;
+                                        // Add regular user (skip if this is the current user's position)
+                                        if (!currentUserWithRank || user.id !== currentUser.id) {
+                                            items.push(
+                                                <div 
+                                                    key={user.id}
+                                                    className="cursor-pointer"
+                                                    onClick={() => handleUserClick(user)}
+                                                >
+                                                    <LeaderboardRankCard
+                                                        user={user}
+                                                        rank={currentRank}
+                                                        category={activeCategory}
+                                                        index={items.length}
+                                                    />
+                                                </div>
+                                            );
+                                        }
                                     }
                                     
                                     return items;

@@ -13,17 +13,27 @@ interface GlobeVisualizationProps {
     activeCategory: LeaderboardCategory;
 }
 
+// SVG icon paths for each category (lucide-react icons)
+const categoryIcons: Record<LeaderboardCategory, string> = {
+    streak: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>', // TrendingUp
+    tokens: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>', // Coins
+    followers: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', // Users
+    likes: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>', // Heart
+    posts: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>', // MessageSquare
+    rooms: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>', // Home
+};
+
 const categoryConfig: Record<LeaderboardCategory, { 
     label: string; 
     accentColor: string;
-    emoji: string;
+    iconSvg: string;
 }> = {
-    streak: { label: "Day Streak", accentColor: "#10b981", emoji: "🔥" },
-    tokens: { label: "Tokens", accentColor: "#D4AF37", emoji: "💰" },
-    followers: { label: "Followers", accentColor: "#3b82f6", emoji: "👥" },
-    likes: { label: "Likes", accentColor: "#f43f5e", emoji: "❤️" },
-    posts: { label: "Posts", accentColor: "#a855f7", emoji: "💬" },
-    rooms: { label: "Rooms", accentColor: "#6366f1", emoji: "🏠" }
+    streak: { label: "Days", accentColor: "#10b981", iconSvg: categoryIcons.streak },
+    tokens: { label: "Tokens", accentColor: "#D4AF37", iconSvg: categoryIcons.tokens },
+    followers: { label: "Followers", accentColor: "#3b82f6", iconSvg: categoryIcons.followers },
+    likes: { label: "Likes", accentColor: "#f43f5e", iconSvg: categoryIcons.likes },
+    posts: { label: "Posts", accentColor: "#a855f7", iconSvg: categoryIcons.posts },
+    rooms: { label: "Rooms", accentColor: "#6366f1", iconSvg: categoryIcons.rooms }
 };
 
 export default function GlobeVisualization({ users, onUserClick, selectedCountry, activeCategory }: GlobeVisualizationProps) {
@@ -84,7 +94,7 @@ export default function GlobeVisualization({ users, onUserClick, selectedCountry
                 categoryValue,
                 categoryRank,
                 categoryLabel: config.label,
-                categoryEmoji: config.emoji
+                categoryIconSvg: config.iconSvg
             };
         });
     }, [users.length, selectedCountry, activeCategory, users.map(u => u.id).join(',')]); // Only update when actual data changes
@@ -112,7 +122,7 @@ export default function GlobeVisualization({ users, onUserClick, selectedCountry
                 // Theme-based configuration
                 const isDark = currentTheme === 'dark';
                 const globeImage = isDark
-                    ? '//cdn.jsdelivr.net/npm/three-globe/example/img/earth-dark.jpg'
+                    ? '//cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg'
                     : '//cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg';
                 const atmosphereColor = isDark ? '#7600C9' : '#4F46E5';
                 const backgroundColor = isDark ? 'rgba(0,0,0,0)' : 'rgba(255,255,255,0)';
@@ -130,6 +140,7 @@ export default function GlobeVisualization({ users, onUserClick, selectedCountry
                 const globe = new Globe(globeRef.current)
                     .width(width)
                     .height(height)
+                    .backgroundImageUrl('//cdn.jsdelivr.net/npm/three-globe/example/img/night-sky.png')
                     .globeImageUrl(globeImage)
                     .backgroundColor(backgroundColor)
                     .showAtmosphere(true)
@@ -146,7 +157,6 @@ export default function GlobeVisualization({ users, onUserClick, selectedCountry
                     .pointsMerge(false) // Keep points separate for interactions
                     .pointLabel((d: unknown) => `
                         <div style="
-                            background: rgba(0, 0, 0, 0.9);
                             backdrop-filter: blur(10px);
                             border: 1px solid ${(d as { color: string }).color};
                             border-radius: 12px;
@@ -177,7 +187,9 @@ export default function GlobeVisualization({ users, onUserClick, selectedCountry
                                 margin-bottom: 8px;
                                 text-align: center;
                             ">
-                                <div style="font-size: 20px; margin-bottom: 4px;">${(d as { categoryEmoji: string }).categoryEmoji}</div>
+                                <div style="display: flex; justify-content: center; margin-bottom: 4px; color: ${(d as { color: string }).color};">
+                                    ${(d as { categoryIconSvg: string }).categoryIconSvg}
+                                </div>
                                 <div style="font-size: 18px; font-weight: 700; color: ${(d as { color: string }).color};">
                                     ${(d as { categoryValue: number }).categoryValue.toLocaleString()}
                                 </div>
@@ -196,30 +208,33 @@ export default function GlobeVisualization({ users, onUserClick, selectedCountry
                             </div>
                         </div>
                     `)
-                    .onPointClick((point: any) => {
+                    .onPointClick((point: unknown) => {
                         if (onUserClickRef.current) {
                             onUserClickRef.current(point as LeaderboardUser);
                         }
                     })
-                    .onPointHover((point: any) => {
+                    .onPointHover((point: unknown) => {
                         if (globeRef.current) {
                             globeRef.current.style.cursor = point ? 'pointer' : 'grab';
                         }
                     })
                 // Add HTML elements layer for MapMarker icons on top
-                .htmlElement(d => {
+                .htmlElement((d: unknown) => {
                     const el = document.createElement('div');
                     el.innerHTML = markerSvg;
-                    el.style.color = (d as any).color;
-                    el.style.width = `${(d as any).size}px`;
-                    el.style.transition = 'opacity 250ms';
+                    el.style.color = (d as { color: string }).color;
+                    el.style.width = `${(d as { size: number }).size}px`;
+                    el.style.transition = 'opacity 500ms'; // Longer transition for hover
               
-                    (el as any).style['pointer-events'] = 'auto';
+                    el.style.pointerEvents = 'auto';
                     el.style.cursor = 'pointer';
+                    // @ts-ignore
                     el.onclick = () => console.info(d);
                     return el;
                   })
-                  .htmlElementVisibilityModifier((el: any, isVisible: boolean) => el.style.opacity = isVisible ? '1' : '0')
+                  .htmlElementVisibilityModifier((el: HTMLElement, isVisible: boolean) => {
+                    (el as HTMLDivElement).style.opacity = isVisible ? '1' : '0';
+                  })
                 globe.controls().autoRotate = true;
                 globe.controls().autoRotateSpeed = 0.5;
                 globe.controls().enableZoom = true;
@@ -243,7 +258,7 @@ export default function GlobeVisualization({ users, onUserClick, selectedCountry
                     globeRef.current.addEventListener('mouseleave', handleMouseLeave);
                 }
 
-                globeInstanceRef.current = isDark ? globe : globe.globeTileEngineUrl((x, y, l) => `https://tile.openstreetmap.org/${l}/${x}/${y}.png`);
+                globeInstanceRef.current = isDark ? globe : globe.globeTileEngineUrl((x: number, y: number, l: number) => `https://tile.openstreetmap.org/${l}/${x}/${y}.png`);
                 setIsLoading(false);
 
                 // Cleanup function

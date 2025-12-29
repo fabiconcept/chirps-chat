@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TrendingUp, Trophy, Users, Heart, MessageSquare, Home } from "lucide-react";
+import { Trophy, Users, Heart, MessageSquare, Home, CalendarCheck } from "lucide-react";
 import { LeaderboardCategory } from "../types";
 import { cn } from "@/lib/utils";
 
@@ -14,7 +14,7 @@ const categories = [
     {
         id: "streak" as LeaderboardCategory,
         label: "Most Streak",
-        icon: TrendingUp,
+        icon: CalendarCheck,
         accentColor: "#10b981" // Emerald
     },
     {
