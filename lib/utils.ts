@@ -36,18 +36,48 @@ export function detectOS() {
   }
 }
 
-export function formatNumber(num: number, decimals: number = 1): string {
+export function formatNumber(num: number, decimals: number = 1, long: boolean = false): string {
   num = Number(num);
   if (num < 1000) {
     return num.toString();
   }
 
+  // Because I can 😂😂😂😂😂
   const units = [
-    { value: 1e12, symbol: 'T' },
-    { value: 1e9, symbol: 'B' },
-    { value: 1e6, symbol: 'M' },
-    { value: 1e3, symbol: 'K' }
-  ];
+    { value: 1e99, symbol: 'Tg', long: 'Tresvigintillion' },
+    { value: 1e96, symbol: 'Dv', long: 'Duovigintillion' },
+    { value: 1e93, symbol: 'Uv', long: 'Unvigintillion' },
+    { value: 1e90, symbol: 'Vg', long: 'Vigintillion' },
+    { value: 1e87, symbol: 'Nd', long: 'Novemdecillion' },
+    { value: 1e84, symbol: 'Od', long: 'Octodecillion' },
+    { value: 1e81, symbol: 'Sd', long: 'Septendecillion' },
+    { value: 1e78, symbol: 'Sxd', long: 'Sexdecillion' },
+    { value: 1e75, symbol: 'Qid', long: 'Quindecillion' },
+    { value: 1e72, symbol: 'Qad', long: 'Quattuordecillion' },
+    { value: 1e69, symbol: 'Td', long: 'Tredecillion' },
+    { value: 1e66, symbol: 'Dd', long: 'Duodecillion' },
+    { value: 1e63, symbol: 'Ud', long: 'Undecillion' },
+    { value: 1e60, symbol: 'D', long: 'Decillion' },
+    { value: 1e57, symbol: 'N', long: 'Nonillion' },
+    { value: 1e54, symbol: 'O', long: 'Octillion' },
+    { value: 1e51, symbol: 'Sp', long: 'Septillion' },
+    { value: 1e48, symbol: 'Sx', long: 'Sextillion' },
+    { value: 1e45, symbol: 'Qi', long: 'Quintillion' },
+    { value: 1e42, symbol: 'Qa', long: 'Quadrillion' },
+    { value: 1e39, symbol: 'Tn', long: 'Trillion' },
+    { value: 1e36, symbol: 'Un', long: 'Undecillion' },
+    { value: 1e33, symbol: 'Dc', long: 'Decillion' },
+    { value: 1e30, symbol: 'No', long: 'Nonillion' },
+    { value: 1e27, symbol: 'Oc', long: 'Octillion' },
+    { value: 1e24, symbol: 'Sp', long: 'Septillion' },
+    { value: 1e21, symbol: 'Sx', long: 'Sextillion' },
+    { value: 1e18, symbol: 'Qi', long: 'Quintillion' },
+    { value: 1e15, symbol: 'Q', long: 'Quadrillion' },
+    { value: 1e12, symbol: 'T', long: 'Trillion' },
+    { value: 1e9, symbol: 'B', long: 'Billion' },
+    { value: 1e6, symbol: 'M', long: 'Million' },
+    { value: 1e3, symbol: 'K', long: 'Thousand' },
+];
 
   for (const unit of units) {
     if (num >= unit.value) {
@@ -59,7 +89,7 @@ export function formatNumber(num: number, decimals: number = 1): string {
       // Convert to string and remove trailing zeros
       const str = rounded.toFixed(decimals).replace(/\.?0+$/, '');
 
-      return str + unit.symbol;
+      return long ? str + ' ' + unit.long : str + unit.symbol;
     }
   }
 

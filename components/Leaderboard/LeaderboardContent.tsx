@@ -18,6 +18,8 @@ import { Badge } from "../ui/badge";
 import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
 import useShortcuts, { KeyboardKey } from "@useverse/useshortcuts";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Kbd, KbdGroup } from "../ui/kbd";
 
 export default function LeaderboardContent() {
     const searchParams = useSearchParams();
@@ -149,16 +151,23 @@ export default function LeaderboardContent() {
                         </AnimatePresence>
 
                         <div className="flex items-center gap-5">
-                            <div className="flex items-center gap-2 w-fit">
-                                <Switch
-                                    id="show-globe"
-                                    checked={showGlobe}
-                                    onCheckedChange={(checked) => setShowGlobe(checked)}
-                                />
-                                <Label htmlFor="show-globe" className="text-sm cursor-pointer">
-                                    Show Globe
-                                </Label>
-                            </div>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <div className="flex items-center gap-2 w-fit">
+                                        <Switch
+                                            id="show-globe"
+                                            checked={showGlobe}
+                                            onCheckedChange={(checked) => setShowGlobe(checked)}
+                                        />
+                                        <Label htmlFor="show-globe" className="text-sm cursor-pointer">
+                                            Show Globe
+                                        </Label>
+                                    </div>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <span>{showGlobe ? "Hide Globe" : "Show Globe"} <KbdGroup className="inline-flex mx-1"><Kbd>Alt</Kbd>+<Kbd>G</Kbd></KbdGroup></span>
+                                </TooltipContent>
+                            </Tooltip>
                             {/* Category Dropdown (Right) */}
                             <CategoryDropdown
                                 activeCategory={activeCategory}

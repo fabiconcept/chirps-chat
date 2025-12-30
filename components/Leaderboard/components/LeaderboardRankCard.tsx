@@ -24,37 +24,43 @@ const categoryConfig: Record<LeaderboardCategory, {
         label: "Days", 
         accentColor: "#10b981", 
         icon: CalendarCheck,
+        // Keep original - sleek diagonal stripes
         pattern: "bg-[linear-gradient(135deg,transparent_25%,rgba(16,185,129,0.03)_25%,rgba(16,185,129,0.03)_50%,transparent_50%,transparent_75%,rgba(16,185,129,0.03)_75%,rgba(16,185,129,0.03))]"
     },
     tokens: { 
         label: "CHT", 
         accentColor: "#D4AF37", 
         icon: Trophy,
-        pattern: "bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.04),transparent)]"
+        // Subtle radial fade
+        pattern: "bg-[radial-gradient(ellipse_at_top_right,rgba(212,175,55,0.08),transparent_50%)]"
     },
     followers: { 
         label: "Followers", 
         accentColor: "#3b82f6", 
         icon: Users,
-        pattern: "bg-[linear-gradient(to_right,rgba(59,130,246,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(59,130,246,0.03)_1px,transparent_1px)]"
+        // Vertical gradient lines
+        pattern: "bg-[repeating-linear-gradient(90deg,transparent,transparent_40px,rgba(59,130,246,0.06)_40px,rgba(59,130,246,0.06)_41px)]"
     },
     likes: { 
         label: "Likes", 
         accentColor: "#f43f5e", 
         icon: Heart,
-        pattern: "bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(244,63,94,0.03)_10px,rgba(244,63,94,0.03)_20px)]"
+        // Angular diagonal (opposite direction)
+        pattern: "bg-[linear-gradient(45deg,transparent_25%,rgba(244,63,94,0.06)_25%,rgba(244,63,94,0.06)_50%,transparent_50%,transparent_75%,rgba(244,63,94,0.06)_75%,rgba(244,63,94,0.06))]"
     },
     posts: { 
         label: "Posts", 
         accentColor: "#a855f7", 
         icon: MessageSquare,
-        pattern: "bg-[linear-gradient(45deg,rgba(168,85,247,0.03)_25%,transparent_25%,transparent_75%,rgba(168,85,247,0.03)_75%,rgba(168,85,247,0.03))]"
+        // Horizontal gradient lines
+        pattern: "bg-[repeating-linear-gradient(0deg,transparent,transparent_40px,rgba(168,85,247,0.06)_40px,rgba(168,85,247,0.06)_41px)]"
     },
     rooms: { 
         label: "Rooms", 
         accentColor: "#6366f1", 
         icon: Home,
-        pattern: "bg-[radial-gradient(rgba(99,102,241,0.05)_1px,transparent_1px)]"
+        // Subtle corner radial
+        pattern: "bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.08),transparent_50%)]"
     }
 };
 

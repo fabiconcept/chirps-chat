@@ -5,6 +5,7 @@ import { Trophy, Crown, Medal, Users, Heart, MessageSquare, Home, Coins, Calenda
 import { LeaderboardCategory, LeaderboardUser } from "../types";
 import { cn, formatNumber } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import ProtectedImage from "@/components/Feed/TextPost/ProtectedImage";
 
 interface LeaderboardPedestalProps {
     topThree: (LeaderboardUser & { rank: number })[];
@@ -279,10 +280,20 @@ export default function LeaderboardPedestal({ topThree, category, onUserClick, s
                 animate={{ opacity: 1, y: 0 }}
                 className="text-center mb-8"
             >
-                <h2 className="text-2xl md:text-3xl font-semibold flex items-center justify-center gap-2">
-                    <Trophy className="h-6 w-6 md:h-7 md:w-7 text-yellow-500" />
-                    {selectedCountry ? `Top Champions From ${selectedCountry}` : 'Top Champions'}
-                </h2>
+                <div className="relative grid place-items-center">
+                    <h2 className="text-2xl md:text-3xl font-semibold h-fit flex items-center justify-center gap-2">
+                        {selectedCountry ? `Top Champions From ${selectedCountry}` : 'Top Champions'}
+                    </h2>
+                    <ProtectedImage
+                        src="/underline.svg"
+                        alt="Underline"
+                        width={300}
+                        height={10}
+                        className="relative -top-1.5 -mb-3"
+                        priority={true}
+                        unoptimized={true}
+                    />
+                </div>
                 <p className="text-sm text-muted-foreground mt-1.5 font-normal">
                     Celebrating our {config.label} leaders{selectedCountry ? ` in ${selectedCountry}` : ' globally'}
                 </p>

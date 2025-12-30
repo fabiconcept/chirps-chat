@@ -190,7 +190,7 @@ export default function GlobalHeader() {
                     {isAuthenticated && (
                         <>
                             {/* Streak Tracker */}
-                            <StreakTracker currentStreak={4} isMobile={isMobile} />
+                            <StreakTracker currentStreak={90} isMobile={isMobile} />
 
                             {/* Wallet Button */}
                             <Tooltip>
