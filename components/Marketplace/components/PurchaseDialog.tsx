@@ -60,7 +60,7 @@ export default function PurchaseDialog({ item, isOpen, onClose }: PurchaseDialog
             title="Purchase Item"
             description={item.owned ? "You already own this item" : "Review your purchase before confirming"}
         >
-            <div className="relative">
+            <div className="relative rounded-3xl overflow-hidden">
                 <AnimatePresence mode="wait">
                     {step === "confirm" && (
                         <motion.div
@@ -71,7 +71,7 @@ export default function PurchaseDialog({ item, isOpen, onClose }: PurchaseDialog
                             className="space-y-6"
                         >
                             {/* Header */}
-                            <div className="space-y-2 px-6 pt-6">
+                            <div className="space-y-2 px-6 pt-6 bg-linear-to-b from-foreground/10 to-transparent bg-background/90 backdrop-blur-sm">
                                 <div className="flex items-start justify-between">
                                     <div className="flex items-center gap-2">
                                         <h2 className="text-2xl font-bold">Purchase Item</h2>
@@ -146,7 +146,7 @@ export default function PurchaseDialog({ item, isOpen, onClose }: PurchaseDialog
                                     </div>
                                 </div>
                                 {item.limitedEdition && item.stock !== undefined && (
-                                    <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-start gap-2">
+                                    <div className="p-3 rounded-lg bg-linear-to-t from-amber-500/10 to-transparent border border-amber-500/30 flex items-start gap-2">
                                         <AlertCircle className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
                                         <div className="text-sm">
                                             <p className="font-medium text-amber-600">Limited Edition</p>

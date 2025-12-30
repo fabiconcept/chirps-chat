@@ -1,10 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TrendingDown, Minus, Trophy, Users, Heart, MessageSquare, Home, LucideProps, CalendarCheck, TrendingUp } from "lucide-react";
+import { TrendingDown, Minus, Trophy, Users, Heart, MessageSquare, Home, LucideProps, CalendarCheck, TrendingUp, Plus, Equal } from "lucide-react";
 import { LeaderboardUser, LeaderboardCategory } from "../types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { cn, formatNumber } from "@/lib/utils";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 
@@ -131,21 +130,21 @@ export default function LeaderboardRankCard({ user, rank, category, index }: Lea
             {/* Stats & Change */}
             <div className="flex items-center gap-3 shrink-0">
                 {/* Change Indicator */}
-                {change !== 0 && (
+                {(
                     <div className={cn(
-                        "flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium",
+                        "flex items-center gap-0 px-2 py-1 rounded-md text-xs font-medium",
                         change > 0 ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" :
                         change < 0 ? "bg-destructive/10 text-destructive" :
                         "bg-muted text-muted-foreground"
                     )}>
                         {change > 0 ? (
-                            <TrendingUp className="h-3 w-3" />
+                            <Plus strokeWidth={3} className="h-3 w-3" />
                         ) : change < 0 ? (
-                            <TrendingDown className="h-3 w-3" />
+                            <Minus strokeWidth={3} className="h-3 w-3" />
                         ) : (
-                            <Minus className="h-3 w-3" />
+                            <Equal strokeWidth={3} className="h-3 w-3" />
                         )}
-                        <span>{Math.abs(change)}</span>
+                        {change !== 0 && <span>{Math.abs(change)}</span>}
                     </div>
                 )}
 

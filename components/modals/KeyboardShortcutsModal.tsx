@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -20,11 +19,11 @@ import {
     Settings, 
     LogOut,
     Keyboard,
-    Command,
     Globe
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/components/Providers/AuthProvider";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 interface KeyboardShortcutsModalProps {
     open: boolean;
@@ -45,6 +44,7 @@ interface ShortcutCategory {
 
 export default function KeyboardShortcutsModal({ open, onOpenChange }: KeyboardShortcutsModalProps) {
     const { isMacOS } = useAuth();
+    const isMobile = useIsMobile();
     const cmdKey = isMacOS ? "⌘" : "Ctrl";
 
     const shortcutCategories: ShortcutCategory[] = [
@@ -104,11 +104,13 @@ export default function KeyboardShortcutsModal({ open, onOpenChange }: KeyboardS
         },
     ];
 
+    if (isMobile) return null;
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-3xl max-h-[85vh] p-0 gap-0 rounded-3xl">
+            <DialogContent className="max-w-3xl max-h-[85vh] p-0 gap-0 rounded-3xl overflow-hidden">
                 {/* Header */}
-                <DialogHeader className="px-6 py-4 border-b border-border bg-muted/30 bg-linear-to-b from-transparent to-foreground/5">
+                <DialogHeader className="px-6 py-4 border-b border-border bg-muted/30 bg-linear-to-t from-transparent to-foreground/5">
                     <div className="flex items-center gap-3">
                         <div className="p-2 rounded-lg bg-primary/10">
                             <Keyboard className="h-5 w-5 text-primary" />
@@ -161,7 +163,12 @@ export default function KeyboardShortcutsModal({ open, onOpenChange }: KeyboardS
                                                 {/* Keys */}
                                                 <KbdGroup>
                                                     {shortcut.keys.map((key, keyIndex) => (
-                                                        <Kbd key={keyIndex} className="min-w-8 h-6 text-base justify-center">
+                                                        <Kbd key={keyIndex} className={cn(
+                                                            "min-w-8 h-6 justify-center border border-input/50 rounded-none",
+                                                            keyIndex === 0 ? "rounded-l-md" : keyIndex === shortcut.keys.length - 1 ? "rounded-r-md" : "",
+                                                            (keyIndex === shortcut.keys.length - 1 && shortcut.keys.length === 1) ? "rounded-md" : "",
+                                                            (key === "⌘" || key === "⇧") ? "text-lg" : "",
+                                                        )}>
                                                             {key}
                                                         </Kbd>
                                                     ))}
@@ -177,29 +184,6 @@ export default function KeyboardShortcutsModal({ open, onOpenChange }: KeyboardS
                                 )}
                             </div>
                         ))}
-
-                        {/* Platform Note */}
-                        <div className="mt-8 p-4 rounded-lg bg-muted/30 border border-border">
-                            <div className="flex items-start gap-3">
-                                <Command className="h-5 w-5 text-muted-foreground shrink-0 mt-0.5" />
-                                <div>
-                                    <p className="text-sm font-medium">Platform Note</p>
-                                    <p className="text-xs text-muted-foreground mt-1">
-                                        {isMacOS ? (
-                                            <>
-                                                On macOS, <Kbd className="inline-flex mx-1">⌘</Kbd> is the Command key.
-                                                Most shortcuts use Command instead of Ctrl.
-                                            </>
-                                        ) : (
-                                            <>
-                                                On Windows/Linux, most shortcuts use <Kbd className="inline-flex mx-1">Ctrl</Kbd> 
-                                                instead of Command.
-                                            </>
-                                        )}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </ScrollArea>
 

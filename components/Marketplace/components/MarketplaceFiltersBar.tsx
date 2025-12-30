@@ -52,17 +52,18 @@ export default function MarketplaceFiltersBar({ filters, setFilters, itemCount }
                             <span className="font-medium capitalize">{filters.rarity}</span>
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" className="bg-linear-to-t rounded-3xl from-foreground/25 to-transparent p-0 bg-background/90 backdrop-blur-sm">
+                    <DropdownMenuContent align="start" className="bg-linear-to-t rounded-3xl from-foreground/25 to-transparent p-1 space-y-1 bg-background/90 backdrop-blur-sm">
                         <DropdownMenuRadioGroup
                             value={filters.rarity}
                             onValueChange={(value) => setFilters({ ...filters, rarity: value as any })}
+                            className="flex flex-col gap-1"
                         >
-                            <DropdownMenuRadioItem value="all">All Rarities</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="common">Common</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="rare">Rare</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="epic">Epic</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="legendary">Legendary</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="mythic">Mythic</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="all" className="rounded-3xl">All Rarities</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="common" className="rounded-3xl">Common</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="rare" className="rounded-3xl">Rare</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="epic" className="rounded-3xl">Epic</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="legendary" className="rounded-3xl">Legendary</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="mythic" className="rounded-3xl">Mythic</DropdownMenuRadioItem>
                         </DropdownMenuRadioGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -76,16 +77,17 @@ export default function MarketplaceFiltersBar({ filters, setFilters, itemCount }
                             <span className="font-medium">{filters.priceRange === "all" ? "All" : filters.priceRange}</span>
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" className="bg-linear-to-t rounded-3xl from-foreground/25 to-transparent p-0 bg-background/90 backdrop-blur-sm">
+                    <DropdownMenuContent align="start" className="bg-linear-to-t rounded-3xl from-foreground/25 to-transparent p-1 space-y-1 bg-background/90 backdrop-blur-sm">
                         <DropdownMenuRadioGroup
                             value={filters.priceRange}
                             onValueChange={(value) => setFilters({ ...filters, priceRange: value as any })}
+                            className="flex flex-col gap-1"
                         >
-                            <DropdownMenuRadioItem value="all">All Prices</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="0-100">0 - 100 CHT</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="100-500">100 - 500 CHT</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="500-1000">500 - 1K CHT</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="1000+">1K+ CHT</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="all" className="rounded-3xl">All Prices</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="0-100" className="rounded-3xl">0 - 100 CHT</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="100-500" className="rounded-3xl">100 - 500 CHT</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="500-1000" className="rounded-3xl">500 - 1K CHT</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="1000+" className="rounded-3xl">1K+ CHT</DropdownMenuRadioItem>
                         </DropdownMenuRadioGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -97,16 +99,17 @@ export default function MarketplaceFiltersBar({ filters, setFilters, itemCount }
                             Sort: <span className="font-medium capitalize">{filters.sortBy.replace("-", " ")}</span>
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" className="bg-linear-to-t rounded-3xl from-foreground/25 to-transparent p-0 bg-background/90 backdrop-blur-sm">
+                    <DropdownMenuContent align="start" className="bg-linear-to-t rounded-3xl from-foreground/25 to-transparent p-1 space-y-1 bg-background/90 backdrop-blur-sm">
                         <DropdownMenuRadioGroup
                             value={filters.sortBy}
+                            className="flex flex-col gap-1"
                             onValueChange={(value) => setFilters({ ...filters, sortBy: value as any })}
                         >
-                            <DropdownMenuRadioItem value="featured">Featured</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="price-low">Price: Low to High</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="price-high">Price: High to Low</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="name">Name</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="rarity">Rarity</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="featured" className="rounded-3xl">Featured</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="price-low" className="rounded-3xl">Price: Low to High</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="price-high" className="rounded-3xl">Price: High to Low</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="name" className="rounded-3xl">Name</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="rarity" className="rounded-3xl">Rarity</DropdownMenuRadioItem>
                         </DropdownMenuRadioGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>

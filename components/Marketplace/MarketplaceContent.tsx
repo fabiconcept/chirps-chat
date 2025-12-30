@@ -163,7 +163,7 @@ export default function MarketplaceContent() {
                 ownedCount={ownedItemsCount}
             />
 
-            <div className="container mx-auto h-full px-4 py-6 w-full">
+            <div className="container mx-auto min-h-full px-4 py-6 w-full">
                 {currentView === "browse" ? (
                     <>
                         <MarketplaceFiltersBar 

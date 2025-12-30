@@ -339,11 +339,11 @@ export default function GlobalHeader() {
                                     <DropdownMenuSeparator />
 
                                     <DropdownMenuGroup>
-                                        <DropdownMenuItem onClick={() => updateSearchParam(SearchParamKeys.SHORTCUTS_MODAL, "true")}>
+                                        {!isMobile && <DropdownMenuItem onClick={() => updateSearchParam(SearchParamKeys.SHORTCUTS_MODAL, "true")}>
                                             <Zap className="mr-2 h-4 w-4" />
                                             <span>Keyboard Shortcuts</span>
                                             <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                                        </DropdownMenuItem>
+                                        </DropdownMenuItem>}
                                         <DropdownMenuItem>
                                             <HelpCircle className="mr-2 h-4 w-4" />
                                             <span>Help & Support</span>
