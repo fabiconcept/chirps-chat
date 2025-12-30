@@ -80,7 +80,7 @@ export default function UserClump({
                         <BadgeCheckIcon size={size} />
                     </span>}
                 </div>
-                <span className={cn('opacity-75 truncate', sizes.username)}>{username}</span>
+                <span className={cn('opacity-75 truncate text-left', sizes.username)}>{username}</span>
             </div>}
         </div>
     );

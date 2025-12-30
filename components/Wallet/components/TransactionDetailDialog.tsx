@@ -95,11 +95,11 @@ export default function TransactionDetailDialog({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[520px] p-0 gap-0 overflow-hidden rounded-2xl">
+            <DialogContent className="sm:max-w-[520px] p-0 gap-0 overflow-hidden rounded-3xl">
                 {/* Header with gradient */}
                 <DialogHeader className={cn(
                     "px-6 pt-6 pb-6 border-b border-border relative overflow-hidden",
-                    "bg-linear-to-br",
+                    "bg-linear-to-b",
                     isPositive ? "from-green-500/10 to-background" : "from-destructive/10 to-background"
                 )}>
                     <div className="relative z-10">

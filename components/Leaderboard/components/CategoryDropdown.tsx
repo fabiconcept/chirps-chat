@@ -1,8 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { TrendingUp, Trophy, Users, Heart, MessageSquare, Home, ChevronDown, Check } from "lucide-react";
+import { Trophy, Users, Heart, MessageSquare, Home, ChevronDown, Check, CalendarCheck } from "lucide-react";
 import { LeaderboardCategory } from "../types";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -10,8 +8,6 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -24,7 +20,7 @@ const categories = [
     {
         id: "streak" as LeaderboardCategory,
         label: "Most Streak",
-        icon: TrendingUp,
+        icon: CalendarCheck,
         accentColor: "#10b981",
         description: "Longest active streaks"
     },
@@ -75,7 +71,7 @@ export default function CategoryDropdown({ activeCategory, onCategoryChange }: C
                 <Button
                     variant="outline"
                     size="sm"
-                    className="gap-2 rounded-3xl"
+                    className="gap-2 rounded-3xl border-none bg-linear-to-b from-foreground/10 to-transparent"
                 >
                     <ActiveIcon className="h-4 w-4" />
                     <span className="hidden sm:inline">{activeConfig.label}</span>
@@ -83,12 +79,7 @@ export default function CategoryDropdown({ activeCategory, onCategoryChange }: C
                 </Button>
             </DropdownMenuTrigger>
             
-            <DropdownMenuContent align="end" className="w-[240px] rounded-3xl">
-                <DropdownMenuLabel className="text-xs font-normal">
-                    Category
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                
+            <DropdownMenuContent align="end" className="w-[240px] p-1 space-y-1 rounded-3xl bg-linear-to-t from-foreground/10 to-transparent">
                 {categories.map((category) => {
                     const Icon = category.icon;
                     const isActive = activeCategory === category.id;
@@ -98,14 +89,14 @@ export default function CategoryDropdown({ activeCategory, onCategoryChange }: C
                             key={category.id}
                             onClick={() => onCategoryChange(category.id)}
                             className={cn(
-                                "gap-2 cursor-pointer",
+                                "gap-2 cursor-pointer px-4 py-2 rounded-3xl",
                                 isActive && "bg-muted"
                             )}
                         >
                             <Icon className="h-4 w-4" />
                             <span className="flex-1 text-sm">{category.label}</span>
                             {isActive && (
-                                <Check className="h-3 w-3 shrink-0" />
+                                <Check className="h-3 w-3 shrink-0 text-blue-500" />
                             )}
                         </DropdownMenuItem>
                     );

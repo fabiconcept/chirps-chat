@@ -211,16 +211,16 @@ const PollPost = ({ pollData, onPollChange }: { pollData: { question: string; op
                     Poll Duration
                 </Label>
                 <Select defaultValue={PollDuration[0].value.toString()}>
-                    <SelectTrigger id="duration" className="w-full h-11 bg-background/50 border-input/60 focus:ring-primary/20">
+                    <SelectTrigger id="duration" className="w-full h-11 rounded-3xl bg-linear-to-b from-foreground/10 to-transparent border-input/60 focus:ring-primary/20">
                         <SelectValue placeholder="Select a duration" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="px-1 w-fit space-y-1 rounded-3xl bg-linear-to-t from-foreground/25 to-transparent bg-background/90 backdrop-blur-sm">
                         <SelectGroup>
                             {PollDuration.map((duration) => (
                                 <SelectItem 
                                     key={duration.id} 
                                     value={duration.value.toString()}
-                                    className="cursor-pointer"
+                                    className="cursor-pointer rounded-3xl mx-0"
                                 >
                                     {duration.label}
                                 </SelectItem>

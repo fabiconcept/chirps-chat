@@ -25,6 +25,7 @@ export default function MarketplaceHeader({ currentView, onViewChange, ownedCoun
                         variant={currentView === "browse" ? "default" : "outline"}
                         size="sm"
                         onClick={() => onViewChange("browse")}
+                        className="bg-linear-to-r rounded-3xl from-[#7600C9]/50 to-transparent"
                     >
                         <Store className="h-4 w-4 md:mr-2" />
                         <span className="hidden md:inline">Browse</span>
@@ -32,6 +33,7 @@ export default function MarketplaceHeader({ currentView, onViewChange, ownedCoun
                     <Button
                         variant={currentView === "owned" ? "default" : "outline"}
                         size="sm"
+                        className="bg-linear-to-l rounded-3xl from-[#7600C9]/50 to-transparent"
                         onClick={() => onViewChange("owned")}
                     >
                         <Package className="h-4 w-4 md:mr-2" />

@@ -226,15 +226,15 @@ export default function SuggestionsContainer() {
             {/* Tabs */}
             <Tabs value={activeTab} onValueChange={handleTabChange}>
                 <div className="flex items-center justify-between gap-4 flex-wrap">
-                    <TabsList>
-                        <TabsTrigger value="active" className="gap-2">
+                    <TabsList className="rounded-3xl">
+                        <TabsTrigger value="active" className="gap-2 rounded-3xl">
                             <Lightbulb className="h-4 w-4" />
                             Active
                             <span className="ml-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-semibold">
                                 {activeSuggestions.length}
                             </span>
                         </TabsTrigger>
-                        <TabsTrigger value="implemented" className="gap-2">
+                        <TabsTrigger value="implemented" className="gap-2 rounded-3xl">
                             <CheckCircle2 className="h-4 w-4" />
                             Implemented
                             <span className="ml-1 px-2 py-0.5 rounded-full bg-green-500/10 text-green-600 text-xs font-semibold">

@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import {
     Dialog,
@@ -112,14 +113,14 @@ export default function CreateSuggestionDialog({ open, onOpenChange, onSubmit }:
                             Category <span className="text-destructive">*</span>
                         </Label>
                         <Select value={category} onValueChange={(value) => setCategory(value as SuggestionCategory)}>
-                            <SelectTrigger id="category">
+                            <SelectTrigger id="category" className="rounded-3xl bg-linear-to-b from-foreground/10 to-transparent">
                                 <SelectValue />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="px-1 w-fit space-y-1 rounded-3xl bg-linear-to-t from-foreground/25 to-transparent bg-background/90 backdrop-blur-sm">
                                 {categories.map((cat) => {
                                     const Icon = cat.icon;
                                     return (
-                                        <SelectItem key={cat.value} value={cat.value}>
+                                        <SelectItem key={cat.value} value={cat.value} className="rounded-3xl">
                                             <div className="flex items-center gap-2">
                                                 <Icon className="h-4 w-4" />
                                                 {cat.label}

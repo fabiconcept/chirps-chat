@@ -25,8 +25,8 @@ import {
 import Search from './header components/Search';
 import StreakTracker from './header components/StreakTracker';
 import UserClump from './modular/UserClump';
-import { BellDot, Fullscreen, Wallet, User, Settings, Zap, HelpCircle, LogOut } from 'lucide-react';
-import { cn, removeSearchParam, updateSearchParam } from '@/lib/utils';
+import { BellDot, Fullscreen, Wallet, User, Settings, Zap, HelpCircle, LogOut, Moon, Sun } from 'lucide-react';
+import { cn, formatNumber, removeSearchParam, updateSearchParam } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { HugeiconsIcon } from '@hugeicons/react';
@@ -45,9 +45,9 @@ const noHeaderPages = [
 ]
 
 export default function GlobalHeader() {
-    const { isAuthenticated, logout, isMobile } = useAuth();
+    const { isAuthenticated, logout, isMobile, isMacOS } = useAuth();
     const headerRef = useRef<HTMLDivElement>(null);
-    const { theme } = useTheme();
+    const { theme, setTheme } = useTheme();
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const isFullscreen = useMemo(() => searchParams.get(SearchParamKeys.FULLSCREEN), [searchParams]);
@@ -98,8 +98,9 @@ export default function GlobalHeader() {
         shortcuts: [
             { key: KeyboardKey.KeyF, altKey: true, enabled: allowedShortcuts.has("alt+F") },
             { key: KeyboardKey.KeyW, altKey: true, enabled: allowedShortcuts.has("alt+W") },
-            { key: KeyboardKey.KeyK, metaKey: true, ctrlKey: true, enabled: allowedShortcuts.has("commandK") },
+            { key: KeyboardKey.KeyK, metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandK") },
             { key: KeyboardKey.Escape, isSpecialKey: true, enabled: allowedShortcuts.has("commandESC") },
+            { key: KeyboardKey.KeyL, metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandL") },
         ],
         onTrigger: (shortcut) => {
             switch (shortcut.key) {
@@ -125,9 +126,12 @@ export default function GlobalHeader() {
                     setFullscreen("false");
                     disallowShortcuts(["commandESC"]);
                     break;
+                case KeyboardKey.KeyL:
+                    setTheme(theme === "light" ? "dark" : "light");
+                    break;
             }
         }
-    }, [allowedShortcuts, searchParams, isHidden, showShortcutsModal]);
+    }, [allowedShortcuts, searchParams, isHidden, showShortcutsModal, isMacOS, theme, setTheme]);
 
     useEffect(() => {
         if (!isHidden) return;
@@ -186,7 +190,7 @@ export default function GlobalHeader() {
                     {isAuthenticated && (
                         <>
                             {/* Streak Tracker */}
-                            <StreakTracker currentStreak={42} isMobile={isMobile} />
+                            <StreakTracker currentStreak={4} isMobile={isMobile} />
 
                             {/* Wallet Button */}
                             <Tooltip>
@@ -194,12 +198,14 @@ export default function GlobalHeader() {
                                     <Button
                                         variant="outline"
                                         size={isMobile ? "sm" : "default"}
-                                        className="gap-1.5 md:gap-2 bg-linear-to-r from-[#D4AF37]/10 to-transparent border-[#D4AF37]/30 hover:border-[#D4AF37]/50 transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden relative max-sm:hidden"
+                                        className="gap-1.5 rounded-3xl md:gap-2 bg-linear-to-r from-[#D4AF37]/10 to-transparent border-[#D4AF37]/30 hover:border-[#D4AF37]/50 transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden relative"
                                     >
                                         <div onClick={() => updateSearchParam("wallet", "open")} className="flex items-center gap-2">
                                             <Wallet className="h-4 w-4 text-[#D4AF37]" />
-                                            <span className="font-semibold text-[#D4AF37] ave">12,847.50</span>
-                                            <Badge variant="outline" className="bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/20 px-1.5 text-[10px]">
+                                            <span className="font-semibold text-[#D4AF37] ave">
+                                                {isMobile ? formatNumber(12847.50) : "12,847.50"}
+                                            </span>
+                                            <Badge variant="outline" className="bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/20 px-1.5 text-[10px] max-sm:hidden">
                                                 CHT
                                             </Badge>
                                         </div>
@@ -232,11 +238,6 @@ export default function GlobalHeader() {
                             </TooltipContent>
                         </Tooltip>
                     )}
-                    <div
-                        className="lg:flex hidden items-center gap-2"
-                    >
-                        <ThemeSwitch className='border' />
-                    </div>
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <div className="relative">
@@ -273,31 +274,29 @@ export default function GlobalHeader() {
                         {isAuthenticated && (
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <button className="focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-full">
+                                    <button className="focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-full bg-linear-to-b from-foreground/10 to-transparent">
                                         <UserClump
                                             name="Hello Kitty"
                                             username="@hello-kitty"
                                             size={isMobile ? "xs" : undefined}
+                                            clickable={false}
+                                            className='cursor-pointer'
                                             avatar="https://chirps-chat.sirv.com/premium/rasta.png"
                                         />
                                     </button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className="w-64 rounded-t-3xl bg-background/75 backdrop-blur-sm px-0" align="end" sideOffset={8}>
+                                <DropdownMenuContent className="w-64 rounded-t-3xl bg-background/75 backdrop-blur-sm px-0 pt-0" align="end" sideOffset={8}>
                                     {/* User Info Header */}
-                                    <div className="px-2 py-3 border-b border-border">
-                                        <div className="flex items-center gap-3">
-                                            <div className="h-10 w-10 rounded-full overflow-hidden border-2 border-border">
-                                                <img
-                                                    src="https://chirps-chat.sirv.com/premium/rasta.png"
-                                                    alt="Hello Kitty"
-                                                    className="h-full w-full object-cover"
-                                                />
-                                            </div>
-                                            <div className="flex-1 min-w-0">
-                                                <p className="font-semibold text-sm truncate">Hello Kitty</p>
-                                                <p className="text-xs text-muted-foreground truncate">@hello-kitty</p>
-                                            </div>
-                                        </div>
+                                    <div className="px-2 py-3 border-b border-border bg-linear-to-b from-foreground/10 to-transparent">
+                                        <UserClump
+                                            name="Hello Kitty"
+                                            username="@hello-kitty"
+                                            size={isMobile ? "xs" : undefined}
+                                            variant="ghost"
+                                            avatar="https://chirps-chat.sirv.com/premium/rasta.png"
+                                            className='p-0 w-fit mx-auto'
+                                            isVerified
+                                        />
                                     </div>
 
                                     {/* Quick Stats */}
@@ -330,8 +329,8 @@ export default function GlobalHeader() {
                                             <span>Settings</span>
                                             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                                         </DropdownMenuItem>
-                                        <DropdownMenuItem className='lg:hidden'>
-                                            <div className="mr-2 h-4 w-4" />
+                                        <DropdownMenuItem className=''>
+                                            {theme === 'dark' ? <Moon className="mr-2 h-4 w-4" /> : <Sun className="mr-2 h-4 w-4" />}
                                             <span>Appearance</span>
                                             <ThemeSwitch className='ml-auto' />
                                         </DropdownMenuItem>

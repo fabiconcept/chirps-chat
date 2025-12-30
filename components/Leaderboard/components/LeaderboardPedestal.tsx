@@ -36,28 +36,28 @@ const categoryConfig: Record<LeaderboardCategory, {
     },
     followers: {
         label: "Followers",
-        unit: "",
+        unit: "Followers",
         icon: Users,
         color: "text-blue-500",
         gradient: "from-blue-500/20 to-blue-600/10"
     },
     likes: {
         label: "Likes",
-        unit: "",
+        unit: "Likes",
         icon: Heart,
         color: "text-red-500",
         gradient: "from-red-500/20 to-red-600/10"
     },
     posts: {
         label: "Posts",
-        unit: "",
+        unit: "Posts",
         icon: MessageSquare,
         color: "text-purple-500",
         gradient: "from-purple-500/20 to-purple-600/10"
     },
     rooms: {
         label: "Rooms",
-        unit: "",
+        unit: "Rooms",
         icon: Home,
         color: "text-indigo-500",
         gradient: "from-indigo-500/20 to-indigo-600/10"
@@ -210,14 +210,13 @@ export default function LeaderboardPedestal({ topThree, category, onUserClick, s
 
                     {/* Stat Display */}
                     <div className={cn(
-                        "mt-2 px-3 py-1.5 rounded-full border relative z-10",
-                        `bg-linear-to-r ${config.gradient}`,
-                        "border-border"
+                        "mt-2 px-3 py-3 rounded-full border relative z-10",
+                        `bg-background border-2 ${rankStyle.borderColor}`,
                     )}>
                         <div className="flex items-center gap-2">
                             <div className="text-center">
-                                <p className={cn("text-xl font-semibold flex items-center justify-center", config.color)}>
-                                    <CategoryIcon className={cn("h-4 w-4 mr-2", config.color)} />
+                                <p className={cn("text-xl font-semibold flex flex-col items-center justify-center", config.color)}>
+                                    <CategoryIcon className={cn("h-4 w-4", config.color)} />
                                     {formatNumber(statValue)}
                                 </p>
                                 {config.unit && (
@@ -229,7 +228,6 @@ export default function LeaderboardPedestal({ topThree, category, onUserClick, s
 
                     {/* Country Flag */}
                     <div className="mt-2 flex items-center gap-1 text-xs text-muted-foreground relative z-10">
-                        <span className="text-sm">{user.countryCode}</span>
                         <span className="font-normal">{user.country}</span>
                     </div>
                 </motion.div>

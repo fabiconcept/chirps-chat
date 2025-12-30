@@ -17,17 +17,19 @@ export default function HangMan({
     children,
     className,
     exemptFrom,
+    hideFrom,
 }: {
     children: React.ReactNode;
     className?: string;
     exemptFrom?: string[]
+    hideFrom?: string[]
 }) {
     const [baseWidth, setBaseWidth] = React.useState(0);
     const pathname = usePathname();
     const resized = useResized();
 
     const shouldExempt = exemptFrom && exemptFrom.some((e) => pathname.includes(e));
-
+    const shouldHide = hideFrom && hideFrom.some((h) => pathname.includes(h));
     const ref = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
@@ -43,6 +45,8 @@ export default function HangMan({
             }
         }
     }, [resized, setBaseWidth]);
+
+    if (shouldHide) return null;
 
     return (
         <>

@@ -15,54 +15,57 @@ import GlobeVisualization from "./components/GlobeVisualization";
 import UserDetailDialog from "./components/UserDetailDialog";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
+import { Switch } from "../ui/switch";
+import { Label } from "../ui/label";
+import useShortcuts, { KeyboardKey } from "@useverse/useshortcuts";
 
 export default function LeaderboardContent() {
     const searchParams = useSearchParams();
-    
+
     // Get state from URL or use defaults
     const activeCategory = (searchParams.get(SearchParamKeys.MARKETPLACE_CATEGORY) as LeaderboardCategory) || "streak";
     const selectedCountry = searchParams.get(SearchParamKeys.LEADERBOARD_COUNTRY) || null;
     const selectedUserId = searchParams.get("leaderboard-user") || null;
-    
+
     const [showGlobe, setShowGlobe] = useState(true);
 
     // Sort and filter users by active category and country
     const { rankedUsers, currentUserRank, currentUserWithRank, showCurrentUser } = useMemo(() => {
         // Check if current user matches country filter
         const currentUserMatchesFilter = !selectedCountry || currentUser.country === selectedCountry;
-        
+
         // Include current user in the ranking only if they match the filter
         let allUsers = [...mockLeaderboardUsers];
         if (currentUserMatchesFilter) {
             allUsers.push(currentUser);
         }
-        
+
         // Filter by country if selected
         if (selectedCountry) {
             allUsers = allUsers.filter(user => user.country === selectedCountry);
         }
-        
+
         // Sort by active category
-        const sorted = allUsers.sort((a, b) => 
+        const sorted = allUsers.sort((a, b) =>
             b.stats[activeCategory] - a.stats[activeCategory]
         );
-        
+
         const ranked = sorted.map((user, index) => ({
             ...user,
             rank: index + 1
         }));
-        
+
         // Find current user's rank (only if they're in the filtered list)
         const currentUserIndex = ranked.findIndex(u => u.id === currentUser.id);
         const currentUserRank = currentUserIndex >= 0 ? currentUserIndex + 1 : -1;
         const currentUserWithRank = currentUserIndex >= 0 ? ranked[currentUserIndex] : null;
-        
+
         // Remove current user from the main list (we'll show them separately if they exist)
         const withoutCurrentUser = ranked.filter(u => u.id !== currentUser.id);
-        
-        return { 
-            rankedUsers: withoutCurrentUser, 
-            currentUserRank, 
+
+        return {
+            rankedUsers: withoutCurrentUser,
+            currentUserRank,
             currentUserWithRank,
             showCurrentUser: currentUserMatchesFilter && currentUserWithRank !== null
         };
@@ -94,11 +97,23 @@ export default function LeaderboardContent() {
 
     const selectedUser = useMemo(() => {
         if (!selectedUserId) return null;
-        const allUsers = currentUserWithRank 
+        const allUsers = currentUserWithRank
             ? [...rankedUsers, currentUserWithRank]
             : rankedUsers;
         return allUsers.find(u => u?.id === selectedUserId) || null;
     }, [selectedUserId, rankedUsers, currentUserWithRank]);
+
+    useShortcuts({
+        shortcuts: [
+            { key: KeyboardKey.KeyG, altKey: true, enabled: true },
+        ],
+        onTrigger: (shortcut) => {
+            switch (shortcut.key) {
+                case KeyboardKey.KeyG:
+                    setShowGlobe(!showGlobe);
+            }
+        }
+    }, [showGlobe]);
 
     return (
         <>
@@ -119,10 +134,12 @@ export default function LeaderboardContent() {
                                         variant="outline"
                                         size="sm"
                                         onClick={clearCountryFilter}
-                                        className="gap-2"
+                                        className="gap-2 rounded-3xl bg-linear-to-b from-[#7600C9]/50 hover:from-destructive/50 to-transparent"
+                                        title="Clear Country Selection"
                                     >
                                         <MapPin className="h-4 w-4" />
                                         <span>{selectedCountry}</span>
+                                        <span className="sr-only">Clear Country Selection of {selectedCountry}</span>
                                         <X className="h-4 w-4" />
                                     </Button>
                                 </motion.div>
@@ -131,11 +148,23 @@ export default function LeaderboardContent() {
                             )}
                         </AnimatePresence>
 
-                        {/* Category Dropdown (Right) */}
-                        <CategoryDropdown 
-                            activeCategory={activeCategory}
-                            onCategoryChange={handleCategoryChange}
-                        />
+                        <div className="flex items-center gap-5">
+                            <div className="flex items-center gap-2 w-fit">
+                                <Switch
+                                    id="show-globe"
+                                    checked={showGlobe}
+                                    onCheckedChange={(checked) => setShowGlobe(checked)}
+                                />
+                                <Label htmlFor="show-globe" className="text-sm cursor-pointer">
+                                    Show Globe
+                                </Label>
+                            </div>
+                            {/* Category Dropdown (Right) */}
+                            <CategoryDropdown
+                                activeCategory={activeCategory}
+                                onCategoryChange={handleCategoryChange}
+                            />
+                        </div>
                     </div>
 
                     {/* Top 3 Pedestal */}
@@ -173,8 +202,8 @@ export default function LeaderboardContent() {
                                         </Badge>
                                     </div>
                                     <div className="relative overflow-hidden">
-                                        <GlobeVisualization 
-                                            users={mockLeaderboardUsers.slice(0, 30)}
+                                        <GlobeVisualization
+                                            users={mockLeaderboardUsers.slice(0)}
                                             onUserClick={(user) => {
                                                 handleCountryFilter(user.country);
                                             }}
@@ -212,7 +241,7 @@ export default function LeaderboardContent() {
                                     >
                                         <div className="relative">
                                             <div className="absolute inset-0 bg-linear-to-r from-[#7600C9]/20 via-[#7600C9]/10 to-transparent blur-xl" />
-                                            <div 
+                                            <div
                                                 className="relative cursor-pointer"
                                                 onClick={() => handleUserClick(currentUserWithRank)}
                                             >
@@ -237,15 +266,15 @@ export default function LeaderboardContent() {
                                     const items = [];
                                     // Start from rank 4 since top 3 are on pedestal
                                     const usersToShow = rankedUsers.filter(u => u.rank && u.rank > 3);
-                                    
+
                                     for (let i = 0; i < usersToShow.length; i++) {
                                         const user = usersToShow[i];
                                         const currentRank = user.rank || (i + 4);
-                                        
+
                                         // Insert current user at their rank position if shown and in list range
                                         if (showCurrentUser && currentUserWithRank && currentUserRank > 3 && currentUserRank === currentRank) {
                                             items.push(
-                                                <div 
+                                                <div
                                                     key={`current-user-in-list`}
                                                     className="cursor-pointer"
                                                     onClick={() => handleUserClick(currentUserWithRank)}
@@ -259,11 +288,11 @@ export default function LeaderboardContent() {
                                                 </div>
                                             );
                                         }
-                                        
+
                                         // Add regular user (skip if this is the current user's position)
                                         if (!currentUserWithRank || user.id !== currentUser.id) {
                                             items.push(
-                                                <div 
+                                                <div
                                                     key={user.id}
                                                     className="cursor-pointer"
                                                     onClick={() => handleUserClick(user)}
@@ -278,7 +307,7 @@ export default function LeaderboardContent() {
                                             );
                                         }
                                     }
-                                    
+
                                     return items;
                                 })()}
                             </div>

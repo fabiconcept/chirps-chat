@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { cn, removeSearchParam, updateSearchParam } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 import { SearchParamKeys } from "@/lib/enums";
+import { useAuth } from "@/components/Providers/AuthProvider";
 
 export enum PostType {
     TEXT = "text",
@@ -54,6 +55,7 @@ export default function CreatePost({
 }) {
     const { disallowShortcuts, allowShortcuts, notoriousShortcuts, allowedShortcuts } = useKeyBoardShortCut();
     const { theme } = useTheme();
+    const { isMacOS } = useAuth();
     const [isHovered, setIsHovered] = useState(false);
     const [postData, setPostData] = useState<PostData>(emptyPostData);
     const searchParams = useSearchParams();
@@ -177,7 +179,8 @@ export default function CreatePost({
     useShortcuts({
         shortcuts: [{
             key: KeyboardKey.KeyN,
-            shiftKey: true,
+            ctrlKey: !isMacOS,
+            metaKey: isMacOS,
             enabled: allowedShortcuts.has("commandN")
         }],
         onTrigger: (shortcut) => {
@@ -298,6 +301,10 @@ export default function CreatePost({
                             {postData.type === PostType.TEXT && <Button
                                 variant="outline"
                                 className="px-3 py-2"
+                                onClick={() => {
+                                    resetPostData();
+                                    removeSearchParam(SearchParamKeys.NEWPOST);
+                                }}
                             >
                                 <span className="">Cancel</span>
                             </Button>}

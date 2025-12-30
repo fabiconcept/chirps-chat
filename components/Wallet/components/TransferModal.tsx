@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, ArrowRight, Check, ArrowUpRight, Sparkles, AlertTriangle, User as UserIcon, Wallet as WalletIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import UserClump from "@/components/modular/UserClump";
 
 type User = {
     id: string;
@@ -29,17 +30,17 @@ interface TransferModalProps {
 
 // Mock users for search
 const mockUsers: User[] = [
-    { id: "1", name: "John Doe", username: "@johndoe", avatar: "https://i.pravatar.cc/150?img=1" },
-    { id: "2", name: "Jane Smith", username: "@janesmith", avatar: "https://i.pravatar.cc/150?img=2" },
-    { id: "3", name: "Bob Wilson", username: "@bobwilson", avatar: "https://i.pravatar.cc/150?img=3" },
-    { id: "4", name: "Alice Brown", username: "@alicebrown", avatar: "https://i.pravatar.cc/150?img=4" },
+    { id: "1", name: "Jack Oswald White", username: "@joker", avatar: "https://chirps-chat.sirv.com/premium/joker.png" },
+    { id: "2", name: "Bruce Wayne", username: "@batman", avatar: "https://chirps-chat.sirv.com/premium/batman.png" },
+    { id: "3", name: "Alfred Pennyworth", username: "@anonymous", avatar: "https://chirps-chat.sirv.com/premium/decision.png" },
+    { id: "4", name: "Tony Stark", username: "@ironman", avatar: "https://chirps-chat.sirv.com/premium/ironman.png" },
 ];
 
 const presetAmounts = [10, 25, 50, 100, 250, 500];
 
-export default function TransferModal({ 
-    open, 
-    onOpenChange, 
+export default function TransferModal({
+    open,
+    onOpenChange,
     selectedUser: initialUser,
     onTransferComplete,
     maxBalance
@@ -102,15 +103,15 @@ export default function TransferModal({
 
     const handleConfirm = async () => {
         if (!selectedUser) return;
-        
+
         setIsProcessing(true);
         // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 2000));
-        
+
         onTransferComplete(parseFloat(amount), selectedUser, note);
         setStep("success");
         setIsProcessing(false);
-        
+
         // Reset and close after success
         setTimeout(() => {
             handleClose();
@@ -135,7 +136,7 @@ export default function TransferModal({
 
     return (
         <Dialog open={open} onOpenChange={handleClose}>
-            <DialogContent className="sm:max-w-[520px] p-0 gap-0 overflow-hidden rounded-2xl">
+            <DialogContent className="sm:max-w-[520px] p-0 gap-0 overflow-hidden rounded-3xl">
                 <AnimatePresence mode="wait">
                     {/* Select User Step */}
                     {step === "select" && (
@@ -146,11 +147,8 @@ export default function TransferModal({
                             exit={{ opacity: 0, x: -20 }}
                             transition={{ duration: 0.2 }}
                         >
-                            <DialogHeader className="px-6 pt-6 pb-4 border-b border-border bg-linear-to-br from-[#D4AF37]/5 to-background">
+                            <DialogHeader className="px-6 pt-6 pb-4 border-b border-border bg-linear-to-b from-[#D4AF37]/10 to-background">
                                 <DialogTitle className="flex items-center gap-2 text-lg">
-                                    <div className="p-2 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/30">
-                                        <ArrowUpRight className="h-4 w-4 text-[#D4AF37]" />
-                                    </div>
                                     Transfer Tokens
                                 </DialogTitle>
                                 <DialogDescription>
@@ -159,12 +157,12 @@ export default function TransferModal({
                             </DialogHeader>
 
                             <Tabs defaultValue="users" className="p-6">
-                                <TabsList className="grid w-full grid-cols-2 mb-4">
-                                    <TabsTrigger value="users" className="gap-2">
+                                <TabsList className="grid w-full grid-cols-2 mb-4 rounded-2xl">
+                                    <TabsTrigger value="users" className="gap-2 rounded-2xl">
                                         <UserIcon className="h-4 w-4" />
                                         Users
                                     </TabsTrigger>
-                                    <TabsTrigger value="address" className="gap-2">
+                                    <TabsTrigger value="address" className="gap-2 rounded-2xl">
                                         <WalletIcon className="h-4 w-4" />
                                         Wallet Address
                                     </TabsTrigger>
@@ -190,18 +188,20 @@ export default function TransferModal({
                                                 transition={{ delay: index * 0.05 }}
                                                 onClick={() => handleUserSelect(user)}
                                                 className={cn(
-                                                    "w-full flex items-center gap-3 p-3 rounded-xl transition-all group",
-                                                    "hover:bg-[#D4AF37]/5 border-2 border-transparent hover:border-[#D4AF37]/30"
+                                                    "w-full flex justify-between items-center gap-3 p-1 pr-3 rounded-3xl transition-all group cursor-pointer",
+                                                    "hover:bg-[#D4AF37]/5 border-2 border-input/10 hover:border-[#D4AF37]/30 bg-linear-to-t from-transparent hover:from-[#D4AF37]/10 to-background active:scale-95 delay-0"
                                                 )}
                                             >
-                                                <Avatar className="h-12 w-12 border-2 border-border group-hover:border-[#D4AF37]/50 transition-all">
-                                                    <AvatarImage src={user.avatar} alt={user.name} />
-                                                <AvatarFallback className="font-medium">{user.name.slice(0, 2).toUpperCase()}</AvatarFallback>
-                                            </Avatar>
-                                            <div className="flex-1 text-left">
-                                                <p className="font-medium text-foreground group-hover:text-[#D4AF37] transition-colors">{user.name}</p>
-                                                    <p className="text-sm text-muted-foreground">{user.username}</p>
-                                                </div>
+                                                <UserClump
+                                                    name={user.name}
+                                                    username={user.username}
+                                                    avatar={user.avatar}
+                                                    size="md"
+                                                    clickable={false}
+                                                    isVerified
+                                                    className="cursor-pointer"
+                                                    variant="ghost"
+                                                />
                                                 <div className="opacity-0 group-hover:opacity-100 transition-opacity">
                                                     <div className="p-1.5 rounded-lg bg-[#D4AF37]/10">
                                                         <ArrowRight className="h-4 w-4 text-[#D4AF37]" />
@@ -252,7 +252,7 @@ export default function TransferModal({
                                         </p>
                                     </div>
 
-                                    <div className="p-4 rounded-xl bg-blue-500/10 border-2 border-blue-500/30">
+                                    <div className="p-4 rounded-xl bg-linear-to-b from-transparent to-blue-500/10 border-2 border-blue-500/30">
                                         <div className="flex gap-3">
                                             <div className="shrink-0">
                                                 <div className="h-10 w-10 rounded-full bg-blue-500/20 flex items-center justify-center">
@@ -273,7 +273,7 @@ export default function TransferModal({
                                     <Button
                                         onClick={handleAddressSubmit}
                                         disabled={!walletAddress.trim()}
-                                        className="w-full h-11 font-medium bg-gradient-to-r from-[#D4AF37] to-[#C5A028] hover:from-[#C5A028] hover:to-[#B69117] text-black shadow-md hover:shadow-lg transition-all"
+                                        className="w-full h-11 font-medium bg-linear-to-r from-[#D4AF37] to-[#C5A028] hover:from-[#C5A028] hover:to-[#B69117] text-black shadow-md hover:shadow-lg transition-all"
                                     >
                                         Continue
                                         <ArrowRight className="h-4 w-4 ml-2" />
@@ -292,11 +292,8 @@ export default function TransferModal({
                             exit={{ opacity: 0, x: -20 }}
                             transition={{ duration: 0.2 }}
                         >
-                            <DialogHeader className="px-6 pt-6 pb-4 border-b border-border bg-gradient-to-br from-[#D4AF37]/5 to-background">
+                            <DialogHeader className="px-6 pt-6 pb-4 border-b border-border bg-linear-to-t from-transparent to-[#D4AF37]/10">
                                 <DialogTitle className="flex items-center gap-2 text-xl">
-                                    <div className="p-2 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/30">
-                                        <Sparkles className="h-5 w-5 text-[#D4AF37]" />
-                                    </div>
                                     Transfer Amount
                                 </DialogTitle>
                                 <DialogDescription>
@@ -308,18 +305,19 @@ export default function TransferModal({
 
                             <div className="p-6 space-y-6">
                                 {/* Recipient Card */}
-                                <div className="relative p-4 rounded-xl bg-linear-to-br from-[#D4AF37]/10 to-background border border-[#D4AF37]/30 overflow-hidden group">
+                                <div className="relative p-4 rounded-xl bg-linear-to-t from-foreground/10 to-background border border-[#D4AF37]/30 overflow-hidden group">
                                     <div className="absolute inset-0 bg-linear-to-br from-[#D4AF37]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                     {transferMode === "user" && selectedUser ? (
-                                        <div className="relative flex items-center gap-3">
-                                            <Avatar className="h-14 w-14 border-2 border-[#D4AF37]/50">
-                                                <AvatarImage src={selectedUser.avatar} alt={selectedUser.name} />
-                                                <AvatarFallback className="font-medium">{selectedUser.name.slice(0, 2).toUpperCase()}</AvatarFallback>
-                                            </Avatar>
-                                            <div className="flex-1 min-w-0">
-                                                <p className="font-medium text-foreground">{selectedUser.name}</p>
-                                                <p className="text-sm text-muted-foreground truncate">{selectedUser.username}</p>
-                                            </div>
+                                        <div className="relative flex items-center gap-3 justify-between">
+                                            <UserClump
+                                                name={selectedUser.name}
+                                                username={selectedUser.username}
+                                                avatar={selectedUser.avatar}
+                                                size="md"
+                                                variant="ghost"
+                                                clickable={false}
+                                                isVerified
+                                            />
                                             <Badge className="bg-green-500/10 text-green-600 border-green-500/20">
                                                 Active
                                             </Badge>
@@ -386,16 +384,16 @@ export default function TransferModal({
                                             <Button
                                                 key={preset}
                                                 variant="outline"
-                                            onClick={() => handleAmountSelect(preset)}
-                                            className={cn(
-                                                "h-9 font-medium border-2 transition-all",
-                                                amount === preset.toString()
-                                                    ? "border-[#D4AF37] bg-[#D4AF37]/10 text-[#D4AF37]"
-                                                    : "hover:border-[#D4AF37]/30 hover:bg-[#D4AF37]/5"
-                                            )}
-                                        >
-                                            {preset}
-                                        </Button>
+                                                onClick={() => handleAmountSelect(preset)}
+                                                className={cn(
+                                                    "h-9 font-medium border-2 transition-all",
+                                                    amount === preset.toString()
+                                                        ? "border-[#D4AF37] bg-[#D4AF37]/10 text-[#D4AF37]"
+                                                        : "hover:border-[#D4AF37]/30 hover:bg-[#D4AF37]/5"
+                                                )}
+                                            >
+                                                {preset}
+                                            </Button>
                                         ))}
                                     </div>
                                 </div>
@@ -427,7 +425,7 @@ export default function TransferModal({
                                     >
                                         Back
                                     </Button>
-                                    <Button 
+                                    <Button
                                         onClick={handleContinue}
                                         disabled={!isValidAmount}
                                         className="flex-1 h-11 font-medium bg-gradient-to-r from-[#D4AF37] to-[#C5A028] hover:from-[#C5A028] hover:to-[#B69117] text-black shadow-md hover:shadow-lg transition-all"
@@ -469,9 +467,9 @@ export default function TransferModal({
                                             <div className="flex items-center gap-2">
                                                 <Avatar className="h-7 w-7 border-2 border-[#D4AF37]/50">
                                                     <AvatarImage src={selectedUser.avatar} alt={selectedUser.name} />
-                                                <AvatarFallback className="text-xs font-medium">{selectedUser.name.slice(0, 2).toUpperCase()}</AvatarFallback>
-                                            </Avatar>
-                                            <span className="font-medium">{selectedUser.name}</span>
+                                                    <AvatarFallback className="text-xs font-medium">{selectedUser.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+                                                </Avatar>
+                                                <span className="font-medium">{selectedUser.name}</span>
                                             </div>
                                         ) : (
                                             <div className="flex items-center gap-2 max-w-[60%]">
@@ -522,7 +520,7 @@ export default function TransferModal({
                                     >
                                         Back
                                     </Button>
-                                    <Button 
+                                    <Button
                                         onClick={handleConfirm}
                                         disabled={isProcessing}
                                         className="flex-1 h-11 font-medium bg-gradient-to-r from-[#D4AF37] to-[#C5A028] hover:from-[#C5A028] hover:to-[#B69117] text-black shadow-md hover:shadow-lg transition-all"

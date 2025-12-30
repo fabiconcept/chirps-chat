@@ -194,25 +194,6 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         change: -1
     },
     {
-        id: "user-92",
-        name: "Molly Jones",
-        username: "mollyjones",
-        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
-        country: "Italy",
-        countryCode: "IT",
-        lat: 41.9028,
-        lng: 12.4964,
-        stats: {
-            streak: 100,
-            tokens: 100000,
-            followers: 10000,
-            likes: 1000000,
-            posts: 1000,
-            rooms: 10
-        },
-        change: 0
-    },
-    {
         id: "user-10",
         name: "Mohammed Al-Rashid",
         username: "mohammedalrashid",
@@ -313,7 +294,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "fatimaahmed",
         avatar: "https://chirps-chat.sirv.com/premium/skull.png",
         country: "Egypt",
-        countryCode: "🇪🇬",
+        countryCode: "EG",
         lat: 30.0444,
         lng: 31.2357,
         stats: {
@@ -429,8 +410,8 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         avatar: "https://chirps-chat.sirv.com/premium/clown.png",
         country: "Nigeria",
         countryCode: "NG",
-        lat: 5.1054,
-        lng: 7.3697, // Port Harcourt
+        lat: 4.8156,
+        lng: 7.0498, // Port Harcourt
         stats: {
             streak: 226,
             tokens: 69450,
@@ -448,8 +429,8 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         avatar: "https://chirps-chat.sirv.com/premium/god.png",
         country: "Nigeria",
         countryCode: "NG",
-        lat: 11.0799,
-        lng: 7.7336, // Kano
+        lat: 12.0022,
+        lng: 8.5919, // Kano
         stats: {
             streak: 215,
             tokens: 64780,
@@ -660,7 +641,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "nadiambah",
         avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
         country: "Cameroon",
-        countryCode: "🇨🇲",
+        countryCode: "CM",
         lat: 3.8480,
         lng: 11.5021, // Yaoundé
         stats: {
@@ -679,7 +660,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "pascaletame",
         avatar: "https://chirps-chat.sirv.com/premium/rasta.png",
         country: "Cameroon",
-        countryCode: "🇨🇲",
+        countryCode: "CM",
         lat: 4.0511,
         lng: 9.7679, // Douala
         stats: {
@@ -699,7 +680,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "amaniochieng",
         avatar: "https://chirps-chat.sirv.com/premium/slenderman.png",
         country: "Kenya",
-        countryCode: "🇰🇪",
+        countryCode: "KE",
         lat: -1.2864,
         lng: 36.8172, // Nairobi
         stats: {
@@ -718,7 +699,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "wanjikumwangi",
         avatar: "https://chirps-chat.sirv.com/parrot.png",
         country: "Kenya",
-        countryCode: "🇰🇪",
+        countryCode: "KE",
         lat: -1.2864,
         lng: 36.8172, // Nairobi
         stats: {
@@ -738,7 +719,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "thabokhumalo",
         avatar: "https://chirps-chat.sirv.com/premium/mexican.png",
         country: "South Africa",
-        countryCode: "🇿🇦",
+        countryCode: "ZA",
         lat: -26.2041,
         lng: 28.0473, // Johannesburg
         stats: {
@@ -757,7 +738,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "zanelendlovu",
         avatar: "https://chirps-chat.sirv.com/frog.png",
         country: "South Africa",
-        countryCode: "🇿🇦",
+        countryCode: "ZA",
         lat: -33.9249,
         lng: 18.4241, // Cape Town
         stats: {
@@ -816,7 +797,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "selamtesfaye",
         avatar: "https://chirps-chat.sirv.com/premium/carnival-queen.png",
         country: "Ethiopia",
-        countryCode: "🇪🇹",
+        countryCode: "ET",
         lat: 9.0320,
         lng: 38.7469, // Addis Ababa
         stats: {
@@ -835,7 +816,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "dawitalemayehu",
         avatar: "https://chirps-chat.sirv.com/frog.png",
         country: "Ethiopia",
-        countryCode: "🇪🇹",
+        countryCode: "ET",
         lat: 9.0320,
         lng: 38.7469, // Addis Ababa
         stats: {
@@ -854,7 +835,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "hiwotbekele",
         avatar: "https://chirps-chat.sirv.com/premium/god.png",
         country: "Ethiopia",
-        countryCode: "🇪🇹",
+        countryCode: "ET",
         lat: 8.5588,
         lng: 39.2720, // Dire Dawa
         stats: {
@@ -873,7 +854,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "yohanneshaile",
         avatar: "https://chirps-chat.sirv.com/parrot.png",
         country: "Ethiopia",
-        countryCode: "🇪🇹",
+        countryCode: "ET",
         lat: 13.4967,
         lng: 39.4754, // Mekelle
         stats: {
@@ -893,7 +874,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "jumamwinyimkuu",
         avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
         country: "Tanzania",
-        countryCode: "🇹🇿",
+        countryCode: "TZ",
         lat: -6.7924,
         lng: 39.2083, // Dar es Salaam
         stats: {
@@ -910,9 +891,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-46",
         name: "Amina Hassan",
         username: "aminahassan",
-        avatar: "https://chirps-chat.sirv.com/premium/cat.png",
+        avatar: "https://chirps-chat.sirv.com/premium/batman.png",
         country: "Tanzania",
-        countryCode: "🇹🇿",
+        countryCode: "TZ",
         lat: -6.7924,
         lng: 39.2083, // Dar es Salaam
         stats: {
@@ -931,7 +912,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "saidramadhani",
         avatar: "https://chirps-chat.sirv.com/premium/rasta.png",
         country: "Tanzania",
-        countryCode: "🇹🇿",
+        countryCode: "TZ",
         lat: -3.3869,
         lng: 36.6830, // Arusha
         stats: {
@@ -950,7 +931,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "ashaselemani",
         avatar: "https://chirps-chat.sirv.com/frog.png",
         country: "Tanzania",
-        countryCode: "🇹🇿",
+        countryCode: "TZ",
         lat: -6.1630,
         lng: 39.1991, // Zanzibar
         stats: {
@@ -968,9 +949,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-49",
         name: "Nakato Sophia",
         username: "nakatosophia",
-        avatar: "https://chirps-chat.sirv.com/premium/owl.png",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
         country: "Uganda",
-        countryCode: "🇺🇬",
+        countryCode: "UG",
         lat: 0.3476,
         lng: 32.5825, // Kampala
         stats: {
@@ -989,7 +970,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "ronaldokello",
         avatar: "https://chirps-chat.sirv.com/parrot.png",
         country: "Uganda",
-        countryCode: "🇺🇬",
+        countryCode: "UG",
         lat: 0.3476,
         lng: 32.5825, // Kampala
         stats: {
@@ -1008,9 +989,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "patricianamuddu",
         avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
         country: "Uganda",
-        countryCode: "🇺🇬",
-        lat: 1.6751,
-        lng: 32.2980, // Gulu
+        countryCode: "UG",
+        lat: 2.7747,
+        lng: 32.2990, // Gulu
         stats: {
             streak: 172,
             tokens: 48560,
@@ -1025,11 +1006,11 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-52",
         name: "David Mukasa",
         username: "davidmukasa",
-        avatar: "https://chirps-chat.sirv.com/premium/cat.png",
+        avatar: "https://chirps-chat.sirv.com/premium/batman.png",
         country: "Uganda",
-        countryCode: "🇺🇬",
-        lat: 0.0236,
-        lng: 32.4569, // Entebbe
+        countryCode: "UG",
+        lat: 0.0600,
+        lng: 32.4500, // Entebbe
         stats: {
             streak: 159,
             tokens: 43450,
@@ -1047,7 +1028,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "youssefbenali",
         avatar: "https://chirps-chat.sirv.com/premium/rasta.png",
         country: "Morocco",
-        countryCode: "🇲🇦",
+        countryCode: "MA",
         lat: 33.9716,
         lng: -6.8498, // Rabat
         stats: {
@@ -1066,7 +1047,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "fatimazahra",
         avatar: "https://chirps-chat.sirv.com/frog.png",
         country: "Morocco",
-        countryCode: "🇲🇦",
+        countryCode: "MA",
         lat: 33.5731,
         lng: -7.5898, // Casablanca
         stats: {
@@ -1083,9 +1064,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-55",
         name: "Omar Benjelloun",
         username: "omarbenjelloun",
-        avatar: "https://chirps-chat.sirv.com/premium/owl.png",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
         country: "Morocco",
-        countryCode: "🇲🇦",
+        countryCode: "MA",
         lat: 31.6295,
         lng: -7.9811, // Marrakech
         stats: {
@@ -1104,7 +1085,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "amalidrissi",
         avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
         country: "Morocco",
-        countryCode: "🇲🇦",
+        countryCode: "MA",
         lat: 34.0209,
         lng: -6.8416, // Fes
         stats: {
@@ -1124,7 +1105,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "karimboumediene",
         avatar: "https://chirps-chat.sirv.com/parrot.png",
         country: "Algeria",
-        countryCode: "🇩🇿",
+        countryCode: "DZ",
         lat: 36.7538,
         lng: 3.0588, // Algiers
         stats: {
@@ -1141,9 +1122,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-58",
         name: "Nadia Kaci",
         username: "nadiakaci",
-        avatar: "https://chirps-chat.sirv.com/premium/cat.png",
+        avatar: "https://chirps-chat.sirv.com/premium/batman.png",
         country: "Algeria",
-        countryCode: "🇩🇿",
+        countryCode: "DZ",
         lat: 36.7538,
         lng: 3.0588, // Algiers
         stats: {
@@ -1162,7 +1143,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "mehdibrahimi",
         avatar: "https://chirps-chat.sirv.com/frog.png",
         country: "Algeria",
-        countryCode: "🇩🇿",
+        countryCode: "DZ",
         lat: 35.6969,
         lng: -0.6331, // Oran
         stats: {
@@ -1181,9 +1162,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "samiahadji",
         avatar: "https://chirps-chat.sirv.com/premium/rasta.png",
         country: "Algeria",
-        countryCode: "🇩🇿",
-        lat: 36.1815,
-        lng: 5.4138, // Constantine
+        countryCode: "DZ",
+        lat: 36.3650,
+        lng: 6.6147, // Constantine
         stats: {
             streak: 163,
             tokens: 44670,
@@ -1199,9 +1180,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-61",
         name: "Sami Trabelsi",
         username: "samitrabelsi",
-        avatar: "https://chirps-chat.sirv.com/premium/owl.png",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
         country: "Tunisia",
-        countryCode: "🇹🇳",
+        countryCode: "TN",
         lat: 36.8065,
         lng: 10.1815, // Tunis
         stats: {
@@ -1220,7 +1201,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "leilabenamor",
         avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
         country: "Tunisia",
-        countryCode: "🇹🇳",
+        countryCode: "TN",
         lat: 36.8065,
         lng: 10.1815, // Tunis
         stats: {
@@ -1239,7 +1220,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "youssefchahed",
         avatar: "https://chirps-chat.sirv.com/parrot.png",
         country: "Tunisia",
-        countryCode: "🇹🇳",
+        countryCode: "TN",
         lat: 35.8256,
         lng: 10.6369, // Sousse
         stats: {
@@ -1256,11 +1237,11 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-64",
         name: "Ines Jendoubi",
         username: "inesjendoubi",
-        avatar: "https://chirps-chat.sirv.com/premium/cat.png",
+        avatar: "https://chirps-chat.sirv.com/premium/batman.png",
         country: "Tunisia",
-        countryCode: "🇹🇳",
-        lat: 35.5047,
-        lng: 11.0621, // Sfax
+        countryCode: "TN",
+        lat: 34.7406,
+        lng: 10.7603, // Sfax
         stats: {
             streak: 154,
             tokens: 42120,
@@ -1278,7 +1259,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "jeanclaudenk",
         avatar: "https://chirps-chat.sirv.com/frog.png",
         country: "Rwanda",
-        countryCode: "🇷🇼",
+        countryCode: "RW",
         lat: -1.9403,
         lng: 29.8739, // Kigali
         stats: {
@@ -1295,9 +1276,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-66",
         name: "Grace Uwase",
         username: "graceuwase",
-        avatar: "https://chirps-chat.sirv.com/premium/owl.png",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
         country: "Rwanda",
-        countryCode: "🇷🇼",
+        countryCode: "RW",
         lat: -1.9403,
         lng: 29.8739, // Kigali
         stats: {
@@ -1316,7 +1297,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "erichabimana",
         avatar: "https://chirps-chat.sirv.com/premium/rasta.png",
         country: "Rwanda",
-        countryCode: "🇷🇼",
+        countryCode: "RW",
         lat: -2.5955,
         lng: 29.7489, // Butare
         stats: {
@@ -1335,7 +1316,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "dianemukeshimana",
         avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
         country: "Rwanda",
-        countryCode: "🇷🇼",
+        countryCode: "RW",
         lat: -1.6786,
         lng: 29.2339, // Gisenyi
         stats: {
@@ -1353,7 +1334,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-69",
         name: "Ama Ofori",
         username: "amaofori",
-        avatar: "https://chirps-chat.sirv.com/premium/cat.png",
+        avatar: "https://chirps-chat.sirv.com/premium/batman.png",
         country: "Ghana",
         countryCode: "GH",
         lat: 5.6037,
@@ -1392,7 +1373,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-71",
         name: "Moussa Sall",
         username: "moussasall",
-        avatar: "https://chirps-chat.sirv.com/premium/owl.png",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
         country: "Senegal",
         countryCode: "SN",
         lat: 14.6928,
@@ -1414,7 +1395,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "kevinotieno",
         avatar: "https://chirps-chat.sirv.com/parrot.png",
         country: "Kenya",
-        countryCode: "🇰🇪",
+        countryCode: "KE",
         lat: -1.2864,
         lng: 36.8172, // Nairobi
         stats: {
@@ -1433,7 +1414,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "faithakinyi",
         avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
         country: "Kenya",
-        countryCode: "🇰🇪",
+        countryCode: "KE",
         lat: -0.0917,
         lng: 34.7680, // Kisumu
         stats: {
@@ -1453,7 +1434,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "siphomthembu",
         avatar: "https://chirps-chat.sirv.com/premium/rasta.png",
         country: "South Africa",
-        countryCode: "🇿🇦",
+        countryCode: "ZA",
         lat: -29.8587,
         lng: 31.0218, // Durban
         stats: {
@@ -1470,9 +1451,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-75",
         name: "Nomvula Zulu",
         username: "nomvulazulu",
-        avatar: "https://chirps-chat.sirv.com/premium/cat.png",
+        avatar: "https://chirps-chat.sirv.com/premium/batman.png",
         country: "South Africa",
-        countryCode: "🇿🇦",
+        countryCode: "ZA",
         lat: -25.7479,
         lng: 28.2293, // Pretoria
         stats: {
@@ -1490,9 +1471,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-76",
         name: "Tapiwa Moyo",
         username: "tapiwamoyo",
-        avatar: "https://chirps-chat.sirv.com/premium/owl.png",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
         country: "Zimbabwe",
-        countryCode: "🇿🇼",
+        countryCode: "ZW",
         lat: -17.8252,
         lng: 31.0335, // Harare
         stats: {
@@ -1511,7 +1492,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "rudoncube",
         avatar: "https://chirps-chat.sirv.com/frog.png",
         country: "Zimbabwe",
-        countryCode: "🇿🇼",
+        countryCode: "ZW",
         lat: -17.8252,
         lng: 31.0335, // Harare
         stats: {
@@ -1530,7 +1511,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "tendaichikwanha",
         avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
         country: "Zimbabwe",
-        countryCode: "🇿🇼",
+        countryCode: "ZW",
         lat: -20.1392,
         lng: 28.5789, // Bulawayo
         stats: {
@@ -1549,7 +1530,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "tsitsimlambo",
         avatar: "https://chirps-chat.sirv.com/parrot.png",
         country: "Zimbabwe",
-        countryCode: "🇿🇼",
+        countryCode: "ZW",
         lat: -18.9787,
         lng: 32.6707, // Mutare
         stats: {
@@ -1568,7 +1549,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "faraisibanda",
         avatar: "https://chirps-chat.sirv.com/premium/rasta.png",
         country: "Zimbabwe",
-        countryCode: "🇿🇼",
+        countryCode: "ZW",
         lat: -17.8252,
         lng: 31.0335, // Harare
         stats: {
@@ -1585,11 +1566,11 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-81",
         name: "Chipo Dube",
         username: "chipodube",
-        avatar: "https://chirps-chat.sirv.com/premium/cat.png",
+        avatar: "https://chirps-chat.sirv.com/premium/batman.png",
         country: "Zimbabwe",
-        countryCode: "🇿🇼",
-        lat: -19.0154,
-        lng: 29.1549, // Gweru
+        countryCode: "ZW",
+        lat: -19.4500,
+        lng: 29.8167, // Gweru
         stats: {
             streak: 148,
             tokens: 39890,
@@ -1605,9 +1586,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-82",
         name: "Mwape Banda",
         username: "mwapebanda",
-        avatar: "https://chirps-chat.sirv.com/premium/owl.png",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
         country: "Zambia",
-        countryCode: "🇿🇲",
+        countryCode: "ZM",
         lat: -15.4167,
         lng: 28.2833, // Lusaka
         stats: {
@@ -1626,7 +1607,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "chilufyamulenga",
         avatar: "https://chirps-chat.sirv.com/frog.png",
         country: "Zambia",
-        countryCode: "🇿🇲",
+        countryCode: "ZM",
         lat: -15.4167,
         lng: 28.2833, // Lusaka
         stats: {
@@ -1645,7 +1626,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "mutalephiri",
         avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
         country: "Zambia",
-        countryCode: "🇿🇲",
+        countryCode: "ZM",
         lat: -12.9704,
         lng: 28.6396, // Ndola
         stats: {
@@ -1664,7 +1645,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "bwalyasakala",
         avatar: "https://chirps-chat.sirv.com/parrot.png",
         country: "Zambia",
-        countryCode: "🇿🇲",
+        countryCode: "ZM",
         lat: -12.8089,
         lng: 28.2040, // Kitwe
         stats: {
@@ -1681,9 +1662,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-86",
         name: "Thandiwe Zulu",
         username: "thandiwezulu",
-        avatar: "https://chirps-chat.sirv.com/premium/cat.png",
+        avatar: "https://chirps-chat.sirv.com/premium/batman.png",
         country: "Zambia",
-        countryCode: "🇿🇲",
+        countryCode: "ZM",
         lat: -15.4167,
         lng: 28.2833, // Lusaka
         stats: {
@@ -1702,9 +1683,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         avatar: "https://chirps-chat.sirv.com/premium/rasta.png",
         username: "chipegomwansa",
         country: "Zambia",
-        countryCode: "🇿🇼",
-        lat: -13.4587,
-        lng: 28.4177, // Kabwe
+        countryCode: "ZM",
+        lat: -14.4469,
+        lng: 28.8467, // Kabwe
         stats: {
             streak: 142,
             tokens: 38230,
@@ -1720,9 +1701,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-88",
         name: "Amelia Macamo",
         username: "ameliamacamo",
-        avatar: "https://chirps-chat.sirv.com/premium/owl.png",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
         country: "Mozambique",
-        countryCode: "🇲🇿",
+        countryCode: "MZ",
         lat: -25.9655,
         lng: 32.5832, // Maputo
         stats: {
@@ -1741,7 +1722,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "joaosithole",
         avatar: "https://chirps-chat.sirv.com/frog.png",
         country: "Mozambique",
-        countryCode: "🇲🇿",
+        countryCode: "MZ",
         lat: -25.9655,
         lng: 32.5832, // Maputo
         stats: {
@@ -1760,7 +1741,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "gracanhantumbo",
         avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
         country: "Mozambique",
-        countryCode: "🇲🇿",
+        countryCode: "MZ",
         lat: -19.8436,
         lng: 34.8389, // Beira
         stats: {
@@ -1779,7 +1760,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "pedrocossa",
         avatar: "https://chirps-chat.sirv.com/parrot.png",
         country: "Mozambique",
-        countryCode: "🇲🇿",
+        countryCode: "MZ",
         lat: -15.1165,
         lng: 39.2666, // Nampula
         stats: {
@@ -1796,9 +1777,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-92",
         name: "Sandra Mahumane",
         username: "sandramahumane",
-        avatar: "https://chirps-chat.sirv.com/premium/cat.png",
+        avatar: "https://chirps-chat.sirv.com/premium/batman.png",
         country: "Mozambique",
-        countryCode: "🇲🇿",
+        countryCode: "MZ",
         lat: -23.8574,
         lng: 35.3830, // Inhambane
         stats: {
@@ -1817,7 +1798,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "armandochissano",
         avatar: "https://chirps-chat.sirv.com/premium/rasta.png",
         country: "Mozambique",
-        countryCode: "🇲🇿",
+        countryCode: "MZ",
         lat: -25.9655,
         lng: 32.5832, // Maputo
         stats: {
@@ -1835,9 +1816,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-94",
         name: "Kgosi Molosiwa",
         username: "kgosimolosiwa",
-        avatar: "https://chirps-chat.sirv.com/premium/owl.png",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
         country: "Botswana",
-        countryCode: "🇧🇼",
+        countryCode: "BW",
         lat: -24.6282,
         lng: 25.9231, // Gaborone
         stats: {
@@ -1856,7 +1837,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "lesegokgaswe",
         avatar: "https://chirps-chat.sirv.com/frog.png",
         country: "Botswana",
-        countryCode: "🇧🇼",
+        countryCode: "BW",
         lat: -24.6282,
         lng: 25.9231, // Gaborone
         stats: {
@@ -1875,7 +1856,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "thabommusi",
         avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
         country: "Botswana",
-        countryCode: "🇧🇼",
+        countryCode: "BW",
         lat: -21.1594,
         lng: 27.5136, // Francistown
         stats: {
@@ -1894,7 +1875,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "neokhutsafalo",
         avatar: "https://chirps-chat.sirv.com/parrot.png",
         country: "Botswana",
-        countryCode: "🇧🇼",
+        countryCode: "BW",
         lat: -24.6282,
         lng: 25.9231, // Gaborone
         stats: {
@@ -1911,9 +1892,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-98",
         name: "Mpho Segale",
         username: "mphosegale",
-        avatar: "https://chirps-chat.sirv.com/premium/cat.png",
+        avatar: "https://chirps-chat.sirv.com/premium/batman.png",
         country: "Botswana",
-        countryCode: "🇧🇼",
+        countryCode: "BW",
         lat: -19.9529,
         lng: 23.4116, // Maun
         stats: {
@@ -1932,7 +1913,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "kitsomogomotsi",
         avatar: "https://chirps-chat.sirv.com/premium/rasta.png",
         country: "Botswana",
-        countryCode: "🇧🇼",
+        countryCode: "BW",
         lat: -22.5597,
         lng: 27.1767, // Selebi-Phikwe
         stats: {
@@ -1950,9 +1931,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-100",
         name: "Andreas Shikongo",
         username: "andreasshikongo",
-        avatar: "https://chirps-chat.sirv.com/premium/owl.png",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
         country: "Namibia",
-        countryCode: "🇳🇦",
+        countryCode: "NA",
         lat: -22.5597,
         lng: 17.0832, // Windhoek
         stats: {
@@ -1968,10 +1949,10 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     {
         id: "user-101",
         name: "Maria Nghipunya",
-        username: "marianghi punya",
+        username: "marianghipunya",
         avatar: "https://chirps-chat.sirv.com/frog.png",
         country: "Namibia",
-        countryCode: "🇳🇦",
+        countryCode: "NA",
         lat: -22.5597,
         lng: 17.0832, // Windhoek
         stats: {
@@ -1987,12 +1968,12 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     {
         id: "user-102",
         name: "Sakeus Iilonga",
-        username: "sakeus iilonga",
+        username: "sakeus_iilonga",
         avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
         country: "Namibia",
-        countryCode: "🇳🇦",
-        lat: -17.9214,
-        lng: 15.9215, // Oshakati
+        countryCode: "NA",
+        lat: -17.7833,
+        lng: 15.9167, // Oshakati
         stats: {
             streak: 164,
             tokens: 45230,
@@ -2009,9 +1990,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "hilmandapewa",
         avatar: "https://chirps-chat.sirv.com/parrot.png",
         country: "Namibia",
-        countryCode: "🇳🇦",
-        lat: -22.5597,
-        lng: 14.5269, // Walvis Bay
+        countryCode: "NA",
+        lat: -22.9576,
+        lng: 14.5053, // Walvis Bay
         stats: {
             streak: 151,
             tokens: 41230,
@@ -2026,11 +2007,11 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         id: "user-104",
         name: "Johannes Hamutenya",
         username: "johanneshamutenya",
-        avatar: "https://chirps-chat.sirv.com/premium/cat.png",
+        avatar: "https://chirps-chat.sirv.com/premium/batman.png",
         country: "Namibia",
-        countryCode: "🇳🇦",
-        lat: -26.6480,
-        lng: 15.1594, // Keetmanshoop
+        countryCode: "NA",
+        lat: -26.5833,
+        lng: 18.1333, // Keetmanshoop
         stats: {
             streak: 143,
             tokens: 38560,
@@ -2047,9 +2028,9 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
         username: "selmanangolo",
         avatar: "https://chirps-chat.sirv.com/premium/rasta.png",
         country: "Namibia",
-        countryCode: "🇳🇦",
-        lat: -29.5597,
-        lng: 17.0832, // Windhoek
+        countryCode: "NA",
+        lat: -22.5597,
+        lng: 17.0832, // Windhoek (CORRECTED)
         stats: {
             streak: 137,
             tokens: 36670,
@@ -2057,6 +2038,783 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
             likes: 227890,
             posts: 1120,
             rooms: 8
+        },
+        change: 1
+    },
+    // MALI - West Africa
+    {
+        id: "user-106",
+        name: "Aminata Traoré",
+        username: "aminatatraore",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
+        country: "Mali",
+        countryCode: "ML",
+        lat: 12.6392,
+        lng: -8.0029, // Bamako
+        stats: {
+            streak: 135,
+            tokens: 35890,
+            followers: 13450,
+            likes: 223450,
+            posts: 1090,
+            rooms: 8
+        },
+        change: 2
+    },
+    {
+        id: "user-107",
+        name: "Moussa Keita",
+        username: "moussakeita",
+        avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
+        country: "Mali",
+        countryCode: "ML",
+        lat: 12.6392,
+        lng: -8.0029, // Bamako
+        stats: {
+            streak: 130,
+            tokens: 34560,
+            followers: 12890,
+            likes: 214560,
+            posts: 1050,
+            rooms: 7
+        },
+        change: 0
+    },
+    {
+        id: "user-108",
+        name: "Fatoumata Diarra",
+        username: "fatoumatodiarra",
+        avatar: "https://chirps-chat.sirv.com/frog.png",
+        country: "Mali",
+        countryCode: "ML",
+        lat: 14.4942,
+        lng: -4.2037, // Sikasso
+        stats: {
+            streak: 126,
+            tokens: 33120,
+            followers: 12340,
+            likes: 206780,
+            posts: 1010,
+            rooms: 7
+        },
+        change: -1
+    },
+    // BURKINA FASO - West Africa
+    {
+        id: "user-109",
+        name: "Jean-Baptiste Ouedraogo",
+        username: "jbouedraogo",
+        avatar: "https://chirps-chat.sirv.com/premium/batman.png",
+        country: "Burkina Faso",
+        countryCode: "BF",
+        lat: 12.3714,
+        lng: -1.5197, // Ouagadougou
+        stats: {
+            streak: 123,
+            tokens: 32340,
+            followers: 11890,
+            likes: 199450,
+            posts: 980,
+            rooms: 7
+        },
+        change: 1
+    },
+    {
+        id: "user-110",
+        name: "Awa Sawadogo",
+        username: "awasawadogo",
+        avatar: "https://chirps-chat.sirv.com/premium/rasta.png",
+        country: "Burkina Faso",
+        countryCode: "BF",
+        lat: 12.3714,
+        lng: -1.5197, // Ouagadougou
+        stats: {
+            streak: 119,
+            tokens: 31120,
+            followers: 11340,
+            likes: 191230,
+            posts: 950,
+            rooms: 7
+        },
+        change: 0
+    },
+    {
+        id: "user-111",
+        name: "Pierre Kaboré",
+        username: "pierrekabore",
+        avatar: "https://chirps-chat.sirv.com/parrot.png",
+        country: "Burkina Faso",
+        countryCode: "BF",
+        lat: 11.1827,
+        lng: -4.2992, // Bobo-Dioulasso
+        stats: {
+            streak: 115,
+            tokens: 29890,
+            followers: 10780,
+            likes: 183450,
+            posts: 920,
+            rooms: 6
+        },
+        change: -2
+    },
+    // NIGER - West Africa
+    {
+        id: "user-112",
+        name: "Aissata Moussa",
+        username: "aissatamoussa",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
+        country: "Niger",
+        countryCode: "NE",
+        lat: 13.5127,
+        lng: 2.1126, // Niamey
+        stats: {
+            streak: 112,
+            tokens: 28670,
+            followers: 10230,
+            likes: 175670,
+            posts: 890,
+            rooms: 6
+        },
+        change: 1
+    },
+    {
+        id: "user-113",
+        name: "Ibrahim Mahamadou",
+        username: "ibrahimmahamadou",
+        avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
+        country: "Niger",
+        countryCode: "NE",
+        lat: 13.5127,
+        lng: 2.1126, // Niamey
+        stats: {
+            streak: 108,
+            tokens: 27450,
+            followers: 9670,
+            likes: 167890,
+            posts: 860,
+            rooms: 6
+        },
+        change: 0
+    },
+    // BENIN - West Africa
+    {
+        id: "user-114",
+        name: "Céline Hounnou",
+        username: "celinehounnou",
+        avatar: "https://chirps-chat.sirv.com/frog.png",
+        country: "Benin",
+        countryCode: "BJ",
+        lat: 6.4969,
+        lng: 2.6289, // Porto-Novo
+        stats: {
+            streak: 104,
+            tokens: 26230,
+            followers: 9120,
+            likes: 160120,
+            posts: 830,
+            rooms: 6
+        },
+        change: 2
+    },
+    {
+        id: "user-115",
+        name: "Serge Akpovi",
+        username: "sergeakpovi",
+        avatar: "https://chirps-chat.sirv.com/premium/batman.png",
+        country: "Benin",
+        countryCode: "BJ",
+        lat: 6.3654,
+        lng: 2.4183, // Cotonou
+        stats: {
+            streak: 101,
+            tokens: 25010,
+            followers: 8560,
+            likes: 152340,
+            posts: 800,
+            rooms: 5
+        },
+        change: -1
+    },
+    // TOGO - West Africa
+    {
+        id: "user-116",
+        name: "Edem Koffi",
+        username: "edemkoffi",
+        avatar: "https://chirps-chat.sirv.com/premium/rasta.png",
+        country: "Togo",
+        countryCode: "TG",
+        lat: 6.1256,
+        lng: 1.2254, // Lomé
+        stats: {
+            streak: 97,
+            tokens: 23790,
+            followers: 8010,
+            likes: 144560,
+            posts: 770,
+            rooms: 5
+        },
+        change: 0
+    },
+    {
+        id: "user-117",
+        name: "Akosua Mensah",
+        username: "akosuamensah",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
+        country: "Togo",
+        countryCode: "TG",
+        lat: 6.1256,
+        lng: 1.2254, // Lomé
+        stats: {
+            streak: 93,
+            tokens: 22570,
+            followers: 7450,
+            likes: 136780,
+            posts: 740,
+            rooms: 5
+        },
+        change: 1
+    },
+    // GUINEA - West Africa
+    {
+        id: "user-118",
+        name: "Mamadou Diallo",
+        username: "mamadoudiallo",
+        avatar: "https://chirps-chat.sirv.com/parrot.png",
+        country: "Guinea",
+        countryCode: "GN",
+        lat: 9.6412,
+        lng: -13.5784, // Conakry
+        stats: {
+            streak: 89,
+            tokens: 21340,
+            followers: 6890,
+            likes: 128990,
+            posts: 710,
+            rooms: 5
+        },
+        change: -2
+    },
+    {
+        id: "user-119",
+        name: "Aissatou Bah",
+        username: "aissatoubah",
+        avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
+        country: "Guinea",
+        countryCode: "GN",
+        lat: 9.6412,
+        lng: -13.5784, // Conakry
+        stats: {
+            streak: 86,
+            tokens: 20120,
+            followers: 6340,
+            likes: 121230,
+            posts: 680,
+            rooms: 5
+        },
+        change: 0
+    },
+    // SIERRA LEONE - West Africa
+    {
+        id: "user-120",
+        name: "Mohamed Kamara",
+        username: "mohamedkamara",
+        avatar: "https://chirps-chat.sirv.com/frog.png",
+        country: "Sierra Leone",
+        countryCode: "SL",
+        lat: 8.4657,
+        lng: -13.2317, // Freetown
+        stats: {
+            streak: 82,
+            tokens: 18900,
+            followers: 5780,
+            likes: 113450,
+            posts: 650,
+            rooms: 4
+        },
+        change: 1
+    },
+    {
+        id: "user-121",
+        name: "Mariama Sesay",
+        username: "mariamasesay",
+        avatar: "https://chirps-chat.sirv.com/premium/batman.png",
+        country: "Sierra Leone",
+        countryCode: "SL",
+        lat: 8.4657,
+        lng: -13.2317, // Freetown
+        stats: {
+            streak: 79,
+            tokens: 17680,
+            followers: 5230,
+            likes: 105670,
+            posts: 620,
+            rooms: 4
+        },
+        change: 0
+    },
+    // LIBERIA - West Africa
+    {
+        id: "user-122",
+        name: "John Doe",
+        username: "johndoe_lr",
+        avatar: "https://chirps-chat.sirv.com/premium/rasta.png",
+        country: "Liberia",
+        countryCode: "LR",
+        lat: 6.3156,
+        lng: -10.8074, // Monrovia
+        stats: {
+            streak: 75,
+            tokens: 16450,
+            followers: 4670,
+            likes: 97890,
+            posts: 590,
+            rooms: 4
+        },
+        change: -1
+    },
+    {
+        id: "user-123",
+        name: "Ruth Johnson",
+        username: "ruthjohnson",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
+        country: "Liberia",
+        countryCode: "LR",
+        lat: 6.3156,
+        lng: -10.8074, // Monrovia
+        stats: {
+            streak: 72,
+            tokens: 15230,
+            followers: 4120,
+            likes: 90120,
+            posts: 560,
+            rooms: 4
+        },
+        change: 2
+    },
+    // MAURITANIA - West Africa
+    {
+        id: "user-124",
+        name: "Fatima Mint Ahmed",
+        username: "fatimamintahmed",
+        avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
+        country: "Mauritania",
+        countryCode: "MR",
+        lat: 18.0735,
+        lng: -15.9582, // Nouakchott
+        stats: {
+            streak: 68,
+            tokens: 14010,
+            followers: 3560,
+            likes: 82340,
+            posts: 530,
+            rooms: 3
+        },
+        change: 0
+    },
+    {
+        id: "user-125",
+        name: "Mohamed Ould Cheikh",
+        username: "mohamedouldcheikh",
+        avatar: "https://chirps-chat.sirv.com/parrot.png",
+        country: "Mauritania",
+        countryCode: "MR",
+        lat: 18.0735,
+        lng: -15.9582, // Nouakchott
+        stats: {
+            streak: 65,
+            tokens: 12790,
+            followers: 3010,
+            likes: 74560,
+            posts: 500,
+            rooms: 3
+        },
+        change: 1
+    },
+    // GAMBIA - West Africa
+    {
+        id: "user-126",
+        name: "Binta Jallow",
+        username: "bintajallow",
+        avatar: "https://chirps-chat.sirv.com/frog.png",
+        country: "Gambia",
+        countryCode: "GM",
+        lat: 13.4549,
+        lng: -16.5790, // Banjul
+        stats: {
+            streak: 61,
+            tokens: 11570,
+            followers: 2460,
+            likes: 66780,
+            posts: 470,
+            rooms: 3
+        },
+        change: -2
+    },
+    {
+        id: "user-127",
+        name: "Lamin Ceesay",
+        username: "laminceesay",
+        avatar: "https://chirps-chat.sirv.com/premium/batman.png",
+        country: "Gambia",
+        countryCode: "GM",
+        lat: 13.4549,
+        lng: -16.5790, // Banjul
+        stats: {
+            streak: 58,
+            tokens: 10340,
+            followers: 1910,
+            likes: 59120,
+            posts: 440,
+            rooms: 3
+        },
+        change: 0
+    },
+    // CABO VERDE (Cape Verde) - West Africa
+    {
+        id: "user-128",
+        name: "Maria da Silva",
+        username: "mariadasilva",
+        avatar: "https://chirps-chat.sirv.com/premium/rasta.png",
+        country: "Cabo Verde",
+        countryCode: "CV",
+        lat: 14.9330,
+        lng: -23.5133, // Praia
+        stats: {
+            streak: 54,
+            tokens: 9120,
+            followers: 1360,
+            likes: 51340,
+            posts: 410,
+            rooms: 2
+        },
+        change: 1
+    },
+    {
+        id: "user-129",
+        name: "José Lopes",
+        username: "joselopes",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
+        country: "Cabo Verde",
+        countryCode: "CV",
+        lat: 14.9330,
+        lng: -23.5133, // Praia
+        stats: {
+            streak: 51,
+            tokens: 7900,
+            followers: 810,
+            likes: 43560,
+            posts: 380,
+            rooms: 2
+        },
+        change: 0
+    },
+    // More NIGERIA - Additional cities
+    {
+        id: "user-130",
+        name: "Chiamaka Nnadi",
+        username: "chiamakannadi",
+        avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
+        country: "Nigeria",
+        countryCode: "NG",
+        lat: 5.4527,
+        lng: 7.5248, // Calabar
+        stats: {
+            streak: 149,
+            tokens: 40120,
+            followers: 15230,
+            likes: 251890,
+            posts: 1220,
+            rooms: 9
+        },
+        change: 2
+    },
+    {
+        id: "user-131",
+        name: "Usman Abubakar",
+        username: "usmanabubakar",
+        avatar: "https://chirps-chat.sirv.com/premium/batman.png",
+        country: "Nigeria",
+        countryCode: "NG",
+        lat: 10.5105,
+        lng: 7.4165, // Kaduna
+        stats: {
+            streak: 141,
+            tokens: 37890,
+            followers: 14340,
+            likes: 239120,
+            posts: 1160,
+            rooms: 8
+        },
+        change: 0
+    },
+    {
+        id: "user-132",
+        name: "Nnenna Obi",
+        username: "nnennaobi",
+        avatar: "https://chirps-chat.sirv.com/premium/rasta.png",
+        country: "Nigeria",
+        countryCode: "NG",
+        lat: 6.3350,
+        lng: 5.6037, // Benin City
+        stats: {
+            streak: 134,
+            tokens: 35670,
+            followers: 13450,
+            likes: 227340,
+            posts: 1100,
+            rooms: 8
+        },
+        change: 1
+    },
+    // CONGO (DRC) - Central Africa
+    {
+        id: "user-133",
+        name: "Jean-Pierre Kalala",
+        username: "jeanpierrekalala",
+        avatar: "https://chirps-chat.sirv.com/parrot.png",
+        country: "DR Congo",
+        countryCode: "CD",
+        lat: -4.3276,
+        lng: 15.3136, // Kinshasa
+        stats: {
+            streak: 204,
+            tokens: 60230,
+            followers: 23340,
+            likes: 390120,
+            posts: 1820,
+            rooms: 13
+        },
+        change: 3
+    },
+    {
+        id: "user-134",
+        name: "Cécile Mbuyi",
+        username: "cecilembuyi",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
+        country: "DR Congo",
+        countryCode: "CD",
+        lat: -4.3276,
+        lng: 15.3136, // Kinshasa
+        stats: {
+            streak: 180,
+            tokens: 51450,
+            followers: 19890,
+            likes: 328670,
+            posts: 1570,
+            rooms: 11
+        },
+        change: 0
+    },
+    {
+        id: "user-135",
+        name: "Patrick Tshisekedi",
+        username: "patricktshisekedi",
+        avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
+        country: "DR Congo",
+        countryCode: "CD",
+        lat: -11.6645,
+        lng: 27.4794, // Lubumbashi
+        stats: {
+            streak: 166,
+            tokens: 45560,
+            followers: 17230,
+            likes: 283450,
+            posts: 1370,
+            rooms: 10
+        },
+        change: -1
+    },
+    {
+        id: "user-136",
+        name: "Marie Kabila",
+        username: "mariekabila",
+        avatar: "https://chirps-chat.sirv.com/frog.png",
+        country: "DR Congo",
+        countryCode: "CD",
+        lat: -1.6792,
+        lng: 29.2228, // Goma
+        stats: {
+            streak: 152,
+            tokens: 41010,
+            followers: 15560,
+            likes: 256780,
+            posts: 1240,
+            rooms: 9
+        },
+        change: 1
+    },
+    // ANGOLA - Southern Africa
+    {
+        id: "user-137",
+        name: "Carlos Santos",
+        username: "carlossantos",
+        avatar: "https://chirps-chat.sirv.com/premium/batman.png",
+        country: "Angola",
+        countryCode: "AO",
+        lat: -8.8383,
+        lng: 13.2344, // Luanda
+        stats: {
+            streak: 192,
+            tokens: 55670,
+        followers: 21450,
+            likes: 358900,
+            posts: 1680,
+            rooms: 12
+        },
+        change: 2
+    },
+    {
+        id: "user-138",
+        name: "Isabel Fernandes",
+        username: "isabelfernandes",
+        avatar: "https://chirps-chat.sirv.com/premium/rasta.png",
+        country: "Angola",
+        countryCode: "AO",
+        lat: -8.8383,
+        lng: 13.2344, // Luanda
+        stats: {
+            streak: 173,
+            tokens: 48780,
+            followers: 18670,
+            likes: 306120,
+            posts: 1470,
+            rooms: 11
+        },
+        change: 0
+    },
+    {
+        id: "user-139",
+        name: "António Neto",
+        username: "antonioneto",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
+        country: "Angola",
+        countryCode: "AO",
+        lat: -12.5844,
+        lng: 13.5757, // Benguela
+        stats: {
+            streak: 160,
+            tokens: 43890,
+            followers: 16560,
+            likes: 274560,
+            posts: 1320,
+            rooms: 9
+        },
+        change: -2
+    },
+    // MADAGASCAR - East Africa (Island)
+    {
+        id: "user-140",
+        name: "Hery Rasolofo",
+        username: "heryrasolofo",
+        avatar: "https://chirps-chat.sirv.com/parrot.png",
+        country: "Madagascar",
+        countryCode: "MG",
+        lat: -18.8792,
+        lng: 47.5079, // Antananarivo
+        stats: {
+            streak: 186,
+            tokens: 52890,
+            followers: 20340,
+            likes: 343450,
+            posts: 1610,
+            rooms: 12
+        },
+        change: 1
+    },
+    {
+        id: "user-141",
+        name: "Fara Rakotomalala",
+        username: "fararakotomalala",
+        avatar: "https://chirps-chat.sirv.com/premium/dragon.png",
+        country: "Madagascar",
+        countryCode: "MG",
+        lat: -18.8792,
+        lng: 47.5079, // Antananarivo
+        stats: {
+            streak: 169,
+            tokens: 46890,
+            followers: 17890,
+            likes: 293670,
+            posts: 1410,
+            rooms: 10
+        },
+        change: 0
+    },
+    {
+        id: "user-142",
+        name: "Tiana Andrianasolo",
+        username: "tianaadrianasolo",
+        avatar: "https://chirps-chat.sirv.com/frog.png",
+        country: "Madagascar",
+        countryCode: "MG",
+        lat: -21.4599,
+        lng: 47.0857, // Fianarantsoa
+        stats: {
+            streak: 154,
+            tokens: 42010,
+            followers: 15890,
+            likes: 262780,
+            posts: 1270,
+            rooms: 9
+        },
+        change: 1
+    },
+    // MALAWI - Southern/East Africa
+    {
+        id: "user-143",
+        name: "Chisomo Banda",
+        username: "chisomobanda",
+        avatar: "https://chirps-chat.sirv.com/premium/batman.png",
+        country: "Malawi",
+        countryCode: "MW",
+        lat: -13.9626,
+        lng: 33.7741, // Lilongwe
+        stats: {
+            streak: 147,
+            tokens: 39450,
+            followers: 14990,
+            likes: 247890,
+            posts: 1200,
+            rooms: 8
+        },
+        change: 2
+    },
+    {
+        id: "user-144",
+        name: "Thoko Phiri",
+        username: "thokophiri",
+        avatar: "https://chirps-chat.sirv.com/premium/rasta.png",
+        country: "Malawi",
+        countryCode: "MW",
+        lat: -15.7861,
+        lng: 35.0058, // Blantyre
+        stats: {
+            streak: 140,
+            tokens: 37670,
+            followers: 14230,
+            likes: 238450,
+            posts: 1150,
+            rooms: 8
+        },
+        change: 0
+    },
+    // BURUNDI - East/Central Africa
+    {
+        id: "user-145",
+        name: "Pierre Niyonkuru",
+        username: "pierreniyonkuru",
+        avatar: "https://chirps-chat.sirv.com/premium/jolly-roger.png",
+        country: "Burundi",
+        countryCode: "BI",
+        lat: -3.3822,
+        lng: 29.3644, // Bujumbura
+        stats: {
+            streak: 133,
+            tokens: 35230,
+            followers: 13340,
+            likes: 225670,
+            posts: 1090,
+            rooms: 7
         },
         change: 1
     },

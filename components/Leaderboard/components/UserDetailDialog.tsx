@@ -22,13 +22,45 @@ const categoryConfig: Record<LeaderboardCategory, {
     label: string;
     accentColor: string;
     icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
+    backgroundColor: string;
 }> = {
-    streak: { label: "Day Streak", accentColor: "#10b981", icon: CalendarCheck },
-    tokens: { label: "Tokens", accentColor: "#D4AF37", icon: Trophy },
-    followers: { label: "Followers", accentColor: "#3b82f6", icon: Users },
-    likes: { label: "Total Likes", accentColor: "#f43f5e", icon: Heart },
-    posts: { label: "Total Posts", accentColor: "#a855f7", icon: MessageSquare },
-    rooms: { label: "Rooms Created", accentColor: "#6366f1", icon: Home }
+    streak: { 
+        label: "Day Streak", 
+        accentColor: "#10b981", 
+        backgroundColor: "bg-linear-to-b from-[#10b981]/10 to-transparent shadow-lg shadow-foreground/5",
+        icon: CalendarCheck
+    },
+    tokens: { 
+        label: "Tokens", 
+        accentColor: "#D4AF37", 
+        icon: Trophy,
+        backgroundColor: "bg-linear-to-b from-[#D4AF37]/10 to-transparent",
+
+    },
+    followers: { 
+        label: "Followers", 
+        accentColor: "#3b82f6", 
+        icon: Users,
+        backgroundColor: "bg-linear-to-b from-[#3b82f6]/10 to-transparent",
+    },
+    likes: { 
+        label: "Total Likes", 
+        accentColor: "#f43f5e", 
+        icon: Heart,
+        backgroundColor: "bg-linear-to-b from-[#f43f5e]/10 to-transparent",
+    },
+    posts: { 
+        label: "Total Posts", 
+        accentColor: "#a855f7", 
+        icon: MessageSquare,
+        backgroundColor: "bg-linear-to-b from-[#a855f7]/10 to-transparent",
+    },
+    rooms: { 
+        label: "No. of Rooms", 
+        accentColor: "#6366f1", 
+        icon: Home,
+        backgroundColor: "bg-linear-to-b from-[#6366f1]/10 to-transparent",
+    }
 };
 
 export default function UserDetailDialog({ user, isOpen, onClose, category }: UserDetailDialogProps) {
@@ -121,7 +153,7 @@ export default function UserDetailDialog({ user, isOpen, onClose, category }: Us
                                         className={cn(
                                             "p-4 rounded-xl border-2 transition-all",
                                             isActive
-                                                ? "border-foreground/20 bg-foreground/5"
+                                                ? `border-foreground/20 bg-foreground/5 -translate-y-2 ${cfg.backgroundColor}`
                                                 : "border-border bg-background"
                                         )}
                                         style={{
@@ -139,7 +171,7 @@ export default function UserDetailDialog({ user, isOpen, onClose, category }: Us
                                         <p
                                             className="inline-flex gap-2 items-center"
                                         >
-                                            <p className={cn("text-2xl font-bold", cfg.label.includes("Token") ? "ave" : "")} style={{ color: isActive ? cfg.accentColor : undefined }}>{formatNumber(value)}</p> {cfg.label.includes("Token") && <span>CHT</span>}
+                                            <p className={cn("text-2xl font-bold", cfg.label.includes("Token") ? "ave text-[#D4AF37]" : "")} style={{ color: isActive ? cfg.accentColor : undefined }}>{formatNumber(value)}</p> {cfg.label.includes("Token") && <span>CHT</span>}
                                         </p>
                                     </motion.div>
                                 );

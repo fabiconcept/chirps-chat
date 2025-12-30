@@ -22,6 +22,7 @@ import AllTransactionsDialog from "./components/AllTransactionsDialog";
 import TransactionDetailDialog from "./components/TransactionDetailDialog";
 import { mockTransactions, quickTransferUsers } from "./mockData";
 import { Transaction } from "./types";
+import QRCodeDialog from "./components/QRCodeDialog";
 
 export default function WalletHangingPanel() {
     const pathname = usePathname();
@@ -43,6 +44,8 @@ export default function WalletHangingPanel() {
     const showAllUsersDialog = useMemo(() => searchParams.get(SearchParamKeys.WALLET_ALL_USERS) === "true", [searchParams]);
     const showAllTransactionsDialog = useMemo(() => searchParams.get(SearchParamKeys.WALLET_ALL_TXS) === "true", [searchParams]);
     const txDetailId = useMemo(() => searchParams.get(SearchParamKeys.WALLET_TX_DETAIL), [searchParams]);
+    const showQRDialog = useMemo(() => searchParams.get(SearchParamKeys.WALLET_QR) === "true", [searchParams]);
+
     const selectedTransaction = useMemo(() => 
         txDetailId ? transactions.find(tx => tx.id === txDetailId) || null : null, 
         [txDetailId, transactions]
@@ -247,6 +250,12 @@ export default function WalletHangingPanel() {
                 open={!!selectedTransaction}
                 onOpenChange={(open) => !open && removeSearchParam(SearchParamKeys.WALLET_TX_DETAIL)}
                 transaction={selectedTransaction}
+            />
+
+            <QRCodeDialog
+                open={showQRDialog}
+                onOpenChange={(open) => open ? updateSearchParam(SearchParamKeys.WALLET_QR, "true") : removeSearchParam(SearchParamKeys.WALLET_QR)}
+                address={walletAddress}
             />
         </>
     );

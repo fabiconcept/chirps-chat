@@ -1,29 +1,11 @@
 "use client"
 import { useTheme } from 'next-themes';
 import "@/app/stylesheets/theme-switch.css";
-import useShortcuts, { KeyboardKey } from "@useverse/useshortcuts";
-import { useAuth } from '../Providers/AuthProvider';
-import { useKeyBoardShortCut } from '../Providers/KeyBoardShortCutProvider';
 
 export default function ThemeSwitch({ className = '' }: {
     className?: string;
 }) {
     const { theme, setTheme } = useTheme();
-    const { isMacOS } = useAuth();
-    const { allowedShortcuts } = useKeyBoardShortCut();
-
-    useShortcuts({
-        shortcuts: [
-            { key: KeyboardKey.KeyL, metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandL") },
-        ],
-        onTrigger: (shortcut) => {  
-            switch (shortcut.key) {
-                case KeyboardKey.KeyL:
-                    setTheme((prev) => prev === "light" ? "dark" : "light");
-                    break;
-            }
-        }
-    }, [allowedShortcuts, theme]);
 
     const isChecked = (theme === "light");
     if (!theme) return null;

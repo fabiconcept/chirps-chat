@@ -137,7 +137,6 @@ export default function Search() {
             { key: KeyboardKey.ArrowUp, isSpecialKey: true, enabled: allowedShortcuts.has('arrowUp') },
             { key: KeyboardKey.Enter, isSpecialKey: true, enabled: allowedShortcuts.has('enter') },
             { key: KeyboardKey.Slash, isSpecialKey: true, enabled: allowedShortcuts.has("search") },
-            { key: KeyboardKey.KeyK, metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandK") },
             { key: KeyboardKey.KeyF, metaKey: isMacOS, ctrlKey: !isMacOS, enabled: allowedShortcuts.has("commandF") },
         ],
         onTrigger: (shortcut) => {
@@ -154,15 +153,12 @@ export default function Search() {
                 case KeyboardKey.Slash:
                     triggerRef.current?.click();
                     break;
-                case KeyboardKey.KeyK:
-                    triggerRef.current?.click();
-                    break;
                 case KeyboardKey.KeyF:
                     triggerRef.current?.click();
                     break;
             }
         }
-    }, [navigateDown, navigateUp, handleSelect, allowedShortcuts]);
+    }, [navigateDown, navigateUp, handleSelect, allowedShortcuts, isMacOS]);
 
     useLayoutEffect(() => {
         if (isSearchFocused) {
@@ -242,10 +238,10 @@ export default function Search() {
                     <span className="ml-auto text-xs text-muted-foreground md:flex hidden items-center gap-0.5">
                         {isMacOS ? <KbdGroup>
                             <Kbd className="border border-input/50 bg-background/50">⌘</Kbd>
-                            <Kbd className="border border-input/50 bg-background/50">K</Kbd>
+                            <Kbd className="border border-input/50 bg-background/50">F</Kbd>
                         </KbdGroup> : <KbdGroup>
                             <Kbd className="border border-input/50 bg-background/50 text-[10px]">Ctrl</Kbd>
-                            <Kbd className="border border-input/50 bg-background/50">K</Kbd>
+                            <Kbd className="border border-input/50 bg-background/50">F</Kbd>
                         </KbdGroup>}
                     </span>
                 </Button>

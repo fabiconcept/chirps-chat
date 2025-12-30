@@ -13,21 +13,21 @@ interface StreakTrackerProps {
 
 export default function StreakTracker({ currentStreak, isMobile }: StreakTrackerProps) {
     const getStreakColor = (streak: number) => {
-        if (streak >= 365) return "text-purple-500";
-        if (streak >= 180) return "text-orange-500";
-        if (streak >= 90) return "text-amber-500";
-        if (streak >= 30) return "text-yellow-500";
-        if (streak >= 7) return "text-emerald-500";
-        return "text-muted-foreground";
+        if (streak >= 365) return "text-violet-300 fill-violet-500";
+        if (streak >= 180) return "text-fuchsia-300 fill-fuchsia-500";
+        if (streak >= 90) return "text-rose-300 fill-rose-500";
+        if (streak >= 30) return "text-orange-300 fill-orange-500";
+        if (streak >= 7) return "text-amber-300 fill-amber-500";
+        return "text-slate-400 fill-slate-200";
     };
 
     const getStreakLabel = (streak: number) => {
-        if (streak >= 365) return "Legend";
-        if (streak >= 180) return "Champion";
-        if (streak >= 90) return "Master";
-        if (streak >= 30) return "Pro";
-        if (streak >= 7) return "Active";
-        return "Beginner";
+        if (streak >= 365) return "You are a Legend";
+        if (streak >= 180) return "You are a Champion";
+        if (streak >= 90) return "You are a Master";
+        if (streak >= 30) return "You are a Pro";
+        if (streak >= 7) return "You are Active";
+        return "You are a Newbie";
     };
 
     return (
@@ -37,8 +37,8 @@ export default function StreakTracker({ currentStreak, isMobile }: StreakTracker
                     variant="outline"
                     size={isMobile ? "sm" : "default"}
                     className={cn(
-                        "gap-1.5 relative overflow-hidden",
-                        "hover:border-emerald-500/50 transition-all duration-300",
+                        "gap-1.5 rounded-3xl relative overflow-hidden",
+                        "hover:border-emerald-500/50 transition-all duration-300 bg-linear-to-b from-foreground/10 to-transparent",
                         isMobile ? "px-2" : "px-3"
                     )}
                     asChild
@@ -48,13 +48,12 @@ export default function StreakTracker({ currentStreak, isMobile }: StreakTracker
                             className={cn(
                                 "h-4 w-4 shrink-0",
                                 getStreakColor(currentStreak),
-                                currentStreak >= 7 && "animate-pulse"
+                                currentStreak >= 7 && "animate-fire"
                             )} 
                         />
                         {!isMobile && (
                             <>
                                 <span className="font-semibold text-sm">{currentStreak}</span>
-                                <span className="text-xs text-muted-foreground">day{currentStreak !== 1 ? 's' : ''}</span>
                             </>
                         )}
                         {isMobile && (
@@ -65,7 +64,7 @@ export default function StreakTracker({ currentStreak, isMobile }: StreakTracker
             </TooltipTrigger>
             <TooltipContent side="bottom">
                 <div className="space-y-1">
-                    <p className="font-semibold">{currentStreak} Days 🔥</p>
+                    <p className="font-semibold text-center">Your current streak is {currentStreak} Days 🔥</p>
                     <p className="text-xs text-muted-foreground">{getStreakLabel(currentStreak)} • Click to view leaderboard</p>
                 </div>
             </TooltipContent>

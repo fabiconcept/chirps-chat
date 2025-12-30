@@ -2,8 +2,6 @@ import Feed from "@/components/Feed";
 import CommunityRecommendation from "@/components/CommunityRecommendation";
 import ProfileCard from "@/components/ProfileCard";
 import HangMan from "@/components/HangMan";
-import ChatHanger from "@/components/ChatHanger";
-import { initialUsers } from "@/constants/User.const";
 
 export default function Page() {
     return (
@@ -14,9 +12,6 @@ export default function Page() {
                 <CommunityRecommendation />
             </HangMan>
             <Feed />
-            <HangMan className="relative max-sm:hidden">
-                <ChatHanger type="feed" usersList={initialUsers.slice(0, 6)} />
-            </HangMan>
         </div>
     )
 }

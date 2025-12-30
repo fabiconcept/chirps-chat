@@ -20,7 +20,8 @@ import {
     Settings, 
     LogOut,
     Keyboard,
-    Command
+    Command,
+    Globe
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/components/Providers/AuthProvider";
@@ -67,6 +68,7 @@ export default function KeyboardShortcutsModal({ open, onOpenChange }: KeyboardS
                 { keys: ["Alt", "W"], description: "Open Wallet", icon: Wallet },
                 { keys: ["Alt", "A"], description: "Open Activities", icon: Bell },
                 { keys: ["Alt", "F"], description: "Toggle Fullscreen (Chat)", icon: Maximize },
+                { keys: ["Alt", "G"], description: "Toggle Globe (Leaderboard)", icon: Globe },
                 { keys: ["Esc"], description: "Close Modal / Exit Fullscreen" },
             ]
         },

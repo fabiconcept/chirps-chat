@@ -20,7 +20,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CreditCard, Wallet, QrCode, Plus, Check } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, number } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
@@ -49,7 +49,7 @@ export default function TopUpDialog({ open, onOpenChange, onTopUpComplete }: Top
     };
 
     const handleNext = () => {
-        if (step === "amount" && amount && parseFloat(amount) > 0) {
+        if (step === "amount" && amount && parseFloat(amount) > 10) {
             setStep("payment");
         } else if (step === "payment") {
             setStep("processing");
@@ -75,16 +75,14 @@ export default function TopUpDialog({ open, onOpenChange, onTopUpComplete }: Top
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[480px] p-0 gap-0 overflow-hidden">
-                <DialogHeader className="px-6 pt-6 pb-4 border-b border-border">
+            <DialogContent className="sm:max-w-[480px] p-0 gap-0 overflow-hidden rounded-3xl">
+                <DialogHeader className="px-6 pt-6 pb-4 border-b border-border bg-linear-to-b from-foreground/10 to-background">
                     <DialogTitle className="flex items-center gap-2 text-xl">
-                        <div className="p-2 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/30">
-                            <Plus className="h-5 w-5 text-[#D4AF37]" />
-                        </div>
                         Top Up Wallet
                     </DialogTitle>
                     <DialogDescription>
-                        Add CHT tokens to your wallet
+                        Purchase Chirps (<abbr className="no-underline font-semibold text-[#D4AF37]" title="Chirps Token">CHT</abbr>) tokens to your wallet
+                        using your bank card or crypto wallet.
                     </DialogDescription>
                 </DialogHeader>
 
@@ -110,14 +108,25 @@ export default function TopUpDialog({ open, onOpenChange, onTopUpComplete }: Top
                                         value={amount}
                                         onChange={(e) => setAmount(e.target.value)}
                                         placeholder="0.00"
-                                        className="text-2xl font-bold h-14 pl-12 pr-16"
+                                        max={10_000}
+                                        min={10}
+                                        step={1}
+                                        inputMode="numeric"
+                                        pattern="[0-9]*"
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'e' || e.key === 'E' || e.key === '+' || e.key === '-') {
+                                                e.preventDefault();
+                                            }
+                                        }}
+                                        className="text-2xl font-bold h-14 pl-8 pr-8"
                                     />
-                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-2xl font-bold text-muted-foreground">
-                                        $
+                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-muted-foreground">
+                                        <span className="font-semibold text-[#D4AF37]">₦</span>
                                     </span>
-                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-muted-foreground">
-                                        CHT
-                                    </span>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <span className="text-lg font-semibold text-[#D4AF37]">{(Number(amount) * 23).toLocaleString()} CHT</span>
+                                    <span className="text-sm text-muted-foreground">1 CHT = ₦23</span>
                                 </div>
                             </div>
 
@@ -133,10 +142,10 @@ export default function TopUpDialog({ open, onOpenChange, onTopUpComplete }: Top
                                             onClick={() => handleAmountSelect(preset)}
                                             className={cn(
                                                 "h-12 text-base font-semibold",
-                                                amount === preset.toString() && "border-[#D4AF37] bg-[#D4AF37]/10 text-[#D4AF37]"
+                                                amount === preset.toString() && "bg-[#D4AF37]/10 text-[#D4AF37] hover:text-[#D4AF37] bg-linear-to-b from-[#D4AF37]/25 via-transparent to-transparent"
                                             )}
                                         >
-                                            ${preset}
+                                            ₦{(preset).toLocaleString()}
                                         </Button>
                                     ))}
                                 </div>
@@ -144,7 +153,7 @@ export default function TopUpDialog({ open, onOpenChange, onTopUpComplete }: Top
 
                             <Button
                                 onClick={handleNext}
-                                disabled={!amount || parseFloat(amount) <= 0}
+                                disabled={!amount || parseFloat(amount) <= 10}
                                 className="w-full h-12 text-base font-semibold bg-[#D4AF37] hover:bg-[#C5A028] text-black"
                             >
                                 Continue
@@ -166,7 +175,7 @@ export default function TopUpDialog({ open, onOpenChange, onTopUpComplete }: Top
                                 <div className="flex items-center justify-between">
                                     <span className="text-sm text-muted-foreground">Amount</span>
                                     <span className="text-2xl font-bold text-foreground">
-                                        ${parseFloat(amount).toLocaleString()} CHT
+                                        ₦{parseFloat(amount).toLocaleString()} <span className="text-sm font-medium">/<span className="text-[#D4AF37]/75">{(Number(amount) * 23).toLocaleString()} CHT</span></span>
                                     </span>
                                 </div>
                             </div>
@@ -227,7 +236,7 @@ export default function TopUpDialog({ open, onOpenChange, onTopUpComplete }: Top
                                     onClick={handleNext}
                                     className="flex-1 h-12 text-base font-semibold bg-[#D4AF37] hover:bg-[#C5A028] text-black"
                                 >
-                                    Pay ${parseFloat(amount).toLocaleString()}
+                                    Pay ₦{parseFloat(amount).toLocaleString()}
                                 </Button>
                             </div>
                         </motion.div>
@@ -273,7 +282,7 @@ export default function TopUpDialog({ open, onOpenChange, onTopUpComplete }: Top
                             <div className="text-center space-y-1">
                                 <p className="text-lg font-semibold">Top Up Successful!</p>
                                 <p className="text-sm text-muted-foreground">
-                                    ${parseFloat(amount).toLocaleString()} CHT added to your wallet
+                                    ₦{parseFloat(amount).toLocaleString()} <span className="text-sm font-medium">/ <span className="text-[#D4AF37]/75">{(Number(amount) * 23).toLocaleString()} CHT</span></span> added to your wallet
                                 </p>
                             </div>
                         </motion.div>

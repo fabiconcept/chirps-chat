@@ -16,6 +16,8 @@ import { Toaster } from "@/components/ui/sonner";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import HangMan from "@/components/HangMan";
 import NextTopLoader from 'nextjs-toploader';
+import ChatHanger from "@/components/ChatHanger";
+import { initialUsers } from "@/constants/User.const";
 
 export const metadata: Metadata = RootMetadata;
 
@@ -29,7 +31,7 @@ export default function RootLayout({
             <body
                 className={`poppins antialiased`}
             >
-                <NextTopLoader 
+                <NextTopLoader
                     color="#7600c9"
                     showSpinner={false}
                 />
@@ -41,13 +43,19 @@ export default function RootLayout({
                                     <div className="flex-1 max-h-full overflow-y-auto outline debug-blue">
                                         <GlobalHeader />
                                         <main className="flex max-h-full md:px-10 sm:px-5 px-0 md:pt-6 py-3 max-sm:pb-0 debug-purple overflow-y-visible max-w-400 w-full mx-auto">
-                                            <HangMan 
-                                                className="relative"
+                                            <HangMan
+                                                className="relative lg:mr-3 md:mr-2 sm:mr-1 mr-0"
                                                 exemptFrom={["/chat", "/chat/"]}
                                             >
                                                 <SideBar />
                                             </HangMan>
                                             {children}
+                                            <HangMan 
+                                                className="relative max-[1200px]:hidden lg:ml-6 md:ml-4 sm:ml-2 ml-0"
+                                                hideFrom={["/chat", "/chat/"]}
+                                            >
+                                                <ChatHanger type="feed" usersList={initialUsers.slice(0, 6)} />
+                                            </HangMan>
                                         </main>
                                     </div>
                                     <Activities />

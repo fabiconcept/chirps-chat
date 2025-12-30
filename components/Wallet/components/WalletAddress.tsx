@@ -13,10 +13,7 @@ interface WalletAddressProps {
 }
 
 export default function WalletAddress({ address }: WalletAddressProps) {
-    const searchParams = useSearchParams();
     const [copied, setCopied] = useState(false);
-    const showQRDialog = useMemo(() => searchParams.get(SearchParamKeys.WALLET_QR) === "true", [searchParams]);
-
     const handleCopy = () => {
         navigator.clipboard.writeText(address);
         setCopied(true);
@@ -114,12 +111,6 @@ export default function WalletAddress({ address }: WalletAddressProps) {
                     </AnimatePresence>
                 </div>
             </div>
-
-            <QRCodeDialog
-                open={showQRDialog}
-                onOpenChange={(open) => open ? updateSearchParam(SearchParamKeys.WALLET_QR, "true") : removeSearchParam(SearchParamKeys.WALLET_QR)}
-                address={address}
-            />
         </div>
     );
 }

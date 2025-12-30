@@ -23,7 +23,6 @@ export default function OwnedItemsView({ items, onItemClick }: OwnedItemsViewPro
     // Get state from URL or use defaults
     const searchQuery = searchParams.get(SearchParamKeys.MARKETPLACE_SEARCH) || "";
     const categoryFilter = (searchParams.get(SearchParamKeys.MARKETPLACE_CATEGORY) as MarketplaceItemCategory | "all") || "all";
-    const viewMode = (searchParams.get(SearchParamKeys.MARKETPLACE_VIEW_MODE) as "grid" | "list") || "grid";
 
     // Handlers
     const handleSearchChange = (value: string) => {
@@ -117,48 +116,27 @@ export default function OwnedItemsView({ items, onItemClick }: OwnedItemsViewPro
             className="space-y-6"
         >
             {/* Stats Overview */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-3 md:gap-4 gap-2">
                 <motion.div
                     whileHover={{ scale: 1.02 }}
                     className="p-4 rounded-xl bg-linear-to-br from-[#7600C9]/10 to-[#7600C9]/5 border border-[#7600C9]/30"
                 >
                     <p className="text-sm text-muted-foreground">Total Items</p>
-                    <p className="text-2xl font-bold text-[#7600C9]">{categoryCounts.all}</p>
+                    <p className="md:text-2xl text-xl font-bold text-[#7600C9]">{categoryCounts.all}</p>
                 </motion.div>
                 <motion.div
                     whileHover={{ scale: 1.02 }}
                     className="p-4 rounded-xl bg-muted/50 border border-border"
                 >
                     <p className="text-sm text-muted-foreground">Avatars</p>
-                    <p className="text-2xl font-bold">{categoryCounts.avatar}</p>
-                </motion.div>
-                <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    className="p-4 rounded-xl bg-muted/50 border border-border"
-                >
-                    <p className="text-sm text-muted-foreground">Badges</p>
-                    <p className="text-2xl font-bold">{categoryCounts.badge}</p>
-                </motion.div>
-                <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    className="p-4 rounded-xl bg-muted/50 border border-border"
-                >
-                    <p className="text-sm text-muted-foreground">Themes</p>
-                    <p className="text-2xl font-bold">{categoryCounts.theme}</p>
-                </motion.div>
-                <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    className="p-4 rounded-xl bg-muted/50 border border-border"
-                >
-                    <p className="text-sm text-muted-foreground">Emotes</p>
-                    <p className="text-2xl font-bold">{categoryCounts.emote}</p>
+                    <p className="md:text-2xl text-xl font-bold">{categoryCounts.avatar}</p>
                 </motion.div>
                 <motion.div
                     whileHover={{ scale: 1.02 }}
                     className="p-4 rounded-xl bg-muted/50 border border-border"
                 >
                     <p className="text-sm text-muted-foreground">Banners</p>
-                    <p className="text-2xl font-bold">{categoryCounts.banner}</p>
+                    <p className="md:text-2xl text-xl font-bold">{categoryCounts.banner}</p>
                 </motion.div>
             </div>
 
@@ -174,26 +152,6 @@ export default function OwnedItemsView({ items, onItemClick }: OwnedItemsViewPro
                         className="pl-9"
                     />
                 </div>
-
-                {/* View Mode Toggle */}
-                <div className="flex items-center gap-2 p-1 rounded-lg bg-muted/50 border border-border">
-                    <Button
-                        variant={viewMode === "grid" ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => handleViewModeChange("grid")}
-                        className={cn("px-3", viewMode === "grid" && "bg-[#7600C9] hover:bg-[#7600C9]/90 text-white")}
-                    >
-                        <Grid3x3 className="h-4 w-4" />
-                    </Button>
-                    <Button
-                        variant={viewMode === "list" ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => handleViewModeChange("list")}
-                        className={cn("px-3", viewMode === "list" && "bg-[#7600C9] hover:bg-[#7600C9]/90 text-white")}
-                    >
-                        <List className="h-4 w-4" />
-                    </Button>
-                </div>
             </div>
 
             {/* Category Tabs */}
@@ -202,14 +160,14 @@ export default function OwnedItemsView({ items, onItemClick }: OwnedItemsViewPro
                 onValueChange={handleCategoryChange}
                 className="w-full"
             >
-                <TabsList className="w-full grid grid-cols-3 h-auto p-1">
-                    <TabsTrigger value="all" className="text-xs md:text-sm">
+                <TabsList className="w-full grid grid-cols-3 h-auto p-1 rounded-3xl">
+                    <TabsTrigger value="all" className="text-xs md:text-sm rounded-3xl">
                         All ({categoryCounts.all})
                     </TabsTrigger>
-                    <TabsTrigger value="avatar" className="text-xs md:text-sm">
+                    <TabsTrigger value="avatar" className="text-xs md:text-sm rounded-3xl">
                         Avatars ({categoryCounts.avatar})
                     </TabsTrigger>
-                    <TabsTrigger value="banner" className="text-xs md:text-sm">
+                    <TabsTrigger value="banner" className="text-xs md:text-sm rounded-3xl">
                         Banners ({categoryCounts.banner})
                     </TabsTrigger>
                 </TabsList>
@@ -229,9 +187,7 @@ export default function OwnedItemsView({ items, onItemClick }: OwnedItemsViewPro
                 <div
                     className={cn(
                         "grid gap-6 w-full",
-                        viewMode === "grid" 
-                            ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-                            : "grid-cols-1"
+                        "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
                     )}
                 >
                     {filteredItems.map((item) => (

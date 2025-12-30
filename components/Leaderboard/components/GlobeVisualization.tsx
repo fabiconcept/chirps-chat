@@ -140,7 +140,7 @@ export default function GlobeVisualization({ users, onUserClick, selectedCountry
                 const globe = new Globe(globeRef.current)
                     .width(width)
                     .height(height)
-                    .backgroundImageUrl('//cdn.jsdelivr.net/npm/three-globe/example/img/night-sky.png')
+                    // .backgroundImageUrl('//cdn.jsdelivr.net/npm/three-globe/example/img/night-sky.png')
                     .globeImageUrl(globeImage)
                     .backgroundColor(backgroundColor)
                     .showAtmosphere(true)
