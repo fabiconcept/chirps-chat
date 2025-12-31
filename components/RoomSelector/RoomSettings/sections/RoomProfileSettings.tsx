@@ -8,10 +8,10 @@ import { Button } from "@/components/ui/button";
 import banners from "@/constants/banners";
 import { useState } from "react";
 import Banner from "./assets/banner";
-import { cn } from "@/lib/utils";
 import { Hash, Globe, Search, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import AvatarSelector from "./assets/AvatarSelector";
+import ProtectedImage from "@/components/Feed/TextPost/ProtectedImage";
 
 // Preview Component
 function RoomPreview({ name, bannerBg, description, isPublic, avatarUrl }: { name: string; bannerBg: string; description: string; isPublic: boolean; avatarUrl: string }) {
@@ -25,9 +25,10 @@ function RoomPreview({ name, bannerBg, description, isPublic, avatarUrl }: { nam
             {/* Room Icon */}
             <div className="-mt-10 px-4 relative z-10">
                 <div className="h-16 w-16 rounded-2xl border-4 border-background shadow-lg overflow-hidden">
-                    <img 
+                    <ProtectedImage 
                         src={avatarUrl} 
                         alt={name}
+                        fill
                         className="w-full h-full object-cover"
                     />
                 </div>

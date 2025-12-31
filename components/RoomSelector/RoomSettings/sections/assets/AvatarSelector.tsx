@@ -6,7 +6,10 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Badge } from "@/components/ui/badge";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, ShoppingCart, Sparkles, Lock } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, formatNumber } from "@/lib/utils";
+import ProtectedImage from "@/components/Feed/TextPost/ProtectedImage";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Coins01FreeIcons } from "@hugeicons/core-free-icons";
 
 type AvatarItem = {
     id: string;
@@ -20,13 +23,13 @@ type AvatarItem = {
 // Mock data - Replace with actual API call
 const mockAvatars: AvatarItem[] = [
     { id: "1", url: "https://chirps-chat.sirv.com/premium/rasta.png", name: "Rasta", isOwned: true, rarity: "legendary" },
-    { id: "2", url: "https://i.pravatar.cc/150?img=1", name: "Avatar 1", isOwned: true, rarity: "common" },
-    { id: "3", url: "https://i.pravatar.cc/150?img=2", name: "Avatar 2", isOwned: true, rarity: "rare" },
-    { id: "4", url: "https://i.pravatar.cc/150?img=3", name: "Avatar 3", isOwned: true, rarity: "epic" },
-    { id: "5", url: "https://i.pravatar.cc/150?img=4", name: "Avatar 4", isOwned: false, price: 500, rarity: "rare" },
-    { id: "6", url: "https://i.pravatar.cc/150?img=5", name: "Avatar 5", isOwned: false, price: 1000, rarity: "epic" },
-    { id: "7", url: "https://i.pravatar.cc/150?img=6", name: "Avatar 6", isOwned: false, price: 2500, rarity: "legendary" },
-    { id: "8", url: "https://i.pravatar.cc/150?img=7", name: "Avatar 7", isOwned: false, price: 100, rarity: "common" },
+    { id: "2", url: "https://chirps-chat.sirv.com/premium/god.png", name: "God", isOwned: true, rarity: "epic" },
+    { id: "3", url: "https://chirps-chat.sirv.com/premium/frankenstein.png", name: "Frankenstein", isOwned: true, rarity: "rare" },
+    { id: "4", url: "https://chirps-chat.sirv.com/premium/anonymous.png", name: "Anonymous", isOwned: true, rarity: "epic" },
+    { id: "5", url: "https://chirps-chat.sirv.com/premium/ironman.png", name: "Ironman", isOwned: false, price: 500, rarity: "rare" },
+    { id: "6", url: "https://chirps-chat.sirv.com/premium/decision.png", name: "Decision", isOwned: false, price: 1000, rarity: "epic" },
+    { id: "7", url: "https://chirps-chat.sirv.com/premium/grinch.png", name: "Grinch", isOwned: false, price: 2500, rarity: "legendary" },
+    { id: "8", url: "https://chirps-chat.sirv.com/premium/batman.png", name: "Batman", isOwned: false, price: 100, rarity: "common" },
 ];
 
 const rarityColors = {
@@ -37,10 +40,10 @@ const rarityColors = {
 };
 
 const rarityBadgeColors = {
-    common: "bg-gray-500/10 text-gray-500 border-gray-500/20",
-    rare: "bg-blue-500/10 text-blue-500 border-blue-500/20",
-    epic: "bg-purple-500/10 text-purple-500 border-purple-500/20",
-    legendary: "bg-amber-500/10 text-amber-500 border-amber-500/20"
+    common: "bg-gray-500/70 text-white border-gray-500/20",
+    rare: "bg-blue-500/70 text-white border-blue-500/20",
+    epic: "bg-purple-500/70 text-white border-purple-500/20",
+    legendary: "bg-amber-500/70 text-white border-amber-500/20"
 };
 
 interface AvatarSelectorProps {
@@ -86,13 +89,13 @@ export default function AvatarSelector({ selectedAvatarUrl, onAvatarSelect, disp
                 </button>
             </PopoverTrigger>
             <PopoverContent 
-                className="w-[420px] p-0 border-2 border-primary/20 shadow-2xl" 
+                className="w-[420px] p-0 border-2 border-primary/20 shadow-2xl rounded-3xl overflow-hidden" 
                 align="start"
                 side="right"
             >
                 <div className="max-h-[600px] overflow-y-auto">
                     {/* Header */}
-                    <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-input p-4">
+                    <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-input p-4 bg-linear-to-b from-foreground/5 to-transparent">
                         <h3 className="font-bold text-lg flex items-center gap-2">
                             <Sparkles className="h-5 w-5 text-primary" />
                             {type === "user" ? "Your Avatars" : "Room Avatars"}
@@ -124,16 +127,17 @@ export default function AvatarSelector({ selectedAvatarUrl, onAvatarSelect, disp
                                         whileTap={{ scale: 0.95 }}
                                         onClick={() => handleSelect(avatar)}
                                         className={cn(
-                                            "relative aspect-square rounded-xl border-2 bg-linear-to-br overflow-hidden transition-all duration-300",
+                                            "relative cursor-pointer aspect-square rounded-xl border-2 bg-linear-to-br overflow-hidden transition-all duration-300",
                                             selectedAvatarUrl === avatar.url
                                                 ? "border-primary shadow-lg shadow-primary/25"
                                                 : "border-input hover:border-primary/50",
                                             rarityColors[avatar.rarity || "common"]
                                         )}
                                     >
-                                        <img 
+                                        <ProtectedImage 
                                             src={avatar.url} 
                                             alt={avatar.name}
+                                            fill
                                             className="w-full h-full object-cover"
                                         />
                                         
@@ -142,19 +146,19 @@ export default function AvatarSelector({ selectedAvatarUrl, onAvatarSelect, disp
                                             <motion.div
                                                 initial={{ scale: 0 }}
                                                 animate={{ scale: 1 }}
-                                                className="absolute inset-0 bg-primary/20 backdrop-blur-sm flex items-center justify-center"
+                                                className="absolute inset-0 bg-primary/10 backdrop-blur-[2px] overflow-hidden rounded-lg flex items-center justify-center"
                                             >
-                                                <div className="bg-primary rounded-full p-1.5">
-                                                    <Check className="h-4 w-4 text-white" strokeWidth={3} />
+                                                <div className="bg-background/30 backdrop-blur-sm border border-background/40 rounded-full p-1.5">
+                                                    <Check className="h-4 w-4 text-foreground" strokeWidth={3} />
                                                 </div>
                                             </motion.div>
                                         )}
 
                                         {/* Rarity Badge */}
-                                        <div className="absolute top-1 left-1">
+                                        <div className="absolute top-0 left-1/2 -translate-x-1/2">
                                             <Badge 
                                                 variant="outline" 
-                                                className={cn("text-[10px] px-1.5 py-0 h-4", rarityBadgeColors[avatar.rarity || "common"])}
+                                                className={cn("text-[10px] px-1.5 py-0 h-4 backdrop-blur-sm", rarityBadgeColors[avatar.rarity || "common"])}
                                             >
                                                 {avatar.rarity}
                                             </Badge>
@@ -192,26 +196,30 @@ export default function AvatarSelector({ selectedAvatarUrl, onAvatarSelect, disp
                                             animate={{ opacity: 1, scale: 1 }}
                                             transition={{ delay: index * 0.05 }}
                                             className={cn(
-                                                "relative aspect-square rounded-xl border-2 bg-linear-to-br overflow-hidden",
+                                                "relative aspect-square rounded-xl border-2 bg-linear-to-br overflow-hidden cursor-not-allowed",
                                                 rarityColors[avatar.rarity || "common"]
                                             )}
                                         >
-                                            <img 
+                                            <ProtectedImage 
                                                 src={avatar.url} 
                                                 alt={avatar.name}
-                                                className="w-full h-full object-cover grayscale-[50%]"
+                                                fill
+                                                className="w-full h-full object-cover grayscale-50"
                                             />
                                             
                                             {/* Locked Overlay */}
-                                            <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px] flex flex-col items-center justify-center">
-                                                <Lock className="h-5 w-5 text-muted-foreground mb-1" />
-                                                <span className="text-[10px] font-bold text-foreground">
-                                                    {avatar.price}
+                                            <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px] flex flex-col items-center justify-center rounded-xl">
+                                                <HugeiconsIcon 
+                                                    icon={Coins01FreeIcons} 
+                                                    className="h-5 w-5 text-[#D4Af37] mt-1" 
+                                                />
+                                                <span className="text-[10px] font-bold text-[#D4Af37]">
+                                                    <span>{formatNumber(avatar.price || 0)}</span> <span>CHT</span>
                                                 </span>
                                             </div>
 
                                             {/* Rarity Badge */}
-                                            <div className="absolute top-1 left-1">
+                                            <div className="absolute top-0 left-1/2 -translate-x-1/2">
                                                 <Badge 
                                                     variant="outline" 
                                                     className={cn("text-[10px] px-1.5 py-0 h-4", rarityBadgeColors[avatar.rarity || "common"])}
