@@ -325,7 +325,7 @@ export default function LeaderboardContent() {
                             </div>
                         </motion.div>
                     </div>
-                    <div className="h-20" />
+                    <div className="h-24" />
                 </div>
             </div>
 

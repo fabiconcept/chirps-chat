@@ -1,5 +1,5 @@
 "use client";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import { motion } from "framer-motion";
 import { Suggestion } from "../types";
 import VoteButtons from "./VoteButtons";
@@ -17,8 +17,8 @@ interface SuggestionCardProps {
 }
 
 export default function SuggestionCard({ suggestion, onVote, onClick, index = 0 }: SuggestionCardProps) {
-    const timeAgo = formatDistanceToNow(new Date(suggestion.createdAt), { addSuffix: true });
     const { isMobile } = useAuth();
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -42,7 +42,7 @@ export default function SuggestionCard({ suggestion, onVote, onClick, index = 0 
                     />
                     <div className="flex items-center gap-2">
                         <CategoryBadge category={suggestion.category} size="sm" />
-                        <StatusBadge status={suggestion.status} size="sm" />
+                        {!isMobile && <StatusBadge status={suggestion.status} size="sm" />}
                     </div>
                 </div>
 

@@ -203,7 +203,7 @@ export default function SuggestionsContainer() {
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex items-center justify-between gap-4 flex-wrap"
+                className="flex items-center justify-between gap-4 flex-wrap max-sm:px-2 mt-5"
             >
                 <div className="space-y-1">
                     <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold flex items-center gap-2 sm:gap-3">
@@ -225,8 +225,8 @@ export default function SuggestionsContainer() {
 
             {/* Tabs */}
             <Tabs value={activeTab} onValueChange={handleTabChange}>
-                <div className="flex items-center justify-between gap-4 flex-wrap">
-                    <TabsList className="rounded-3xl">
+                <div className="flex items-center justify-between gap-4 flex-wrap max-sm:px-2">
+                    <TabsList className="rounded-3xl max-sm:w-full">
                         <TabsTrigger value="active" className="gap-2 rounded-3xl">
                             <Lightbulb className="h-4 w-4" />
                             Active
@@ -290,7 +290,7 @@ export default function SuggestionsContainer() {
                         </TabsContent>
                     )}
                 </AnimatePresence>
-                <div className="h-20" />
+                <div className="h-24" />
             </Tabs>
 
             {/* Create Suggestion Dialog */}
