@@ -179,7 +179,7 @@ export default function LeaderboardPedestal({ topThree, category, onUserClick, s
                             className="relative z-10"
                         >
                             <Avatar className={cn(
-                                "w-20 h-20 border-2",
+                                "sm:w-20 sm:h-20 w-12 h-12 border-2",
                                 rankStyle.borderColor,
                                 "shadow-lg relative z-10"
                             )}>
@@ -198,14 +198,14 @@ export default function LeaderboardPedestal({ topThree, category, onUserClick, s
                                     rankStyle.borderColor
                                 )}
                             >
-                                <RankIcon className={cn("h-3.5 w-3.5", rankStyle.iconColor)} />
+                                <RankIcon className={cn("sm:h-3.5 sm:w-3.5 h-2.5 w-2.5", rankStyle.iconColor)} />
                             </motion.div>
                         </motion.div>
                     </div>
 
                     {/* User Info */}
                     <div className="mt-3 mb-5 text-center relative z-10">
-                        <h3 className="font-semibold text-base truncate max-w-[150px]">{user.name}</h3>
+                        <h3 className="font-semibold text-base truncate max-w-[150px] max-md:hidden">{user.name}</h3>
                         <p className="text-xs text-muted-foreground truncate max-w-[150px]">@{user.username}</p>
                     </div>
 
@@ -216,7 +216,7 @@ export default function LeaderboardPedestal({ topThree, category, onUserClick, s
                     )}>
                         <div className="flex items-center gap-2">
                             <div className="text-center">
-                                <p className={cn("text-xl font-semibold flex flex-col items-center justify-center", config.color)}>
+                                <p className={cn("md:text-xl text-base font-semibold flex flex-col items-center justify-center", config.color)}>
                                     <CategoryIcon className={cn("h-4 w-4", config.color)} />
                                     {formatNumber(statValue)}
                                 </p>
@@ -228,7 +228,7 @@ export default function LeaderboardPedestal({ topThree, category, onUserClick, s
                     </div>
 
                     {/* Country Flag */}
-                    <div className="mt-2 flex items-center gap-1 text-xs text-muted-foreground relative z-10">
+                    <div className="mt-2 flex items-center gap-1 md:text-xs text-[10px] truncate text-muted-foreground relative z-10">
                         <span className="font-normal">{user.country}</span>
                     </div>
                 </motion.div>
@@ -240,7 +240,7 @@ export default function LeaderboardPedestal({ topThree, category, onUserClick, s
                     transition={{ delay: delay + 0.2, type: "spring", stiffness: 200, damping: 20 }}
                     className={cn(
                         rankStyle.height,
-                        "w-48 rounded-t-lg border-x border-t relative",
+                        "md:w-48 w-full rounded-t-lg border-x border-t relative",
                         `bg-linear-to-b ${rankStyle.bgGradient}`,
                         rankStyle.borderColor,
                         "origin-bottom"
@@ -300,7 +300,7 @@ export default function LeaderboardPedestal({ topThree, category, onUserClick, s
             </motion.div>
 
             {/* Podium */}
-            <div className="flex items-end justify-center gap-4 md:gap-8 max-w-5xl mx-auto">
+            <div className="md:flex grid grid-cols-3 items-end justify-center gap-4 md:gap-8 max-w-5xl mx-auto">
                 {/* 2nd Place */}
                 {second && renderPodium(second, 2, 0.1)}
 

@@ -2,26 +2,17 @@
 import { useAuth } from './Providers/AuthProvider';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import ThemeSwitch from './ui/theme-switch';
 import { useTheme } from "next-themes";
 import { motion } from 'framer-motion';
 import KeyboardShortcutsModal from './modals/KeyboardShortcutsModal';
 import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
+    DropdownMenu, DropdownMenuContent,
     DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuPortal,
-    DropdownMenuSeparator,
-    DropdownMenuShortcut,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+    DropdownMenuItem, DropdownMenuSeparator,
+    DropdownMenuShortcut, DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
 import Search from './header components/Search';
 import StreakTracker from './header components/StreakTracker';
 import UserClump from './modular/UserClump';
@@ -173,7 +164,7 @@ export default function GlobalHeader() {
             >
                 <div className='absolute inset-0 scale-105 -mt-5 filter-ios'></div>
                 <div className='flex items-center z-10 sm:gap-5 gap-3 flex-1'>
-                    <div className="flex items-center gap-2 max-md:py-5">
+                    <div className="flex items-center gap-2 max-md:py-5 shrink-0">
                         <ProtectedImage
                             src={theme === 'dark' ? "/chirps-chat-logo-white.svg" : "/chirps-chat-logo.svg"}
                             alt="Chirps Logo"
@@ -201,7 +192,7 @@ export default function GlobalHeader() {
                                         className="gap-1.5 rounded-3xl md:gap-2 bg-linear-to-r from-[#D4AF37]/10 to-transparent border-[#D4AF37]/30 hover:border-[#D4AF37]/50 transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden relative"
                                     >
                                         <div onClick={() => updateSearchParam("wallet", "open")} className="flex items-center gap-2">
-                                            <Wallet className="h-4 w-4 text-[#D4AF37]" />
+                                            <Wallet className="h-4 w-4 text-[#D4AF37] max-sm:hidden" />
                                             <span className="font-semibold text-[#D4AF37] ave">
                                                 {isMobile ? formatNumber(12847.50) : "12,847.50"}
                                             </span>
