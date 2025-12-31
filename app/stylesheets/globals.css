@@ -47,6 +47,73 @@
   filter: url(#lensFilter) saturate(120%) brightness(1.15)
 }
 
+/* Metallic Shine Effects for Leaderboard Pedestal */
+.metallic-shine-gold {
+  position: relative;
+}
+
+
+
+.metallic-shine-silver {
+  position: relative;
+}
+
+
+.metallic-shine-bronze {
+  position: relative;
+}
+
+.metallic-shine-silver::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+      transparent 0%,
+      rgba(192, 192, 192, 0.1) 25%,
+      rgba(220, 220, 220, 0.2) 45%,
+      rgba(255, 255, 255, 0.15) 50%,
+      rgba(220, 220, 220, 0.2) 55%,
+      rgba(192, 192, 192, 0.1) 75%,
+      transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 1.5rem;
+}
+
+.metallic-shine-gold::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+      transparent 0%,
+      rgba(255, 223, 0, 0.3) 25%,
+      rgba(255, 241, 118, 0.35) 45%,
+      rgba(255, 234, 185, 0.35) 50%,
+      rgba(255, 241, 118, 0.35) 55%,
+      rgba(255, 223, 0, 0.3) 75%,
+      transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 1.5rem;
+}
+
+.metallic-shine-bronze::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+      transparent 0%,
+      rgba(169, 113, 66, 0.1) 25%,
+      rgba(205, 150, 100, 0.2) 45%,
+      rgba(255, 255, 255, 0.12) 50%,
+      rgba(205, 150, 100, 0.2) 55%,
+      rgba(169, 113, 66, 0.1) 75%,
+      transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 1.5rem;
+}
+
 :root {
   --radius: 0.625rem;
   --card: oklch(1 0 0);
@@ -117,7 +184,59 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
   --invert: 0;
+
+  .metallic-shine-silver::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+        transparent 0%,
+        rgba(192, 192, 192, 0.1) 25%,
+        rgba(220, 220, 220, 0.2) 45%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(220, 220, 220, 0.2) 55%,
+        rgba(192, 192, 192, 0.1) 75%,
+        transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+    border-radius: 1.5rem;
+  }
+
+  .metallic-shine-gold::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+        transparent 0%,
+        rgba(255, 223, 0, 0.3) 25%,
+        rgba(255, 241, 118, 0.35) 45%,
+        rgba(255, 234, 185, 0.35) 50%,
+        rgba(255, 241, 118, 0.35) 55%,
+        rgba(255, 223, 0, 0.3) 75%,
+        transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+    border-radius: 1.5rem;
+  }
+
+  .metallic-shine-bronze::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+        transparent 0%,
+        rgba(169, 113, 66, 0.1) 25%,
+        rgba(205, 150, 100, 0.2) 45%,
+        rgba(255, 255, 255, 0.12) 50%,
+        rgba(205, 150, 100, 0.2) 55%,
+        rgba(169, 113, 66, 0.1) 75%,
+        transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+    border-radius: 1.5rem;
+  }
 }
+
 
 @layer base {
   * {
@@ -130,78 +249,8 @@
 
   .animate-fire {
     -webkit-animation: shake-bottom 0.8s cubic-bezier(0.055, 0.030, 0.515, 0.955) both infinite;
-            animation: shake-bottom 0.8s cubic-bezier(0.055, 0.030, 0.515, 0.955) both infinite;
+    animation: shake-bottom 0.8s cubic-bezier(0.055, 0.030, 0.515, 0.955) both infinite;
   }
-}
-
-/* Metallic Shine Effects for Leaderboard Pedestal */
-.metallic-shine-gold {
-  position: relative;
-}
-
-.metallic-shine-gold::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    transparent 0%,
-    rgba(255, 223, 0, 0.3) 25%,
-    rgba(255, 241, 118, 0.35) 45%,
-    rgba(255, 234, 185, 0.35) 50%,
-    rgba(255, 241, 118, 0.35) 55%,
-    rgba(255, 223, 0, 0.3) 75%,
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 1;
-  border-radius: 1.5rem;
-}
-
-.metallic-shine-silver {
-  position: relative;
-}
-
-.metallic-shine-silver::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    transparent 0%,
-    rgba(192, 192, 192, 0.1) 25%,
-    rgba(220, 220, 220, 0.2) 45%,
-    rgba(255, 255, 255, 0.15) 50%,
-    rgba(220, 220, 220, 0.2) 55%,
-    rgba(192, 192, 192, 0.1) 75%,
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 1;
-  border-radius: 1.5rem;
-}
-
-.metallic-shine-bronze {
-  position: relative;
-}
-
-.metallic-shine-bronze::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    transparent 0%,
-    rgba(169, 113, 66, 0.1) 25%,
-    rgba(205, 150, 100, 0.2) 45%,
-    rgba(255, 255, 255, 0.12) 50%,
-    rgba(205, 150, 100, 0.2) 55%,
-    rgba(169, 113, 66, 0.1) 75%,
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 1;
-  border-radius: 1.5rem;
 }
 
 body {
@@ -211,22 +260,28 @@ body {
 .no-scrollbar {
   &::-webkit-scrollbar {
     display: none;
-  }   
+  }
 }
 
 @keyframes bounce-left {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateX(0);
   }
+
   50% {
     transform: translateX(-8px);
   }
 }
 
 @keyframes bounce-right {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateX(0);
   }
+
   50% {
     transform: translateX(8px);
   }
@@ -238,69 +293,82 @@ body {
 }
 
 @-webkit-keyframes shake-bottom {
+
   0%,
   100% {
     -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
+    transform: rotate(0deg);
     -webkit-transform-origin: 50% 100%;
-            transform-origin: 50% 100%;
+    transform-origin: 50% 100%;
   }
+
   10% {
     -webkit-transform: rotate(2deg);
-            transform: rotate(2deg);
+    transform: rotate(2deg);
   }
+
   20%,
   40%,
   60% {
     -webkit-transform: rotate(-4deg);
-            transform: rotate(-4deg);
+    transform: rotate(-4deg);
   }
+
   30%,
   50%,
   70% {
     -webkit-transform: rotate(4deg);
-            transform: rotate(4deg);
+    transform: rotate(4deg);
   }
+
   80% {
     -webkit-transform: rotate(-2deg);
-            transform: rotate(-2deg);
+    transform: rotate(-2deg);
   }
+
   90% {
     -webkit-transform: rotate(2deg);
-            transform: rotate(2deg);
+    transform: rotate(2deg);
   }
 }
+
 @keyframes shake-bottom {
+
   0%,
   100% {
     -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
+    transform: rotate(0deg);
     -webkit-transform-origin: 50% 100%;
-            transform-origin: 50% 100%;
+    transform-origin: 50% 100%;
   }
+
   10% {
     -webkit-transform: rotate(2deg);
-            transform: rotate(2deg);
+    transform: rotate(2deg);
   }
+
   20%,
   40%,
   60% {
     -webkit-transform: rotate(-4deg);
-            transform: rotate(-4deg);
+    transform: rotate(-4deg);
   }
+
   30%,
   50%,
   70% {
     -webkit-transform: rotate(4deg);
-            transform: rotate(4deg);
+    transform: rotate(4deg);
   }
+
   80% {
     -webkit-transform: rotate(-2deg);
-            transform: rotate(-2deg);
+    transform: rotate(-2deg);
   }
+
   90% {
     -webkit-transform: rotate(2deg);
-            transform: rotate(2deg);
+    transform: rotate(2deg);
   }
 }
 
