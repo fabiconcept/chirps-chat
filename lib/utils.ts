@@ -77,7 +77,7 @@ export function formatNumber(num: number, decimals: number = 1, long: boolean = 
     { value: 1e9, symbol: 'B', long: 'Billion' },
     { value: 1e6, symbol: 'M', long: 'Million' },
     { value: 1e3, symbol: 'K', long: 'Thousand' },
-];
+  ];
 
   for (const unit of units) {
     if (num >= unit.value) {
@@ -218,3 +218,30 @@ export const isGapGreaterThan24Hours = (date1: Date, date2: Date) => {
   const diffInHours = diffInMs / (1000 * 60 * 60);
   return diffInHours > 24;
 };
+
+export function getNumberFromRange(min: number, max: number, base: number, current: number, initial: number = 21, interval: number = 10): number {
+  // Clamp current to the valid range
+  const clampedCurrent = Math.max(min, Math.min(max, current));
+  
+  // If current is at base, return initial
+  if (clampedCurrent === base) {
+    return initial;
+  }
+
+  const distance = clampedCurrent - base;
+
+  // Calculate how many intervals of 10 we are from the base
+  const steps = Math.floor(Math.abs(distance) / interval);
+
+  // Base result is initial (27 by default)
+  let result = initial;
+
+  // Add steps if current > base, subtract if current < base
+  if (distance > 0) {
+    result += steps;
+  } else if (distance < 0) {
+    result -= steps;
+  }
+
+  return result;
+}

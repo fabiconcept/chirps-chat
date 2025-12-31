@@ -1,15 +1,17 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Trophy, Users, Heart, MessageSquare, Home, MapPin, Calendar, LucideProps, CalendarCheck } from "lucide-react";
+import { motion } from "framer-motion";
+import { X, Trophy, Users, Heart, MessageSquare, Home, MapPin, LucideProps, CalendarCheck } from "lucide-react";
 import { LeaderboardUser, LeaderboardCategory } from "../types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { cn, formatNumber } from "@/lib/utils";
+import { cn, formatNumber, getNumberFromRange } from "@/lib/utils";
 import StreakGrid from "./StreakGrid";
-import { ForwardRefExoticComponent, RefAttributes } from "react";
+import { ForwardRefExoticComponent, RefAttributes, useMemo } from "react";
+import { ResponsiveModal } from "@/components/ui/responsive-modal";
+import { useIsMobile } from "@/hooks/useIsMobile";
+import { useResized } from "@/hooks/use-resized";
 
 interface UserDetailDialogProps {
     user: LeaderboardUser | null;
@@ -24,54 +26,64 @@ const categoryConfig: Record<LeaderboardCategory, {
     icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
     backgroundColor: string;
 }> = {
-    streak: { 
-        label: "Day Streak", 
-        accentColor: "#10b981", 
+    streak: {
+        label: "Day Streak",
+        accentColor: "#10b981",
         backgroundColor: "bg-linear-to-b from-[#10b981]/10 to-transparent shadow-lg shadow-foreground/5",
         icon: CalendarCheck
     },
-    tokens: { 
-        label: "Tokens", 
-        accentColor: "#D4AF37", 
+    tokens: {
+        label: "Tokens",
+        accentColor: "#D4AF37",
         icon: Trophy,
         backgroundColor: "bg-linear-to-b from-[#D4AF37]/10 to-transparent",
 
     },
-    followers: { 
-        label: "Followers", 
-        accentColor: "#3b82f6", 
+    followers: {
+        label: "Followers",
+        accentColor: "#3b82f6",
         icon: Users,
         backgroundColor: "bg-linear-to-b from-[#3b82f6]/10 to-transparent",
     },
-    likes: { 
-        label: "Total Likes", 
-        accentColor: "#f43f5e", 
+    likes: {
+        label: "Total Likes",
+        accentColor: "#f43f5e",
         icon: Heart,
         backgroundColor: "bg-linear-to-b from-[#f43f5e]/10 to-transparent",
     },
-    posts: { 
-        label: "Total Posts", 
-        accentColor: "#a855f7", 
+    posts: {
+        label: "Total Posts",
+        accentColor: "#a855f7",
         icon: MessageSquare,
         backgroundColor: "bg-linear-to-b from-[#a855f7]/10 to-transparent",
     },
-    rooms: { 
-        label: "No. of Rooms", 
-        accentColor: "#6366f1", 
+    rooms: {
+        label: "No. of Rooms",
+        accentColor: "#6366f1",
         icon: Home,
         backgroundColor: "bg-linear-to-b from-[#6366f1]/10 to-transparent",
     }
 };
 
 export default function UserDetailDialog({ user, isOpen, onClose, category }: UserDetailDialogProps) {
+    const isMobile = useIsMobile();
+    const resized = useResized();
+    const gridSize = useMemo(() => {
+        return getNumberFromRange(300, 900, 412, resized.width, 33, 10);
+    }, [resized.width]);
+
     if (!user) return null;
 
     const config = categoryConfig[category];
     const CategoryIcon = config.icon;
 
     return (
-        <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent showCloseButton={false} className="max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl p-0">
+        <ResponsiveModal
+            open={isOpen}
+            onOpenChange={onClose}
+            title="Suggestion Details"
+        >
+            <div className="max-w-3xl w-full max-h-[90vh] overflow-y-auto rounded-3xl p-0">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -120,7 +132,7 @@ export default function UserDetailDialog({ user, isOpen, onClose, category }: Us
                     <div className="px-6 pt-20 pb-6 text-center space-y-3">
                         <div>
                             <h2 className="text-2xl font-bold">{user.name}</h2>
-                            <p className="text-muted-foreground">@{user.username}</p>
+                            <p className="text-muted-foreground">@{user.username} {gridSize}</p>
                         </div>
 
                         <div className="flex items-center justify-center gap-3 text-sm text-muted-foreground">
@@ -139,8 +151,8 @@ export default function UserDetailDialog({ user, isOpen, onClose, category }: Us
                     </div>
 
                     {/* Stats Grid */}
-                    <div className="px-6 pb-6">
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div className="sm:px-6 px-3 pb-6">
+                        <div className="grid grid-cols-2 md:grid-cols-3 sm:gap-4 gap-2">
                             {Object.entries(categoryConfig).map(([key, cfg]) => {
                                 const Icon = cfg.icon;
                                 const value = user.stats[key as LeaderboardCategory];
@@ -187,13 +199,13 @@ export default function UserDetailDialog({ user, isOpen, onClose, category }: Us
                                     <CalendarCheck className="h-5 w-5 text-emerald-500" />
                                     <h3 className="text-lg font-semibold">Days</h3>
                                 </div>
-                                <StreakGrid maxWeeks={27} streakDays={user.stats.streak} />
+                                <StreakGrid maxWeeks={isMobile ? gridSize : 27} size={isMobile ? "sm" : "md"} streakDays={user.stats.streak} />
                             </div>
                         </div>
                     )}
                 </motion.div>
-            </DialogContent>
-        </Dialog>
+            </div>
+        </ResponsiveModal>
     );
 }
 
