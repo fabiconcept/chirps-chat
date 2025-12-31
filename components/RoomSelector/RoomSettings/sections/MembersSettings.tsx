@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -186,7 +185,7 @@ export default function MembersSettings({ title, description }: { title: string,
 
             {/* Confirmation Dialog */}
             <Dialog open={actionDialog.isOpen} onOpenChange={(open) => !open && setActionDialog({ isOpen: false, type: null, member: null })}>
-                <DialogContent>
+                <DialogContent className="rounded-3xl">
                     <DialogHeader>
                         <DialogTitle>
                             {actionDialog.type === "mute" ? (

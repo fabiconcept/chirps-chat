@@ -127,7 +127,7 @@ export default function DeleteRoomSettings({ title, description }: { title: stri
                             animate={{ opacity: 1, y: 0 }}
                             className="text-sm text-destructive font-medium p-2 rounded-lg bg-destructive/10 border border-destructive/20"
                         >
-                            ❌ Room name doesn't match. Please type exactly: <strong>{ROOM_NAME}</strong>
+                            ❌ Room name doesn&apos;t match. Please type exactly: <strong>{ROOM_NAME}</strong>
                         </motion.p>
                     )}
                     {isConfirmationValid && (

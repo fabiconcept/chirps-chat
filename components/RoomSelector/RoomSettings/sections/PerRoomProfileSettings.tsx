@@ -64,6 +64,7 @@ export default function PerRoomProfileSettings({ title, description }: { title: 
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
+                        className="space-y-6"
                     >
                         <Separator />
 
@@ -208,7 +209,7 @@ export default function PerRoomProfileSettings({ title, description }: { title: 
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.6 }}
-                            className="flex justify-end gap-2 sticky bottom-0 bg-linear-to-t from-background via-background to-transparent pt-6 pb-2"
+                            className="flex justify-end gap-2 sticky -bottom-6 bg-linear-to-t from-background via-background to-transparent py-10 pb-5"
                         >
                             <Button 
                                 variant="outline"
@@ -249,7 +250,7 @@ export default function PerRoomProfileSettings({ title, description }: { title: 
                             Using Global Profile
                         </p>
                         <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                            You're currently using your global profile in this room.
+                            You&apos;re currently using your global profile in this room.
                             Enable custom profile to override your display name, avatar, and bio.
                         </p>
                     </motion.div>

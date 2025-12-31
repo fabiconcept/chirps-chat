@@ -161,7 +161,7 @@ export default function EngagementSettings({ title, description }: { title: stri
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="flex justify-end sticky bottom-0 bg-linear-to-t from-background via-background to-transparent pt-6 pb-2"
+                className="flex justify-end gap-2 sticky -bottom-6 bg-linear-to-t from-background via-background to-transparent py-10 pb-5"
             >
                 <Button className="shadow-lg hover:shadow-xl transition-shadow">
                     <Sparkles className="mr-2 h-4 w-4" />

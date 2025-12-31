@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -175,7 +174,7 @@ export default function InvitesSettings({ title, description }: { title: string,
 
             {/* Create Invite Dialog */}
             <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
-                <DialogContent>
+                <DialogContent className="rounded-3xl">
                     <DialogHeader>
                         <DialogTitle>Create Invite Link</DialogTitle>
                         <DialogDescription>
@@ -187,7 +186,7 @@ export default function InvitesSettings({ title, description }: { title: string,
                         <div className="space-y-2">
                             <Label htmlFor="expiry">Expire After</Label>
                             <Select value={expiry} onValueChange={setExpiry}>
-                                <SelectTrigger id="expiry">
+                                <SelectTrigger className="w-full bg-linear-to-b from-foreground/10 to-transparent rounded-3xl" id="expiry">
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>

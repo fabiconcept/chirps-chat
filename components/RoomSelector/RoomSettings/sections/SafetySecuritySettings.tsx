@@ -53,7 +53,7 @@ export default function SafetySecuritySettings({ title, description }: { title: 
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.1 }}
-                className="flex items-center justify-between p-4 rounded-xl border border-input bg-linear-to-br from-red-500/5 to-transparent hover:border-red-500/30 transition-all duration-300"
+                className="flex items-center justify-between p-4 rounded-xl border border-input bg-linear-to-b from-red-500/5 to-transparent hover:border-red-500/30 transition-all duration-300"
             >
                 <div className="space-y-0.5">
                     <Label htmlFor="block-links" className="font-medium flex items-center gap-2 text-base">
@@ -78,7 +78,7 @@ export default function SafetySecuritySettings({ title, description }: { title: 
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 }}
-                className="space-y-4 p-4 rounded-xl border border-input bg-linear-to-br from-orange-500/5 to-transparent hover:border-orange-500/30 transition-all duration-300"
+                className="space-y-4 p-4 rounded-xl border border-input bg-linear-to-b from-orange-500/5 to-transparent hover:border-orange-500/30 transition-all duration-300"
             >
                 <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
@@ -106,7 +106,7 @@ export default function SafetySecuritySettings({ title, description }: { title: 
                             transition={{ duration: 0.3 }}
                             className="space-y-3"
                         >
-                            <div className="flex gap-2">
+                            <div className="flex gap-2 items-center">
                                 <Input
                                     placeholder="Add word to block..."
                                     value={newWord}
@@ -120,7 +120,7 @@ export default function SafetySecuritySettings({ title, description }: { title: 
                             </div>
 
                             {blockedWords.length > 0 && (
-                                <div className="flex flex-wrap gap-2 p-3 rounded-lg bg-background/50 border border-input">
+                                <div className="flex flex-wrap gap-2 p-3 rounded-3xl bg-background/50 border border-input">
                                     <AnimatePresence mode="popLayout">
                                         {blockedWords.map((word) => (
                                             <motion.div
@@ -132,7 +132,7 @@ export default function SafetySecuritySettings({ title, description }: { title: 
                                             >
                                                 <Badge
                                                     variant="secondary"
-                                                    className="gap-1 pr-1 shadow-sm bg-destructive/10 text-destructive border-destructive/20"
+                                                    className="gap-1 pr-1 shadow-sm bg-destructive/5 text-destructive border-destructive/20 bg-linear-to-b from-destructive/10 to-transparent"
                                                 >
                                                     {word}
                                                     <button
@@ -159,7 +159,7 @@ export default function SafetySecuritySettings({ title, description }: { title: 
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
-                className="space-y-4 p-4 rounded-xl border border-input bg-linear-to-br from-blue-500/5 to-transparent hover:border-blue-500/30 transition-all duration-300"
+                className="space-y-4 p-4 rounded-xl border border-input bg-linear-to-b from-blue-500/5 to-transparent hover:border-blue-500/30 transition-all duration-300"
             >
                 <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
@@ -242,7 +242,7 @@ export default function SafetySecuritySettings({ title, description }: { title: 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="flex justify-end sticky bottom-0 bg-linear-to-t from-background via-background to-transparent pt-6 pb-2"
+                className="flex justify-end gap-2 sticky -bottom-6 bg-linear-to-t from-background via-background to-transparent py-10 pb-5"
             >
                 <Button className="shadow-lg hover:shadow-xl transition-shadow">
                     <Shield className="mr-2 h-4 w-4" />
