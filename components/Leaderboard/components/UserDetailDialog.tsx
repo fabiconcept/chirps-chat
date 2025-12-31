@@ -132,7 +132,7 @@ export default function UserDetailDialog({ user, isOpen, onClose, category }: Us
                     <div className="px-6 pt-20 pb-6 text-center space-y-3">
                         <div>
                             <h2 className="text-2xl font-bold">{user.name}</h2>
-                            <p className="text-muted-foreground">@{user.username} {gridSize}</p>
+                            <p className="text-muted-foreground">@{user.username}</p>
                         </div>
 
                         <div className="flex items-center justify-center gap-3 text-sm text-muted-foreground">
