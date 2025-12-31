@@ -1,11 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TrendingDown, Minus, Trophy, Users, Heart, MessageSquare, Home, LucideProps, CalendarCheck, TrendingUp, Plus, Equal } from "lucide-react";
+import { Minus, Trophy, Users, Heart, MessageSquare, Home, LucideProps, CalendarCheck, Plus, Equal } from "lucide-react";
 import { LeaderboardUser, LeaderboardCategory } from "../types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn, formatNumber } from "@/lib/utils";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 interface LeaderboardRankCardProps {
     user: LeaderboardUser;
@@ -76,6 +77,7 @@ export default function LeaderboardRankCard({ user, rank, category, index }: Lea
     const change = user?.change || 0;
     const config = categoryConfig[category];
     const CategoryIcon = config.icon;
+    const isMobile = useIsMobile();
 
     return (
         <motion.div
@@ -103,7 +105,7 @@ export default function LeaderboardRankCard({ user, rank, category, index }: Lea
             <div className="flex items-center justify-center shrink-0">
                 <div 
                     className={cn(
-                        "w-10 h-10 flex items-center justify-center rounded-lg text-sm transition-all duration-200",
+                        "sm:w-10 w-8 min-w-fit sm:h-10 h-8 flex items-center justify-center rounded-lg sm:text-sm text-[12px] transition-all duration-200",
                         getRankBadgeStyle(rank)
                     )}
                 >
@@ -112,7 +114,7 @@ export default function LeaderboardRankCard({ user, rank, category, index }: Lea
             </div>
 
             {/* User Avatar & Info */}
-            <div className="flex items-center gap-3 flex-1 min-w-0">
+            <div className="flex items-center gap-3 max-sm:-ml-2 flex-1 min-w-0">
                 <Avatar className="h-11 w-11 border-2 border-border">
                     <AvatarImage src={user.avatar} alt={user.name} />
                     <AvatarFallback>{user.name.slice(0, 2).toUpperCase()}</AvatarFallback>
@@ -138,15 +140,15 @@ export default function LeaderboardRankCard({ user, rank, category, index }: Lea
                 {/* Change Indicator */}
                 {(
                     <div className={cn(
-                        "flex items-center gap-0 px-2 py-1 rounded-md text-xs font-medium",
-                        change > 0 ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" :
-                        change < 0 ? "bg-destructive/10 text-destructive" :
-                        "bg-muted text-muted-foreground"
+                        "flex items-center gap-0.5 px-2 py-1 rounded-md sm:text-xs text-[12px] font-medium",
+                        change > 0 ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20" :
+                        change < 0 ? "bg-destructive/10 text-destructive border border-destructive/20" :
+                        "bg-muted text-muted-foreground border border-input/75 py-1.5"
                     )}>
                         {change > 0 ? (
-                            <Plus strokeWidth={3} className="h-3 w-3" />
+                            <Plus strokeWidth={3} className="sm:h-3 h-2 sm:w-3 w-2" />
                         ) : change < 0 ? (
-                            <Minus strokeWidth={3} className="h-3 w-3" />
+                            <Minus strokeWidth={3} className="sm:h-3 h-2 sm:w-3 w-2" />
                         ) : (
                             <Equal strokeWidth={3} className="h-3 w-3" />
                         )}
@@ -156,7 +158,7 @@ export default function LeaderboardRankCard({ user, rank, category, index }: Lea
 
                 {/* Category Icon & Stat Value */}
                 <div className="flex items-center gap-2">
-                    <div 
+                    {!isMobile && <div 
                         className="p-1.5 rounded-md bg-foreground/5"
                         style={{ 
                             backgroundColor: rank <= 3 ? `${config.accentColor}15` : undefined 
@@ -168,10 +170,10 @@ export default function LeaderboardRankCard({ user, rank, category, index }: Lea
                                 color: rank <= 3 ? config.accentColor : undefined 
                             }}
                         />
-                    </div>
+                    </div>}
                     <div className="text-right">
                         <p 
-                            className="text-xl font-bold"
+                            className="sm:text-xl text-lg font-bold"
                             style={{ 
                                 color: rank <= 3 ? config.accentColor : undefined 
                             }}

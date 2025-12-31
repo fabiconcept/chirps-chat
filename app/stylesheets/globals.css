@@ -77,7 +77,6 @@
       transparent 100%);
   pointer-events: none;
   z-index: 1;
-  border-radius: 1.5rem;
 }
 
 .metallic-shine-gold::before {
@@ -94,7 +93,6 @@
       transparent 100%);
   pointer-events: none;
   z-index: 1;
-  border-radius: 1.5rem;
 }
 
 .metallic-shine-bronze::before {
@@ -111,7 +109,6 @@
       transparent 100%);
   pointer-events: none;
   z-index: 1;
-  border-radius: 1.5rem;
 }
 
 :root {
@@ -199,7 +196,6 @@
         transparent 100%);
     pointer-events: none;
     z-index: 1;
-    border-radius: 1.5rem;
   }
 
   .metallic-shine-gold::before {
@@ -216,7 +212,6 @@
         transparent 100%);
     pointer-events: none;
     z-index: 1;
-    border-radius: 1.5rem;
   }
 
   .metallic-shine-bronze::before {
@@ -233,7 +228,6 @@
         transparent 100%);
     pointer-events: none;
     z-index: 1;
-    border-radius: 1.5rem;
   }
 }
 

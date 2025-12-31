@@ -67,7 +67,7 @@ const categoryConfig: Record<LeaderboardCategory, {
 
 const rankConfig = {
     1: {
-        height: "h-48",
+        height: "sm:h-48 h-24",
         bgGradient: "from-yellow-500/20 via-yellow-600/10 to-transparent",
         cardBg: "bg-yellow-500/5",
         borderColor: "border-yellow-500/50",
@@ -79,7 +79,7 @@ const rankConfig = {
         label: "Champion"
     },
     2: {
-        height: "h-40",
+        height: "sm:h-40 h-20",
         bgGradient: "from-gray-400/20 via-gray-500/10 to-transparent",
         cardBg: "bg-gray-400/5",
         borderColor: "border-gray-400/50",
@@ -91,7 +91,7 @@ const rankConfig = {
         label: "Runner-up"
     },
     3: {
-        height: "h-36",
+        height: "sm:h-36 h-16",
         bgGradient: "from-[#a97142]/20 via-orange-700/10 to-transparent",
         cardBg: "bg-[#a97142]/5",
         borderColor: "border-[#a97142]/50",
@@ -142,7 +142,7 @@ export default function LeaderboardPedestal({ topThree, category, onUserClick, s
                     whileHover={{ y: -8, scale: 1.05 }}
                     onClick={() => onUserClick(user)}
                     className={cn(
-                        "relative flex flex-col items-center p-6 rounded-3xl border cursor-pointer w-full",
+                        "relative flex flex-col items-center p-6 sm:rounded-3xl rounded-2xl border cursor-pointer w-full",
                         rankStyle.cardBg,
                         "transition-all duration-300",
                         rankStyle.borderColor,
@@ -152,7 +152,7 @@ export default function LeaderboardPedestal({ topThree, category, onUserClick, s
                 >
                     {/* Metallic Shine Overlay */}
                     <div className={cn(
-                        "absolute inset-0 z-10 min-h-10 pointer-events-none h-full w-full overflow-hidden rounded-3xl dark:opacity-50 bg-foreground/10",
+                        "absolute inset-0 z-10 min-h-10 pointer-events-none h-full w-full overflow-hidden sm:rounded-3xl rounded-2xl dark:opacity-50 bg-foreground/10",
                     )}>
                         <div className={cn("h-full w-full", rankStyle.shineClass)} />
                     </div>
@@ -206,7 +206,7 @@ export default function LeaderboardPedestal({ topThree, category, onUserClick, s
                     {/* User Info */}
                     <div className="mt-3 mb-5 text-center relative z-10">
                         <h3 className="font-semibold text-base truncate max-w-[150px] max-md:hidden">{user.name}</h3>
-                        <p className="text-xs text-muted-foreground truncate max-w-[150px]">@{user.username}</p>
+                        <p className="text-xs sm:text-muted-foreground text-foreground truncate max-w-[150px]">@{user.username}</p>
                     </div>
 
                     {/* Stat Display */}
@@ -249,7 +249,7 @@ export default function LeaderboardPedestal({ topThree, category, onUserClick, s
                     {/* Rank Number */}
                     <div className="absolute inset-0 flex items-center justify-center">
                         <span className={cn(
-                            "text-7xl font-bold opacity-10",
+                            "sm:text-7xl text-5xl font-bold opacity-10 not-dark:opacity-20",
                             rankStyle.iconColor
                         )}>
                             {position}
@@ -300,7 +300,7 @@ export default function LeaderboardPedestal({ topThree, category, onUserClick, s
             </motion.div>
 
             {/* Podium */}
-            <div className="md:flex grid grid-cols-3 items-end justify-center gap-4 md:gap-8 max-w-5xl mx-auto">
+            <div className="md:flex max-sm:px-2 grid grid-cols-3 items-end justify-center sm:gap-4 gap-3 md:gap-8 max-w-5xl mx-auto">
                 {/* 2nd Place */}
                 {second && renderPodium(second, 2, 0.1)}
 

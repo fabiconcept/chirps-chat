@@ -20,9 +20,11 @@ import { Label } from "../ui/label";
 import useShortcuts, { KeyboardKey } from "@useverse/useshortcuts";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Kbd, KbdGroup } from "../ui/kbd";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 export default function LeaderboardContent() {
     const searchParams = useSearchParams();
+    const isMobile = useIsMobile();
 
     // Get state from URL or use defaults
     const activeCategory = (searchParams.get(SearchParamKeys.MARKETPLACE_CATEGORY) as LeaderboardCategory) || "streak";
@@ -151,7 +153,7 @@ export default function LeaderboardContent() {
                         </AnimatePresence>
 
                         <div className="flex items-center gap-5">
-                            <Tooltip>
+                            {!isMobile && <Tooltip>
                                 <TooltipTrigger asChild>
                                     <div className="flex items-center gap-2 w-fit">
                                         <Switch
@@ -167,7 +169,7 @@ export default function LeaderboardContent() {
                                 <TooltipContent>
                                     <span>{showGlobe ? "Hide Globe" : "Show Globe"} <KbdGroup className="inline-flex mx-1"><Kbd>Alt</Kbd>+<Kbd>G</Kbd></KbdGroup></span>
                                 </TooltipContent>
-                            </Tooltip>
+                            </Tooltip>}
                             {/* Category Dropdown (Right) */}
                             <CategoryDropdown
                                 activeCategory={activeCategory}
@@ -197,7 +199,7 @@ export default function LeaderboardContent() {
                     {/* Globe & Rankings Layout */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {/* Globe Visualization */}
-                        {showGlobe && (
+                        {showGlobe && !isMobile && (
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
