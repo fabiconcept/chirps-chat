@@ -147,7 +147,7 @@ export default function SuggestionsContainer() {
                 id: "current-user",
                 name: "You",
                 username: "@you",
-                avatar: "https://i.pravatar.cc/150?img=10"
+                avatar: "https://chirps-chat.sirv.com/premium/god.png"
             },
             createdAt: new Date().toISOString(),
             userVote: "upvote",
@@ -216,7 +216,7 @@ export default function SuggestionsContainer() {
                 </div>
                 <Button
                     onClick={handleOpenCreateDialog}
-                    className="gap-2 shadow-lg hover:shadow-xl transition-shadow sm:text-sm text-xs max-sm:px-2 max-sm:py-1"
+                    className="gap-2 shadow-lg hover:shadow-xl transition-shadow sm:text-sm text-xs max-sm:px-2 max-sm:py-1 max-sm:fixed max-sm:bottom-24 max-sm:right-8"
                 >
                     <Plus className="sm:h-4 h-3 sm:w-4 w-3" />
                     <span className="max-sm:sr-only">New Suggestion</span>
@@ -268,7 +268,7 @@ export default function SuggestionsContainer() {
                                     onVote={handleVote}
                                     onSuggestionClick={handleSuggestionClick}
                                 />
-                                <div className="h-24" />
+                                <div className="sm:h-24 h-36" />
                             </motion.div>
                         </TabsContent>
                     )}
@@ -288,7 +288,7 @@ export default function SuggestionsContainer() {
                                     onVote={handleVote}
                                     onSuggestionClick={handleSuggestionClick}
                                 />
-                                <div className="h-24" />
+                                <div className="sm:h-24 h-36" />
                             </motion.div>
                         </TabsContent>
                     )}

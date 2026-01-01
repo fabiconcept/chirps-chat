@@ -1,14 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,9 +12,10 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select";
-import { Lightbulb, Sparkles, TrendingUp, Bug, Palette, Zap, MoreHorizontal } from "lucide-react";
+import { Lightbulb, Sparkles, TrendingUp, Bug, Palette, Zap, MoreHorizontal, Loader2, CheckCircle } from "lucide-react";
 import { SuggestionCategory, CreateSuggestionData } from "../types";
 import { motion } from "framer-motion";
+import { ResponsiveModal } from "@/components/ui/responsive-modal";
 
 interface CreateSuggestionDialogProps {
     open: boolean;
@@ -66,19 +59,24 @@ export default function CreateSuggestionDialog({ open, onOpenChange, onSubmit }:
     const isValid = title.trim().length >= 10 && description.trim().length >= 20;
 
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[600px]">
-                <DialogHeader>
-                    <DialogTitle className="flex items-center gap-2 text-xl">
-                        <Lightbulb className="h-6 w-6 text-primary" />
+        <ResponsiveModal 
+            open={open} 
+            onOpenChange={onOpenChange}
+            title="Share Your Idea"
+            description="Help us improve the platform by sharing your suggestions, feature requests, or feedback."
+        >
+            <div className="sm:max-w-[600px]">
+                <div className="px-6 pt-6 pb-4 border-b border-border bg-linear-to-br from-[#D4AF37]/5 max-sm:from-transparent to-transparent">
+                    <h3 className="flex items-center gap-2 sm:text-xl text-lg font-semibold">
+                        <Lightbulb className="sm:h-6 h-5 sm:w-6 w-5 text-primary" />
                         Share Your Idea
-                    </DialogTitle>
-                    <DialogDescription>
+                    </h3>
+                    <p className="sm:text-sm text-xs text-muted-foreground">
                         Help us improve the platform by sharing your suggestions, feature requests, or feedback.
-                    </DialogDescription>
-                </DialogHeader>
+                    </p>
+                </div>
 
-                <div className="space-y-5 py-4">
+                <div className="space-y-5 py-4 sm:px-6 px-4">
                     {/* Title */}
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
@@ -86,7 +84,7 @@ export default function CreateSuggestionDialog({ open, onOpenChange, onSubmit }:
                         transition={{ delay: 0.05 }}
                         className="space-y-2"
                     >
-                        <Label htmlFor="title">
+                        <Label htmlFor="title" className="sm:text-sm text-[12px]">
                             Title <span className="text-destructive">*</span>
                         </Label>
                         <Input
@@ -94,9 +92,10 @@ export default function CreateSuggestionDialog({ open, onOpenChange, onSubmit }:
                             placeholder="Brief, descriptive title for your suggestion"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
+                            className="sm:text-base text-xs"
                             maxLength={100}
                         />
-                        <div className="flex justify-between text-xs text-muted-foreground">
+                        <div className="flex justify-between sm:text-xs text-[10px] text-muted-foreground">
                             <span>Minimum 10 characters</span>
                             <span>{title.length}/100</span>
                         </div>
@@ -109,11 +108,11 @@ export default function CreateSuggestionDialog({ open, onOpenChange, onSubmit }:
                         transition={{ delay: 0.1 }}
                         className="space-y-2"
                     >
-                        <Label htmlFor="category">
+                        <Label htmlFor="category" className="sm:text-sm text-[12px]">
                             Category <span className="text-destructive">*</span>
                         </Label>
                         <Select value={category} onValueChange={(value) => setCategory(value as SuggestionCategory)}>
-                            <SelectTrigger id="category" className="rounded-3xl bg-linear-to-b from-foreground/10 to-transparent">
+                            <SelectTrigger id="category" className="rounded-3xl bg-linear-to-b from-foreground/10 to-transparent sm:text-base text-xs">
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent className="px-1 w-fit space-y-1 rounded-3xl bg-linear-to-t from-foreground/25 to-transparent bg-background/90 backdrop-blur-sm">
@@ -121,8 +120,8 @@ export default function CreateSuggestionDialog({ open, onOpenChange, onSubmit }:
                                     const Icon = cat.icon;
                                     return (
                                         <SelectItem key={cat.value} value={cat.value} className="rounded-3xl">
-                                            <div className="flex items-center gap-2">
-                                                <Icon className="h-4 w-4" />
+                                            <div className="flex items-center gap-2 sm:text-base text-xs">
+                                                <Icon className="sm:h-4 h-3 sm:w-4 w-3" />
                                                 {cat.label}
                                             </div>
                                         </SelectItem>
@@ -139,7 +138,7 @@ export default function CreateSuggestionDialog({ open, onOpenChange, onSubmit }:
                         transition={{ delay: 0.15 }}
                         className="space-y-2"
                     >
-                        <Label htmlFor="description">
+                        <Label htmlFor="description" className="sm:text-sm text-[12px]">
                             Description <span className="text-destructive">*</span>
                         </Label>
                         <Textarea
@@ -147,10 +146,10 @@ export default function CreateSuggestionDialog({ open, onOpenChange, onSubmit }:
                             placeholder="Describe your suggestion in detail. What problem does it solve? How would it improve the platform?"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            className="min-h-32 resize-none"
+                            className="min-h-32 resize-none sm:text-base text-xs"
                             maxLength={1000}
                         />
-                        <div className="flex justify-between text-xs text-muted-foreground">
+                        <div className="flex justify-between sm:text-xs text-[10px] text-muted-foreground">
                             <span>Minimum 20 characters</span>
                             <span>{description.length}/1000</span>
                         </div>
@@ -161,12 +160,12 @@ export default function CreateSuggestionDialog({ open, onOpenChange, onSubmit }:
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.2 }}
-                        className="p-4 rounded-lg bg-muted/50 border border-input"
+                        className="p-4 rounded-lg bg-muted/50 border border-input sm:text-base text-xs"
                     >
-                        <p className="text-xs text-muted-foreground">
+                        <p className="sm:text-xs text-[10px] text-muted-foreground">
                             💡 <strong>Tips for great suggestions:</strong>
                         </p>
-                        <ul className="text-xs text-muted-foreground mt-2 space-y-1 list-disc list-inside">
+                        <ul className="sm:text-xs text-[10px] text-muted-foreground mt-2 space-y-1 list-disc list-inside">
                             <li>Be clear and specific about what you're proposing</li>
                             <li>Explain the problem or use case it addresses</li>
                             <li>Check if similar suggestions already exist</li>
@@ -175,18 +174,19 @@ export default function CreateSuggestionDialog({ open, onOpenChange, onSubmit }:
                     </motion.div>
                 </div>
 
-                <DialogFooter>
+                <div className="sm:px-6 px-4 sm:py-4 py-3 flex items-center sm:justify-end justify-center gap-2 border-t border-border">
                     <Button
                         variant="outline"
                         onClick={() => onOpenChange(false)}
                         disabled={isSubmitting}
+                        className="sm:text-base text-xs max-sm:py-1 max-sm:flex-1"
                     >
                         Cancel
                     </Button>
                     <Button
                         onClick={handleSubmit}
                         disabled={!isValid || isSubmitting}
-                        className="gap-2"
+                        className="gap-2 sm:text-base text-xs max-sm:py-1 max-sm:flex-1"
                     >
                         {isSubmitting ? (
                             <>
@@ -194,20 +194,20 @@ export default function CreateSuggestionDialog({ open, onOpenChange, onSubmit }:
                                     animate={{ rotate: 360 }}
                                     transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
                                 >
-                                    <Lightbulb className="h-4 w-4" />
+                                    <Loader2 className="sm:h-4 h-3 sm:w-4 w-3 animate-spin" />
                                 </motion.div>
-                                Submitting...
+                                <span className="sm:text-base text-xs max-sm:sr-only">Submitting...</span>
                             </>
                         ) : (
                             <>
-                                <Lightbulb className="h-4 w-4" />
-                                Submit Suggestion
+                                <CheckCircle className="sm:h-4 h-3 sm:w-4 w-3" />
+                                <span className="sm:text-base text-xs">Submit <span className="max-sm:sr-only">Suggestion</span></span>
                             </>
                         )}
                     </Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+                </div>
+            </div>
+        </ResponsiveModal>
     );
 }
 
