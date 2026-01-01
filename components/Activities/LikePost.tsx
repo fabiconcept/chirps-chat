@@ -16,10 +16,10 @@ export default function LikePost() {
                     </div>
                 </div>
                 <div className="leading-2.5">
-                    <span className="font-semibold text-sm">@hello-kitty</span> <span className="text-xs">Liked your post: <span className="font-medium line-clamp-1">&quot;Just finished an amazing project!&quot;</span></span> <span className="text-xs opacity-75">5 min ago</span>
+                    <span className="font-semibold sm:text-sm text-xs">@hello-kitty</span> <span className="sm:text-xs text-[12px]">Liked your post: <span className="font-medium line-clamp-1">&quot;Just finished an amazing project!&quot;</span></span> <span className="sm:text-xs text-[12px] opacity-75">5 min ago</span>
                 </div>
             </div>
-            <div className="rounded-2xl bg-background overflow-hidden border border-input p-2">
+            <div className="sm:rounded-3xl rounded-2xl bg-background overflow-hidden border border-input p-2">
                 <Image
                     src="https://chirps-chat.sirv.com/tiger.png"
                     alt="post"

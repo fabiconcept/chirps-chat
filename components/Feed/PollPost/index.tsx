@@ -17,10 +17,10 @@ export default function PollPost() {
                     />
                 )}
                 options={[
-                    { id: "1", text: "JavaScript/TypeScript", votes: 45230 },
-                    { id: "2", text: "Python", votes: 28940 },
-                    { id: "3", text: "Go", votes: 15670 },
-                    { id: "4", text: "Rust", votes: 12450 }
+                    { id: "1", text: "JavaScript/TypeScript", votes: 3 },
+                    { id: "2", text: "Python", votes: 4 },
+                    { id: "3", text: "Go", votes: 3 },
+                    { id: "4", text: "Rust", votes: 5 }
                 ]}
                 endDate={pollEndDate}
                 onVote={(optionId) => console.log("Voted for:", optionId)}

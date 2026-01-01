@@ -20,7 +20,7 @@ export default function Interaction({
     likeCount = 25820000,
     dislikeCount = 890009,
     commentCount = 83209,
-    viewCount = 700000409,
+    viewCount = 7000409,
     onLike,
     onDislike,
     onComment
@@ -60,7 +60,11 @@ export default function Interaction({
                             className="sm:size-5 size-3"
                             fill={hasLiked ? "currentColor" : "none"}
                         />
-                        <span className="font-medium sm:text-base text-xs">{formatNumber(likeCount)}</span>
+                        <span 
+                            className={cn(
+                                "sm:text-base text-xs",
+                                hasLiked ? "font-bold" : "font-medium"
+                            )}>{formatNumber(likeCount)}</span>
                     </Button>
 
                     {/* Dislike Button */}
@@ -79,7 +83,11 @@ export default function Interaction({
                             className="sm:size-5 size-3"
                             fill={hasDisliked ? "currentColor" : "none"}
                         />
-                        <span className="font-medium sm:text-base text-xs">{formatNumber(dislikeCount)}</span>
+                        <span 
+                            className={cn(
+                                "sm:text-base text-xs",
+                                hasDisliked ? "font-bold" : "font-medium"
+                            )}>{formatNumber(dislikeCount)}</span>
                     </Button>
 
                     {/* Comment Button */}
@@ -95,8 +103,8 @@ export default function Interaction({
                 </div>
 
                 {/* View Count */}
-                <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                    <BarChart2 className="sm:size-4 size-3" />
+                <div className="flex items-center gap-1 text-sm text-muted-foreground/75 max-sm:pr-2">
+                    <BarChart2 strokeWidth={3} className="sm:size-4 size-3" />
                     <span className="sm:text-base text-xs">{formatNumber(viewCount)}</span>
                 </div>
             </div>

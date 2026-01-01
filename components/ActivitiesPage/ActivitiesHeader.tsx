@@ -25,7 +25,7 @@ export default function ActivitiesHeader() {
                         <p className="text-xs text-muted-foreground">Recent notifications</p>
                     </div>
                 </div>
-                <Badge variant="destructive" className="h-6">
+                <Badge variant="destructive" className="h-6 mr-3">
                     {count}
                 </Badge>
             </div>

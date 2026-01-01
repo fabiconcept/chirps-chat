@@ -17,24 +17,24 @@ export default function NewPurchase({ variant }: NewPurchaseProps) {
                     <AvatarFallback>Chirps</AvatarFallback>
                 </Avatar>
                 <div className="leading-2.5">
-                    <span className="font-semibold text-sm">Chirps Store</span> <span className="text-xs">
+                    <span className="font-semibold sm:text-sm text-xs">Chirps Store</span> <span className="sm:text-xs text-[12px]">
                         {isSuccess ? "Purchase successful" : "Purchase failed"}: <span className="font-medium line-clamp-1">&quot;How the H*** did you get this monster to pose like that?&quot;</span>
-                    </span> <span className="text-xs opacity-75">2 days ago</span>
+                    </span> <span className="sm:text-xs text-[12px] opacity-75">2 days ago</span>
                 </div>
             </div>
-            <div className="rounded-2xl bg-background overflow-hidden border border-input p-2 relative grid place-items-center">
+            <div className="sm:rounded-3xl rounded-2xl bg-background overflow-hidden border border-input p-2 relative grid place-items-center">
                 <Image
                     src="https://chirps-chat.sirv.com/premium/monster.png"
                     alt="monster"
                     width={50}
                     height={50}
                 />
-                <div className={`absolute top-0 left-0 h-full w-full backdrop-blur-sm ${isSuccess ? 'bg-black/50 opacity-50' : 'bg-black/60 opacity-70'}`} />
+                <div className={`absolute top-0 left-0 h-full w-full backdrop-blur-[2px] ${isSuccess ? 'bg-black/40 opacity-70' : 'bg-black/50 opacity-70'}`} />
                 <div className={`absolute p-1 rounded-full aspect-square grid place-items-center ${isSuccess ? 'bg-[#7600C9]' : 'bg-destructive'}`}>
                     {isSuccess ? (
-                        <CheckCircle className="text-white h-5 w-5" />
+                        <CheckCircle className="text-white sm:h-5 h-4 sm:w-5 w-4" />
                     ) : (
-                        <XCircle className="text-white h-5 w-5" />
+                        <XCircle className="text-white sm:h-5 h-4 sm:w-5 w-4" />
                     )}
                 </div>
             </div>

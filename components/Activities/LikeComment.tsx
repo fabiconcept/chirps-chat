@@ -16,10 +16,10 @@ export default function LikeComment() {
                     </div>
                 </div>
                 <div className="leading-2.5">
-                    <span className="font-semibold text-sm">@frog</span> <span className="text-xs">Liked your comment: <span className="font-medium line-clamp-1">&quot;This is exactly what I was looking for!&quot;</span></span> <span className="text-xs opacity-75">3 hours ago</span>
+                    <span className="font-semibold sm:text-sm text-xs">@frog</span> <span className="sm:text-xs text-[12px]">Liked your comment: <span className="font-medium line-clamp-1">&quot;This is exactly what I was looking for!&quot;</span></span> <span className="sm:text-xs text-[12px] opacity-75">3 hours ago</span>
                 </div>
             </div>
-            <div className="rounded-2xl bg-background overflow-hidden grow-0 border border-input p-2">
+            <div className="sm:rounded-3xl rounded-2xl bg-background overflow-hidden grow-0 border border-input p-2">
                 <Image
                     src="https://chirps-chat.sirv.com/deer.png"
                     alt="post"

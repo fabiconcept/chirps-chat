@@ -50,7 +50,7 @@ export default function ActivitiesList() {
     };
 
     return (
-        <div className="pb-20">
+        <div className="mt-6">
             <AnimatePresence mode="popLayout" initial={false}>
                 {activities.map((activity) => (
                     <motion.div
@@ -70,6 +70,7 @@ export default function ActivitiesList() {
                     </motion.div>
                 ))}
             </AnimatePresence>
+            <div className="h-24"/>
         </div>
     );
 }

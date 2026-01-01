@@ -16,10 +16,10 @@ export default function RepliedComment() {
                     </div>
                 </div>
                 <div className="leading-2.5">
-                    <span className="font-semibold text-sm">@harambe</span> <span className="text-xs">Replied to your comment: <span className="font-medium line-clamp-1">&quot;Thanks! I appreciate your feedback on this.&quot;</span></span> <span className="text-xs opacity-75">1 hour ago</span>
+                    <span className="font-semibold sm:text-sm text-xs">@harambe</span> <span className="sm:text-xs text-[12px]">Replied to your comment: <span className="font-medium line-clamp-1">&quot;Thanks! I appreciate your feedback on this.&quot;</span></span> <span className="sm:text-xs text-[12px] opacity-75">1 hour ago</span>
                 </div>
             </div>
-            <div className="rounded-2xl bg-background overflow-hidden border border-input p-2">
+            <div className="sm:rounded-3xl rounded-2xl bg-background overflow-hidden border border-input p-2">
                 <ProtectedImage
                     src="https://chirps-chat.sirv.com/leopard.png"
                     alt="post"

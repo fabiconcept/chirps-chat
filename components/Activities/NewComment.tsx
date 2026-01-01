@@ -10,10 +10,10 @@ export default function NewComment() {
                     <AvatarFallback>God</AvatarFallback>
                 </Avatar>
                 <div className="leading-2.5">
-                    <span className="font-semibold text-sm">@hello-kitty</span> <span className="text-xs">Commented: <span className="font-medium line-clamp-1">&quot;How the H*** did you get this monster to pose like that lorem?&quot;</span></span> <span className="text-xs opacity-75">2 days ago.</span>
+                    <span className="font-semibold sm:text-sm text-xs">@hello-kitty</span> <span className="sm:text-xs text-[12px]">Commented: <span className="font-medium line-clamp-1">&quot;How the H*** did you get this monster to pose like that lorem?&quot;</span></span> <span className="sm:text-xs text-[12px] opacity-75">2 days ago.</span>
                 </div>
             </div>
-            <div className="rounded-2xl bg-background overflow-hidden border border-input p-2 shrink-0">
+            <div className="sm:rounded-3xl rounded-2xl bg-background overflow-hidden border border-input p-2 shrink-0">
                 <Image
                     src="https://chirps-chat.sirv.com/premium/monster.png"
                     alt="monster"

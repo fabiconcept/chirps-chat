@@ -1,8 +1,12 @@
+"use client"
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "../ui/button";
-import { UserPlus } from "lucide-react";
+import { Check, UserPlus, X } from "lucide-react";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 export default function RoomInvite() {
+    const isMobile = useIsMobile();
     return (
         <div className="cursor-pointer hover:bg-foreground/5 border-y border-input/50 p-3 flex justify-between items-center gap-3">
             <div className="flex items-center gap-2">
@@ -16,15 +20,24 @@ export default function RoomInvite() {
                     </div>
                 </div>
                 <div className="leading-2.5">
-                    <span className="font-semibold text-sm">@octopus</span> <span className="text-xs">Invited you to join <span className="font-semibold text-[#7600C9] dark:brightness-150">&quot;Tech Enthusiasts&quot;</span> room</span> <span className="text-xs opacity-75">30 min ago</span>
+                    <span className="font-semibold sm:text-sm text-xs">@octopus</span> <span className="sm:text-xs text-[12px]">Invited you to join <span className="font-semibold text-[#7600C9] dark:brightness-150">&quot;Tech Enthusiasts&quot;</span> room</span> <span className="sm:text-xs text-[12px] opacity-75">30 min ago</span>
                 </div>
             </div>
-            <div className="flex gap-2">
-                <Button variant="outline" size="sm" className="hover:bg-destructive/10 hover:text-destructive hover:border-destructive">
-                    Decline
+            <div className="flex sm:gap-2 gap-1">
+                <Button
+                    variant="outline"
+                    size={isMobile ? "icon-sm" : "sm"}
+                    className="sm:hover:bg-destructive/10 hover:text-destructive hover:border-destructive sm:text-sm text-xs"
+                >
+                    <X className="w-3 h-3" />
+                    <span className="max-sm:sr-only">Decline</span>
                 </Button>
-                <Button size="sm" className="bg-[#7600C9] hover:bg-[#7600C9]/90 text-white">
-                    Join
+                <Button
+                    size={isMobile ? "icon-sm" : "sm"}
+                    className="bg-[#7600C9] hover:bg-[#7600C9]/90 text-white sm:text-sm text-xs"
+                >
+                    <span className="max-sm:sr-only">Join</span>
+                    <Check className="w-3 h-3" />
                 </Button>
             </div>
         </div>

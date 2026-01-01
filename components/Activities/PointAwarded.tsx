@@ -9,7 +9,7 @@ export default function NewComment() {
                     <AvatarFallback>Chirps</AvatarFallback>
                 </Avatar>
                 <div className="leading-2.5">
-                    <span className="font-semibold text-sm">Chirps Rewards</span> <span className="text-xs">🎉 You&rsquo;ve earned <span className="p-1 px-2 rounded-3xl bg-[#FFD700]/10 text-[#FFD700] not-dark:bg-[#FFD700]/20 not-dark:text-[#e3a301]">+100</span> points!</span> <span className="text-xs opacity-75">2 days ago.</span>
+                    <span className="font-semibold sm:text-sm text-xs">Chirps Rewards</span> <span className="sm:text-xs text-[12px]">🎉 You&rsquo;ve earned <span className="p-1 px-2 rounded-3xl bg-[#FFD700]/10 text-[#FFD700] not-dark:bg-[#FFD700]/20 not-dark:text-[#e3a301]">+100</span> points!</span> <span className="sm:text-xs text-[12px] opacity-75">2 days ago.</span>
                 </div>
             </div>
         </div>

@@ -224,7 +224,7 @@ export default function Search() {
                 <Button
                     variant="ghost"
                     className={cn(
-                        "flex items-center gap-2 relative rounded-2xl",
+                        "flex items-center gap-2 relative md:rounded-2xl rounded-full",
                         "bg-linear-to-r from-background/40 via-background/60 to-background/40",
                         "hover:from-background/60 hover:via-background/80 hover:to-background/60",
                         "hover:border-primary/30 hover:ring-primary/10 hover:ring-2",

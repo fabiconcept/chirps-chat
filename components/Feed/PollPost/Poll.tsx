@@ -111,7 +111,7 @@ export default function Poll({
                             whileHover={!(isVoted || isEnded) ? { scale: 1.01 } : {}}
                             whileTap={!(isVoted || isEnded) ? { scale: 0.99 } : {}}
                             className={cn(
-                                "w-full relative rounded-xl border transition-colors duration-300",
+                                "w-full relative sm:rounded-xl rounded-lg border transition-colors duration-300",
                                 isVoted || isEnded
                                     ? "cursor-default"
                                     : "cursor-pointer hover:border-primary/50 hover:bg-accent/50",
@@ -121,7 +121,7 @@ export default function Poll({
                             )}
                         >
                             {/* Progress Bar Background */}
-                            <div className="absolute inset-0 rounded-xl overflow-hidden">
+                            <div className="absolute inset-0 sm:rounded-xl rounded-lg overflow-hidden">
                                 <motion.div
                                     initial={(() => {
                                         return "normal"
@@ -153,7 +153,7 @@ export default function Poll({
                                             <CheckCircle2 className="size-5 text-primary shrink-0" />
                                         </motion.div>
                                     )}
-                                    <span className="font-medium text-left max-sm:text-sm">{option.text}</span>
+                                    <span className="font-medium text-left sm:text-base text-xs">{option.text}</span>
                                 </div>
 
                                 {(isVoted || isEnded) && (
@@ -167,10 +167,10 @@ export default function Poll({
                                         }}
                                         className="flex items-center gap-3 ml-4"
                                     >
-                                        <span className="text-sm font-semibold">
+                                        <span className="sm:text-sm text-[12px] font-semibold">
                                             {percentage}%
                                         </span>
-                                        <span className="text-xs text-muted-foreground">
+                                        <span className="text-xs text-muted-foreground max-sm:hidden">
                                             {formatNumber(option.votes)} votes
                                         </span>
                                     </motion.div>

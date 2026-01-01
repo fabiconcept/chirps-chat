@@ -15,7 +15,7 @@ export default function PostHeader() {
                     <UserClump
                         name="Favour Ajokubi"
                         username="Posted 2h ago"
-                        className="px-2 pr-4"
+                        className="sm:px-2 px-1 pr-4"
                         avatar="https://chirps-chat.sirv.com/premium/hello-kitty.png"
                         variant="ghost"
                         size={isMobile ? "md" : "lg"}
@@ -30,7 +30,7 @@ export default function PostHeader() {
                 <DropdownMenuTrigger className="p-2 rounded-full cursor-pointer">
                         <EllipsisVerticalIcon className="w-5 h-5" />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="max-w-52">
+                <DropdownMenuContent align="end" sideOffset={-4} alignOffset={4} className="max-w-52 rounded-lg">
                     <DropdownMenuItem className="gap-2 cursor-pointer">
                         <BookmarkIcon className="w-4 h-4" />
                         <span>Save post</span>
