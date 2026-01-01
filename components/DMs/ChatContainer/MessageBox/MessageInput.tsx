@@ -39,7 +39,7 @@ export function MessageInput({
                 onFocus={onFocus}
                 onBlur={onBlur}
                 placeholder="Type a message... (Enter for new line, Ctrl+Enter to send)"
-                className="min-h-28 max-h-64 px-4 py-3 text-sm"
+                className="min-h-28 max-h-64 px-4 py-3 sm:text-sm text-xs"
                 rows={1}
             />
 

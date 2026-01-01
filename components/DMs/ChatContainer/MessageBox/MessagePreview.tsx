@@ -19,7 +19,7 @@ export function MessagePreview({
     onSend
 }: MessagePreviewProps) {
     return (
-        <div className="min-h-28 max-h-64 overflow-y-auto px-4 py-3 text-sm flex-1 flex items-end">
+        <div className="min-h-28 max-h-64 overflow-y-auto px-4 py-3 sm:text-sm text-xs flex-1 flex items-end">
             {message ? (
                 <>
                     <div className="flex-1 self-start">
