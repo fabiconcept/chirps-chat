@@ -184,7 +184,7 @@ export default function GlobalHeader() {
                             <StreakTracker currentStreak={90} isMobile={isMobile} />
 
                             {/* Wallet Button */}
-                            <Tooltip>
+                            {!isMobile && <Tooltip>
                                 <TooltipTrigger asChild>
                                     <Button
                                         variant="outline"
@@ -201,7 +201,6 @@ export default function GlobalHeader() {
                                                 CHT
                                             </Badge>
                                         </div>
-                                        {isMobile && <Link href="/wallet" className="absolute inset-0 h-full w-full" />}
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>
@@ -210,7 +209,7 @@ export default function GlobalHeader() {
                                         {!isMobile && <kbd className="px-1.5 py-0.5 text-xs font-semibold border rounded">Alt+W</kbd>}
                                     </div>
                                 </TooltipContent>
-                            </Tooltip>
+                            </Tooltip>}
                         </>
                     )}
                     {isHidden && (

@@ -216,10 +216,11 @@ export default function SuggestionsContainer() {
                 </div>
                 <Button
                     onClick={handleOpenCreateDialog}
-                    className="gap-2 shadow-lg hover:shadow-xl transition-shadow"
+                    className="gap-2 shadow-lg hover:shadow-xl transition-shadow sm:text-sm text-xs max-sm:px-2 max-sm:py-1"
                 >
-                    <Plus className="h-4 w-4" />
-                    New Suggestion
+                    <Plus className="sm:h-4 h-3 sm:w-4 w-3" />
+                    <span className="max-sm:sr-only">New Suggestion</span>
+                    <span className="sm:sr-only">Suggest</span>
                 </Button>
             </motion.div>
 
@@ -267,6 +268,7 @@ export default function SuggestionsContainer() {
                                     onVote={handleVote}
                                     onSuggestionClick={handleSuggestionClick}
                                 />
+                                <div className="h-24" />
                             </motion.div>
                         </TabsContent>
                     )}
@@ -286,11 +288,11 @@ export default function SuggestionsContainer() {
                                     onVote={handleVote}
                                     onSuggestionClick={handleSuggestionClick}
                                 />
+                                <div className="h-24" />
                             </motion.div>
                         </TabsContent>
                     )}
                 </AnimatePresence>
-                <div className="h-24" />
             </Tabs>
 
             {/* Create Suggestion Dialog */}

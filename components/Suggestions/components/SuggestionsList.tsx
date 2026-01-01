@@ -11,27 +11,27 @@ interface SuggestionsListProps {
 }
 
 export default function SuggestionsList({ suggestions, onVote, onSuggestionClick }: SuggestionsListProps) {
-    if (suggestions.length === 0) {
+    if (suggestions.length !== 0) {
         return (
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="flex flex-col items-center justify-center py-20 px-4"
+                className="flex flex-col items-center justify-center sm:py-20 py-16 px-4"
             >
-                <div className="text-center space-y-4 max-w-md">
+                <div className="text-center sm:space-y-4 space-y-2 max-w-md sm:max-w-lg max-sm:-translate-y-5">
                     <motion.div
                         animate={{ rotate: [0, -10, 10, -10, 0] }}
                         transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
                         className="inline-block"
                     >
-                        <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                        <div className="sm:h-20 sm:w-20 h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                             <Lightbulb className="h-10 w-10 text-primary" />
                         </div>
                     </motion.div>
-                    <h3 className="text-xl font-semibold text-foreground">
+                    <h3 className="sm:text-xl text-base font-semibold text-foreground">
                         No suggestions yet
                     </h3>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="sm:text-sm text-xs text-muted-foreground -mt-1">
                         Be the first to share your ideas for improving the platform!
                     </p>
                 </div>
