@@ -4,9 +4,10 @@ import { Textarea } from "../../ui/textarea";
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../../ui/select";
-import { Plus } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 export const PollDuration = [
     {
@@ -34,7 +35,7 @@ export const PollDuration = [
 const PollPost = ({ pollData, onPollChange }: { pollData: { question: string; options: { id: string; option: string; }[] }, onPollChange: (poll: { question: string; options: { id: string; option: string; }[] }) => void }) => {
     const question = pollData.question;
     const options = pollData.options;
-
+    const isMobile = useIsMobile();
     
     const optionsCount = options.length;
     
@@ -64,7 +65,7 @@ const PollPost = ({ pollData, onPollChange }: { pollData: { question: string; op
     }
 
     return (
-        <div className="px-4 py-4 relative space-y-6">
+        <div className="sm:px-4 px-2 sm:py-4 py-2 relative space-y-6">
             {/* Question Section */}
             <motion.div
                 initial={{ opacity: 0, y: 10 }}
@@ -72,11 +73,11 @@ const PollPost = ({ pollData, onPollChange }: { pollData: { question: string; op
                 className="space-y-3"
             >
                 <div className="flex items-center justify-between">
-                    <Label htmlFor="question" className="text-sm font-semibold">
+                    <Label htmlFor="question" className="sm:text-sm text-xs font-semibold">
                         Poll Question
                     </Label>
                     <span className={cn(
-                        "text-xs font-medium tabular-nums transition-colors",
+                        "sm:text-xs text-[12px] font-medium tabular-nums transition-colors",
                         question.length > maxQuestionLength * 0.9 ? "text-destructive" : "text-muted-foreground"
                     )}>
                         {question.length}/{maxQuestionLength}
@@ -85,7 +86,7 @@ const PollPost = ({ pollData, onPollChange }: { pollData: { question: string; op
                 <Textarea
                     id="question"
                     placeholder="What would you like to ask?"
-                    className="resize-none min-h-28 bg-background/50 border-input/60 focus-visible:ring-primary/20"
+                    className="resize-none sm:min-h-28 min-h-20 sm:text-base text-xs bg-background/50 border-input/60 focus-visible:ring-primary/20"
                     value={question}
                     maxLength={maxQuestionLength}
                     onChange={(e) => handleQuestionChange(e.target.value)}
@@ -95,10 +96,10 @@ const PollPost = ({ pollData, onPollChange }: { pollData: { question: string; op
             {/* Options Section */}
             <div className="space-y-3">
                 <div className="flex items-center justify-between mb-2">
-                    <Label className="text-sm font-semibold">
+                    <Label className="sm:text-sm text-xs font-semibold">
                         Answer Options
                     </Label>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="sm:text-xs text-[12px] text-muted-foreground">
                         {optionsCount}/{maxOptionsLength} options
                     </span>
                 </div>
@@ -121,17 +122,17 @@ const PollPost = ({ pollData, onPollChange }: { pollData: { question: string; op
                                 className="relative group"
                             >
                                 <div className={cn(
-                                    "p-3 rounded-xl border-2 transition-all",
+                                    "sm:p-3 p-2 rounded-xl border-2 transition-all",
                                     "bg-background/50 border-input/60",
                                     "hover:border-primary/30 hover:bg-primary/5",
                                     "focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/10"
                                 )}>
                                     <div className="flex items-center justify-between mb-2">
                                         <div className="flex items-center gap-2">
-                                            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-semibold">
+                                            <span className="flex items-center justify-center sm:w-6 w-5 sm:h-6 h-5 rounded-full bg-primary/10 text-primary sm:text-xs text-[12px] font-semibold">
                                                 {index + 1}
                                             </span>
-                                            <Label htmlFor={`option-${option.id}`} className="text-sm font-medium">
+                                            <Label htmlFor={`option-${option.id}`} className="sm:text-sm text-[12px] font-medium">
                                                 Option {index + 1}
                                                 {(index + 1) <= minOptionLength && <sup className="text-destructive ml-0.5">*</sup>}
                                             </Label>
@@ -140,11 +141,12 @@ const PollPost = ({ pollData, onPollChange }: { pollData: { question: string; op
                                             <Button
                                                 type="button"
                                                 variant="ghost"
-                                                size="sm"
+                                                size={isMobile ? "icon-sm" : "sm"}
                                                 onClick={() => handleRemoveOption(option.id)}
-                                                className="h-7 px-2 text-xs hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                className="sm:h-7 h-5 px-2 sm:text-xs text-[12px] sm:hover:text-destructive max-sm:text-destructive hover:bg-destructive/10 sm:opacity-0 opacity-100 group-hover:opacity-100 transition-opacity"
                                             >
-                                                Remove
+                                                <X className="w-3 h-3 sm:hidden" />
+                                                <span className="max-sm:sr-only">Remove Option</span>
                                             </Button>
                                         )}
                                     </div>
@@ -155,7 +157,7 @@ const PollPost = ({ pollData, onPollChange }: { pollData: { question: string; op
                                         value={option.option}
                                         maxLength={maxOptionLength}
                                         onChange={(e) => handleUpdateOptionValue(option.id, e.target.value)}
-                                        className="border-0 bg-transparent focus-visible:ring-0 px-3 h-9"
+                                        className="border-0 bg-transparent focus-visible:ring-0 px-3 h-9 sm:text-base text-xs"
                                     />
                                     <div className="flex items-center justify-end mt-1">
                                         <span className={cn(
@@ -192,7 +194,7 @@ const PollPost = ({ pollData, onPollChange }: { pollData: { question: string; op
                                     onClick={handleAddOption}
                                 >
                                     <Plus className="w-4 h-4" />
-                                    <span className="font-medium">Add Option</span>
+                                    <span className="font-medium max-sm:sr-only">Add Option</span>
                                 </Button>
                             </motion.div>
                         )}
@@ -207,7 +209,7 @@ const PollPost = ({ pollData, onPollChange }: { pollData: { question: string; op
                 transition={{ delay: 0.1 }}
                 className="space-y-3"
             >
-                <Label htmlFor="duration" className="text-sm font-semibold">
+                <Label htmlFor="duration" className="sm:text-sm text-xs font-semibold">
                     Poll Duration
                 </Label>
                 <Select defaultValue={PollDuration[0].value.toString()}>
@@ -220,7 +222,7 @@ const PollPost = ({ pollData, onPollChange }: { pollData: { question: string; op
                                 <SelectItem 
                                     key={duration.id} 
                                     value={duration.value.toString()}
-                                    className="cursor-pointer rounded-3xl mx-0"
+                                    className="cursor-pointer rounded-3xl mx-0 sm:text-base text-xs"
                                 >
                                     {duration.label}
                                 </SelectItem>

@@ -5,7 +5,7 @@ export default function TextPost() {
     return (
         <>
             <RichText
-                text="Lorem ipsum dolor 💀 sit amet, #consectetur adipisicing elit. Voluptatum, blanditiis asperiores? Voluptates iure explicabo enim ratione aliquam fugiat molestias non?\n#firstpost #fyp #newcomer #goodbyeheadache #sicko #gnx"
+                text="Excited to join the platform! 🚀\nLooking forward to connecting with everyone and sharing great moments. #firstpost #hello #community"
                 className="sm:px-6 px-3 my-2"
                 maxLines={1}
             />

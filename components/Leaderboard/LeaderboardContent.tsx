@@ -183,7 +183,7 @@ export default function LeaderboardContent() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="max-sm:mt-14"
+                        className="max-sm:mt-6"
                     >
                         <LeaderboardPedestal
                             topThree={[

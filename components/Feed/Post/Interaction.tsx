@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Button } from "@/components/ui/button"
 import { formatNumber } from "@/lib/utils"
-import { Eye, MessageSquare, ThumbsUp, ThumbsDown } from "lucide-react"
+import { BarChart3, MessageSquare, ThumbsUp, ThumbsDown, BarChart2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface InteractionProps {
@@ -42,7 +42,7 @@ export default function Interaction({
 
     return (
         <div className="mt-3 border-t border-input py-2">
-            <div className="flex items-center justify-between px-4">
+            <div className="flex items-center justify-between sm:px-4 px-2">
                 <div className="flex items-center gap-1">
                     {/* Like Button */}
                     <Button
@@ -50,17 +50,17 @@ export default function Interaction({
                         size="sm"
                         onClick={handleLike}
                         className={cn(
-                            "gap-2",
+                            "sm:gap-2 gap-1",
                             hasLiked
                                 ? "text-green-500 hover:text-green-500"
                                 : "text-muted-foreground hover:text-foreground"
                         )}
                     >
                         <ThumbsUp
-                            className="size-5"
+                            className="sm:size-5 size-3"
                             fill={hasLiked ? "currentColor" : "none"}
                         />
-                        <span className="font-medium">{formatNumber(likeCount)}</span>
+                        <span className="font-medium sm:text-base text-xs">{formatNumber(likeCount)}</span>
                     </Button>
 
                     {/* Dislike Button */}
@@ -69,17 +69,17 @@ export default function Interaction({
                         size="sm"
                         onClick={handleDislike}
                         className={cn(
-                            "gap-2",
+                            "sm:gap-2 gap-1",
                             hasDisliked
                                 ? "text-destructive hover:text-destructive"
                                 : "text-muted-foreground hover:text-foreground"
                         )}
                     >
                         <ThumbsDown
-                            className="size-3"
+                            className="sm:size-5 size-3"
                             fill={hasDisliked ? "currentColor" : "none"}
                         />
-                        <span className="font-medium">{formatNumber(dislikeCount)}</span>
+                        <span className="font-medium sm:text-base text-xs">{formatNumber(dislikeCount)}</span>
                     </Button>
 
                     {/* Comment Button */}
@@ -87,17 +87,17 @@ export default function Interaction({
                         variant="ghost"
                         size="sm"
                         onClick={onComment}
-                        className="gap-2 text-muted-foreground hover:text-foreground"
+                        className="sm:gap-2 gap-1 text-muted-foreground hover:text-foreground"
                     >
-                        <MessageSquare className="size-5" />
-                        <span className="font-medium">{formatNumber(commentCount)}</span>
+                        <MessageSquare className="sm:size-5 size-3" />
+                        <span className="font-medium sm:text-base text-xs">{formatNumber(commentCount)}</span>
                     </Button>
                 </div>
 
                 {/* View Count */}
                 <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                    <Eye className="size-4" />
-                    <span>{formatNumber(viewCount)}</span>
+                    <BarChart2 className="sm:size-4 size-3" />
+                    <span className="sm:text-base text-xs">{formatNumber(viewCount)}</span>
                 </div>
             </div>
         </div>

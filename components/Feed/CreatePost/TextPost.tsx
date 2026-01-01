@@ -37,7 +37,7 @@ const TextPost = ({
         <div>
             <div className="px-2 relative">
                 <Textarea
-                    className="max-h-72 p-3 resize-none min-h-40 bg-foreground/5"
+                    className="sm:max-h-72 max-h-52 p-3 resize-none sm:min-h-40 min-h-32 bg-foreground/5 sm:text-base text-xs"
                     placeholder="What's on your mind?"
                     value={text}
                     onChange={(e) => onTextChange(e.target.value)}
@@ -97,7 +97,7 @@ const TextPost = ({
                             }}
                             className="border rounded-md border-input border-offset-2 relative"
                         >
-                            <Image src={img} width={60} height={60} alt="" className="scale-80 object-cover aspect-square w-16 h-16 rounded" />
+                            <Image src={img} width={60} height={60} alt="" className="scale-80 object-cover aspect-square w-16 h-16 rounded max-sm:w-12 max-sm:h-12" />
                             <button onClick={() => handleRemoveImage(i)} className="absolute -top-1 -right-1 p-1 rounded-full bg-background/50 border border-input cursor-pointer hover:bg-destructive hover:text-white transition-colors duration-300">
                                 <X className="w-3 h-3" />
                                 <span className="sr-only">Remove Image</span>

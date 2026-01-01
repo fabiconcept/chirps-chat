@@ -19,6 +19,7 @@ import { cn, removeSearchParam, updateSearchParam } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 import { SearchParamKeys } from "@/lib/enums";
 import { useAuth } from "@/components/Providers/AuthProvider";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 export enum PostType {
     TEXT = "text",
@@ -56,6 +57,7 @@ export default function CreatePost({
     const { disallowShortcuts, allowShortcuts, notoriousShortcuts, allowedShortcuts } = useKeyBoardShortCut();
     const { theme } = useTheme();
     const { isMacOS } = useAuth();
+    const isMobile = useIsMobile();
     const [isHovered, setIsHovered] = useState(false);
     const [postData, setPostData] = useState<PostData>(emptyPostData);
     const searchParams = useSearchParams();
@@ -207,25 +209,25 @@ export default function CreatePost({
                 }
             }}>
             <form action="">
-                <div className={cn("w-full rounded-full border border-input bg-foreground/5 p-2", className)}>
+                <div className={cn("w-full rounded-full border border-input bg-foreground/5 p-2 max-sm:mt-3", className)}>
                     <div className="flex items-center gap-2">
-                        <Avatar className='h-12 w-12 p-2 bg-background border transition-colors duration-300'>
+                        {!isMobile && <Avatar className='h-12 w-12 p-2 bg-background border transition-colors duration-300'>
                             <AvatarImage src="https://chirps-chat.sirv.com/premium/rasta.png" />
                             <AvatarFallback>HK</AvatarFallback>
-                        </Avatar>
+                        </Avatar>}
                         <DialogTrigger asChild>
                             <Button
                                 variant="outline"
                                 ref={createNewPostRef}
-                                className="flex-1 h-12 justify-between active:rotate-0 active:scale-[.99] rounded-full"
+                                className="flex-1 h-12 sm:justify-between justify-center active:rotate-0 active:scale-[.99] rounded-full "
                             >
                                 <span className="text-muted-foreground">What&rsquo;s on your mind?</span>
-                                <KbdGroup><Kbd className="border border-input/50"><ArrowBigUp /></Kbd><Kbd className="border border-input/50">N</Kbd></KbdGroup>
+                                <KbdGroup className="max-sm:hidden"><Kbd className="border border-input/50"><ArrowBigUp /></Kbd><Kbd className="border border-input/50">N</Kbd></KbdGroup>
                             </Button>
                         </DialogTrigger>
                     </div>
                 </div>
-                <DialogContent className="sm:max-w-2xl  max-h-[90dvh] overflow-y-auto rounded-3xl bg-background/95 backdrop-blur-sm p-2">
+                <DialogContent className="sm:max-w-2xl max-h-[90dvh] overflow-y-auto rounded-3xl bg-background/95 backdrop-blur-sm sm:p-2 p-1">
                     <DialogHeader>
                         <DialogTitle className="sr-only">Create Post</DialogTitle>
                         <UserClump
@@ -234,7 +236,7 @@ export default function CreatePost({
                             className="p-2 pr-4 hover:bg-transparent dark:hover:bg-transparent"
                             variant="ghost"
                             clickable={false}
-                            size="lg"
+                            size={isMobile ? "sm" : "lg"}
                             avatar="https://chirps-chat.sirv.com/premium/rasta.png"
                         />
                     </DialogHeader>
@@ -281,8 +283,8 @@ export default function CreatePost({
                             </Button>}
                             {postData.type === PostType.POLL && <Button
                                 variant="outline"
-                                size={"icon-lg"}
                                 className="border-none"
+                                size={isMobile ? "icon-sm" : "icon-lg"}
                                 onClick={() => setPostData(prev => ({ ...prev, type: PostType.TEXT }))}
                             >
                                 <Text strokeWidth={5} />
@@ -300,7 +302,7 @@ export default function CreatePost({
                             </Button>}
                             {postData.type === PostType.TEXT && <Button
                                 variant="outline"
-                                className="px-3 py-2"
+                                className="px-3 py-2 sm:text-base text-xs"
                                 onClick={() => {
                                     resetPostData();
                                     removeSearchParam(SearchParamKeys.NEWPOST);
@@ -310,7 +312,7 @@ export default function CreatePost({
                             </Button>}
                             <Button
                                 variant="default"
-                                className="px-3 py-2"
+                                className="px-3 py-2 sm:text-base text-xs"
                             >
                                 <span className="">Send Post</span>
                             </Button>
