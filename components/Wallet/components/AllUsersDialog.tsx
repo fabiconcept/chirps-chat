@@ -14,6 +14,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, ArrowUpRight, Users, Wallet } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ResponsiveModal } from "@/components/ui/responsive-modal";
+import { useIsMobile } from "@/hooks/useIsMobile";
+import UserClump from "@/components/modular/UserClump";
 
 type User = {
     id: string;
@@ -33,6 +36,7 @@ interface AllUsersDialogProps {
 
 export default function AllUsersDialog({ open, onOpenChange, users, onSelectUser }: AllUsersDialogProps) {
     const [searchQuery, setSearchQuery] = useState("");
+    const isMobile = useIsMobile();
 
     const filteredUsers = users.filter(user =>
         user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -45,35 +49,37 @@ export default function AllUsersDialog({ open, onOpenChange, users, onSelectUser
     };
 
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[600px] p-0 gap-0 max-h-[85vh] overflow-hidden">
-                <DialogHeader className="px-6 pt-6 pb-4 border-b border-border bg-linear-to-br from-[#D4AF37]/5 to-background sticky top-0 z-10">
-                    <DialogTitle className="flex items-center gap-2 text-xl">
-                        <div className="p-2 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/30">
-                            <Users className="h-5 w-5 text-[#D4AF37]" />
-                        </div>
+        <ResponsiveModal 
+            open={open} 
+            onOpenChange={onOpenChange}
+            title="All Users"
+            description="Select a user to send tokens to"
+        >
+            <div className="sm:max-w-[600px] p-0 gap-0 max-h-[85vh] overflow-hidden flex flex-col">
+                <div className="px-6 pt-6 pb-4 border-b border-border bg-linear-to-br from-[#D4AF37]/5 to-background sticky top-0 z-10">
+                    <h3 className="flex items-center gap-2 sm:text-xl text-lg font-semibold">
                         All Users
-                    </DialogTitle>
-                    <DialogDescription>
+                    </h3>
+                    <p className="sm:text-xs text-[12px] text-muted-foreground">
                         Select a user to send tokens to
-                    </DialogDescription>
-                </DialogHeader>
+                    </p>
+                </div>
 
                 {/* Search bar */}
-                <div className="px-6 pt-4 pb-2 bg-background sticky top-[89px] z-10">
+                <div className="sm:px-6 px-4 pt-4 pb-2 bg-background sticky top-[89px] z-10">
                     <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
                             placeholder="Search by name or username..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-10 h-11 border-2 focus-visible:ring-[#D4AF37]/20"
+                            className="pl-10 h-11 border-2 focus-visible:ring-[#D4AF37]/20 sm:text-base text-sm rounded-3xl"
                         />
                     </div>
                 </div>
 
                 {/* Users list */}
-                <ScrollArea className="flex-1 px-6 pb-6">
+                <ScrollArea className="flex-1 sm:px-6 px-4 pb-6">
                     <div className="space-y-2 py-2">
                         <AnimatePresence mode="popLayout">
                             {filteredUsers.length > 0 ? (
@@ -91,46 +97,21 @@ export default function AllUsersDialog({ open, onOpenChange, users, onSelectUser
                                         }}
                                         onClick={() => handleSelectUser(user)}
                                         className={cn(
-                                            "w-full flex items-center gap-4 p-4 rounded-xl transition-all group",
-                                            "hover:bg-[#D4AF37]/5 border-2 border-transparent hover:border-[#D4AF37]/30",
+                                            "w-full flex items-center justify-between gap-4 sm:p-2 p-2 rounded-3xl transition-all group",
+                                            "hover:bg-[#D4AF37]/5 border-2 sm:border-transparent border-input/50 bg-linear-to-br from-foreground/5 to-background hover:border-[#D4AF37]/30",
                                             "active:scale-[0.98]"
                                         )}
                                     >
-                                        <div className="relative">
-                                            <Avatar className="h-14 w-14 border-2 border-border group-hover:border-[#D4AF37]/50 transition-all">
-                                                <AvatarImage src={user.avatar} alt={user.name} />
-                                                <AvatarFallback className="font-semibold">
-                                                    {user.name.slice(0, 2).toUpperCase()}
-                                                </AvatarFallback>
-                                            </Avatar>
-                                            {/* Status indicator */}
-                                            {user.status && (
-                                                <div className={cn(
-                                                    "absolute -bottom-0.5 -right-0.5 h-4 w-4 rounded-full border-2 border-background",
-                                                    user.status === "online" && "bg-green-500",
-                                                    user.status === "away" && "bg-yellow-500",
-                                                    user.status === "offline" && "bg-gray-400"
-                                                )} />
-                                            )}
-                                        </div>
-
-                                        <div className="flex-1 text-left min-w-0">
-                                            <p className="font-bold text-foreground group-hover:text-[#D4AF37] transition-colors truncate">
-                                                {user.name}
-                                            </p>
-                                            <p className="text-sm text-muted-foreground truncate">
-                                                {user.username}
-                                            </p>
-                                            {user.balance !== undefined && (
-                                                <Badge
-                                                    variant="outline"
-                                                    className="mt-1.5 text-xs h-5 bg-green-500/10 text-green-600 border-green-500/20"
-                                                >
-                                                    <Wallet className="h-3 w-3 mr-1" />
-                                                    {user.balance.toLocaleString()} CHT
-                                                </Badge>
-                                            )}
-                                        </div>
+                                        <UserClump
+                                            name={user.name}
+                                            username={user.username}
+                                            avatar={user.avatar}
+                                            size="md"
+                                            clickable={false}
+                                            isVerified
+                                            className="cursor-pointer flex-1 pl-0"
+                                            variant="ghost"
+                                        />
 
                                         <div className="opacity-0 group-hover:opacity-100 transition-all duration-200 transform translate-x-2 group-hover:translate-x-0">
                                             <div className="p-2 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/30">
@@ -161,8 +142,8 @@ export default function AllUsersDialog({ open, onOpenChange, users, onSelectUser
                         </AnimatePresence>
                     </div>
                 </ScrollArea>
-            </DialogContent>
-        </Dialog>
+            </div>
+        </ResponsiveModal>
     );
 }
 

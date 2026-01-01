@@ -189,9 +189,10 @@ export default function GlobalHeader() {
                                     <Button
                                         variant="outline"
                                         size={isMobile ? "sm" : "default"}
+                                        onClick={!isMobile ? () => updateSearchParam("wallet", "open") : undefined}
                                         className="gap-1.5 rounded-3xl md:gap-2 bg-linear-to-r from-[#D4AF37]/10 to-transparent border-[#D4AF37]/30 hover:border-[#D4AF37]/50 transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden relative"
                                     >
-                                        <div onClick={() => updateSearchParam("wallet", "open")} className="flex items-center gap-2">
+                                        <div className="flex items-center gap-2">
                                             <Wallet className="h-4 w-4 text-[#D4AF37] max-sm:hidden" />
                                             <span className="font-semibold text-[#D4AF37] ave">
                                                 {isMobile ? formatNumber(12847.50) : "12,847.50"}
@@ -200,6 +201,7 @@ export default function GlobalHeader() {
                                                 CHT
                                             </Badge>
                                         </div>
+                                        {isMobile && <Link href="/wallet" className="absolute inset-0 h-full w-full" />}
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>

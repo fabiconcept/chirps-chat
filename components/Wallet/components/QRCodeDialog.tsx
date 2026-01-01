@@ -1,17 +1,11 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Copy, Check, Download, Share2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import QRCode from "qrcode";
 import { useTheme } from "next-themes";
+import { ResponsiveModal } from "@/components/ui/responsive-modal";
 
 interface QRCodeDialogProps {
     open: boolean;
@@ -73,16 +67,16 @@ export default function QRCodeDialog({ open, onOpenChange, address }: QRCodeDial
     };
 
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[480px] p-0 gap-0 overflow-hidden rounded-3xl">
-                <DialogHeader className="px-6 pt-6 pb-4 border-b border-border bg-linear-to-br from-[#D4AF37]/5 to-background">
-                    <DialogTitle className="flex items-center gap-2 text-xl">
+        <ResponsiveModal open={open} onOpenChange={onOpenChange} className="max-w-[480px]">
+            <div className="w-full p-0 gap-0 overflow-hidden">
+                <div className="px-6 pt-6 pb-4 border-b border-border bg-linear-to-br from-[#D4AF37]/5 to-background max-sm:hidden">
+                    <h3 className="flex items-center gap-2 text-xl">
                         Wallet QR Code
-                    </DialogTitle>
-                    <DialogDescription>
+                    </h3>
+                    <p>
                         Share your wallet address with others
-                    </DialogDescription>
-                </DialogHeader>
+                    </p>
+                </div>
 
                 <div className="p-6 space-y-6">
                     {/* QR Code Display */}
@@ -103,7 +97,7 @@ export default function QRCodeDialog({ open, onOpenChange, address }: QRCodeDial
                                 <img
                                     src={qrCodeUrl}
                                     alt="Wallet QR Code"
-                                    className="w-[280px] h-[280px]"
+                                    className="md:w-72 md:h-72 w-48 h-48 select-none pointer-events-none"
                                 />
                             )}
                         </div>
@@ -148,7 +142,7 @@ export default function QRCodeDialog({ open, onOpenChange, address }: QRCodeDial
                                     </motion.div>
                                 )}
                             </AnimatePresence>
-                            <span className="text-xs font-medium">
+                            <span className="text-xs font-medium max-sm:hidden">
                                 {copied ? "Copied!" : "Copy"}
                             </span>
                         </Button>
@@ -159,28 +153,28 @@ export default function QRCodeDialog({ open, onOpenChange, address }: QRCodeDial
                             className="h-12 flex-col gap-1 hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/50"
                         >
                             <Download className="h-4 w-4" />
-                            <span className="text-xs font-medium">Download</span>
+                            <span className="text-xs font-medium max-sm:hidden">Download</span>
                         </Button>
 
                         <Button
                             variant="outline"
                             onClick={handleShare}
-                            className="h-12 flex-col gap-1 hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/50"
+                            className="h-12 px-2 flex-col gap-1 hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/50"
                         >
                             <Share2 className="h-4 w-4" />
-                            <span className="text-xs font-medium">Share</span>
+                            <span className="text-xs font-medium max-sm:hidden">Share</span>
                         </Button>
                     </div>
 
                     {/* Warning Message */}
-                    <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                    <div className="p-3 rounded-lg bg-amber-500/5 border border-amber-500/20 bg-linear-to-br from-foreground/5 to-transparent">
                         <p className="text-xs text-amber-700 dark:text-amber-400 text-center">
                             ⚠️ Only send CHT tokens to this address
                         </p>
                     </div>
                 </div>
-            </DialogContent>
-        </Dialog>
+            </div>
+        </ResponsiveModal>
     );
 }
 

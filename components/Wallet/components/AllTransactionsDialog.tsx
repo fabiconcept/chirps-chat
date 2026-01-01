@@ -1,20 +1,13 @@
 "use client";
 import { useState } from "react";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle
-} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Receipt, ArrowUpRight, ArrowDownLeft, Gift, ShoppingCart, ExternalLink, Filter } from "lucide-react";
+import { Search, Receipt, ArrowUpRight, ArrowDownLeft, Gift, ShoppingCart, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Transaction } from "./TransactionList";
+import { ResponsiveModal } from "@/components/ui/responsive-modal";
 
 interface AllTransactionsDialogProps {
     open: boolean;
@@ -77,51 +70,53 @@ export default function AllTransactionsDialog({
     };
 
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[700px] p-0 gap-0 max-h-[90vh] overflow-hidden">
-                <DialogHeader className="px-6 pt-6 pb-4 border-b border-border bg-linear-to-br from-[#D4AF37]/5 to-background sticky top-0 z-10">
-                    <DialogTitle className="flex items-center gap-2 text-xl">
-                        <div className="p-2 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/30">
-                            <Receipt className="h-5 w-5 text-[#D4AF37]" />
-                        </div>
+        <ResponsiveModal 
+            open={open} 
+            onOpenChange={onOpenChange}
+            title="All Transactions"
+            description="Complete transaction history"
+            className="sm:max-w-[700px] p-0 gap-0"
+        >
+            <div className="p-0 gap-0 sm:max-h-[90vh] overflow-hidden flex flex-col">
+                <div className="px-6 pt-6 pb-4 border-b border-border bg-linear-to-b from-foreground/10 to-background">
+                    <h3 className="flex items-center gap-2 sm:text-xl text-lg font-semibold">
                         All Transactions
-                    </DialogTitle>
-                    <DialogDescription>
+                    </h3>
+                    <p className="sm:text-sm text-xs text-muted-foreground">
                         Complete transaction history
-                    </DialogDescription>
-                </DialogHeader>
+                    </p>
+                </div>
 
                 {/* Stats cards */}
-                <div className="px-6 pt-4 pb-2 grid grid-cols-3 gap-3">
-                    <div className="p-3 rounded-xl bg-muted/50 border border-border text-center">
-                        <p className="text-2xl font-bold text-foreground">{stats.total}</p>
-                        <p className="text-xs text-muted-foreground mt-0.5">Total</p>
+                <div className="sm:px-6 px-3 pt-4 pb-2 sm:grid grid-cols-3 gap-3 flex flex-wrap">
+                    <div className="p-3 rounded-xl bg-muted/50 border border-border text-center flex-1 min-w-20">
+                        <p className="sm:text-2xl text-xl font-bold text-foreground">{stats.total}</p>
+                        <p className="sm:text-xs text-[12px] text-muted-foreground mt-0.5">Total</p>
                     </div>
-                    <div className="p-3 rounded-xl bg-green-500/10 border border-green-500/20 text-center">
-                        <p className="text-2xl font-bold text-green-600">+{stats.received.toLocaleString()}</p>
-                        <p className="text-xs text-green-600/70 mt-0.5">Received</p>
+                    <div className="p-3 rounded-xl bg-green-500/10 border border-green-500/20 text-center flex-1 min-w-20">
+                        <p className="sm:text-2xl text-xl font-bold text-green-600">+{stats.received.toLocaleString()}</p>
+                        <p className="sm:text-xs text-[12px] text-green-600/70 mt-0.5">Received</p>
                     </div>
-                    <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-center">
-                        <p className="text-2xl font-medium text-destructive">-{stats.sent.toLocaleString()}</p>
-                        <p className="text-xs text-destructive/70 mt-0.5">Sent</p>
+                    <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-center flex-1 min-w-20">
+                        <p className="sm:text-2xl text-xl font-medium text-destructive">-{stats.sent.toLocaleString()}</p>
+                        <p className="sm:text-xs text-[12px] text-destructive/70 mt-0.5">Sent</p>
                     </div>
                 </div>
 
                 {/* Search & Filter */}
-                <div className="px-6 py-3 space-y-3 bg-background sticky top-[145px] z-10 border-b border-border">
-                    <div className="relative">
+                <div className="sm:px-6 px-4 py-3 space-y-3 bg-background sticky top-[145px] z-10 border-b border-border">
+                    <div className="relative -mt-2">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
                             placeholder="Search transactions..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-10 h-10 border-2 focus-visible:ring-[#D4AF37]/20"
+                            className="pl-10 h-10 border-2 focus-visible:ring-[#D4AF37]/20 sm:text-base text-sm rounded-3xl"
                         />
                     </div>
 
                     {/* Filter buttons */}
-                    <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
-                        <Filter className="h-4 w-4 text-muted-foreground shrink-0" />
+                    <div className="sm:flex grid grid-cols-3 items-center gap-2 overflow-x-auto no-scrollbar mt-5">
                         <button
                             onClick={() => setFilterType("all")}
                             className={cn(
@@ -155,7 +150,7 @@ export default function AllTransactionsDialog({
                 </div>
 
                 {/* Transactions list */}
-                <ScrollArea className="flex-1 px-6 pb-6">
+                <ScrollArea className="flex-1 sm:px-6 px-3 pb-6">
                     <div className="space-y-2 py-2">
                         <AnimatePresence mode="popLayout">
                             {filteredTransactions.length > 0 ? (
@@ -179,30 +174,30 @@ export default function AllTransactionsDialog({
                                             }}
                                             onClick={() => onTransactionClick(tx)}
                                             className={cn(
-                                                "w-full flex items-center gap-3 p-4 rounded-xl transition-all text-left group",
+                                                "w-full flex items-center gap-3 sm:p-4 p-3 rounded-xl transition-all text-left group",
                                                 "bg-foreground/[0.02] hover:bg-foreground/[0.05]",
                                                 "border border-border/50 hover:border-border",
                                                 "active:scale-[0.98]"
                                             )}
                                         >
                                             <div className={cn(
-                                                "shrink-0 h-12 w-12 rounded-full flex items-center justify-center border-2 transition-all",
+                                                "shrink-0 sm:h-12 h-8 sm:w-12 w-8 rounded-full flex items-center justify-center border-2 transition-all",
                                                 config.bgColor,
                                                 config.borderColor,
                                                 "group-hover:scale-110"
                                             )}>
-                                                <Icon className={cn("h-5 w-5", config.color)} />
+                                                <Icon className={cn("sm:h-5 h-4 sm:w-5 w-4", config.color)} />
                                             </div>
 
                                             <div className="flex-1 min-w-0">
                                                 <div className="flex items-center gap-2">
-                                                    <p className="text-sm font-semibold text-foreground truncate">
+                                                    <p className="sm:text-sm text-xs font-semibold text-foreground truncate">
                                                         {tx.description}
                                                     </p>
                                                     <Badge
                                                         variant="outline"
                                                         className={cn(
-                                                            "text-[10px] h-4 px-1.5",
+                                                            "sm:text-[10px] text-[8px] h-3.5 sm:h-4 px-1.5",
                                                             config.bgColor,
                                                             config.color,
                                                             config.borderColor
@@ -212,7 +207,7 @@ export default function AllTransactionsDialog({
                                                     </Badge>
                                                 </div>
                                                 <div className="flex items-center gap-2 mt-1">
-                                                    <p className="text-xs text-muted-foreground font-medium">
+                                                    <p className="sm:text-xs text-[10px] text-muted-foreground font-medium">
                                                         {tx.date}
                                                     </p>
                                                     {tx.hash && (
@@ -229,12 +224,12 @@ export default function AllTransactionsDialog({
 
                                             <div className="text-right shrink-0">
                                                 <p className={cn(
-                                                    "text-base font-medium tabular-nums",
+                                                    "sm:text-base text-sm font-medium tabular-nums",
                                                     isPositive ? "text-green-600" : "text-destructive"
                                                 )}>
                                                     {isPositive ? "+" : ""}{tx.amount.toLocaleString()}
                                                 </p>
-                                                <p className="text-xs text-muted-foreground font-medium">
+                                                <p className="sm:text-xs text-[10px] text-muted-foreground font-medium">
                                                     CHT
                                                 </p>
                                             </div>
@@ -263,8 +258,8 @@ export default function AllTransactionsDialog({
                         </AnimatePresence>
                     </div>
                 </ScrollArea>
-            </DialogContent>
-        </Dialog>
+            </div>
+        </ResponsiveModal>
     );
 }
 

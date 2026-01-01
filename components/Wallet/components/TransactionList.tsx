@@ -55,7 +55,7 @@ export default function TransactionList({ transactions, onViewAll, onTransaction
                 </h3>
                 <button
                     onClick={onViewAll}
-                    className="text-xs text-muted-foreground hover:text-[#D4AF37] flex items-center gap-1 font-medium transition-colors"
+                    className="text-xs text-muted-foreground hover:text-[#D4AF37] flex items-center gap-1 font-medium transition-colors cursor-pointer"
                 >
                     View All
                     <ChevronRight className="h-3.5 w-3.5" />

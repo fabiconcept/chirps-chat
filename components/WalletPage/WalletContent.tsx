@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import WalletAddress from "../Wallet/components/WalletAddress";
 import QuickActions from "../Wallet/components/QuickActions";
@@ -12,17 +13,32 @@ import TransferModal from "../Wallet/components/TransferModal";
 import AllUsersDialog from "../Wallet/components/AllUsersDialog";
 import AllTransactionsDialog from "../Wallet/components/AllTransactionsDialog";
 import TransactionDetailDialog from "../Wallet/components/TransactionDetailDialog";
+import { SearchParamKeys } from "@/lib/enums";
+import { useSearchParams } from "next/navigation";
+import { removeSearchParam, updateSearchParam } from "@/lib/utils";
+import QRCodeDialog from "../Wallet/components/QRCodeDialog";
 
 export default function WalletContent() {
+    
+    const searchParams = useSearchParams();
+    
     const [transactions, setTransactions] = useState<Transaction[]>(mockTransactions);
-    const [showTransferModal, setShowTransferModal] = useState(false);
-    const [showTopUpDialog, setShowTopUpDialog] = useState(false);
-    const [showAllUsersDialog, setShowAllUsersDialog] = useState(false);
-    const [showAllTransactionsDialog, setShowAllTransactionsDialog] = useState(false);
-    const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
     const [selectedTransferUser, setSelectedTransferUser] = useState<typeof quickTransferUsers[0] | undefined>();
     const [currentBalance, setCurrentBalance] = useState(12847.50);
 
+    // Modal states from search params
+    const showTopUpDialog = useMemo(() => searchParams.get(SearchParamKeys.WALLET_TOP_UP) === "true", [searchParams]);
+    const showTransferModal = useMemo(() => searchParams.get(SearchParamKeys.WALLET_TRANSFER) === "true", [searchParams]);
+    const showAllUsersDialog = useMemo(() => searchParams.get(SearchParamKeys.WALLET_ALL_USERS) === "true", [searchParams]);
+    const showAllTransactionsDialog = useMemo(() => searchParams.get(SearchParamKeys.WALLET_ALL_TXS) === "true", [searchParams]);
+    const txDetailId = useMemo(() => searchParams.get(SearchParamKeys.WALLET_TX_DETAIL), [searchParams]);
+    const showQRDialog = useMemo(() => searchParams.get(SearchParamKeys.WALLET_QR) === "true", [searchParams]);
+
+    const selectedTransaction = useMemo(() => 
+        txDetailId ? transactions.find(tx => tx.id === txDetailId) || null : null, 
+        [txDetailId, transactions]
+    );
+    
     const handleTopUpComplete = (amount: number, method: string) => {
         const newTransaction: Transaction = {
             id: Date.now().toString(),
@@ -33,7 +49,7 @@ export default function WalletContent() {
         };
         setTransactions([newTransaction, ...transactions]);
         setCurrentBalance(prev => prev + amount);
-        setShowTopUpDialog(false);
+        removeSearchParam(SearchParamKeys.WALLET_TOP_UP);
     };
 
     const handleTransferComplete = (amount: number, recipient: typeof quickTransferUsers[0], note: string) => {
@@ -47,21 +63,21 @@ export default function WalletContent() {
         };
         setTransactions([newTransaction, ...transactions]);
         setCurrentBalance(prev => prev - amount);
-        setShowTransferModal(false);
+        removeSearchParam(SearchParamKeys.WALLET_TRANSFER);
         setSelectedTransferUser(undefined);
     };
 
     const handleQuickTransfer = (user: typeof quickTransferUsers[0]) => {
         setSelectedTransferUser(user);
-        setShowTransferModal(true);
+        updateSearchParam(SearchParamKeys.WALLET_TRANSFER, "true");
     };
 
     const handleViewAllTransactions = () => {
-        setShowAllTransactionsDialog(true);
+        updateSearchParam(SearchParamKeys.WALLET_ALL_TXS, "true");
     };
 
     const handleTransactionClick = (tx: Transaction) => {
-        setSelectedTransaction(tx);
+        updateSearchParam(SearchParamKeys.WALLET_TX_DETAIL, tx.id);
     };
 
     return (
@@ -83,8 +99,8 @@ export default function WalletContent() {
                     transition={{ delay: 0.2 }}
                 >
                     <QuickActions
-                        onTopUp={() => setShowTopUpDialog(true)}
-                        onTransfer={() => setShowTransferModal(true)}
+                        onTopUp={() => updateSearchParam(SearchParamKeys.WALLET_TOP_UP, "true")}
+                        onTransfer={() => updateSearchParam(SearchParamKeys.WALLET_TRANSFER, "true")}
                     />
                 </motion.div>
 
@@ -97,7 +113,7 @@ export default function WalletContent() {
                     <QuickTransfer
                         users={quickTransferUsers}
                         onSelectUser={handleQuickTransfer}
-                        onViewAll={() => setShowAllUsersDialog(true)}
+                        onViewAll={() => updateSearchParam(SearchParamKeys.WALLET_ALL_USERS, "true")}
                     />
                 </motion.div>
 
@@ -118,13 +134,13 @@ export default function WalletContent() {
             {/* Modals */}
             <TopUpDialog
                 open={showTopUpDialog}
-                onOpenChange={setShowTopUpDialog}
+                onOpenChange={(open) => open ? updateSearchParam(SearchParamKeys.WALLET_TOP_UP, "true") : removeSearchParam(SearchParamKeys.WALLET_TOP_UP)}
                 onTopUpComplete={handleTopUpComplete}
             />
 
             <TransferModal
                 open={showTransferModal}
-                onOpenChange={setShowTransferModal}
+                onOpenChange={(open) => open ? updateSearchParam(SearchParamKeys.WALLET_TRANSFER, "true") : removeSearchParam(SearchParamKeys.WALLET_TRANSFER)}
                 selectedUser={selectedTransferUser}
                 onTransferComplete={handleTransferComplete}
                 maxBalance={currentBalance}
@@ -132,29 +148,35 @@ export default function WalletContent() {
 
             <AllUsersDialog
                 open={showAllUsersDialog}
-                onOpenChange={setShowAllUsersDialog}
+                onOpenChange={(open) => open ? updateSearchParam(SearchParamKeys.WALLET_ALL_USERS, "true") : removeSearchParam(SearchParamKeys.WALLET_ALL_USERS)}
                 users={quickTransferUsers}
                 onSelectUser={(user) => {
                     setSelectedTransferUser(user);
-                    setShowAllUsersDialog(false);
-                    setShowTransferModal(true);
+                    removeSearchParam(SearchParamKeys.WALLET_ALL_USERS);
+                    updateSearchParam(SearchParamKeys.WALLET_TRANSFER, "true");
                 }}
             />
 
             <AllTransactionsDialog
                 open={showAllTransactionsDialog}
-                onOpenChange={setShowAllTransactionsDialog}
+                onOpenChange={(open) => open ? updateSearchParam(SearchParamKeys.WALLET_ALL_TXS, "true") : removeSearchParam(SearchParamKeys.WALLET_ALL_TXS)}
                 transactions={transactions}
                 onTransactionClick={(tx) => {
-                    setShowAllTransactionsDialog(false);
+                    removeSearchParam(SearchParamKeys.WALLET_ALL_TXS);
                     handleTransactionClick(tx);
                 }}
             />
 
             <TransactionDetailDialog
                 open={!!selectedTransaction}
-                onOpenChange={(open) => !open && setSelectedTransaction(null)}
+                onOpenChange={(open) => !open && removeSearchParam(SearchParamKeys.WALLET_TX_DETAIL)}
                 transaction={selectedTransaction}
+            />
+
+            <QRCodeDialog
+                open={showQRDialog}
+                onOpenChange={(open) => open ? updateSearchParam(SearchParamKeys.WALLET_QR, "true") : removeSearchParam(SearchParamKeys.WALLET_QR)}
+                address="0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
             />
         </div>
     );

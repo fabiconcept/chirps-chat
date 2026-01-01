@@ -167,8 +167,8 @@ export default function StreakGrid({ streakDays, size = "md", maxWeeks }: Streak
                     <div className="flex" style={{ gap: `${config.labelGap * 4}px` }}>
                         {/* Day of week labels */}
                         <div 
-                            className={cn("flex flex-col justify-between text-muted-foreground", config.text)}
-                            style={{ gap: `${config.gap * 4}px`, minWidth: '24px' }}
+                            className={cn("flex flex-col justify-between max-sm:text-[5px] text-muted-foreground", config.text)}
+                            style={{ gap: `${config.gap * -1.5}px`, minWidth: '24px' }}
                         >
                             <span>Mon</span>
                             <span className="invisible">Wed</span>

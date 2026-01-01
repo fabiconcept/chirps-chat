@@ -9,9 +9,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, ArrowRight, Check, ArrowUpRight, Sparkles, AlertTriangle, User as UserIcon, Wallet as WalletIcon } from "lucide-react";
+import { Search, ArrowRight, Check, AlertTriangle, User as UserIcon, Wallet as WalletIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import UserClump from "@/components/modular/UserClump";
+import { ResponsiveModal } from "@/components/ui/responsive-modal";
+import HiddenText from "./TrimText";
 
 type User = {
     id: string;
@@ -54,6 +56,11 @@ export default function TransferModal({
     const [note, setNote] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [isProcessing, setIsProcessing] = useState(false);
+    const [error, setError] = useState("");
+
+    const canProceed = () => {
+        return amount && parseFloat(amount) > 10 && !error;
+    };
 
     // Validate wallet address (Ethereum address format)
     const validateAddress = (address: string): boolean => {
@@ -97,6 +104,7 @@ export default function TransferModal({
 
     const handleContinue = () => {
         if (step === "amount") {
+            if (!canProceed()) return;
             setStep("confirm");
         }
     };
@@ -108,12 +116,12 @@ export default function TransferModal({
         // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 2000));
 
-        onTransferComplete(parseFloat(amount), selectedUser, note);
         setStep("success");
         setIsProcessing(false);
-
+        
         // Reset and close after success
         setTimeout(() => {
+            onTransferComplete(parseFloat(amount), selectedUser, note);
             handleClose();
         }, 2500);
     };
@@ -132,11 +140,34 @@ export default function TransferModal({
         }, 300);
     };
 
-    const isValidAmount = amount && parseFloat(amount) > 0 && parseFloat(amount) <= maxBalance;
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const num = parseInt(e.target.value);
+
+        if (e.target.value === '') {
+            setAmount('');
+            setError('');
+            return;
+        }
+
+        if (num < 10) {
+            setError('Minimum value is 10');
+        } else if (num > 10000) {
+            setError('Maximum value is 10,000');
+        } else {
+            setError('');
+        }
+
+        setAmount(e.target.value);
+    };
 
     return (
-        <Dialog open={open} onOpenChange={handleClose}>
-            <DialogContent className="sm:max-w-[520px] p-0 gap-0 overflow-hidden rounded-3xl">
+        <ResponsiveModal 
+            open={open} 
+            onOpenChange={handleClose}
+            title="Transfer Tokens"
+            description="Select a user or enter wallet address"
+        >
+            <div className="sm:max-w-[520px] min-h-128 p-0 gap-0 overflow-hidden flex flex-col">
                 <AnimatePresence mode="wait">
                     {/* Select User Step */}
                     {step === "select" && (
@@ -147,35 +178,35 @@ export default function TransferModal({
                             exit={{ opacity: 0, x: -20 }}
                             transition={{ duration: 0.2 }}
                         >
-                            <DialogHeader className="px-6 pt-6 pb-4 border-b border-border bg-linear-to-b from-[#D4AF37]/10 to-background">
-                                <DialogTitle className="flex items-center gap-2 text-lg">
+                            <div className="px-6 pt-6 pb-4 border-b border-border bg-linear-to-b from-[#D4AF37]/10 to-background">
+                                <h3 className="flex items-center gap-2 sm:text-xl text-lg font-semibold">
                                     Transfer Tokens
-                                </DialogTitle>
-                                <DialogDescription>
+                                </h3>
+                                <p className="sm:text-sm text-xs text-muted-foreground">
                                     Select a user or enter wallet address
-                                </DialogDescription>
-                            </DialogHeader>
+                                </p>
+                            </div>
 
-                            <Tabs defaultValue="users" className="p-6">
+                            <Tabs defaultValue="users" className="sm:p-6 p-4">
                                 <TabsList className="grid w-full grid-cols-2 mb-4 rounded-2xl">
-                                    <TabsTrigger value="users" className="gap-2 rounded-2xl">
+                                    <TabsTrigger value="users" className="gap-2 rounded-2xl sm:text-sm text-xs">
                                         <UserIcon className="h-4 w-4" />
                                         Users
                                     </TabsTrigger>
-                                    <TabsTrigger value="address" className="gap-2 rounded-2xl">
+                                    <TabsTrigger value="address" className="gap-2 rounded-2xl sm:text-sm text-xs">
                                         <WalletIcon className="h-4 w-4" />
                                         Wallet Address
                                     </TabsTrigger>
                                 </TabsList>
 
                                 <TabsContent value="users" className="space-y-4 mt-0">
-                                    <div className="relative">
+                                    <div className="relative -mt-4">
                                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                         <Input
                                             placeholder="Search by name or username..."
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
-                                            className="pl-10 h-12 border-2 focus-visible:ring-[#D4AF37]/20"
+                                            className="pl-10 h-12 border-2 focus-visible:ring-[#D4AF37]/20 sm:text-base text-sm rounded-3xl"
                                         />
                                     </div>
 
@@ -292,36 +323,32 @@ export default function TransferModal({
                             exit={{ opacity: 0, x: -20 }}
                             transition={{ duration: 0.2 }}
                         >
-                            <DialogHeader className="px-6 pt-6 pb-4 border-b border-border bg-linear-to-t from-transparent to-[#D4AF37]/10">
-                                <DialogTitle className="flex items-center gap-2 text-xl">
+                            <div className="px-6 pt-6 pb-4 border-b border-border bg-linear-to-t from-transparent to-[#D4AF37]/10">
+                                <h3 className="flex items-center gap-2 sm:text-xl text-lg font-semibold">
                                     Transfer Amount
-                                </DialogTitle>
-                                <DialogDescription>
+                                </h3>
+                                <p className="sm:text-sm text-xs text-muted-foreground">
                                     {transferMode === "user" && selectedUser
                                         ? `Sending tokens to ${selectedUser.name}`
                                         : `Sending tokens to wallet address`}
-                                </DialogDescription>
-                            </DialogHeader>
+                                </p>
+                            </div>
 
-                            <div className="p-6 space-y-6">
+                            <div className="sm:p-6 p-4 space-y-6">
                                 {/* Recipient Card */}
                                 <div className="relative p-4 rounded-xl bg-linear-to-t from-foreground/10 to-background border border-[#D4AF37]/30 overflow-hidden group">
                                     <div className="absolute inset-0 bg-linear-to-br from-[#D4AF37]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                     {transferMode === "user" && selectedUser ? (
-                                        <div className="relative flex items-center gap-3 justify-between">
-                                            <UserClump
-                                                name={selectedUser.name}
-                                                username={selectedUser.username}
-                                                avatar={selectedUser.avatar}
-                                                size="md"
-                                                variant="ghost"
-                                                clickable={false}
-                                                isVerified
-                                            />
-                                            <Badge className="bg-green-500/10 text-green-600 border-green-500/20">
-                                                Active
-                                            </Badge>
-                                        </div>
+                                        <UserClump
+                                            name={selectedUser.name}
+                                            username={selectedUser.username}
+                                            avatar={selectedUser.avatar}
+                                            size="md"
+                                            className=""
+                                            variant="ghost"
+                                            clickable={false}
+                                            isVerified
+                                        />
                                     ) : (
                                         <div className="relative flex items-center gap-3">
                                             <div className="h-14 w-14 rounded-full bg-[#D4AF37]/20 border-2 border-[#D4AF37]/50 flex items-center justify-center">
@@ -330,7 +357,7 @@ export default function TransferModal({
                                             <div className="flex-1 min-w-0">
                                                 <p className="font-medium text-foreground text-sm">External Wallet</p>
                                                 <code className="text-xs font-mono text-muted-foreground truncate block">
-                                                    {walletAddress}
+                                                    <HiddenText text={walletAddress} maxLength={20} />
                                                 </code>
                                             </div>
                                             <Badge className="bg-blue-500/10 text-blue-600 border-blue-500/20">
@@ -350,15 +377,29 @@ export default function TransferModal({
                                             id="amount"
                                             type="number"
                                             placeholder="0.00"
+                                            maxLength={10}
+                                            minLength={1}
+                                            min={10}
+                                            max={maxBalance}
+                                            step={10}
+                                            inputMode="numeric"
+                                            pattern="[0-9]*"
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'e' || e.key === 'E' || e.key === '+' || e.key === '-') {
+                                                    e.preventDefault();
+                                                }
+                                            }}  
                                             value={amount}
-                                            onChange={(e) => setAmount(e.target.value)}
+                                            onChange={handleChange}
                                             className="text-2xl font-medium h-14 pr-20 border-2 focus-visible:ring-[#D4AF37]/20"
-                                            step="0.01"
                                         />
                                         <span className="absolute right-4 top-1/2 -translate-y-1/2 text-base font-medium text-[#D4AF37]">
                                             CHT
                                         </span>
                                     </div>
+                                    {error && (
+                                        <p className="text-xs text-red-500">{error}</p>
+                                    )}
                                     <div className="flex items-center justify-between text-xs">
                                         <span className="text-muted-foreground">
                                             Available: <span className="font-medium text-foreground">{maxBalance.toLocaleString()}</span> CHT
@@ -400,7 +441,7 @@ export default function TransferModal({
 
                                 {/* Note */}
                                 <div className="space-y-2">
-                                    <Label htmlFor="note" className="text-sm font-medium">
+                                    <Label htmlFor="note" className="sm:text-sm text-xs font-medium">
                                         Note (Optional)
                                     </Label>
                                     <Textarea
@@ -427,8 +468,8 @@ export default function TransferModal({
                                     </Button>
                                     <Button
                                         onClick={handleContinue}
-                                        disabled={!isValidAmount}
-                                        className="flex-1 h-11 font-medium bg-gradient-to-r from-[#D4AF37] to-[#C5A028] hover:from-[#C5A028] hover:to-[#B69117] text-black shadow-md hover:shadow-lg transition-all"
+                                        disabled={!canProceed()}
+                                        className="flex-1 h-11 font-medium bg-linear-to-r from-[#D4AF37] to-[#C5A028] hover:from-[#C5A028] hover:to-[#B69117] text-black shadow-md hover:shadow-lg transition-all"
                                     >
                                         Continue
                                     </Button>
@@ -445,24 +486,22 @@ export default function TransferModal({
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -20 }}
                             transition={{ duration: 0.2 }}
+                            className="flex flex-col gap-4 flex-1"
                         >
-                            <DialogHeader className="px-6 pt-6 pb-4 border-b border-border bg-gradient-to-br from-[#D4AF37]/5 to-background">
-                                <DialogTitle className="flex items-center gap-2 text-xl">
-                                    <div className="p-2 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/30">
-                                        <AlertTriangle className="h-5 w-5 text-[#D4AF37]" />
-                                    </div>
+                            <div className="px-6 pt-6 pb-4 border-b border-border bg-linear-to-br from-[#D4AF37]/5 to-background">
+                                <h3 className="flex items-center gap-2 sm:text-xl text-lg font-semibold">
                                     Confirm Transfer
-                                </DialogTitle>
-                                <DialogDescription>
+                                </h3>
+                                <p className="sm:text-sm text-xs text-muted-foreground">
                                     Review details before confirming
-                                </DialogDescription>
-                            </DialogHeader>
+                                </p>
+                            </div>
 
-                            <div className="p-6 space-y-6">
+                            <div className="sm:p-6 p-4 flex-1 flex flex-col gap-4">
                                 {/* Summary Card */}
-                                <div className="p-5 rounded-xl bg-linear-to-br from-muted/50 to-background border-2 border-border space-y-4">
+                                <div className="sm:p-5 p-4 rounded-xl bg-linear-to-br from-muted/50 to-background border-2 border-border space-y-4">
                                     <div className="flex items-center justify-between pb-3 border-b border-border">
-                                        <span className="text-sm font-medium text-muted-foreground">Recipient</span>
+                                        <span className="sm:text-sm text-xs font-medium text-muted-foreground">Recipient</span>
                                         {transferMode === "user" && selectedUser ? (
                                             <div className="flex items-center gap-2">
                                                 <Avatar className="h-7 w-7 border-2 border-[#D4AF37]/50">
@@ -476,39 +515,41 @@ export default function TransferModal({
                                                 <div className="h-7 w-7 rounded-full bg-[#D4AF37]/20 border-2 border-[#D4AF37]/50 flex items-center justify-center shrink-0">
                                                     <WalletIcon className="h-3.5 w-3.5 text-[#D4AF37]" />
                                                 </div>
-                                                <code className="text-xs font-mono font-medium truncate">{walletAddress}</code>
+                                                <code className="text-xs font-mono font-medium"><HiddenText text={walletAddress} maxLength={20} /></code>
                                             </div>
                                         )}
                                     </div>
                                     <div className="flex items-center justify-between">
-                                        <span className="text-sm font-medium text-muted-foreground">Amount</span>
+                                        <span className="sm:text-sm text-xs font-medium text-muted-foreground">Amount</span>
                                         <div className="text-right">
-                                            <p className="text-xl font-medium text-[#D4AF37]">{amount}</p>
+                                            <p className="sm:text-xl text-lg font-medium text-[#D4AF37]">{Number(amount).toLocaleString()}</p>
                                             <p className="text-xs text-muted-foreground">CHT</p>
                                         </div>
                                     </div>
                                     {note && (
                                         <div className="flex flex-col gap-2 pt-3 border-t border-border">
-                                            <span className="text-sm font-medium text-muted-foreground">Note</span>
-                                            <p className="text-sm bg-background/50 rounded-lg p-3 border border-border">"{note}"</p>
+                                            <span className="sm:text-sm text-xs font-medium text-muted-foreground">Note</span>
+                                            <p className="sm:text-sm text-xs bg-background/50 rounded-lg p-3 border border-border">"{note}"</p>
                                         </div>
                                     )}
                                 </div>
 
                                 {/* Warning */}
-                                <div className="p-3 rounded-xl bg-linear-to-br from-amber-500/10 to-background border border-amber-500/30">
+                                <div className="p-3 rounded-lg bg-amber-500/5 border border-amber-500/20 bg-linear-to-br from-foreground/5 to-transparent">
                                     <div className="flex gap-2.5">
-                                        <AlertTriangle className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
                                         <div className="space-y-0.5">
-                                            <p className="text-sm font-medium text-amber-700 dark:text-amber-400">
+                                            <p className="sm:text-sm text-xs font-medium text-amber-700 dark:text-amber-400 flex items-center gap-1">
+                                                <AlertTriangle className="h-4 w-4 text-amber-600 shrink-0" />
                                                 Transaction is irreversible
                                             </p>
-                                            <p className="text-xs text-amber-600 dark:text-amber-500">
+                                            <p className="sm:text-sm text-xs text-amber-200 mt-1">
                                                 Please verify all details before confirming. This action cannot be undone.
                                             </p>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div className="flex-1" />
 
                                 {/* Action Buttons */}
                                 <div className="flex gap-2">
@@ -523,7 +564,7 @@ export default function TransferModal({
                                     <Button
                                         onClick={handleConfirm}
                                         disabled={isProcessing}
-                                        className="flex-1 h-11 font-medium bg-gradient-to-r from-[#D4AF37] to-[#C5A028] hover:from-[#C5A028] hover:to-[#B69117] text-black shadow-md hover:shadow-lg transition-all"
+                                        className="flex-1 h-11 font-medium bg-linear-to-r from-[#D4AF37] to-[#C5A028] hover:from-[#C5A028] hover:to-[#B69117] text-black shadow-md hover:shadow-lg transition-all"
                                     >
                                         {isProcessing ? (
                                             <span className="flex items-center gap-2">
@@ -555,7 +596,7 @@ export default function TransferModal({
                                     className="relative"
                                 >
                                     <div className="absolute inset-0 bg-green-500/20 rounded-full blur-2xl"></div>
-                                    <div className="relative h-24 w-24 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center shadow-xl">
+                                    <div className="relative h-24 w-24 rounded-full bg-linear-to-br from-green-500 to-green-600 flex items-center justify-center shadow-xl">
                                         <Check className="h-12 w-12 text-white" strokeWidth={3} />
                                     </div>
                                 </motion.div>
@@ -586,7 +627,7 @@ export default function TransferModal({
                         </motion.div>
                     )}
                 </AnimatePresence>
-            </DialogContent>
-        </Dialog>
+            </div>
+        </ResponsiveModal>
     );
 }
