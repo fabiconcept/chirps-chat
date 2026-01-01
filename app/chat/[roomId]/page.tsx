@@ -15,7 +15,7 @@ export default function Page() {
     }
 
     return (
-        <div className="flex flex-row overflow-hidden items-start flex-wrap flex-1 md:h-[calc(100dvh-2.5rem)] sm:h-[calc(100dvh-1.5rem)] h-[calc(100dvh-2rem)]">
+        <div className="flex flex-row overflow-hidden items-start flex-wrap flex-1 md:h-[calc(100dvh-2.5rem)] sm:h-[calc(100dvh-1.5rem)] h-[calc(100dvh)]">
             {isMobile || isTablet ? (
                 <RoomMobilePage />
             ) : (

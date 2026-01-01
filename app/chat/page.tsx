@@ -42,7 +42,7 @@ export default function ChatPage() {
     };
 
     return (
-        <div className="flex overflow-hidden flex-row items-start flex-wrap flex-1 md:h-[calc(100dvh-2.5rem)] sm:h-[calc(100dvh-1.5rem)] h-[calc(100dvh-2rem)]">
+        <div className="flex overflow-hidden flex-row items-start flex-wrap flex-1 md:h-[calc(100dvh-2.5rem)] sm:h-[calc(100dvh-1.5rem)] h-[calc(100dvh)]">
             {(isMobile || isTablet) ? (
                 <AnimatePresence mode="popLayout" initial={false} custom={user ? 1 : -1}>
                     {user ? (

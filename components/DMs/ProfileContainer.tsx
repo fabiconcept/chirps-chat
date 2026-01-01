@@ -94,7 +94,7 @@ export default function ProfileContainer() {
                 }
             }}
         >
-            <SheetContent showCloseButton={false} className="max-w-80 min-w-0 px-0 p-0 py-0 flex flex-col">
+            <SheetContent showCloseButton={false} className="sm:max-w-80 w-full max-w-[calc(100%-2rem)] min-w-0 px-0 p-0 py-0 flex flex-col">
                 <SheetClose className="absolute top-2 right-2 size-6 rounded-full bg-foreground/10 hover:bg-foreground/20 backdrop-blur-sm grid place-items-center z-10">
                     <XIcon className="size-4" />
                 </SheetClose>
