@@ -51,7 +51,7 @@ export default function SuggestionCard({ suggestion, onVote, onClick, index = 0 
                     <h3 className="font-semibold text-base sm:text-lg text-foreground group-hover:text-primary transition-colors line-clamp-2">
                         {suggestion.title}
                     </h3>
-                    <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">
+                    <p className="sm:text-base text-sm text-muted-foreground line-clamp-2">
                         {suggestion.description}
                     </p>
                 </div>

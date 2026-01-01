@@ -68,7 +68,7 @@ export default function VoteButtons({
                         animate={currentVote === "upvote" ? { scale: [1, 1.2, 1] } : {}}
                         transition={{ duration: 0.3 }}
                     >
-                        <ArrowUp className="h-5 w-5" strokeWidth={currentVote === "upvote" ? 2.5 : 2} />
+                        <ArrowUp className="sm:h-5 h-4 sm:w-5 w-4" strokeWidth={currentVote === "upvote" ? 3 : 2} />
                     </motion.div>
                 </Button>
                 <motion.div
@@ -79,10 +79,11 @@ export default function VoteButtons({
                         "font-bold text-sm min-w-8 text-center",
                         currentScore > 0 && "text-foreground",
                         currentScore < 0 && "text-muted-foreground",
-                        currentScore === 0 && "text-muted-foreground"
+                        currentScore === 0 && "text-muted-foreground",
+                        currentVote === "upvote" ? "text-green-600" : currentVote === "downvote" ? "text-destructive" : ""
                     )}
                 >
-                    {currentScore > 0 ? `+${currentScore}` : currentScore}
+                    {currentScore > 0 ? `${currentScore}` : currentScore}
                 </motion.div>
                 <Button
                     variant="ghost"
@@ -99,12 +100,12 @@ export default function VoteButtons({
                         animate={currentVote === "downvote" ? { scale: [1, 1.2, 1] } : {}}
                         transition={{ duration: 0.3 }}
                     >
-                        <ArrowDown className="h-5 w-5" strokeWidth={currentVote === "downvote" ? 2.5 : 2} />
+                        <ArrowDown className="sm:h-5 h-4 sm:w-5 w-4" strokeWidth={currentVote === "downvote" ? 3 : 2} />
                     </motion.div>
                 </Button>
             </div>
-            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                <Eye className="size-4" />
+            <div className="flex items-center gap-1 sm:text-sm text-[12px] text-muted-foreground">
+                <Eye className="sm:size-4 size-3" />
                 <span>{formatNumber(viewCount)}</span>
             </div>
         </div>

@@ -11,7 +11,7 @@ interface SuggestionsListProps {
 }
 
 export default function SuggestionsList({ suggestions, onVote, onSuggestionClick }: SuggestionsListProps) {
-    if (suggestions.length !== 0) {
+    if (suggestions.length === 0) {
         return (
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
