@@ -118,7 +118,7 @@ const TextPost = ({
                         >
                             <Button
                                 variant="outline"
-                                className="w-16 h-16 rounded bg-transparent dark:bg-transparent border-dashed border-2 border-input hover:border-offset-2 transition-colors duration-300"
+                                className="sm:w-16 sm:h-16 w-12 h-12 rounded bg-transparent dark:bg-transparent border-dashed border-2 border-input hover:border-offset-2 transition-colors duration-300"
                                 onClick={() => imageInputRef.current?.click()}
                             >
                                 <input
