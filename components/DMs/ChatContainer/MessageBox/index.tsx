@@ -11,16 +11,18 @@ import { FormattingToolbar } from "./FormattingToolbar";
 import { MessageInput } from "./MessageInput";
 import { MessagePreview } from "./MessagePreview";
 import { FormatContextMenu } from "./FormatContextMenu";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 
 export default function MessageBox() {
     const { disallowShortcuts, allowShortcuts, notoriousShortcuts, allowedShortcuts } = useKeyBoardShortCut();
     const { isMacOS } = useAuth();
-    
+
     const [message, setMessage] = useState("");
     const [showPreview, setShowPreview] = useState(false);
     const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
     const [isImageDropdownOpen, setIsImageDropdownOpen] = useState(false);
-    
+    const [isFocused, setIsFocused] = useState(false);
+
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -49,9 +51,9 @@ export default function MessageBox() {
         if (textarea) {
             const start = textarea.selectionStart;
             const end = textarea.selectionEnd;
-            const newText = 
-                message.substring(0, start) + 
-                `![upload ${indexStr}](${indexStr})` + 
+            const newText =
+                message.substring(0, start) +
+                `![upload ${indexStr}](${indexStr})` +
                 message.substring(end);
             setMessage(newText);
         }
@@ -112,23 +114,23 @@ export default function MessageBox() {
     // Keyboard shortcuts for formatting
     useShortcuts({
         shortcuts: [
-            { 
-                key: KeyboardKey.KeyB, 
-                ctrlKey: !isMacOS, 
-                metaKey: isMacOS, 
-                enabled: allowedShortcuts.has("commandB") 
+            {
+                key: KeyboardKey.KeyB,
+                ctrlKey: !isMacOS,
+                metaKey: isMacOS,
+                enabled: allowedShortcuts.has("commandB")
             },
-            { 
-                key: KeyboardKey.KeyI, 
-                ctrlKey: !isMacOS, 
-                metaKey: isMacOS, 
-                enabled: allowedShortcuts.has("commandI") 
+            {
+                key: KeyboardKey.KeyI,
+                ctrlKey: !isMacOS,
+                metaKey: isMacOS,
+                enabled: allowedShortcuts.has("commandI")
             },
-            { 
-                key: KeyboardKey.KeyK, 
-                ctrlKey: !isMacOS, 
-                metaKey: isMacOS, 
-                enabled: allowedShortcuts.has("command-K") 
+            {
+                key: KeyboardKey.KeyK,
+                ctrlKey: !isMacOS,
+                metaKey: isMacOS,
+                enabled: allowedShortcuts.has("command-K")
             }
         ],
         onTrigger: (shortcut) => {
@@ -150,6 +152,7 @@ export default function MessageBox() {
     const handleFocus = useCallback(() => {
         disallowShortcuts([...notoriousShortcuts]);
         allowShortcuts(["commandB", "commandI", "command-K"]);
+        setIsFocused(true);
     }, [disallowShortcuts, allowShortcuts, notoriousShortcuts]);
 
     const handleBlur = useCallback(() => {
@@ -166,16 +169,55 @@ export default function MessageBox() {
         setShowPreview(prev => !prev);
     }, []);
 
+    const formattingToolbarVariants: Variants = {
+        initial: { opacity: 0, y: 10 },
+        animate: { 
+            opacity: 1, 
+            y: 0,
+            transition: {
+                duration: 0.2,
+                type: "spring",
+                stiffness: 300,
+                damping: 30,
+            }
+        },
+        exit: { 
+            opacity: 0, 
+            y: 10,
+            transition: {
+                duration: 0.2,
+                type: "spring",
+                stiffness: 300,
+                damping: 30,
+                delay: 0.5
+            }
+        }
+    }
+    
+    
+
     return (
-        <div className="border-t border-input bg-background">
-            <FormattingToolbar
-                formatter={formatter}
-                showPreview={showPreview}
-                onTogglePreview={handleTogglePreview}
-                isImageDropdownOpen={isImageDropdownOpen}
-                onImageDropdownChange={setIsImageDropdownOpen}
-                onImageUploadClick={() => fileInputRef.current?.click()}
-            />
+        <div onBlur={() => setIsFocused(false)} className="border-t border-input bg-background group relative z-50">
+            <AnimatePresence mode="popLayout">
+                {(isFocused || showPreview) && (
+                    <motion.div
+                        variants={formattingToolbarVariants}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        className="absolute -top-[74.5%] bg-background left-0 w-full"
+                    >
+                        <FormattingToolbar
+                            formatter={formatter}
+                            showPreview={showPreview}
+                            onTogglePreview={handleTogglePreview}
+                            isImageDropdownOpen={isImageDropdownOpen}
+                            onImageDropdownChange={setIsImageDropdownOpen}
+                            onImageUploadClick={() => fileInputRef.current?.click()}
+                        />
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Hidden file input */}
             <input
@@ -210,7 +252,7 @@ export default function MessageBox() {
                         )}
                     </div>
                 </ContextMenuTrigger>
-                
+
                 <FormatContextMenu
                     formatter={formatter}
                     onImageUploadClick={() => fileInputRef.current?.click()}

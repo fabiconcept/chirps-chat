@@ -42,7 +42,7 @@ export default function ChatSideBar() {
 
     return (
         <motion.div
-            className="flex flex-col md:gap-3 gap-2 h-full overflow-hidden min-[900px]:mr-3 mr-2 max-sm:h-[100dvh] max-sm:justify-center max-sm:pt-2"
+            className="flex flex-col md:gap-3 gap-2 h-full overflow-hidden min-[900px]:mr-3 mr-2 max-sm:h-dvh max-sm:justify-center max-sm:pt-2"
             initial={(isMobile || isTablet) ? initial : undefined}
             animate={(isMobile || isTablet) ? animate : undefined}
             transition={{ duration: 0.2 }}
