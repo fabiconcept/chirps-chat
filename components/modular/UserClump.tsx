@@ -2,7 +2,7 @@ import BadgeCheckIcon from '../svgs/BadgeIconSvg';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { cn } from '@/lib/utils';
 
-type UserClumpSize = 'sm' | 'md' | 'lg' | "xs";
+type UserClumpSize = 'sm' | 'md' | 'lg' | "xs" ;
 type UserClumpVariant = 'default' | 'ghost' | 'outline';
 
 interface UserClumpProps {
@@ -20,6 +20,13 @@ const sizeClasses = {
     sm: {
         container: 'p-0.5 min-w-36 max-w-52 pr-3 gap-1.5',
         avatar: 'h-8 w-8',
+        badge: "h-3 w-3",
+        name: 'text-xs',
+        username: 'text-[10px]'
+    },
+    xs: {
+        container: 'p-0.5 min-w-36 max-w-52 pr-3 gap-1.5',
+        avatar: 'h-10 w-10',
         badge: "h-3 w-3",
         name: 'text-xs',
         username: 'text-[10px]'
@@ -56,7 +63,7 @@ export default function UserClump({
     clickable = true,
     className,
 }: UserClumpProps) {
-    const sizes = size === "xs" ? sizeClasses["md"] : sizeClasses[size];
+    const sizes = sizeClasses[size];
 
     return (
         <div className={cn(

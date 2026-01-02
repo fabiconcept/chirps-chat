@@ -283,7 +283,7 @@ export default function GlobalHeader() {
                                         <UserClump
                                             name="Hello Kitty"
                                             username="@hello-kitty"
-                                            size={isMobile ? "xs" : undefined}
+                                            size={isMobile ? "md" : undefined}
                                             variant="ghost"
                                             avatar="https://chirps-chat.sirv.com/premium/rasta.png"
                                             className='p-0 w-fit mx-auto'
@@ -341,10 +341,10 @@ export default function GlobalHeader() {
                                             <span>Keyboard Shortcuts</span>
                                             <DropdownMenuShortcut className='max-sm:hidden'>⌘K</DropdownMenuShortcut>
                                         </DropdownMenuItem>}
-                                        <DropdownMenuItem className='sm:hidden'>
+                                        <DropdownMenuItem className='sm:hidden relative'>
                                             <HandCoins className="mr-2 h-4 w-4" />
                                             <span>Suggestions</span>
-                                            <DropdownMenuShortcut className='max-sm:hidden'>⇧⌘P</DropdownMenuShortcut>
+                                            <Link href="/suggestions" className='absolute inset-0 h-full w-full' />
                                         </DropdownMenuItem>
                                         <DropdownMenuItem>
                                             <HelpCircle className="mr-2 h-4 w-4" />
