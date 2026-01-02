@@ -41,7 +41,7 @@ export default function DmIntroCard({
                         <div className="flex flex-col gap-2 w-full min-[900px]:max-w-md max-w-full px-5 mt-4">
                             <Button
                                 variant="outline"
-                                className="w-full justify-start gap-3"
+                                className="w-full snm:justify-start gap-3 sm:text-sm text-xs"
                                 onClick={() => updateSearchParam(SearchParamKeys.INVITE, "true")}
                             >
                                 <UserPlus className="size-4" />
@@ -49,7 +49,7 @@ export default function DmIntroCard({
                             </Button>
                             <Button
                                 variant="outline"
-                                className="w-full justify-start gap-3"
+                                className="w-full snm:justify-start gap-3 sm:text-sm text-xs"
                                 onClick={() => {
                                     updateSearchParam(SearchParamKeys.CHANNEL_SETTINGS, "true")
                                     updateSearchParam(SearchParamKeys.CHANNEL_NAME, "general")
@@ -58,7 +58,7 @@ export default function DmIntroCard({
                                 <Settings className="size-4" />
                                 Personalize this channel
                             </Button>
-                            <Button variant="outline" className="w-full justify-start gap-3" onClick={() => {
+                            <Button variant="outline" className="w-full snm:justify-start gap-3 sm:text-sm text-xs" onClick={() => {
                                 updateSearchParam(SearchParamKeys.NOTIFICATIONS, "true")
                             }}>
                                 <Bell className="size-4" />
