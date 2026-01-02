@@ -1,5 +1,5 @@
 "use client"
-import { FolderOpenIcon, FolderOpenIconHandle } from "@/components/FolderOpenIcon";
+import { FolderOpenIcon, FolderOpenIconHandle } from "@/components/animated icons/FolderOpenIcon";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { cn } from "@/lib/utils";
 import { useMemo, useRef } from "react";

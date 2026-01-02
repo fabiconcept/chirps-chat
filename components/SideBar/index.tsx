@@ -1,14 +1,14 @@
 "use client"
-import { DashboardIcon, DashboardIconHandle } from "../DashboardIcon";
-import { ShoppingCartIcon, ShoppingCartIconHandle } from "../ShoppingCartIcon";
-import { UserStarIcon } from "../UserStarIcon";
+import { DashboardIcon, DashboardIconHandle } from "../animated icons/DashboardIcon";
+import { ShoppingCartIcon, ShoppingCartIconHandle } from "../animated icons/ShoppingCartIcon";
+import { UserStarIcon } from "../animated icons/UserStarIcon";
 import { SendIcon, SendIconHandle } from "../SendIcon";
 import { useRef } from "react";
-import { UserStarHandle } from "../UserStarIcon";
+import { UserStarHandle } from "../animated icons/UserStarIcon";
 import { usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { HandCoinsIcon } from "../HandCoinsIcon";
+import { HandCoinsIcon } from "../animated icons/HandCoinsIcon";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import useShortcuts, { KeyboardKey } from '@useverse/useshortcuts';
 import { Kbd, KbdGroup } from "../ui/kbd";

@@ -1,7 +1,6 @@
 "use client";
 import { useState, useRef, useMemo, useEffect } from "react";
-import { Collapsible, CollapsibleHeader, CollapsibleContent, CollapsibleTrigger, CollapsibleIcon } from "../ui/custom-collapsable";
-import { Badge } from "../ui/badge";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger, CollapsibleIcon } from "../ui/custom-collapsable";
 import { Kbd, KbdGroup } from "../ui/kbd";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn, removeSearchParam, updateSearchParam } from "@/lib/utils";
@@ -96,13 +95,13 @@ export default function WalletHangingPanel() {
         removeSearchParam(SearchParamKeys.WALLET_TOP_UP);
     };
 
-    const handleTransferComplete = (amount: number, recipient: typeof quickTransferUsers[0], note: string) => {
+    const handleTransferComplete = (amount: number, recipient: typeof quickTransferUsers[0], note: string = "") => {
         // Add new transaction and update balance
         const newTransaction: Transaction = {
             id: Date.now().toString(),
             type: "send",
             amount: -amount,
-            description: `To ${recipient.username}`,
+            description: `To ${recipient.username} ${note ? `(${note})` : ""}`,
             date: "Just now",
             hash: "0x" + Math.random().toString(16).slice(2, 10) + "..."
         };
@@ -142,6 +141,7 @@ export default function WalletHangingPanel() {
                         removeSearchParam("wallet");
                     }
                 }}
+
                 fullCollapse={(pathname === "/chat" || pathname.includes("/chat/"))}
                 expandedHeight="70vh"
                 collapsedHeight="4.25rem"
@@ -152,7 +152,7 @@ export default function WalletHangingPanel() {
                 <CollapsibleTrigger
                     className={cn(
                         'rounded-t-2xl border-t border-l border-r',
-                        'bg-linear-to-br dark:from-[#D4AF37]/5 from-[#D4AF37]/5 to-background/95 backdrop-blur-sm',
+                        'bg-linear-to-br dark:from-[#D4AF37]/5 from-[#fffadedd] to-background/95 backdrop-blur-sm',
                         'hover:border-[#D4AF37]/50 active:translate-y-3 transition-all py-3'
                     )}
                     ref={triggerRef}

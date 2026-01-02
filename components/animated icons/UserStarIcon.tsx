@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import type { HTMLMotionProps, Variants } from "motion/react";
 import { motion, useAnimation, useReducedMotion } from "motion/react";
 import { useTheme } from "next-themes";
-import { forwardRef, useCallback, useImperativeHandle, useRef } from "react";
+import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef } from "react";
 
 export interface UserStarHandle {
     startAnimation: () => void;
@@ -87,7 +87,8 @@ const UserStarIcon = forwardRef<UserStarHandle, UserStarProps>(
             },
         };
 
-        const starVariants: Variants = {
+        const starVariants: Variants = useMemo(()=>(
+            {
             normal: {
                 scale: 1,
                 rotate: 0,
@@ -108,7 +109,7 @@ const UserStarIcon = forwardRef<UserStarHandle, UserStarProps>(
                     ease: "easeInOut" as const,
                 },
             },
-        };
+        }), [theme, isActive, duration]);
 
         return (
             <motion.div

@@ -16,7 +16,7 @@ import {
 import Search from './header components/Search';
 import StreakTracker from './header components/StreakTracker';
 import UserClump from './modular/UserClump';
-import { BellDot, Fullscreen, Wallet, User, Settings, Zap, HelpCircle, LogOut, Moon, Sun } from 'lucide-react';
+import { BellDot, Fullscreen, Wallet, User, Settings, Zap, HelpCircle, LogOut, Moon, Sun, HandCoins } from 'lucide-react';
 import { cn, formatNumber, removeSearchParam, updateSearchParam } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -298,10 +298,15 @@ export default function GlobalHeader() {
                                                 <p className="text-lg font-bold">42</p>
                                                 <p className="text-[10px] text-muted-foreground">Streak</p>
                                             </Link>
-                                            <Link href="/wallet" className="hover:bg-background border border-transparent hover:border-input/50 rounded-lg active:scale-95 active:rotate-6 p-1.5 transition-all">
+
+                                            <Link
+                                                href="/wallet"
+                                                className="hover:bg-background border border-transparent hover:border-input/50 rounded-lg active:scale-95 active:rotate-6 p-1.5 transition-all"
+                                            >
                                                 <p className="text-lg font-bold text-[#D4AF37] ave">12.8K</p>
                                                 <p className="text-[10px] text-muted-foreground">Tokens</p>
                                             </Link>
+
                                             <div className="hover:bg-background border border-transparent hover:border-input/50 rounded-lg active:scale-95 active:rotate-6 p-1.5 transition-all cursor-pointer">
                                                 <p className="text-lg font-bold">1.2K</p>
                                                 <p className="text-[10px] text-muted-foreground">Followers</p>
@@ -312,18 +317,18 @@ export default function GlobalHeader() {
                                     {/* Menu Items */}
                                     <DropdownMenuGroup>
                                         <DropdownMenuItem>
-                                            <User className="mr-2 h-4 w-4" />
+                                            <User className="mr-2 h-4 w-4 mt-2" />
                                             <span>Profile</span>
-                                            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                                            <DropdownMenuShortcut className='max-sm:hidden'>⇧⌘P</DropdownMenuShortcut>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem>
                                             <Settings className="mr-2 h-4 w-4" />
                                             <span>Settings</span>
-                                            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                                            <DropdownMenuShortcut className='max-sm:hidden'>⌘S</DropdownMenuShortcut>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem className=''>
                                             {theme === 'dark' ? <Moon className="mr-2 h-4 w-4" /> : <Sun className="mr-2 h-4 w-4" />}
-                                            <span>Appearance</span>
+                                            <span>Theme</span>
                                             <ThemeSwitch className='ml-auto' />
                                         </DropdownMenuItem>
                                     </DropdownMenuGroup>
@@ -334,8 +339,13 @@ export default function GlobalHeader() {
                                         {!isMobile && <DropdownMenuItem onClick={() => updateSearchParam(SearchParamKeys.SHORTCUTS_MODAL, "true")}>
                                             <Zap className="mr-2 h-4 w-4" />
                                             <span>Keyboard Shortcuts</span>
-                                            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+                                            <DropdownMenuShortcut className='max-sm:hidden'>⌘K</DropdownMenuShortcut>
                                         </DropdownMenuItem>}
+                                        <DropdownMenuItem className='sm:hidden'>
+                                            <HandCoins className="mr-2 h-4 w-4" />
+                                            <span>Suggestions</span>
+                                            <DropdownMenuShortcut className='max-sm:hidden'>⇧⌘P</DropdownMenuShortcut>
+                                        </DropdownMenuItem>
                                         <DropdownMenuItem>
                                             <HelpCircle className="mr-2 h-4 w-4" />
                                             <span>Help & Support</span>
@@ -347,7 +357,7 @@ export default function GlobalHeader() {
                                     <DropdownMenuItem onClick={logout} className="text-destructive focus:text-destructive">
                                         <LogOut className="mr-2 h-4 w-4" />
                                         <span>Log out</span>
-                                        <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                                        <DropdownMenuShortcut className='max-sm:hidden'>⇧⌘Q</DropdownMenuShortcut>
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
