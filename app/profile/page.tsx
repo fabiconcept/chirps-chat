@@ -6,8 +6,10 @@ export default function page() {
             <div className='-translate-y-10'>
                 <NotFoundLottie />
             </div>
-            <h3 className="text-2xl font-bold text-center -translate-y-10">Oops!</h3>
-            <p className="text-lg text-center leading-5 -translate-y-10">Profile Page is under constructions</p>
+            <div className="-translate-y-10 sm:-translate-y-20">
+                <h3 className="text-2xl font-bold text-center">Oops!</h3>
+                <p className="text-lg max-sm:text-sm text-center sm:w-[30ch] w-[20ch] leading-5 text-muted-foreground">Profile Page is under constructions</p>
+            </div>
         </div>
     )
 }

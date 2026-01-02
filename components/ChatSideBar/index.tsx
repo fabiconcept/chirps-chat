@@ -35,13 +35,14 @@ export default function ChatSideBar() {
     const animate = {
         opacity: isHidden ? 0 : 1,
         x: isHidden ? -40 : 0,
+        paddingLeft: isHidden ? 0 : "0.5rem",
         width: isHidden ? 0 : "auto",
-        marginRight: isHidden ? -0 : "0.75rem",
+        marginRight: isHidden ? -0 : "0.5rem",
     }
 
     return (
         <motion.div
-            className="flex flex-col md:gap-3 gap-2 h-full overflow-hidden min-[900px]:mr-3 mr-2"
+            className="flex flex-col md:gap-3 gap-2 h-full overflow-hidden min-[900px]:mr-3 mr-2 max-sm:h-[100dvh] max-sm:justify-center"
             initial={(isMobile || isTablet) ? initial : undefined}
             animate={(isMobile || isTablet) ? animate : undefined}
             transition={{ duration: 0.2 }}
