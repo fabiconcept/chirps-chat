@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function GlobalNotFound() {
     return (
-        <div className="flex overflow-hidden flex-row items-center justify-center w-full h-[calc(100dvh-10rem)]">
+        <div className="flex overflow-hidden flex-row items-center justify-center w-full h-[calc(100dvh-16rem)]">
             <NotFoundLottie />
         </div>
     )

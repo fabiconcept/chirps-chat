@@ -2,7 +2,7 @@ import NotFoundLottie from '@/components/404';
 
 export default function page() {
     return (
-        <div className="flex flex-col overflow-hidden items-center justify-center w-full h-[calc(100dvh-10rem)] max-sm:px-10">
+        <div className="flex flex-col overflow-hidden items-center justify-center w-full h-[calc(100dvh-16rem)] max-sm:px-10">
             <div className='-translate-y-10'>
                 <NotFoundLottie />
             </div>
