@@ -8,8 +8,11 @@ import { MARKDOWN_EXAMPLES } from "@/constants/Messages.const";
 import { Tooltip, TooltipTrigger, TooltipContent } from "../ui/tooltip";
 import { removeSearchParam, updateSearchParam } from "@/lib/utils";
 import { SearchParamKeys } from "@/lib/enums";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 export default function Header() {
+    const isMobile = useIsMobile();
+
     return (
         <div className="flex items-center justify-between gap-5 p-2 px-0 max-lg:px-2">
             <div className="flex items-center">
@@ -28,13 +31,13 @@ export default function Header() {
                     onClick={()=>updateSearchParam(SearchParamKeys.VIEWING_PROFILE, "1")}
                 >
                     <ProfileAvatar
-                        avatarUrl={"https://chirps-chat.sirv.com/parrot.png"}
+                        avatarUrl={"https://chirps-chat.sirv.com/premium/rasta.png"}
                         fallback="PL"
-                        size="lg"
+                        size={isMobile ? "md" : "lg"}
                     />
                     <div className="grid text-sm text-start">
-                        <span className="font-semibold">Passage Lovers</span>
-                        <span className="text-xs dark:text-green-500 text-green-700 lowercase">Online</span>
+                        <span className="font-semibold sm:text-base text-sm">Passage Lovers</span>
+                        <span className="sm:text-xs text-[12px] dark:text-green-500 text-green-700 lowercase">Online</span>
                     </div>
                 </Button>
             </div>

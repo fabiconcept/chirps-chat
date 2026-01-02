@@ -42,37 +42,37 @@ export default function MarkDownRender({ content, className, onImageClick }: Mar
             // Headers (h1-h6)
             if (line.startsWith('###### ')) {
                 elements.push(
-                    <h6 key={i} className="text-xs font-semibold mt-3 mb-1.5">
+                    <h6 key={i} className="sm:text-xs text-[12px] sm:font-semibold font-medium mt-3 mb-1.5">
                         {parseInlineMarkdown(line.slice(7), onImageClick, allImages)}
                     </h6>
                 );
             } else if (line.startsWith('##### ')) {
                 elements.push(
-                    <h5 key={i} className="text-sm font-semibold mt-3 mb-1.5">
+                    <h5 key={i} className="sm:text-sm text-xs sm:font-semibold font-medium mt-3 mb-1.5">
                         {parseInlineMarkdown(line.slice(6), onImageClick, allImages)}
                     </h5>
                 );
             } else if (line.startsWith('#### ')) {
                 elements.push(
-                    <h4 key={i} className="text-sm font-semibold mt-3 mb-2">
+                    <h4 key={i} className="sm:text-sm text-xs sm:font-semibold font-medium mt-3 mb-2">
                         {parseInlineMarkdown(line.slice(5), onImageClick, allImages)}
                     </h4>
                 );
             } else if (line.startsWith('### ')) {
                 elements.push(
-                    <h3 key={i} className="text-base font-semibold mt-4 mb-2">
+                    <h3 key={i} className="sm:text-base text-sm font-semibold mt-4 mb-2">
                         {parseInlineMarkdown(line.slice(4), onImageClick, allImages)}
                     </h3>
                 );
             } else if (line.startsWith('## ')) {
                 elements.push(
-                    <h2 key={i} className="text-lg font-semibold mt-4 mb-2">
+                    <h2 key={i} className="sm:text-lg text-base sm:font-semibold font-medium mt-4 mb-2">
                         {parseInlineMarkdown(line.slice(3), onImageClick, allImages)}
                     </h2>
                 );
             } else if (line.startsWith('# ')) {
                 elements.push(
-                    <h1 key={i} className="text-xl font-bold mt-4 mb-2">
+                    <h1 key={i} className="sm:text-xl text-lg sm:font-bold font-semibold mt-4 mb-2">
                         {parseInlineMarkdown(line.slice(2), onImageClick, allImages)}
                     </h1>
                 );
@@ -112,7 +112,7 @@ export default function MarkDownRender({ content, className, onImageClick }: Mar
                                 "bg-foreground/5 p-3 rounded-md overflow-x-auto border border-foreground/10",
                                 language && "rounded-t-none"
                             )}>
-                                <code className="text-sm font-mono">{codeContent}</code>
+                                <code className="sm:text-sm text-[12px] font-mono">{codeContent}</code>
                             </pre>
                             {!language && (
                                 <button
@@ -549,7 +549,7 @@ function parseInlineMarkdown(text: string, onImageClick?: (imageUrl: string, all
             const endIndex = text.indexOf('`', i + 1);
             if (endIndex !== -1) {
                 elements.push(
-                    <code key={`code-${i}`} className="bg-foreground/10 px-1.5 py-0.5 rounded text-sm font-mono">
+                    <code key={`code-${i}`} className="bg-foreground/10 px-1.5 py-0.5 rounded sm:text-sm text-[12px] font-mono">
                         {text.slice(i + 1, endIndex)}
                     </code>
                 );

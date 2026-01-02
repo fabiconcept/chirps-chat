@@ -16,6 +16,7 @@ import { useTheme } from "next-themes";
 import { Dialog, DialogContent, DialogClose, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ChevronLeftIcon, ChevronRightIcon, XIcon } from "lucide-react";
 import ProtectedImage from "@/components/Feed/TextPost/ProtectedImage";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 export interface ChatBubbleProps {
     avatarUrl: string;
@@ -40,6 +41,7 @@ export interface ChatBubbleProps {
 
 export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnread = false, replyingTo, reactions = [], userReaction = "", onSeen, type = "normal" }: ChatBubbleProps) {
     const bubbleRef = useRef<HTMLDivElement>(null);
+    const isMobile = useIsMobile();
     const hasBeenSeenRef = useRef(false);
     const reactionsRef = useRef<ChatReactionsRef>(null);
     const [internalReactions, setInternalReactions] = useState(reactions);
@@ -50,6 +52,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [allImages, setAllImages] = useState<string[]>([]);
     const { theme } = useTheme();
+
 
     // Memoize the onSeen callback to prevent it from changing on every render
     const onSeenCallback = useCallback(() => {
@@ -169,8 +172,8 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
 
     return (
         <ContextMenu>
-            <HoverCard 
-                closeDelay={100} 
+            <HoverCard
+                closeDelay={100}
                 openDelay={100}
                 open={isHoverCardOpen && type !== "starred"}
                 onOpenChange={(open) => {
@@ -186,27 +189,26 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                         <div
                             ref={bubbleRef}
                             className={cn(
-                                "flex items-start relative gap-2 w-full group transition-colors duration-200 px-5 py-2",
+                                "flex items-start relative sm:gap-2 gap-1 w-full group transition-colors duration-200 sm:px-5 px-2 py-2",
                                 isUnread ? "bg-yellow-600/5 relative after:absolute after:content-[''] after:w-1 after:h-full after:bg-yellow-600/20 after:left-0 after:z-10 after:top-0" : "dark:hover:bg-[#282828]/50 hover:bg-[#F3F3F3]/75",
                                 type === "starred" && "rounded-md border border-transparent hover:border-input/50"
                             )}
                         >
                             <div className="relative w-fit h-fit">
-                            {replyingTo && <div className="relative top-1/2 translate-y-1/2 left-1/3 translate-x-1/12  h-4 w-8 border-2 rounded-tl-3xl border-b-0 border-r-0"></div>}
-                                <HoverCard 
+                                {replyingTo && <div className="relative top-1/2 translate-y-1/2 left-1/3 translate-x-1/12  h-4 w-8 border-2 rounded-tl-3xl border-b-0 border-r-0"></div>}
+                                <HoverCard
                                     openDelay={300}
                                     closeDelay={100}
                                     open={type === "starred" ? false : undefined}
                                 >
                                     <HoverCardTrigger asChild>
                                         <div>
-                                            <ProfileAvatar
+                                        <ProfileAvatar
                                                 avatarUrl={avatarUrl}
                                                 fallback={name[0]}
-                                                size="sm"
+                                                size={isMobile ? "xs" : "sm"}
                                                 className={cn(
-                                                    "border border-foreground/25 rounded-full mt-3 cursor-pointer",
-                                                    // replyingTo && "translate-y-6"
+                                                    "border border-foreground/25 rounded-full mt-3 cursor-pointer"
                                                 )}
                                             />
                                         </div>
@@ -218,45 +220,32 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                             </div>
                             <div className="flex flex-col text-sm gap-1 w-full relative z-10">
                                 {replyingTo && (
-                                    <div className="flex items-center gap-2 w-full pr-3">
+                                    <div className="flex items-center gap-2 w-full pr-3 transition-transform duration-150 active:scale-[0.98] active:opacity-50 origin-left">
                                         <div className="flex items-center gap-1">
-                                            <HoverCard 
-                                                openDelay={300}
-                                                closeDelay={100}
-                                                open={type === "starred" ? false : undefined}
-                                            >
-                                                <HoverCardTrigger aria-disabled={type === "starred"} asChild>
-                                                    <div>
-                                                        <ProfileAvatar
-                                                            avatarUrl={avatarUrl}
-                                                            fallback={name[0]}
-                                                            size="xs"
-                                                            className="border border-foreground/25 rounded-full ml-2 cursor-pointer"
-                                                        />
-                                                    </div>
-                                                </HoverCardTrigger>
-                                                <HoverCardContent side="bottom" align="start" className="p-0 w-fit bg-background/75 backdrop-blur-sm rounded-4xl border-none">
-                                                    <ProfileCard size="sm" />
-                                                </HoverCardContent>
-                                            </HoverCard>
-                                            <span className="font-medium text-muted-foreground">{replyingTo.name}</span>
+                                            <ProfileAvatar
+                                                avatarUrl={avatarUrl}
+                                                fallback={name[0]}
+                                                size={isMobile ? "xs" : "sm"}
+                                                className="border border-foreground/25 rounded-full ml-2 cursor-pointer"
+                                            />
+                                            <span className="font-medium text-muted-foreground max-sm:hidden">{replyingTo.name}</span>
                                         </div>
-                                        <span className="text-xs truncate max-w-sm cursor-pointer transition-all duration-150 active:scale-[0.98] hover:underline hover:underline-offset-2">{replyingTo.content}</span>
+                                        <span className="text-xs opacity-75 max-sm:opacity-100 hover:opacity-100 truncate sm:max-w-sm max-w-[32ch] cursor-pointer transition-opacity duration-150  hover:underline hover:underline-offset-2">{replyingTo.content}</span>
                                     </div>
                                 )}
-                                <div className="text-sm flex flex-col p-2">
+                                <div className="sm:text-sm text-xs max-sm:leading-relaxed flex flex-col p-2">
                                     {type === "starred" && <Button
-                                        className="absolute top-0 -right-2 opacity-0 group-hover:opacity-100 px-3 py-1"
+                                        className="absolute top-0 -right-2 opacity-0 group-hover:opacity-100 sm:px-3 px-2 py-1 sm:text-sm text-xs"
                                     >
                                         Jump to
                                     </Button>}
                                     <div className="flex items-center gap-2 mb-2">
-                                        <span className="font-semibold text-base">{name}</span>
-                                        <span className="text-xs text-muted-foreground">{getRelativeTime(timestamp, true)}</span>
+                                        <span className="sm:font-semibold font-bold sm:text-base text-sm">{name}</span>
+                                        <span className="sm:text-xs text-[12px] text-muted-foreground">{getRelativeTime(timestamp, true)}</span>
                                     </div>
                                     <MarkDownRender content={content} onImageClick={handleImageClick} />
                                 </div>
-                    
+
                                 {type !== "starred" && <ChatReactions
                                     ref={reactionsRef}
                                     reactions={internalReactions}
@@ -267,15 +256,15 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                     </ContextMenuTrigger>
                 </HoverCardTrigger>
 
-                <HoverCardContent 
-                    side="top" 
-                    align="end" 
-                    alignOffset={10} 
-                    sideOffset={-30} 
+                <HoverCardContent
+                    side="top"
+                    align="end"
+                    alignOffset={10}
+                    sideOffset={-30}
                     className="bg-background shadow-black/5 border-input/50 p-1 px-2 flex items-center gap-2 w-fit"
                 >
-                    <Button 
-                        variant="ghost" 
+                    <Button
+                        variant="ghost"
                         className={cn(
                             "p-0 py-0 h-7 text-lg aspect-square w-7 select-none transition-all duration-150",
                             currentUserReaction === "😂" && "bg-[#7600C9]/10 border-2 border-[#7600C9] scale-110"
@@ -284,8 +273,8 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                     >
                         😂
                     </Button>
-                    <Button 
-                        variant="ghost" 
+                    <Button
+                        variant="ghost"
                         className={cn(
                             "p-0 py-0 h-7 text-lg aspect-square w-7 select-none transition-all duration-150",
                             currentUserReaction === "❤️" && "bg-[#7600C9]/10 border-2 border-[#7600C9] scale-110"
@@ -294,8 +283,8 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                     >
                         ❤️
                     </Button>
-                    <Button 
-                        variant="ghost" 
+                    <Button
+                        variant="ghost"
                         className={cn(
                             "p-0 py-0 h-7 text-lg aspect-square w-7 select-none transition-all duration-150",
                             currentUserReaction === "🔥" && "bg-[#7600C9]/10 border-2 border-[#7600C9] scale-110"
@@ -307,8 +296,8 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                     <div className="w-px h-5 bg-input/50" />
                     <DropdownMenu open={isEmojiPickerOpen} onOpenChange={setIsEmojiPickerOpen}>
                         <DropdownMenuTrigger asChild>
-                            <Button 
-                                variant="ghost" 
+                            <Button
+                                variant="ghost"
                                 className="p-0 py-0 h-7 text-lg aspect-square w-7 select-none"
                             >
                                 <SmilePlus size={16} />
@@ -324,17 +313,17 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                             />
                         </DropdownMenuContent>
                     </DropdownMenu>
-                    <Button 
-                        variant="ghost" 
+                    <Button
+                        variant="ghost"
                         className="p-0 py-0 h-7 text-lg aspect-square w-7 select-none"
                     >
                         <Reply size={16} />
                     </Button>
                 </HoverCardContent>
             </HoverCard>
-            
+
             <ContextMenuContent className="w-56">
-                <ContextMenuItem onClick={() => internalReactions.length > 0 ? reactionsRef.current?.openEmojiPicker(): setIsHoverCardOpen(true)}>
+                <ContextMenuItem onClick={() => internalReactions.length > 0 ? reactionsRef.current?.openEmojiPicker() : setIsHoverCardOpen(true)}>
                     <SmilePlus size={16} />
                     Add Reactions
                 </ContextMenuItem>
@@ -342,31 +331,31 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                     <Frown size={16} />
                     View Reactions
                 </ContextMenuItem>}
-                
+
                 <ContextMenuSeparator />
-                
+
                 <ContextMenuItem>
                     <Pencil size={16} />
                     Edit Message
                 </ContextMenuItem>
-                
+
                 <ContextMenuItem>
                     <Reply size={16} />
                     Reply
                 </ContextMenuItem>
-                
+
                 <ContextMenuItem>
                     <Copy size={16} />
                     Copy Text
                 </ContextMenuItem>
-                
+
                 <ContextMenuSeparator />
-                
+
                 <ContextMenuItem>
                     <Pin size={16} />
                     Pin Message
                 </ContextMenuItem>
-                
+
                 <ContextMenuSub>
                     <ContextMenuSubTrigger className="flex items-center gap-2">
                         <Languages size={16} />
@@ -378,14 +367,14 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                         <ContextMenuItem>French</ContextMenuItem>
                     </ContextMenuSubContent>
                 </ContextMenuSub>
-                
+
                 <ContextMenuItem>
                     <Volume2 size={16} />
                     Speak Message
                 </ContextMenuItem>
-                
+
                 <ContextMenuSeparator />
-                
+
                 <ContextMenuItem variant="destructive">
                     <Trash size={16} />
                     Delete Message

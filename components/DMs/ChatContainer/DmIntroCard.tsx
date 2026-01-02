@@ -1,7 +1,10 @@
 import ProfileAvatar from "@/components/ProfileCard/ProfileAvatar";
+import ProfileBio from "@/components/ProfileCard/ProfileBio";
 import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { SearchParamKeys } from "@/lib/enums";
 import { updateSearchParam } from "@/lib/utils";
+import { config } from "@/middleware";
 import { UserPlus, Settings, Bell } from "lucide-react";
 
 export default function DmIntroCard({
@@ -12,7 +15,8 @@ export default function DmIntroCard({
     isOwner?: boolean;
 }) {
     const isChannel = variant === "channel";
-    
+    const isMobile = useIsMobile();
+
     return (
         <div className="p-4 flex flex-col items-center pt-10">
             {isChannel ? (
@@ -21,30 +25,30 @@ export default function DmIntroCard({
                 </div>
             ) : (
                 <ProfileAvatar
-                    avatarUrl="https://chirps-chat.sirv.com/parrot.png"
+                    avatarUrl="https://chirps-chat.sirv.com/premium/rasta.png"
                     fallback="PR"
-                    size="xl"
+                    size={"xl"}
                     className="rounded-full border-2 border-input/25 pointer-events-none mb-2"
                 />
             )}
-            
+
             {isChannel ? (
                 <>
-                    <h3 className="text-2xl font-semibold mb-2">Welcome to #🏠 - General!</h3>
-                    <p className="text-sm text-muted-foreground mb-6">This is the start of the #🏠 - General channel.</p>
-                    
+                    <h3 className="sm:text-2xl text-xl font-semibold mb-2 px-5">Welcome to #🏠 - General!</h3>
+                    <p className="sm:text-sm text-xs text-muted-foreground mb-6 px-3">This is the start of the #🏠 - General channel.</p>
+
                     {isOwner && (
                         <div className="flex flex-col gap-2 w-full min-[900px]:max-w-md max-w-full px-5 mt-4">
-                            <Button 
-                                variant="outline" 
+                            <Button
+                                variant="outline"
                                 className="w-full justify-start gap-3"
                                 onClick={() => updateSearchParam(SearchParamKeys.INVITE, "true")}
                             >
                                 <UserPlus className="size-4" />
                                 Invite your friends
                             </Button>
-                            <Button 
-                                variant="outline" 
+                            <Button
+                                variant="outline"
                                 className="w-full justify-start gap-3"
                                 onClick={() => {
                                     updateSearchParam(SearchParamKeys.CHANNEL_SETTINGS, "true")
@@ -65,9 +69,15 @@ export default function DmIntroCard({
                 </>
             ) : (
                 <>
-                    <h3 className="text-xl font-semibold">Favour Ajokubi</h3>
-                    <p className="text-base font-medium text-muted-foreground cursor-pointer mb-5">@fabiconcept</p>
-                    <span className="text-xs">And so begins your conversation with <span className="font-semibold">@fabiconcept</span>…</span>
+                    <h3 className="sm:text-xl text-lg font-semibold px-5">Favour Ajokubi</h3>
+                    <p className="sm:text-base text-sm font-medium text-muted-foreground cursor-pointer mb-5 px-5">@fabiconcept</p>
+                    <ProfileBio
+                        bio="And so begins your conversation with @fabiconcept"
+                        size={"md"}
+                        bioTextClass={"text-center text-muted-foreground sm:text-sm text-xs"}
+                        sectionPadding={''}
+                        padding={''}
+                    />
                 </>
             )}
         </div>

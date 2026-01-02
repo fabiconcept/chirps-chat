@@ -1,8 +1,10 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { useMemo } from "react";
 
 export interface TypingUser {
     avatarUrl: string;
@@ -15,21 +17,25 @@ export interface TypingIndicatorProps {
 }
 
 export default function TypingIndicator({ users, className }: TypingIndicatorProps) {
-    const userArray = Array.isArray(users) ? users : [users];
+    const isMobile = useIsMobile();
+    const userArray = Array.isArray(users) ? users.slice(0, 3) : [users];
     const userCount = userArray.length;
 
     // Generate typing text
-    const getTypingText = () => {
+    const getTypingText = useMemo(() => {
         if (userCount === 1) {
             return `${userArray[0].name} is typing`;
         } else if (userCount === 2) {
             return `${userArray[0].name} and ${userArray[1].name} are typing`;
-        } else if (userCount === 3) {
+        } else if (isMobile) {
+            return `${userArray[0].name} ${userCount > 1 ? `and ${userCount - 1} others` : ''} are typing`;
+        }
+        else if (userCount === 3) {
             return `${userArray[0].name}, ${userArray[1].name}, and ${userArray[2].name} are typing`;
         } else {
             return `${userArray[0].name}, ${userArray[1].name}, ${userArray[2].name}, and ${userCount - 3} other${userCount - 3 > 1 ? 's' : ''} are typing`;
         }
-    };
+    }, [userCount, userArray, isMobile]);
 
     return (
         <motion.div
@@ -56,53 +62,52 @@ export default function TypingIndicator({ users, className }: TypingIndicatorPro
                 )}
             </div>
 
-            <div className="flex flex-col text-sm w-full relative z-10">
-                <div className="text-sm flex items-center p-2 gap-2">
-                    <div className="flex items-center gap-2">
-                        <span className="text-sm text-muted-foreground italic">
-                            {getTypingText()}
-                        </span>
+            <div className="flex flex-col sm:text-sm text-[12px] w-full relative z-10">
+                <div className="sm:text-sm text-[12px] flex items-center p-2 gap-2">
+                    <div className="inline-flex items-center gap-2">
+                        <div className="sm:text-sm text-[12px] text-muted-foreground italic">
+                            {getTypingText}
+                            <div className="inline-flex items-center gap-1 shrink-0 pl-2">
+                                <motion.div
+                                    className="size-1.5 rounded-full bg-blue-500"
+                                    animate={{
+                                        scale: [1, 1.2, 1],
+                                        opacity: [0.6, 1, 0.6]
+                                    }}
+                                    transition={{
+                                        duration: 1,
+                                        repeat: Infinity,
+                                        delay: 0
+                                    }}
+                                />
+                                <motion.div
+                                    className="size-1.5 rounded-full bg-blue-500"
+                                    animate={{
+                                        scale: [1, 1.2, 1],
+                                        opacity: [0.6, 1, 0.6]
+                                    }}
+                                    transition={{
+                                        duration: 1,
+                                        repeat: Infinity,
+                                        delay: 0.2
+                                    }}
+                                />
+                                <motion.div
+                                    className="size-1.5 inline-block rounded-full bg-blue-500"
+                                    animate={{
+                                        scale: [1, 1.2, 1],
+                                        opacity: [0.6, 1, 0.6]
+                                    }}
+                                    transition={{
+                                        duration: 1,
+                                        repeat: Infinity,
+                                        delay: 0.4
+                                    }}
+                                />
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Animated typing dots */}
-                    <div className="flex items-center gap-1">
-                        <motion.div
-                            className="size-1.5 rounded-full bg-blue-500"
-                            animate={{
-                                scale: [1, 1.2, 1],
-                                opacity: [0.6, 1, 0.6]
-                            }}
-                            transition={{
-                                duration: 1,
-                                repeat: Infinity,
-                                delay: 0
-                            }}
-                        />
-                        <motion.div
-                            className="size-1.5 rounded-full bg-blue-500"
-                            animate={{
-                                scale: [1, 1.2, 1],
-                                opacity: [0.6, 1, 0.6]
-                            }}
-                            transition={{
-                                duration: 1,
-                                repeat: Infinity,
-                                delay: 0.2
-                            }}
-                        />
-                        <motion.div
-                            className="size-1.5 rounded-full bg-blue-500"
-                            animate={{
-                                scale: [1, 1.2, 1],
-                                opacity: [0.6, 1, 0.6]
-                            }}
-                            transition={{
-                                duration: 1,
-                                repeat: Infinity,
-                                delay: 0.4
-                            }}
-                        />
-                    </div>
                 </div>
             </div>
         </motion.div>
