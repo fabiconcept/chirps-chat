@@ -39,7 +39,7 @@ interface FormatContextMenuProps {
 
 export function FormatContextMenu({ formatter, onImageUploadClick }: FormatContextMenuProps) {
     return (
-        <ContextMenuContent 
+        <ContextMenuContent
             className="w-56"
             alignOffset={-5}
         >
