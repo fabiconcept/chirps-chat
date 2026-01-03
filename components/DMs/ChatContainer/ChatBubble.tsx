@@ -2,11 +2,11 @@
 
 import ProfileAvatar from "@/components/ProfileCard/ProfileAvatar";
 import MarkDownRender from "./MarkDownRender";
-import { cn, getRelativeTime } from "@/lib/utils";
+import { cn, copyToClipboard, getRelativeTime } from "@/lib/utils";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import ProfileCard from "@/components/ProfileCard";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuSeparator, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from "@/components/ui/context-menu";
-import { Reply, Copy, Volume2, Pencil, Pin, Frown, Trash, Languages, SmilePlus } from "lucide-react";
+import { Reply, Copy, Volume2, Pencil, Pin, Frown, Trash, Languages, SmilePlus, ThumbsUp, CheckIcon } from "lucide-react";
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import ChatReactions, { ChatReactionsRef } from "./ChatReactions";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ import { Dialog, DialogContent, DialogClose, DialogHeader, DialogTitle } from "@
 import { ChevronLeftIcon, ChevronRightIcon, XIcon } from "lucide-react";
 import ProtectedImage from "@/components/Feed/TextPost/ProtectedImage";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { toast } from "sonner";
 
 export interface ChatBubbleProps {
     avatarUrl: string;
@@ -47,7 +48,6 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
     const [internalReactions, setInternalReactions] = useState(reactions);
     const [currentUserReaction, setCurrentUserReaction] = useState(userReaction);
     const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
-    const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
     const [imageViewerOpen, setImageViewerOpen] = useState(false);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [allImages, setAllImages] = useState<string[]>([]);
@@ -169,6 +169,10 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
         setSelectedImageIndex((prev) => (prev < allImages.length - 1 ? prev + 1 : 0));
     }, [allImages.length]);
 
+    const hasReacted = useMemo(() => {
+        return internalReactions.some((reaction) => reaction.reacted);
+    }, [internalReactions]);
+
     const renderContent = useMemo(() => {
         if (isMobile) {
             return (
@@ -177,7 +181,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                     className={cn(
                         "group relative"
                     )}
-                    onContextMenu={()=>console.log("Context Triggered")}
+                    onContextMenu={() => console.log("Context Triggered")}
                 >
                     <div
                         ref={bubbleRef}
@@ -189,10 +193,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                     >
                         <div className="relative w-fit h-fit">
                             {replyingTo && <div className="relative top-1/2 translate-y-1/2 left-1/3 translate-x-1/12  h-4 w-8 border-2 rounded-tl-3xl border-b-0 border-r-0"></div>}
-                            <DropdownMenu
-                                open={type === "starred" ? false : undefined}
-                                onOpenChange={setIsHoverCardOpen}
-                            >
+                            <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <div>
                                         <ProfileAvatar
@@ -301,19 +302,18 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
 
         return (
             <ContextMenu>
-                {!isMobile && <HoverCard
+                <HoverCard
                     closeDelay={100}
                     openDelay={100}
-                    open={isHoverCardOpen && type !== "starred"}
+                    open={type === "starred" ? false : hasReacted ? false : undefined}
                     onOpenChange={(open) => {
                         // Prevent closing if emoji picker is open
                         if (!open && isEmojiPickerOpen) {
                             return;
                         }
-                        setIsHoverCardOpen(open);
                     }}
                 >
-                    <HoverCardTrigger>
+                    <HoverCardTrigger disabled={type === "starred"}>
                         <ContextMenuTrigger disabled={type === "starred"} asChild>
                             <div
                                 ref={bubbleRef}
@@ -423,25 +423,13 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                             🔥
                         </Button>
                         <div className="w-px h-5 bg-input/50" />
-                        <DropdownMenu open={isEmojiPickerOpen} onOpenChange={setIsEmojiPickerOpen}>
-                            <DropdownMenuTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    className="p-0 py-0 h-7 text-lg aspect-square w-7 select-none"
-                                >
-                                    <SmilePlus size={16} />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent sideOffset={10} align="end" className="w-fit overflow-visible p-0 h-7">
-                                <EmojiPicker
-                                    onEmojiClick={(emoji) => {
-                                        addReaction(emoji.emoji);
-                                        setIsEmojiPickerOpen(false);
-                                    }}
-                                    theme={theme === "dark" ? Theme.DARK : Theme.LIGHT}
-                                />
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                        <Button
+                            variant="ghost"
+                            className="p-0 py-0 h-7 text-lg aspect-square w-7 select-none"
+                            onClick={() => reactionsRef.current?.openEmojiPicker()}
+                        >
+                            <SmilePlus size={16} />
+                        </Button>
                         <Button
                             variant="ghost"
                             className="p-0 py-0 h-7 text-lg aspect-square w-7 select-none"
@@ -449,13 +437,17 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                             <Reply size={16} />
                         </Button>
                     </HoverCardContent>
-                </HoverCard>}
+                </HoverCard>
 
                 <ContextMenuContent className="w-56">
-                    <ContextMenuItem onClick={() => internalReactions.length > 0 ? reactionsRef.current?.openEmojiPicker() : setIsHoverCardOpen(true)}>
+                    {internalReactions.length > 0 && <ContextMenuItem onClick={() => reactionsRef.current?.openEmojiPicker()}>
                         <SmilePlus size={16} />
                         Add Reactions
-                    </ContextMenuItem>
+                    </ContextMenuItem>}
+                    {internalReactions.length === 0 && <ContextMenuItem onClick={() => addReaction("👍🏾")}>
+                        <ThumbsUp size={16} />
+                        Like Message
+                    </ContextMenuItem>}
                     {internalReactions.length > 0 && <ContextMenuItem>
                         <Frown size={16} />
                         View Reactions
@@ -473,7 +465,14 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                         Reply
                     </ContextMenuItem>
 
-                    <ContextMenuItem>
+                    <ContextMenuItem
+                        onClick={() => copyToClipboard(content).then((success) => success && toast("Copied to clipboard", {
+                            icon: <CheckIcon size={16} />,
+                            className: "bg-foreground/75 backdrop-blur-sm text-background border border-foreground/10 rounded-3xl",
+                            duration: 1000,
+                            position: "top-right"
+                        }))}
+                    >
                         <Copy size={16} />
                         Copy Text
                     </ContextMenuItem>

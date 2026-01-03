@@ -46,27 +46,37 @@ const ChatReactions = forwardRef<ChatReactionsRef, ChatReactionsProps>(({ reacti
         setIsOpen(false);
     };
 
-    if (reactions.length === 0 && !isMobile) return null;
-
-    const dropdownMenuContentProps = isMobile ? {
-        sideOffset: 10,
-        align: "end",
-        className: "w-fit overflow-visible p-0 h-fit",
-        style: {
-            width: 300,
-            height: 300,
-        },
-    } : {};
+    if (reactions.length === 0 && !isMobile) return (
+        <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+            <DropdownMenuTrigger asChild>
+                <Button
+                    variant="ghost"
+                    className="p-0 py-0 h-0 text-lg aspect-square w-7 select-none"
+                    onMouseEnter={() => setIsHovered(true)}
+                >
+                    <span className="sr-only">Insert an Emoji</span>
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-fit overflow-visible p-0 h-fit">
+                <EmojiPicker
+                    key={theme}
+                    onEmojiClick={(emoji) => handleEmojiClick(emoji.emoji)}
+                    suggestedEmojisMode={SuggestionMode.RECENT}
+                    theme={theme === "dark" ? Theme.DARK : theme === "light" ? Theme.LIGHT : Theme.AUTO}
+                />
+            </DropdownMenuContent>
+        </DropdownMenu>
+    );
 
     return (
-        <motion.div 
+        <motion.div
             className="flex items-center gap-2 max-sm:gap-y-1 px-2 pb-1 flex-wrap"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
         >
             <AnimatePresence mode="popLayout" initial={false}>
-                {reactions.map((reaction, idx) => (
+                {reactions.sort((a, b) => b.count - a.count).map((reaction, idx) => (
                     <motion.button
                         key={`${reaction.emoji}-${idx}`}
                         layout
@@ -92,9 +102,9 @@ const ChatReactions = forwardRef<ChatReactionsRef, ChatReactionsProps>(({ reacti
                                 : "sm:bg-input/50 bg-input/25 dark:hover:bg-white/25 hover:bg-white dark:hover:border-white/25 hover:border-foreground/25 border-input"
                         )}
                     >
-                        <motion.span 
+                        <motion.span
                             className="text-xl sm:text-2xl dark:max-sm:drop-shadow-[0_0_5px_rgba(0,0,0,1)] max-sm:drop-shadow-[0_0_5px_rgba(0,0,0,0.2)]"
-                            animate={reaction.reacted ? { 
+                            animate={reaction.reacted ? {
                                 scale: [1, 1.2, 1],
                                 rotate: [0, 10, -10, 0]
                             } : {}}
@@ -102,7 +112,7 @@ const ChatReactions = forwardRef<ChatReactionsRef, ChatReactionsProps>(({ reacti
                         >
                             {reaction.emoji}
                         </motion.span>
-                        <motion.span 
+                        <motion.span
                             className="text-xs font-semibold"
                             layout
                             key={reaction.count}
@@ -115,7 +125,7 @@ const ChatReactions = forwardRef<ChatReactionsRef, ChatReactionsProps>(({ reacti
                     </motion.button>
                 ))}
             </AnimatePresence>
-            
+
             {!isMobile && (
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
@@ -160,7 +170,7 @@ const ChatReactions = forwardRef<ChatReactionsRef, ChatReactionsProps>(({ reacti
                     </DropdownMenu>
                 </motion.div>
             )}
-            
+
             {isMobile && (
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}

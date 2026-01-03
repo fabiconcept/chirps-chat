@@ -13,9 +13,9 @@ function HoverCard({
 
 function HoverCardTrigger({
   ...props
-}: React.ComponentProps<typeof HoverCardPrimitive.Trigger>) {
+}: React.ComponentProps<typeof HoverCardPrimitive.Trigger> & { disabled?: boolean }) {
   return (
-    <HoverCardPrimitive.Trigger data-slot="hover-card-trigger" {...props} />
+    <HoverCardPrimitive.Trigger data-slot="hover-card-trigger" disabled={props.disabled} {...props} />
   )
 }
 

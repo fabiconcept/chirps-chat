@@ -173,7 +173,7 @@ export default function LeaderboardRankCard({ user, rank, category, index }: Lea
                     </div>}
                     <div className="text-right">
                         <p 
-                            className="sm:text-xl text-lg font-bold"
+                            className="sm:text-xl text-lg sm:font-bold font-semibold"
                             style={{ 
                                 color: rank <= 3 ? config.accentColor : undefined 
                             }}

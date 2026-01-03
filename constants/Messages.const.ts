@@ -573,13 +573,13 @@ export const CASUAL_CHAT_EXAMPLES: ChatBubbleProps[] = [
         timestamp: "Monday, December 1, 2025 @ 09:23:15 AM",
         content: `😂`,
         reactions: [
-            { emoji: "🤬", count: 20990, reacted: false },
-            { emoji: "👍", count: 20990, reacted: false },
-            { emoji: "👎", count: 20990, reacted: false },
-            { emoji: "👌", count: 20990, reacted: false },
-            { emoji: "👊", count: 20990, reacted: false },
-            { emoji: "👋", count: 20990, reacted: false },
-            { emoji: "🤯", count: 20990, reacted: false },
+            { emoji: "🤬", count: 15, reacted: false },
+            { emoji: "👍", count: 10, reacted: false },
+            { emoji: "👎", count: 5, reacted: false },
+            { emoji: "👌", count: 3, reacted: false },
+            { emoji: "👊", count: 2, reacted: false },
+            { emoji: "👋", count: 1, reacted: false },
+            { emoji: "🤯", count: 0, reacted: false },
         ]
     },
     {
