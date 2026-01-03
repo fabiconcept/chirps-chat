@@ -1,4 +1,4 @@
-# <img src="public/chirps-chat-logo.svg" alt="chirps logo" height="38" style="transform: translateY(4px); padding-right: 4px" />hirps
+# <img src="public/Full-logo.svg" alt="chirps logo" style="max-height: 72px" />
 
 ![Important Stuff](https://myshaky.com/img/placeholder.gif)
 
