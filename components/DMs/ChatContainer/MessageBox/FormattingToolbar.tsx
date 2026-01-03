@@ -54,6 +54,7 @@ export function FormattingToolbar({
                 className="size-8"
                 onClick={formatter.formatBold}
                 title="Bold (Ctrl+B)"
+                disabled={showPreview}
             >
                 <Bold className="size-4" />
             </Button>
@@ -63,6 +64,7 @@ export function FormattingToolbar({
                 className="size-8"
                 onClick={formatter.formatItalic}
                 title="Italic (Ctrl+I)"
+                disabled={showPreview}
             >
                 <Italic className="size-4" />
             </Button>
@@ -72,6 +74,7 @@ export function FormattingToolbar({
                 className="size-8"
                 onClick={formatter.formatStrikethrough}
                 title="Strikethrough"
+                disabled={showPreview}
             >
                 <Strikethrough className="size-4" />
             </Button>
@@ -81,6 +84,7 @@ export function FormattingToolbar({
                 className="size-8"
                 onClick={formatter.formatHighlight}
                 title="Highlight"
+                disabled={showPreview}
             >
                 <Highlighter className="size-4" />
             </Button>
@@ -93,6 +97,7 @@ export function FormattingToolbar({
                 className="size-8"
                 onClick={formatter.formatCode}
                 title="Inline Code"
+                disabled={showPreview}
             >
                 <Code className="size-4" />
             </Button>
@@ -102,6 +107,7 @@ export function FormattingToolbar({
                 className="size-8"
                 onClick={formatter.formatLink}
                 title="Link (Ctrl+K)"
+                disabled={showPreview}
             >
                 <Link className="size-4" />
             </Button>
@@ -112,6 +118,7 @@ export function FormattingToolbar({
                         size="icon"
                         className="size-8"
                         title="Image"
+                        disabled={showPreview}
                     >
                         {/* eslint-disable-next-line */}
                         <Image className="size-4" />
@@ -138,6 +145,7 @@ export function FormattingToolbar({
                 className="size-8"
                 onClick={formatter.formatUnorderedList}
                 title="Bullet List"
+                disabled={showPreview}
             >
                 <List className="size-4" />
             </Button>
@@ -147,6 +155,7 @@ export function FormattingToolbar({
                 className="size-8"
                 onClick={formatter.formatOrderedList}
                 title="Numbered List"
+                disabled={showPreview}
             >
                 <ListOrdered className="size-4" />
             </Button>
@@ -156,6 +165,7 @@ export function FormattingToolbar({
                 className="size-8"
                 onClick={formatter.formatQuote}
                 title="Quote"
+                disabled={showPreview}
             >
                 <Quote className="size-4" />
             </Button>
@@ -168,6 +178,7 @@ export function FormattingToolbar({
                 className="size-8"
                 onClick={formatter.formatMention}
                 title="Mention"
+                disabled={showPreview}
             >
                 <AtSign className="size-4" />
             </Button>
@@ -177,6 +188,7 @@ export function FormattingToolbar({
                 className="size-8"
                 onClick={formatter.formatHashtag}
                 title="Hashtag"
+                disabled={showPreview}
             >
                 <Hash className="size-4" />
             </Button>

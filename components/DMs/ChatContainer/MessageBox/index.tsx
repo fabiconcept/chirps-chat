@@ -21,6 +21,7 @@ export default function MessageBox() {
     const [showPreview, setShowPreview] = useState(false);
     const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
     const [isImageDropdownOpen, setIsImageDropdownOpen] = useState(false);
+    const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -41,6 +42,9 @@ export default function MessageBox() {
 
         const file = files[0];
         const preview = URL.createObjectURL(file);
+
+        console.log("Uploading image:", file, preview);
+        
         const newIndex = uploadedImages.length;
 
         setUploadedImages(prev => [...prev, { file, preview }]);
@@ -53,9 +57,10 @@ export default function MessageBox() {
             const end = textarea.selectionEnd;
             const newText =
                 message.substring(0, start) +
-                `![upload ${indexStr}](${indexStr})` +
+                `![upload ${indexStr}](${preview})` +
                 message.substring(end);
             setMessage(newText);
+            textarea.focus();
         }
         setIsImageDropdownOpen(false);
 
@@ -63,7 +68,7 @@ export default function MessageBox() {
         if (fileInputRef.current) {
             fileInputRef.current.value = '';
         }
-    }, [uploadedImages.length, message]);
+    }, [uploadedImages.length, message, textareaRef]);
 
     // Replace upload placeholders with preview URLs for rendering
     const messageWithPreviews = useMemo(() => {
@@ -194,9 +199,9 @@ export default function MessageBox() {
             }
         }
     }
-    
+
     return (
-        <div onBlur={() => setIsFocused(false)} className="border-t border-input transition-all bg-background group relative z-50">
+        <div onBlur={(!isImageDropdownOpen && !isContextMenuOpen) ? () => setIsFocused(false) : undefined} className="border-t border-input transition-all bg-background group relative z-50">
             <AnimatePresence mode="wait">
                 {(isFocused || showPreview) && (
                     <motion.div
@@ -227,8 +232,11 @@ export default function MessageBox() {
                 className="hidden"
             />
 
-            <ContextMenu>
-                <ContextMenuTrigger disabled={isMobile} asChild>
+            <ContextMenu onOpenChange={setIsContextMenuOpen}>
+                <ContextMenuTrigger 
+                    disabled={isMobile || showPreview || isContextMenuOpen}
+                    asChild
+                >
                     <div className="relative bg-background">
                         {!showPreview ? (
                             <MessageInput

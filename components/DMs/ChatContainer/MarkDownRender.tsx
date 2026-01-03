@@ -10,10 +10,11 @@ import { Copy } from "lucide-react";
 interface MarkdownRenderProps {
     content: string;
     className?: string;
+    isPreview?: boolean;
     onImageClick?: (imageUrl: string, allImages: string[]) => void;
 }
 
-export default function MarkDownRender({ content, className, onImageClick }: MarkdownRenderProps) {
+export default function MarkDownRender({ content, className, isPreview, onImageClick }: MarkdownRenderProps) {
     const [copiedIndex, setCopiedIndex] = useState<string | null>(null);
 
     const handleCopy = async (text: string, key: string) => {
@@ -466,15 +467,16 @@ export default function MarkDownRender({ content, className, onImageClick }: Mar
                     elements.push(
                         <div 
                             key={i} 
-                            className="inline-flex rounded-lg overflow-hidden border border-foreground/10 w-full cursor-pointer hover:opacity-90 transition-opacity"
+                            className="inline-flex rounded-lg overflow-hidden border border-foreground/10 w-fit max-w-full cursor-pointer hover:opacity-90 transition-opacity"
                             onClick={() => onImageClick?.(url, allImages)}
                         >
-                            <ProtectedImage
+                            {!isPreview && <ProtectedImage
                                 src={url}
                                 alt={alt}
-                                className="w-full h-auto max-h-96 object-contain bg-foreground/5"
+                                className="w-fit max-w-full h-auto max-h-96 object-contain bg-foreground/5"
                                 fill
-                            />
+                            />}
+                            {isPreview && <img src={url} alt={alt} className="w-fit max-w-full h-auto max-h-96 object-contain bg-foreground/5" />}
                             {alt && (
                                 <div className="px-3 py-1.5 text-xs text-muted-foreground bg-foreground/5 border-t border-foreground/10">
                                     {alt}

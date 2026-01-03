@@ -11,7 +11,6 @@ import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import ChatReactions, { ChatReactionsRef } from "./ChatReactions";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import EmojiPicker, { Theme } from "emoji-picker-react";
 import { useTheme } from "next-themes";
 import { Dialog, DialogContent, DialogClose, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ChevronLeftIcon, ChevronRightIcon, XIcon } from "lucide-react";
@@ -354,7 +353,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                                                 <ProfileAvatar
                                                     avatarUrl={avatarUrl}
                                                     fallback={name[0]}
-                                                    size={isMobile ? "xs" : "sm"}
+                                                    size={"xs"}
                                                     className="border border-foreground/25 rounded-full ml-2 cursor-pointer"
                                                 />
                                                 <span className="font-medium text-muted-foreground max-sm:hidden">{replyingTo.name}</span>

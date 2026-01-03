@@ -40,8 +40,8 @@ interface FormatContextMenuProps {
 export function FormatContextMenu({ formatter, onImageUploadClick }: FormatContextMenuProps) {
     return (
         <ContextMenuContent 
-            alignOffset={-5}
             className="w-56"
+            alignOffset={-5}
         >
             {/* Text Formatting Group */}
             <ContextMenuSub>

@@ -23,7 +23,7 @@ export function MessagePreview({
             {message ? (
                 <>
                     <div className="flex-1 self-start">
-                        <MarkDownRender content={messageWithPreviews} />
+                        <MarkDownRender content={messageWithPreviews} isPreview={true} />
                     </div>
                     <div className="grid h-fit gap-2 pb-1">
                         <Tooltip delayDuration={500}>
