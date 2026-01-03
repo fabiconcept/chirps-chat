@@ -1,4 +1,4 @@
-# <img src="public/Full-logo.svg" alt="chirps logo" style="max-height: 72px" />
+# <img src="public/Full-logo.svg" alt="chirps logo" height="72" />
 
 ![Important Stuff](https://myshaky.com/img/placeholder.gif)
 
