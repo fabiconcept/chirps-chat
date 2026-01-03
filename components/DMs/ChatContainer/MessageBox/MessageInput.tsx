@@ -5,6 +5,7 @@ import { InputGroup, InputGroupTextarea } from "@/components/ui/input-group";
 import { Button } from "@/components/ui/button";
 import { Send, Trash2 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 interface MessageInputProps {
     textareaRef: RefObject<HTMLTextAreaElement | null>;
@@ -27,6 +28,7 @@ export function MessageInput({
     onClear,
     onSend
 }: MessageInputProps) {
+    const isMobile = useIsMobile();
     return (
         <InputGroup className="border-x shadow-none rounded-none relative items-end">
             <InputGroupTextarea
@@ -38,8 +40,8 @@ export function MessageInput({
                 enterKeyHint="enter"
                 onFocus={onFocus}
                 onBlur={onBlur}
-                placeholder="Type a message... (Enter for new line, Ctrl+Enter to send)"
-                className="min-h-28 max-h-64 px-4 py-3 sm:text-sm text-xs"
+                placeholder={isMobile ? "Type a message..." : "Type a message... (Enter for new line, Ctrl+Enter to send)"}
+                className="min-h-28 max-h-64 px-4 py-3 sm:text-base text-sm"
                 rows={1}
             />
 

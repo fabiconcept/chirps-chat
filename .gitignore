@@ -42,3 +42,4 @@ next-env.d.ts
 
 # Guidelines
 core.md
+/playground

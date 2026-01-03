@@ -565,3 +565,344 @@ They have a special today!`
         content: `Can't make it today, have a doctor's appointment. Enjoy! 😊`
     }
 ];
+
+export const CASUAL_CHAT_EXAMPLES: ChatBubbleProps[] = [
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/parrot.png",
+        name: "Emma Wilson",
+        timestamp: "Monday, December 1, 2025 @ 09:23:15 AM",
+        content: `😂`,
+        reactions: [
+            { emoji: "🤬", count: 20990, reacted: false },
+            { emoji: "👍", count: 20990, reacted: false },
+            { emoji: "👎", count: 20990, reacted: false },
+            { emoji: "👌", count: 20990, reacted: false },
+            { emoji: "👊", count: 20990, reacted: false },
+            { emoji: "👋", count: 20990, reacted: false },
+            { emoji: "🤯", count: 20990, reacted: false },
+        ]
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/parrot.png",
+        name: "Emma Wilson",
+        timestamp: "Monday, December 1, 2025 @ 09:23:15 AM",
+        content: `Hey! Did you see the game last night?`,
+        reactions: [
+            { emoji: "⚽", count: 2, reacted: false }
+        ]
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/octopus.png",
+        name: "Jake Martinez",
+        timestamp: "Monday, December 1, 2025 @ 09:25:41 AM",
+        content: `Yeah! That last minute goal was insane 🔥`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/frog.png",
+        name: "Sophie Chen",
+        timestamp: "Monday, December 1, 2025 @ 09:31:08 AM",
+        content: `I missed it, still at work. Anyone have a clip?`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/tiger.png",
+        name: "Marcus Brown",
+        timestamp: "Monday, December 1, 2025 @ 09:33:22 AM",
+        content: `Check your DMs, just sent you the link`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/frog.png",
+        name: "Sophie Chen",
+        timestamp: "Monday, December 1, 2025 @ 09:35:47 AM",
+        content: `Thanks! You're the best 😊`,
+        reactions: [
+            { emoji: "👀", count: 1, reacted: true }
+        ],
+        userReaction: "👀"
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/parrot.png",
+        name: "Emma Wilson",
+        timestamp: "Monday, December 1, 2025 @ 02:14:33 PM",
+        content: `Anyone want to grab coffee after work?`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/octopus.png",
+        name: "Jake Martinez",
+        timestamp: "Monday, December 1, 2025 @ 02:16:19 PM",
+        content: `Can't today, got a dentist appointment 😬`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/tiger.png",
+        name: "Marcus Brown",
+        timestamp: "Monday, December 1, 2025 @ 02:18:05 PM",
+        content: `I'm down! The usual place?`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/parrot.png",
+        name: "Emma Wilson",
+        replyingTo: {
+            name: "Marcus Brown",
+            content: `I'm down! The usual place?`,
+            id: "1"
+        },
+        timestamp: "Monday, December 1, 2025 @ 02:19:42 PM",
+        content: `Yep! Meet you there around 5:30?`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/tiger.png",
+        name: "Marcus Brown",
+        timestamp: "Monday, December 1, 2025 @ 02:20:11 PM",
+        content: `Perfect 👍`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/frog.png",
+        name: "Sophie Chen",
+        timestamp: "Tuesday, December 2, 2025 @ 10:47:26 AM",
+        content: `Just finished my presentation! So relieved it's over`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/parrot.png",
+        name: "Emma Wilson",
+        timestamp: "Tuesday, December 2, 2025 @ 10:48:53 AM",
+        content: `Congrats! How did it go?`,
+        reactions: [
+            { emoji: "🎉", count: 3, reacted: true }
+        ],
+        userReaction: "🎉"
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/frog.png",
+        name: "Sophie Chen",
+        timestamp: "Tuesday, December 2, 2025 @ 10:52:14 AM",
+        content: `Really well actually! The client seemed happy with everything`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/octopus.png",
+        name: "Jake Martinez",
+        timestamp: "Tuesday, December 2, 2025 @ 10:54:08 AM",
+        content: `That's awesome! We should celebrate this weekend`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/tiger.png",
+        name: "Marcus Brown",
+        timestamp: "Tuesday, December 2, 2025 @ 11:03:41 AM",
+        content: `Saturday works for me. Dinner somewhere?`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/parrot.png",
+        name: "Emma Wilson",
+        timestamp: "Tuesday, December 2, 2025 @ 11:07:22 AM",
+        content: `There's that new Italian place downtown. Heard good things about it`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/frog.png",
+        name: "Sophie Chen",
+        timestamp: "Tuesday, December 2, 2025 @ 11:09:55 AM",
+        content: `Ooh yes, let's do it! I'll make a reservation for 7pm?`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/octopus.png",
+        name: "Jake Martinez",
+        timestamp: "Tuesday, December 2, 2025 @ 11:11:03 AM",
+        content: `Sounds good to me!`,
+        reactions: [
+            { emoji: "👍", count: 4, reacted: false }
+        ]
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/tiger.png",
+        name: "Marcus Brown",
+        timestamp: "Wednesday, December 3, 2025 @ 08:15:37 AM",
+        content: `Morning everyone! Quick question - did anyone see my keys yesterday? Can't find them anywhere`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/parrot.png",
+        name: "Emma Wilson",
+        timestamp: "Wednesday, December 3, 2025 @ 08:18:24 AM",
+        content: `Check the break room, I think I saw something on the counter`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/tiger.png",
+        name: "Marcus Brown",
+        timestamp: "Wednesday, December 3, 2025 @ 08:22:51 AM",
+        content: `Found them! They were in my jacket pocket the whole time 🤦‍♂️`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/octopus.png",
+        name: "Jake Martinez",
+        timestamp: "Wednesday, December 3, 2025 @ 08:24:16 AM",
+        content: `Classic Marcus 😂`,
+        reactions: [
+            { emoji: "😂", count: 5, reacted: true }
+        ],
+        userReaction: "😂"
+    }
+];
+
+export const TEAM_WORKSPACE_EXAMPLES: ChatBubbleProps[] = [
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/parrot.png",
+        name: "Lisa Chang",
+        timestamp: "Monday, December 15, 2025 @ 09:05:12 AM",
+        content: `Good morning team! Ready for the week ahead`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/octopus.png",
+        name: "David Kim",
+        timestamp: "Monday, December 15, 2025 @ 09:07:38 AM",
+        content: `Morning! Just a heads up, I'm working from home today`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/tiger.png",
+        name: "Rachel Foster",
+        timestamp: "Monday, December 15, 2025 @ 09:12:45 AM",
+        content: `Hey @lisa, did you get a chance to review the budget proposal?`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/parrot.png",
+        name: "Lisa Chang",
+        replyingTo: {
+            name: "Rachel Foster",
+            content: `Hey @lisa, did you get a chance to review the budget proposal?`,
+            id: "1"
+        },
+        timestamp: "Monday, December 15, 2025 @ 09:18:22 AM",
+        content: `Yes! Looks good overall. Just have a few questions about Q2 projections. Can we chat after standup?`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/tiger.png",
+        name: "Rachel Foster",
+        timestamp: "Monday, December 15, 2025 @ 09:19:47 AM",
+        content: `Perfect, thanks!`,
+        reactions: [
+            { emoji: "👍", count: 1, reacted: true }
+        ],
+        userReaction: "👍"
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/frog.png",
+        name: "Tom Anderson",
+        timestamp: "Monday, December 15, 2025 @ 10:33:19 AM",
+        content: `Update: Design mockups are ready for review. Link in the project folder`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/octopus.png",
+        name: "David Kim",
+        timestamp: "Monday, December 15, 2025 @ 10:36:54 AM",
+        content: `Great! I'll take a look this afternoon`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/parrot.png",
+        name: "Lisa Chang",
+        timestamp: "Monday, December 15, 2025 @ 10:41:03 AM",
+        content: `These look fantastic Tom. Really like the color scheme you went with`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/frog.png",
+        name: "Tom Anderson",
+        timestamp: "Monday, December 15, 2025 @ 10:44:27 AM",
+        content: `Thanks! Tried to keep it clean and modern`,
+        reactions: [
+            { emoji: "✨", count: 3, reacted: false }
+        ]
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/tiger.png",
+        name: "Rachel Foster",
+        timestamp: "Monday, December 15, 2025 @ 02:15:41 PM",
+        content: `Reminder: Client call at 3pm today. Don't forget!`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/octopus.png",
+        name: "David Kim",
+        timestamp: "Monday, December 15, 2025 @ 02:17:08 PM",
+        content: `Thanks for the reminder. I'll dial in from home`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/parrot.png",
+        name: "Lisa Chang",
+        timestamp: "Monday, December 15, 2025 @ 02:55:33 PM",
+        content: `Heading to the conference room now`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/tiger.png",
+        name: "Rachel Foster",
+        timestamp: "Monday, December 15, 2025 @ 04:22:16 PM",
+        content: `That went really well! Client approved moving forward with phase 2`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/frog.png",
+        name: "Tom Anderson",
+        timestamp: "Monday, December 15, 2025 @ 04:23:47 PM",
+        content: `Excellent news! 🎉`,
+        reactions: [
+            { emoji: "🎉", count: 4, reacted: true },
+            { emoji: "👏", count: 2, reacted: false }
+        ],
+        userReaction: "🎉"
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/octopus.png",
+        name: "David Kim",
+        timestamp: "Monday, December 15, 2025 @ 04:25:13 PM",
+        content: `Nice work everyone! This is a big win for the team`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/parrot.png",
+        name: "Lisa Chang",
+        timestamp: "Tuesday, December 16, 2025 @ 09:41:55 AM",
+        content: `Quick question - has anyone tested the new feature on mobile yet?`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/frog.png",
+        name: "Tom Anderson",
+        timestamp: "Tuesday, December 16, 2025 @ 09:44:32 AM",
+        content: `I tested on iOS yesterday. Working smoothly on my end`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/octopus.png",
+        name: "David Kim",
+        timestamp: "Tuesday, December 16, 2025 @ 09:47:18 AM",
+        content: `Android testing in progress. Should have results by end of day`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/tiger.png",
+        name: "Rachel Foster",
+        timestamp: "Tuesday, December 16, 2025 @ 11:28:44 AM",
+        content: `Lunch orders are here! Come grab your food from the kitchen`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/parrot.png",
+        name: "Lisa Chang",
+        timestamp: "Tuesday, December 16, 2025 @ 11:30:21 AM",
+        content: `On my way!`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/frog.png",
+        name: "Tom Anderson",
+        timestamp: "Tuesday, December 16, 2025 @ 03:52:09 PM",
+        content: `Wrapping up for the day. See you all tomorrow!`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/octopus.png",
+        name: "David Kim",
+        timestamp: "Tuesday, December 16, 2025 @ 03:53:41 PM",
+        content: `Have a good evening!`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/tiger.png",
+        name: "Rachel Foster",
+        timestamp: "Tuesday, December 16, 2025 @ 04:17:28 PM",
+        content: `Heads up team: Office will be closed Thursday for maintenance. Plan to work from home`
+    },
+    {
+        avatarUrl: "https://chirps-chat.sirv.com/parrot.png",
+        name: "Lisa Chang",
+        timestamp: "Tuesday, December 16, 2025 @ 04:19:55 PM",
+        content: `Got it, thanks for letting us know`,
+        reactions: [
+            { emoji: "👍", count: 3, reacted: true }
+        ],
+        userReaction: "👍"
+    }
+];

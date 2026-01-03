@@ -222,7 +222,7 @@ export const isGapGreaterThan24Hours = (date1: Date, date2: Date) => {
 export function getNumberFromRange(min: number, max: number, base: number, current: number, initial: number = 21, interval: number = 10): number {
   // Clamp current to the valid range
   const clampedCurrent = Math.max(min, Math.min(max, current));
-  
+
   // If current is at base, return initial
   if (clampedCurrent === base) {
     return initial;
@@ -244,4 +244,14 @@ export function getNumberFromRange(min: number, max: number, base: number, curre
   }
 
   return result;
+}
+
+export function isOnlyEmojis(text: string) {
+  const emojiRegex = /^[\p{Emoji}]+$/u;
+  return emojiRegex.test(text);
+}
+
+export function countEmojis(text: string) {
+  const emojiRegex = /[\p{Emoji}]/gu;
+  return text.match(emojiRegex)?.length || 0;
 }

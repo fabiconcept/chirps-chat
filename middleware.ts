@@ -6,12 +6,13 @@ export function middleware(req: NextRequest) {
     const ua = req.headers.get("user-agent") || "";
     const parsed = new UAParser(ua).getResult();
     const { pathname, searchParams } = req.nextUrl;
-
+    
     const isMobile = parsed.device.type === "mobile" || parsed.device.type === "tablet";
     
     // get search params 
     const activitybar = searchParams.get("activitybar");
     const wallet = searchParams.get("wallet");
+
 
     // Handle activity bar on mobile
     if (activitybar === "open" && isMobile) {

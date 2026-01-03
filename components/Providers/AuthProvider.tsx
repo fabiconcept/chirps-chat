@@ -8,6 +8,7 @@ import { useMemo } from "react";
 import { detectOS } from "@/lib/utils";
 import { useWindowSize } from "react-use";
 import { LoaderPinwheel } from "lucide-react";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 interface AuthProviderProps {
     children: React.ReactNode;
@@ -29,7 +30,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const dispatch = useDispatch();
     const isMacOS = useMemo(() => detectOS() === 'macos', []);
     const { width } = useWindowSize();
-    const isMobile = width < 808;
+    const isMobile = useIsMobile();
     const isTablet = (width < 900) && !isMobile;
     const isWindowDefined = typeof window !== 'undefined';
 

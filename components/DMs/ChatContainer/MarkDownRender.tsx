@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo, useState } from "react";
-import { cn, copyToClipboard } from "@/lib/utils";
+import { cn, copyToClipboard, countEmojis, isOnlyEmojis } from "@/lib/utils";
 import Hashtag from "@/components/ui/hashtag";
 import ProtectedImage from "@/components/Feed/TextPost/ProtectedImage";
 import LinkPreview from "./LinkPreview";
@@ -30,6 +30,47 @@ export default function MarkDownRender({ content, className, onImageClick }: Mar
         const matches = content.matchAll(imageRegex);
         return Array.from(matches).map(match => match[1]);
     }, [content]);
+
+    // Check if content is only emojis
+    const emojiInfo = useMemo(() => {
+        const trimmedContent = content.trim();
+        // Regex to match emojis (including combinations with skin tones, flags, etc.)
+        const emojiRegex = /[\p{Emoji_Presentation}\p{Emoji}\u200D\uFE0F\u{1F3FB}-\u{1F3FF}]+/gu;
+        const emojis = isOnlyEmojis(trimmedContent) ? [trimmedContent] : [];
+        const contentWithoutEmojis = trimmedContent.replace(emojiRegex, '').replace(/\s+/g, '');
+        
+        const isOnlyEmojisFound = contentWithoutEmojis.length === 0 && emojis.length > 0;
+        const emojiCount = countEmojis(trimmedContent);
+        
+        return { isOnlyEmojis: isOnlyEmojisFound, emojiCount, emojis: isOnlyEmojisFound ? emojis : [] };
+    }, [content]);
+
+    // Get emoji size class based on count
+    const getEmojiSizeClass = (count: number) => {
+        if (count === 1) return "text-7xl leading-none"; // Largest for single emoji
+        if (count === 2) return "text-5xl leading-none";
+        if (count === 3) return "text-4xl leading-none";
+        return "text-base leading-normal"; // Base size for 4+ emojis
+    };
+
+    // If content is only emojis, render them with appropriate sizing
+    if (emojiInfo.isOnlyEmojis) {
+        return (
+            <div className={cn("flex flex-wrap gap-1 items-center", className)}>
+                {emojiInfo.emojis.map((emoji, idx) => (
+                    <span
+                        key={idx}
+                        className={cn(
+                            "inline-block",
+                            getEmojiSizeClass(emojiInfo.emojiCount)
+                        )}
+                    >
+                        {emoji}
+                    </span>
+                ))}
+            </div>
+        );
+    }
 
     const renderMarkdown = useMemo(() => {
         const lines = content.split('\n');

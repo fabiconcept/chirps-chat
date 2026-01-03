@@ -56,7 +56,7 @@ export default function Header() {
                         side="bottom"
                         sideOffset={-5}
                         alignOffset={5}
-                        className="w-sm max-h-96 bg-background/50 backdrop-blur-sm overflow-y-auto p-2 rounded-2xl overflow-x-hidden space-y-2"
+                        className="sm:w-sm w-xs max-h-96 bg-background/80 backdrop-blur-sm overflow-auto p-2 rounded-2xl space-y-2"
                     >
                         {MARKDOWN_EXAMPLES.slice(0, 6).map((message, index) => (
                             <ChatBubble

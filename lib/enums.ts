@@ -4,6 +4,7 @@ export enum LocalStorageKeys {
 
 export enum SearchParamKeys {
     MEMBERS_AREA="members-area",
+    IMAGE_GALLERY="image-gallery",
     FULLSCREEN="fullscreen",
     ACTIVITYBAR="activitybar",
     HIDE_MENU="hide-menu",

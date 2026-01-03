@@ -1,11 +1,13 @@
 "use client"
 
-import * as React from "react"
-import { ChevronLeftIcon, ChevronRightIcon, LucideExpand, XIcon, Loader2 } from "lucide-react"
-import { Dialog, DialogContent, DialogClose, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import * as React from "react";
+import { ChevronLeftIcon, ChevronRightIcon, LucideExpand, XIcon, Loader2 } from "lucide-react";
+import { Dialog, DialogContent, DialogClose, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
-import ProtectedImage from "./ProtectedImage"
+import { cn, removeSearchParam, updateSearchParam } from "@/lib/utils"
+import ProtectedImage from "./ProtectedImage";
+import { SearchParamKeys } from "@/lib/enums";
+
 
 interface ImageGalleryProps {
     images: string[]
@@ -21,9 +23,17 @@ interface ImageDimensions {
 }
 
 export default function ImageGallery({ images, className }: ImageGalleryProps) {
-    const [isOpen, setIsOpen] = React.useState(false)
-    const [currentIndex, setCurrentIndex] = React.useState(0)
-    const [imageDimensions, setImageDimensions] = React.useState<ImageDimensions[]>([])
+    const [isOpen, setIsOpen] = React.useState(false);
+    const [currentIndex, setCurrentIndex] = React.useState(0);
+    const [imageDimensions, setImageDimensions] = React.useState<ImageDimensions[]>([]);
+
+    React.useEffect(() => {
+        if (isOpen) {
+            updateSearchParam(SearchParamKeys.IMAGE_GALLERY, "true");
+        }else{
+            removeSearchParam(SearchParamKeys.IMAGE_GALLERY);
+        }
+    }, [isOpen]);
 
     // Limit to max 4 images
     const displayImages = images.slice(0, 4)

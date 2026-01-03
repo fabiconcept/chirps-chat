@@ -190,8 +190,8 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                             ref={bubbleRef}
                             className={cn(
                                 "flex items-start relative sm:gap-2 gap-1 w-full group transition-colors duration-200 sm:px-5 px-2 py-2",
-                                isUnread ? "bg-yellow-600/5 relative after:absolute after:content-[''] after:w-1 after:h-full after:bg-yellow-600/20 after:left-0 after:z-10 after:top-0" : "dark:hover:bg-[#282828]/50 hover:bg-[#F3F3F3]/75",
-                                type === "starred" && "rounded-md border border-transparent hover:border-input/50"
+                                isUnread ? "bg-yellow-600/5 relative after:absolute after:content-[''] after:w-1 after:h-full after:bg-yellow-600/20 after:left-0 after:z-10 after:top-0" : "dark:hover:bg-[#282828]/75 hover:bg-[#F3F3F3]/75",
+                                type === "starred" && "rounded-md border border-transparent hover:border-input/75"
                             )}
                         >
                             <div className="relative w-fit h-fit">
@@ -233,7 +233,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                                         <span className="text-xs opacity-75 max-sm:opacity-100 hover:opacity-100 truncate sm:max-w-sm max-w-[32ch] cursor-pointer transition-opacity duration-150  hover:underline hover:underline-offset-2">{replyingTo.content}</span>
                                     </div>
                                 )}
-                                <div className="sm:text-sm text-xs max-sm:leading-relaxed flex flex-col p-2">
+                                <div className="max-sm:text-sm max-sm:leading-relaxed flex flex-col p-2">
                                     {type === "starred" && <Button
                                         className="absolute top-0 -right-2 opacity-0 group-hover:opacity-100 sm:px-3 px-2 py-1 sm:text-sm text-xs"
                                     >
@@ -241,7 +241,7 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                                     </Button>}
                                     <div className="flex items-center gap-2 mb-2">
                                         <span className="sm:font-semibold font-bold sm:text-base text-sm">{name}</span>
-                                        <span className="sm:text-xs text-[12px] text-muted-foreground">{getRelativeTime(timestamp, true)}</span>
+                                        {type !== "starred" && <span className="sm:text-xs text-[12px] text-muted-foreground">{getRelativeTime(timestamp, true)}</span>}
                                     </div>
                                     <MarkDownRender content={content} onImageClick={handleImageClick} />
                                 </div>

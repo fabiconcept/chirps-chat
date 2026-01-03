@@ -15,7 +15,7 @@ import { AnimatePresence, motion, Variants } from "framer-motion";
 
 export default function MessageBox() {
     const { disallowShortcuts, allowShortcuts, notoriousShortcuts, allowedShortcuts } = useKeyBoardShortCut();
-    const { isMacOS } = useAuth();
+    const { isMacOS, isMobile } = useAuth();
 
     const [message, setMessage] = useState("");
     const [showPreview, setShowPreview] = useState(false);
@@ -170,42 +170,41 @@ export default function MessageBox() {
     }, []);
 
     const formattingToolbarVariants: Variants = {
-        initial: { opacity: 0, y: 10 },
+        initial: { opacity: 0, height: 0 },
         animate: { 
             opacity: 1, 
-            y: 0,
+            height: "auto",
             transition: {
                 duration: 0.2,
                 type: "spring",
+                ease: "easeInOut",
+                bounce: 2,
                 stiffness: 300,
                 damping: 30,
             }
         },
         exit: { 
             opacity: 0, 
-            y: 10,
+            height: 0,
             transition: {
-                duration: 0.2,
-                type: "spring",
-                stiffness: 300,
-                damping: 30,
+                duration: 0.15,
+                ease: "easeInOut",
+                bounce: 0,
                 delay: 0.5
             }
         }
     }
     
-    
-
     return (
-        <div onBlur={() => setIsFocused(false)} className="border-t border-input bg-background group relative z-50">
-            <AnimatePresence mode="popLayout">
+        <div onBlur={() => setIsFocused(false)} className="border-t border-input transition-all bg-background group relative z-50">
+            <AnimatePresence mode="wait">
                 {(isFocused || showPreview) && (
                     <motion.div
                         variants={formattingToolbarVariants}
                         initial="initial"
                         animate="animate"
                         exit="exit"
-                        className="absolute -top-[74.5%] bg-background left-0 w-full"
+                        className="relative overflow-hidden"
                     >
                         <FormattingToolbar
                             formatter={formatter}
@@ -229,8 +228,8 @@ export default function MessageBox() {
             />
 
             <ContextMenu>
-                <ContextMenuTrigger asChild>
-                    <div className="relative">
+                <ContextMenuTrigger disabled={isMobile} asChild>
+                    <div className="relative bg-background">
                         {!showPreview ? (
                             <MessageInput
                                 textareaRef={textareaRef}
