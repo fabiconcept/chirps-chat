@@ -7,7 +7,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import ProfileCard from "@/components/ProfileCard";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuSeparator, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from "@/components/ui/context-menu";
 import { Reply, Copy, Volume2, Pencil, Pin, Frown, Trash, Languages, SmilePlus } from "lucide-react";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import ChatReactions, { ChatReactionsRef } from "./ChatReactions";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -52,7 +52,6 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [allImages, setAllImages] = useState<string[]>([]);
     const { theme } = useTheme();
-
 
     // Memoize the onSeen callback to prevent it from changing on every render
     const onSeenCallback = useCallback(() => {
@@ -170,217 +169,354 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
         setSelectedImageIndex((prev) => (prev < allImages.length - 1 ? prev + 1 : 0));
     }, [allImages.length]);
 
-    return (
-        <ContextMenu>
-            <HoverCard
-                closeDelay={100}
-                openDelay={100}
-                open={isHoverCardOpen && type !== "starred"}
-                onOpenChange={(open) => {
-                    // Prevent closing if emoji picker is open
-                    if (!open && isEmojiPickerOpen) {
-                        return;
-                    }
-                    setIsHoverCardOpen(open);
-                }}
-            >
-                <HoverCardTrigger>
-                    <ContextMenuTrigger disabled={type === "starred"} asChild>
-                        <div
-                            ref={bubbleRef}
-                            className={cn(
-                                "flex items-start relative sm:gap-2 gap-1 w-full group transition-colors duration-200 sm:px-5 px-2 py-2",
-                                isUnread ? "bg-yellow-600/5 relative after:absolute after:content-[''] after:w-1 after:h-full after:bg-yellow-600/20 after:left-0 after:z-10 after:top-0" : "dark:hover:bg-[#282828]/75 hover:bg-[#F3F3F3]/75",
-                                type === "starred" && "rounded-md border border-transparent hover:border-input/75"
-                            )}
-                        >
-                            <div className="relative w-fit h-fit">
-                                {replyingTo && <div className="relative top-1/2 translate-y-1/2 left-1/3 translate-x-1/12  h-4 w-8 border-2 rounded-tl-3xl border-b-0 border-r-0"></div>}
-                                <HoverCard
-                                    openDelay={300}
-                                    closeDelay={100}
-                                    open={type === "starred" ? false : undefined}
-                                >
-                                    <HoverCardTrigger asChild>
-                                        <div>
-                                        <ProfileAvatar
-                                                avatarUrl={avatarUrl}
-                                                fallback={name[0]}
-                                                size={isMobile ? "xs" : "sm"}
-                                                className={cn(
-                                                    "border border-foreground/25 rounded-full mt-3 cursor-pointer"
-                                                )}
-                                            />
-                                        </div>
-                                    </HoverCardTrigger>
-                                    <HoverCardContent side="bottom" align="start" className="p-0 w-fit bg-background/75 backdrop-blur-sm rounded-4xl border-none">
-                                        <ProfileCard size="sm" />
-                                    </HoverCardContent>
-                                </HoverCard>
-                            </div>
-                            <div className="flex flex-col text-sm gap-1 w-full relative z-10">
-                                {replyingTo && (
-                                    <div className="flex items-center gap-2 w-full pr-3 transition-transform duration-150 active:scale-[0.98] active:opacity-50 origin-left">
-                                        <div className="flex items-center gap-1">
-                                            <ProfileAvatar
-                                                avatarUrl={avatarUrl}
-                                                fallback={name[0]}
-                                                size={isMobile ? "xs" : "sm"}
-                                                className="border border-foreground/25 rounded-full ml-2 cursor-pointer"
-                                            />
-                                            <span className="font-medium text-muted-foreground max-sm:hidden">{replyingTo.name}</span>
-                                        </div>
-                                        <span className="text-xs opacity-75 max-sm:opacity-100 hover:opacity-100 truncate sm:max-w-sm max-w-[32ch] cursor-pointer transition-opacity duration-150  hover:underline hover:underline-offset-2">{replyingTo.content}</span>
-                                    </div>
-                                )}
-                                <div className="max-sm:text-sm max-sm:leading-relaxed flex flex-col p-2">
-                                    {type === "starred" && <Button
-                                        className="absolute top-0 -right-2 opacity-0 group-hover:opacity-100 sm:px-3 px-2 py-1 sm:text-sm text-xs"
-                                    >
-                                        Jump to
-                                    </Button>}
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <span className="sm:font-semibold font-bold sm:text-base text-sm">{name}</span>
-                                        {type !== "starred" && <span className="sm:text-xs text-[12px] text-muted-foreground">{getRelativeTime(timestamp, true)}</span>}
-                                    </div>
-                                    <MarkDownRender content={content} onImageClick={handleImageClick} />
-                                </div>
-
-                                {type !== "starred" && <ChatReactions
-                                    ref={reactionsRef}
-                                    reactions={internalReactions}
-                                    onReactionToggle={addReaction}
-                                />}
-                            </div>
-                        </div>
-                    </ContextMenuTrigger>
-                </HoverCardTrigger>
-
-                <HoverCardContent
-                    side="top"
-                    align="end"
-                    alignOffset={10}
-                    sideOffset={-30}
-                    className="bg-background shadow-black/5 border-input/50 p-1 px-2 flex items-center gap-2 w-fit"
+    const renderContent = useMemo(() => {
+        if (isMobile) {
+            return (
+                <div
+                    tabIndex={0}
+                    className={cn(
+                        "group relative"
+                    )}
+                    onContextMenu={()=>console.log("Context Triggered")}
                 >
-                    <Button
-                        variant="ghost"
+                    <div
+                        ref={bubbleRef}
                         className={cn(
-                            "p-0 py-0 h-7 text-lg aspect-square w-7 select-none transition-all duration-150",
-                            currentUserReaction === "😂" && "bg-[#7600C9]/10 border-2 border-[#7600C9] scale-110"
+                            "flex items-start relative sm:gap-2 gap-1 w-full group transition-colors duration-200 sm:px-5 px-2 py-2",
+                            isUnread ? "bg-yellow-600/5 relative after:absolute after:content-[''] after:w-1 after:h-full after:bg-yellow-600/20 after:left-0 after:z-10 after:top-0" : "dark:group-focus-within:bg-[#282838]/75 group-focus-within:border-input border-y border-y-transparent group-focus-within:bg-[#EEEEFF]/75",
+                            type === "starred" && "rounded-md border border-transparent group-focus-within:border-input/75"
                         )}
-                        onClick={() => addReaction("😂")}
                     >
-                        😂
-                    </Button>
-                    <Button
-                        variant="ghost"
-                        className={cn(
-                            "p-0 py-0 h-7 text-lg aspect-square w-7 select-none transition-all duration-150",
-                            currentUserReaction === "❤️" && "bg-[#7600C9]/10 border-2 border-[#7600C9] scale-110"
-                        )}
-                        onClick={() => addReaction("❤️")}
-                    >
-                        ❤️
-                    </Button>
-                    <Button
-                        variant="ghost"
-                        className={cn(
-                            "p-0 py-0 h-7 text-lg aspect-square w-7 select-none transition-all duration-150",
-                            currentUserReaction === "🔥" && "bg-[#7600C9]/10 border-2 border-[#7600C9] scale-110"
-                        )}
-                        onClick={() => addReaction("🔥")}
-                    >
-                        🔥
-                    </Button>
-                    <div className="w-px h-5 bg-input/50" />
-                    <DropdownMenu open={isEmojiPickerOpen} onOpenChange={setIsEmojiPickerOpen}>
-                        <DropdownMenuTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                className="p-0 py-0 h-7 text-lg aspect-square w-7 select-none"
+                        <div className="relative w-fit h-fit">
+                            {replyingTo && <div className="relative top-1/2 translate-y-1/2 left-1/3 translate-x-1/12  h-4 w-8 border-2 rounded-tl-3xl border-b-0 border-r-0"></div>}
+                            <DropdownMenu
+                                open={type === "starred" ? false : undefined}
+                                onOpenChange={setIsHoverCardOpen}
                             >
-                                <SmilePlus size={16} />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent sideOffset={10} align="end" className="w-fit overflow-visible p-0 h-7">
-                            <EmojiPicker
-                                onEmojiClick={(emoji) => {
-                                    addReaction(emoji.emoji);
-                                    setIsEmojiPickerOpen(false);
-                                }}
-                                theme={theme === "dark" ? Theme.DARK : Theme.LIGHT}
-                            />
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                    <Button
-                        variant="ghost"
-                        className="p-0 py-0 h-7 text-lg aspect-square w-7 select-none"
+                                <DropdownMenuTrigger asChild>
+                                    <div>
+                                        <ProfileAvatar
+                                            avatarUrl={avatarUrl}
+                                            fallback={name[0]}
+                                            size={"sm"}
+                                            className={cn(
+                                                "border border-foreground/25 rounded-full mt-3 ml-2 cursor-pointer"
+                                            )}
+                                        />
+                                    </div>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent side="bottom" align="start" className="p-0 w-fit bg-background/75 backdrop-blur-sm rounded-4xl border-none">
+                                    <ProfileCard size="sm" />
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+                        <div className="flex flex-col text-sm gap-1 w-full relative z-10">
+                            {replyingTo && (
+                                <div className="flex items-center gap-2 w-full pr-3 transition-transform duration-150 active:scale-[0.98] active:opacity-50 origin-left">
+                                    <div className="flex items-center gap-1">
+                                        <ProfileAvatar
+                                            avatarUrl={avatarUrl}
+                                            fallback={name[0]}
+                                            size={isMobile ? "xs" : "sm"}
+                                            className="border border-foreground/25 rounded-full ml-2 cursor-pointer"
+                                        />
+                                        <span className="font-medium text-muted-foreground max-sm:hidden">{replyingTo.name}</span>
+                                    </div>
+                                    <span className="text-xs opacity-75 max-sm:opacity-100 hover:opacity-100 truncate sm:max-w-sm max-w-[32ch] cursor-pointer transition-opacity duration-150  hover:underline hover:underline-offset-2">{replyingTo.content}</span>
+                                </div>
+                            )}
+                            <div className="max-sm:text-sm max-sm:leading-relaxed flex flex-col p-2">
+                                {type === "starred" && <Button
+                                    className="absolute top-0 -right-2 opacity-0 group-hover:opacity-100 sm:px-3 px-2 py-1 sm:text-sm text-xs"
+                                >
+                                    Jump to
+                                </Button>}
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className="sm:font-semibold font-bold sm:text-base text-sm">{name}</span>
+                                    {type !== "starred" && <span className="sm:text-xs text-[12px] text-muted-foreground">{getRelativeTime(timestamp, true)}</span>}
+                                </div>
+                                <MarkDownRender content={content} onImageClick={handleImageClick} />
+                            </div>
+
+                            {type !== "starred" && <ChatReactions
+                                ref={reactionsRef}
+                                reactions={internalReactions}
+                                onReactionToggle={addReaction}
+                            />}
+                        </div>
+                    </div>
+
+
+                    {type !== "starred" && <div
+                        className="group-focus-within:opacity-100 opacity-0 absolute -top-4 right-2 z-10 transition-opacity duration-150 bg-black/10 backdrop-blur-sm border border-foreground/10 rounded-lg shadow-black/5 p-1 px-2 flex items-center gap-2 w-fit"
                     >
+                        <Button
+                            variant="ghost"
+                            className={cn(
+                                "p-0 py-0 h-7 text-lg aspect-square w-7 select-none transition-all duration-150",
+                                currentUserReaction === "😂" && "bg-[#7600C9]/10 border-2 border-[#7600C9] scale-110"
+                            )}
+                            onClick={() => addReaction("😂")}
+                        >
+                            😂
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            className={cn(
+                                "p-0 py-0 h-7 text-lg aspect-square w-7 select-none transition-all duration-150",
+                                currentUserReaction === "❤️" && "bg-[#7600C9]/10 border-2 border-[#7600C9] scale-110"
+                            )}
+                            onClick={() => addReaction("❤️")}
+                        >
+                            ❤️
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            className={cn(
+                                "p-0 py-0 h-7 text-lg aspect-square w-7 select-none transition-all duration-150",
+                                currentUserReaction === "🔥" && "bg-[#7600C9]/10 border-2 border-[#7600C9] scale-110"
+                            )}
+                            onClick={() => addReaction("🔥")}
+                        >
+                            🔥
+                        </Button>
+                        <div className="w-px h-5 bg-foreground/25" />
+                        <Button
+                            variant="ghost"
+                            className="p-0 py-0 h-7 text-lg aspect-square w-7 select-none"
+                            onClick={() => reactionsRef.current?.openEmojiPicker()}
+                        >
+                            <SmilePlus size={16} />
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            className="p-0 py-0 h-7 text-lg aspect-square w-7 select-none"
+                        >
+                            <Reply size={16} />
+                        </Button>
+                    </div>}
+                </div>
+            );
+        }
+
+        return (
+            <ContextMenu>
+                {!isMobile && <HoverCard
+                    closeDelay={100}
+                    openDelay={100}
+                    open={isHoverCardOpen && type !== "starred"}
+                    onOpenChange={(open) => {
+                        // Prevent closing if emoji picker is open
+                        if (!open && isEmojiPickerOpen) {
+                            return;
+                        }
+                        setIsHoverCardOpen(open);
+                    }}
+                >
+                    <HoverCardTrigger>
+                        <ContextMenuTrigger disabled={type === "starred"} asChild>
+                            <div
+                                ref={bubbleRef}
+                                className={cn(
+                                    "flex items-start relative sm:gap-2 gap-1 w-full group transition-colors duration-200 sm:px-5 px-2 py-2",
+                                    isUnread ? "bg-yellow-600/5 relative after:absolute after:content-[''] after:w-1 after:h-full after:bg-yellow-600/20 after:left-0 after:z-10 after:top-0" : "dark:hover:bg-[#282828]/75 hover:bg-[#F3F3F3]/75",
+                                    type === "starred" && "rounded-md border border-transparent hover:border-input/75"
+                                )}
+                            >
+                                <div className="relative w-fit h-fit">
+                                    {replyingTo && <div className="relative top-1/2 translate-y-1/2 left-1/3 translate-x-1/12  h-4 w-8 border-2 rounded-tl-3xl border-b-0 border-r-0"></div>}
+                                    <HoverCard
+                                        openDelay={300}
+                                        closeDelay={100}
+                                        open={type === "starred" ? false : undefined}
+                                    >
+                                        <HoverCardTrigger asChild>
+                                            <div>
+                                                <ProfileAvatar
+                                                    avatarUrl={avatarUrl}
+                                                    fallback={name[0]}
+                                                    size={"sm"}
+                                                    className={cn(
+                                                        "border border-foreground/25 rounded-full mt-3 ml-2 cursor-pointer"
+                                                    )}
+                                                />
+                                            </div>
+                                        </HoverCardTrigger>
+                                        <HoverCardContent side="bottom" align="start" className="p-0 w-fit bg-background/75 backdrop-blur-sm rounded-4xl border-none">
+                                            <ProfileCard size="sm" />
+                                        </HoverCardContent>
+                                    </HoverCard>
+                                </div>
+                                <div className="flex flex-col text-sm gap-1 w-full relative z-10">
+                                    {replyingTo && (
+                                        <div className="flex items-center gap-2 w-full pr-3 transition-transform duration-150 active:scale-[0.98] active:opacity-50 origin-left">
+                                            <div className="flex items-center gap-1">
+                                                <ProfileAvatar
+                                                    avatarUrl={avatarUrl}
+                                                    fallback={name[0]}
+                                                    size={isMobile ? "xs" : "sm"}
+                                                    className="border border-foreground/25 rounded-full ml-2 cursor-pointer"
+                                                />
+                                                <span className="font-medium text-muted-foreground max-sm:hidden">{replyingTo.name}</span>
+                                            </div>
+                                            <span className="text-xs opacity-75 max-sm:opacity-100 hover:opacity-100 truncate sm:max-w-sm max-w-[32ch] cursor-pointer transition-opacity duration-150  hover:underline hover:underline-offset-2">{replyingTo.content}</span>
+                                        </div>
+                                    )}
+                                    <div className="max-sm:text-sm max-sm:leading-relaxed flex flex-col p-2">
+                                        {type === "starred" && <Button
+                                            className="absolute top-0 -right-2 opacity-0 group-hover:opacity-100 sm:px-3 px-2 py-1 sm:text-sm text-xs"
+                                        >
+                                            Jump to
+                                        </Button>}
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <span className="sm:font-semibold font-bold sm:text-base text-sm">{name}</span>
+                                            {type !== "starred" && <span className="sm:text-xs text-[12px] text-muted-foreground">{getRelativeTime(timestamp, true)}</span>}
+                                        </div>
+                                        <MarkDownRender content={content} onImageClick={handleImageClick} />
+                                    </div>
+
+                                    {type !== "starred" && <ChatReactions
+                                        ref={reactionsRef}
+                                        reactions={internalReactions}
+                                        onReactionToggle={addReaction}
+                                    />}
+                                </div>
+                            </div>
+                        </ContextMenuTrigger>
+                    </HoverCardTrigger>
+
+                    <HoverCardContent
+                        side="top"
+                        align="end"
+                        alignOffset={10}
+                        sideOffset={-30}
+                        className="bg-background shadow-black/5 border-input/50 p-1 px-2 flex items-center gap-2 w-fit"
+                    >
+                        <Button
+                            variant="ghost"
+                            className={cn(
+                                "p-0 py-0 h-7 text-lg aspect-square w-7 select-none transition-all duration-150",
+                                currentUserReaction === "😂" && "bg-[#7600C9]/10 border-2 border-[#7600C9] scale-110"
+                            )}
+                            onClick={() => addReaction("😂")}
+                        >
+                            😂
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            className={cn(
+                                "p-0 py-0 h-7 text-lg aspect-square w-7 select-none transition-all duration-150",
+                                currentUserReaction === "❤️" && "bg-[#7600C9]/10 border-2 border-[#7600C9] scale-110"
+                            )}
+                            onClick={() => addReaction("❤️")}
+                        >
+                            ❤️
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            className={cn(
+                                "p-0 py-0 h-7 text-lg aspect-square w-7 select-none transition-all duration-150",
+                                currentUserReaction === "🔥" && "bg-[#7600C9]/10 border-2 border-[#7600C9] scale-110"
+                            )}
+                            onClick={() => addReaction("🔥")}
+                        >
+                            🔥
+                        </Button>
+                        <div className="w-px h-5 bg-input/50" />
+                        <DropdownMenu open={isEmojiPickerOpen} onOpenChange={setIsEmojiPickerOpen}>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    className="p-0 py-0 h-7 text-lg aspect-square w-7 select-none"
+                                >
+                                    <SmilePlus size={16} />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent sideOffset={10} align="end" className="w-fit overflow-visible p-0 h-7">
+                                <EmojiPicker
+                                    onEmojiClick={(emoji) => {
+                                        addReaction(emoji.emoji);
+                                        setIsEmojiPickerOpen(false);
+                                    }}
+                                    theme={theme === "dark" ? Theme.DARK : Theme.LIGHT}
+                                />
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                        <Button
+                            variant="ghost"
+                            className="p-0 py-0 h-7 text-lg aspect-square w-7 select-none"
+                        >
+                            <Reply size={16} />
+                        </Button>
+                    </HoverCardContent>
+                </HoverCard>}
+
+                <ContextMenuContent className="w-56">
+                    <ContextMenuItem onClick={() => internalReactions.length > 0 ? reactionsRef.current?.openEmojiPicker() : setIsHoverCardOpen(true)}>
+                        <SmilePlus size={16} />
+                        Add Reactions
+                    </ContextMenuItem>
+                    {internalReactions.length > 0 && <ContextMenuItem>
+                        <Frown size={16} />
+                        View Reactions
+                    </ContextMenuItem>}
+
+                    <ContextMenuSeparator />
+
+                    <ContextMenuItem>
+                        <Pencil size={16} />
+                        Edit Message
+                    </ContextMenuItem>
+
+                    <ContextMenuItem>
                         <Reply size={16} />
-                    </Button>
-                </HoverCardContent>
-            </HoverCard>
+                        Reply
+                    </ContextMenuItem>
 
-            <ContextMenuContent className="w-56">
-                <ContextMenuItem onClick={() => internalReactions.length > 0 ? reactionsRef.current?.openEmojiPicker() : setIsHoverCardOpen(true)}>
-                    <SmilePlus size={16} />
-                    Add Reactions
-                </ContextMenuItem>
-                {internalReactions.length > 0 && <ContextMenuItem>
-                    <Frown size={16} />
-                    View Reactions
-                </ContextMenuItem>}
+                    <ContextMenuItem>
+                        <Copy size={16} />
+                        Copy Text
+                    </ContextMenuItem>
 
-                <ContextMenuSeparator />
+                    <ContextMenuSeparator />
 
-                <ContextMenuItem>
-                    <Pencil size={16} />
-                    Edit Message
-                </ContextMenuItem>
+                    <ContextMenuItem>
+                        <Pin size={16} />
+                        Pin Message
+                    </ContextMenuItem>
 
-                <ContextMenuItem>
-                    <Reply size={16} />
-                    Reply
-                </ContextMenuItem>
+                    <ContextMenuSub>
+                        <ContextMenuSubTrigger className="flex items-center gap-2">
+                            <Languages size={16} />
+                            Translate
+                        </ContextMenuSubTrigger>
+                        <ContextMenuSubContent className="w-48 max-h-40 overflow-y-auto">
+                            <ContextMenuItem>Espanol</ContextMenuItem>
+                            <ContextMenuItem>Pigine</ContextMenuItem>
+                            <ContextMenuItem>French</ContextMenuItem>
+                        </ContextMenuSubContent>
+                    </ContextMenuSub>
 
-                <ContextMenuItem>
-                    <Copy size={16} />
-                    Copy Text
-                </ContextMenuItem>
+                    <ContextMenuItem>
+                        <Volume2 size={16} />
+                        Speak Message
+                    </ContextMenuItem>
 
-                <ContextMenuSeparator />
+                    <ContextMenuSeparator />
 
-                <ContextMenuItem>
-                    <Pin size={16} />
-                    Pin Message
-                </ContextMenuItem>
+                    <ContextMenuItem variant="destructive">
+                        <Trash size={16} />
+                        Delete Message
+                    </ContextMenuItem>
+                </ContextMenuContent>
+            </ContextMenu>
+        );
+    }, [isMobile, type, replyingTo, content, avatarUrl, name, timestamp, isUnread, internalReactions, currentUserReaction, addReaction, handleImageClick]);
 
-                <ContextMenuSub>
-                    <ContextMenuSubTrigger className="flex items-center gap-2">
-                        <Languages size={16} />
-                        Translate
-                    </ContextMenuSubTrigger>
-                    <ContextMenuSubContent className="w-48 max-h-40 overflow-y-auto">
-                        <ContextMenuItem>Espanol</ContextMenuItem>
-                        <ContextMenuItem>Pigine</ContextMenuItem>
-                        <ContextMenuItem>French</ContextMenuItem>
-                    </ContextMenuSubContent>
-                </ContextMenuSub>
 
-                <ContextMenuItem>
-                    <Volume2 size={16} />
-                    Speak Message
-                </ContextMenuItem>
-
-                <ContextMenuSeparator />
-
-                <ContextMenuItem variant="destructive">
-                    <Trash size={16} />
-                    Delete Message
-                </ContextMenuItem>
-            </ContextMenuContent>
-
+    return (
+        <div>
+            {renderContent}
             {/* Image Viewer Dialog */}
             <Dialog open={imageViewerOpen} onOpenChange={setImageViewerOpen}>
                 <DialogContent
@@ -446,6 +582,6 @@ export default function ChatBubble({ avatarUrl, name, content, timestamp, isUnre
                     </div>
                 </DialogContent>
             </Dialog>
-        </ContextMenu>
+        </div>
     )
 }
